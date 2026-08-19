@@ -17,12 +17,20 @@ export default function Formulas() {
   const { t, lang } = useLang();
   const [q, setQ] = useState('');
   const [cat, setCat] = useState<FormulaCat | 'all'>('all');
+  const [onlyStruct, setOnlyStruct] = useState(false);
   const [sel, setSel] = useState<Formula | null>(null);
+
+  // số chất đang có hình công thức cấu tạo
+  const structCount = useMemo(
+    () => FORMULAS.filter((f) => getStructure(f.formula)).length,
+    [],
+  );
 
   const list = useMemo(() => {
     const query = q.trim().toLowerCase();
     return FORMULAS.filter((f) => {
       if (cat !== 'all' && f.cat !== cat) return false;
+      if (onlyStruct && !getStructure(f.formula)) return false;
       if (!query) return true;
       return (
         f.formula.toLowerCase().includes(query) ||
@@ -30,7 +38,7 @@ export default function Formulas() {
         f.en.toLowerCase().includes(query)
       );
     });
-  }, [q, cat]);
+  }, [q, cat, onlyStruct]);
 
   return (
     <>
@@ -42,7 +50,7 @@ export default function Formulas() {
           placeholder={t('search_placeholder')}
           className="w-full bg-base-850 border border-base-700 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-accent mb-3"
         />
-        <div className="flex gap-1.5 mb-4 flex-wrap">
+        <div className="flex gap-1.5 mb-4 flex-wrap items-center">
           {CATS.map((c) => (
             <button
               key={c}
@@ -56,6 +64,20 @@ export default function Formulas() {
               {c === 'all' ? (lang === 'vi' ? 'Tất cả' : 'All') : FORMULA_CAT_META[c][lang]}
             </button>
           ))}
+
+          {/* ngăn cách rồi tới nút lọc "có hình" */}
+          <span className="w-px h-5 bg-base-700 mx-1" />
+          <button
+            onClick={() => setOnlyStruct((v) => !v)}
+            className={`text-xs px-3 py-1.5 rounded-lg border transition flex items-center gap-1 ${
+              onlyStruct
+                ? 'bg-accent/15 border-accent/40 text-accent'
+                : 'border-base-700 text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            {onlyStruct ? '☑' : '☐'} {lang === 'vi' ? 'Có hình' : 'With structure'}
+            <span className="opacity-60">({structCount})</span>
+          </button>
         </div>
 
         <div className="text-xs text-slate-500 mb-2">
