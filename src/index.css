@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  @apply bg-base-950 text-slate-200 font-sans antialiased;
+}
+
+/* Thanh cuộn gọn cho tông tối */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-base-700 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-base-600;
+}
+
+@layer components {
+  .card {
+    @apply bg-base-850 border border-base-700/60 rounded-2xl;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2
+      font-medium transition-colors select-none;
+  }
+  .btn-accent {
+    @apply btn bg-accent text-base-950 hover:bg-accent-soft;
+  }
+  .btn-ghost {
+    @apply btn bg-base-800 text-slate-200 hover:bg-base-700;
+  }
+}
