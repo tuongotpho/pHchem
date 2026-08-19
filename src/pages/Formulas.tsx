@@ -1,11 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import PageHeader from '../components/PageHeader';
 import FormulaText from '../components/FormulaText';
 import { useLang } from '../i18n/LangContext';
-import { STRUCTURE_SVGS, hasStructure } from '../generated/structures';
+import { hasStructure, STRUCTURE_COUNT } from '../generated/structures';
 import {
   FORMULAS,
   FORMULA_CAT_META,
+  keyOf,
   type Formula,
   type FormulaCat,
 } from '../data/formulas';
@@ -18,18 +19,27 @@ export default function Formulas() {
   const [cat, setCat] = useState<FormulaCat | 'all'>('all');
   const [onlyStruct, setOnlyStruct] = useState(false);
   const [sel, setSel] = useState<Formula | null>(null);
+  // Kho hình chỉ tải khi người dùng mở xem chất đầu tiên (giữ app nhẹ lúc mở).
+  const [svgs, setSvgs] = useState<Record<string, string> | null>(null);
 
-  // số chất đang có hình công thức cấu tạo
-  const structCount = useMemo(
-    () => FORMULAS.filter((f) => hasStructure(f.formula)).length,
-    [],
-  );
+  useEffect(() => {
+    if (!sel || svgs) return;
+    let alive = true;
+    import('../generated/structures-svgs').then((m) => {
+      if (alive) setSvgs(m.STRUCTURE_SVGS);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [sel, svgs]);
+
+  const structCount = STRUCTURE_COUNT;
 
   const list = useMemo(() => {
     const query = q.trim().toLowerCase();
     return FORMULAS.filter((f) => {
       if (cat !== 'all' && f.cat !== cat) return false;
-      if (onlyStruct && !hasStructure(f.formula)) return false;
+      if (onlyStruct && !hasStructure(keyOf(f))) return false;
       if (!query) return true;
       return (
         f.formula.toLowerCase().includes(query) ||
@@ -42,12 +52,12 @@ export default function Formulas() {
   return (
     <>
       <PageHeader title={t('nav_formulas')} subtitle={`${FORMULAS.length} ${t('items_count')}`} />
-      <div className="p-4 md:p-6 max-w-3xl">
+      <div className="p-4 md:p-6">
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder={t('search_placeholder')}
-          className="w-full bg-base-850 border border-base-700 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-accent mb-3"
+          className="w-full max-w-md bg-base-850 border border-base-700 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-accent mb-3"
         />
         <div className="flex gap-1.5 mb-4 flex-wrap items-center">
           {CATS.map((c) => (
@@ -83,12 +93,12 @@ export default function Formulas() {
           {list.length} {t('items_count')}
         </div>
 
-        <div className="grid gap-2 sm:grid-cols-2">
+        <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {list.map((f) => {
-            const hasStruct = hasStructure(f.formula);
+            const hasStruct = hasStructure(keyOf(f));
             return (
               <button
-                key={f.formula + f.en}
+                key={keyOf(f) + f.en}
                 onClick={() => setSel(f)}
                 className="card p-3.5 text-left hover:border-accent/40 transition-colors"
               >
@@ -161,13 +171,19 @@ export default function Formulas() {
               {lang === 'vi' ? sel.note_vi : sel.note_en}
             </div>
 
-            {hasStructure(sel.formula) ? (
+            {hasStructure(keyOf(sel)) ? (
               <div className="mt-4 rounded-xl bg-base-900 border border-base-800 p-3">
-                <div
-                  className="h-56 text-slate-100 mx-auto"
-                  // Hình do RDKit sinh sẵn (đầy đủ lập thể); nét dùng currentColor
-                  dangerouslySetInnerHTML={{ __html: STRUCTURE_SVGS[sel.formula] }}
-                />
+                {svgs ? (
+                  <div
+                    className="h-56 text-slate-100 mx-auto"
+                    // Hình do RDKit sinh sẵn (đầy đủ lập thể); nét dùng currentColor
+                    dangerouslySetInnerHTML={{ __html: svgs[keyOf(sel)] }}
+                  />
+                ) : (
+                  <div className="h-56 grid place-items-center text-xs text-slate-600">
+                    {lang === 'vi' ? 'Đang tải hình…' : 'Loading…'}
+                  </div>
+                )}
                 <div className="text-center text-[11px] text-slate-500 mt-1">
                   {lang === 'vi' ? 'Công thức cấu tạo' : 'Structural formula'}
                 </div>
