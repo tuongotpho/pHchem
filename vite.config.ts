@@ -3,7 +3,11 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vite.dev/config/
-export default defineConfig({
+// Khi build để deploy lên GitHub Pages, app nằm dưới /pHchem/.
+// Dev (npm run dev) vẫn chạy ở gốc "/". Firebase sau này cũng ở gốc — chỉ cần
+// đổi biến GH_PAGES này hoặc bỏ base là xong.
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/pHchem/' : '/',
   plugins: [
     react(),
     VitePWA({
@@ -35,4 +39,4 @@ export default defineConfig({
       },
     }),
   ],
-});
+}));
