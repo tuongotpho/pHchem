@@ -135,6 +135,8 @@ const cards = [];
 const errors = [];
 const mismatches = [];
 const orphans = [];
+const broken = [];
+const fallbacks = [];
 
 for (const [key, smiles] of entries) {
   if (!LIB.has(key)) orphans.push(key);
@@ -166,9 +168,25 @@ for (const [key, smiles] of entries) {
       bondLineWidth: 1.4,
       addStereoAnnotation: true,
     };
-    const svg = clean(drawMol.get_svg_with_highlights(JSON.stringify(details)));
+    let svg = clean(drawMol.get_svg_with_highlights(JSON.stringify(details)));
+
+    // Bắt tọa độ hỏng (NaN). CoordGen bó tay với vài ca lạ (vd H2 không có
+    // nguyên tử nặng nào) → thử lại bằng bộ xếp tọa độ mặc định của RDKit.
+    if (/nan/i.test(svg)) {
+      RDKit.prefer_coordgen(false);
+      const retry = RDKit.get_mol(smiles);
+      svg = clean(retry.get_svg_with_highlights(JSON.stringify(details)));
+      retry.delete();
+      RDKit.prefer_coordgen(true);
+      if (!/nan/i.test(svg)) fallbacks.push(key);
+    }
+
     if (expanded) expanded.delete();
     mol.delete();
+    if (/nan/i.test(svg)) {
+      broken.push(key);
+      continue;
+    }
 
     svgs[key] = svg;
     cards.push(
@@ -232,8 +250,16 @@ if (errors.length) {
   console.log(`\n✗ SMILES LỖI (${errors.length}):`);
   errors.forEach((m) => console.log('   ' + m));
 }
+if (broken.length) {
+  console.log(`\n✗ TỌA ĐỘ HỎNG, đã bỏ qua (${broken.length}):`);
+  broken.forEach((m) => console.log('   ' + m));
+}
 if (orphans.length) {
   console.log(`\n⚠ SMILES không khớp chất nào trong thư viện (${orphans.length}):`);
   orphans.forEach((m) => console.log('   ' + m));
 }
-if (!mismatches.length && !errors.length && !orphans.length) console.log('Sạch — không có lỗi.');
+if (fallbacks.length) {
+  console.log(`\nℹ Phải dùng bộ xếp tọa độ dự phòng (${fallbacks.length}): ${fallbacks.join(', ')}`);
+}
+if (!mismatches.length && !errors.length && !orphans.length && !broken.length)
+  console.log('Sạch — không có lỗi.');

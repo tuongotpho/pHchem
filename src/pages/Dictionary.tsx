@@ -25,14 +25,14 @@ export default function Dictionary() {
   return (
     <>
       <PageHeader title={t('nav_dictionary')} subtitle={`${TERMS.length} ${t('items_count')}`} />
-      <div className="p-4 md:p-6 max-w-2xl">
+      <div className="p-4 md:p-6">
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder={t('search_placeholder')}
-          className="w-full bg-base-850 border border-base-700 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-accent mb-4"
+          className="w-full max-w-md bg-base-850 border border-base-700 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-accent mb-4"
         />
-        <div className="space-y-2">
+        <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
           {list.map((term) => (
             <div key={term.en} className="card p-4">
               <div className="flex items-baseline gap-2 flex-wrap">
