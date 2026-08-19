@@ -1,9 +1,8 @@
 import { useState, useMemo } from 'react';
 import PageHeader from '../components/PageHeader';
 import FormulaText from '../components/FormulaText';
-import StructuralFormula from '../components/StructuralFormula';
 import { useLang } from '../i18n/LangContext';
-import { getStructure } from '../data/structures';
+import { STRUCTURE_SVGS, hasStructure } from '../generated/structures';
 import {
   FORMULAS,
   FORMULA_CAT_META,
@@ -22,7 +21,7 @@ export default function Formulas() {
 
   // số chất đang có hình công thức cấu tạo
   const structCount = useMemo(
-    () => FORMULAS.filter((f) => getStructure(f.formula)).length,
+    () => FORMULAS.filter((f) => hasStructure(f.formula)).length,
     [],
   );
 
@@ -30,7 +29,7 @@ export default function Formulas() {
     const query = q.trim().toLowerCase();
     return FORMULAS.filter((f) => {
       if (cat !== 'all' && f.cat !== cat) return false;
-      if (onlyStruct && !getStructure(f.formula)) return false;
+      if (onlyStruct && !hasStructure(f.formula)) return false;
       if (!query) return true;
       return (
         f.formula.toLowerCase().includes(query) ||
@@ -86,7 +85,7 @@ export default function Formulas() {
 
         <div className="grid gap-2 sm:grid-cols-2">
           {list.map((f) => {
-            const hasStruct = !!getStructure(f.formula);
+            const hasStruct = hasStructure(f.formula);
             return (
               <button
                 key={f.formula + f.en}
@@ -162,9 +161,13 @@ export default function Formulas() {
               {lang === 'vi' ? sel.note_vi : sel.note_en}
             </div>
 
-            {getStructure(sel.formula) ? (
+            {hasStructure(sel.formula) ? (
               <div className="mt-4 rounded-xl bg-base-900 border border-base-800 p-3">
-                <StructuralFormula struct={getStructure(sel.formula)!} size={260} />
+                <div
+                  className="h-56 text-slate-100 mx-auto"
+                  // Hình do RDKit sinh sẵn (đầy đủ lập thể); nét dùng currentColor
+                  dangerouslySetInnerHTML={{ __html: STRUCTURE_SVGS[sel.formula] }}
+                />
                 <div className="text-center text-[11px] text-slate-500 mt-1">
                   {lang === 'vi' ? 'Công thức cấu tạo' : 'Structural formula'}
                 </div>

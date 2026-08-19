@@ -15,6 +15,9 @@ dist-ssr
 .env.*
 !.env.example
 
+# Trang duyệt hình cấu tạo (đồ dev, sinh bởi npm run struct)
+structure-review.html
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

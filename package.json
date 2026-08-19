@@ -9,15 +9,16 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",
-    "icons": "node scripts/gen-icons.mjs"
+    "icons": "node scripts/gen-icons.mjs",
+    "struct": "node scripts/gen-structures.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router-dom": "^7.18.2",
-    "smiles-drawer": "^2.4.1"
+    "react-router-dom": "^7.18.2"
   },
   "devDependencies": {
+    "@rdkit/rdkit": "^2025.3.4-1.0.0",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",

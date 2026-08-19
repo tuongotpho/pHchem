@@ -19,45 +19,13 @@ export const FORMULA_CAT_META: Record<FormulaCat, { vi: string; en: string }> = 
   physical: { vi: 'Hóa lý', en: 'Physical' },
 };
 
-// Mã SMILES (chuỗi mô tả cấu trúc phân tử chuẩn quốc tế) để vẽ hình cấu trúc.
-// Chỉ có cho phân tử cộng hóa trị; muối ion (NaCl, CaCO3...) không có "hình cấu trúc"
-// theo nghĩa này nên để trống. Khóa theo đúng chuỗi `formula`.
-export const SMILES: Record<string, string> = {
-  // hữu cơ
-  CH4: 'C',
-  C2H6: 'CC',
-  C2H4: 'C=C',
-  C2H2: 'C#C',
-  C3H8: 'CCC',
-  C4H10: 'CCCC',
-  C6H6: 'c1ccccc1',
-  CH3OH: 'CO',
-  C2H5OH: 'CCO',
-  CH3COOH: 'CC(=O)O',
-  HCOOH: 'OC=O',
-  HCHO: 'C=O',
-  CH3CHO: 'CC=O',
-  CH3COOC2H5: 'CC(=O)OCC',
-  C6H12O6: 'OCC1OC(O)C(O)C(O)C1O',
-  CH3NH2: 'CN',
-  C6H5OH: 'Oc1ccccc1',
-  CH3COCH3: 'CC(=O)C',
-  // vô cơ (phân tử nhỏ có cấu trúc)
-  H2O: 'O',
-  H2O2: 'OO',
-  CO2: 'O=C=O',
-  CO: '[C-]#[O+]',
-  SO2: 'O=S=O',
-  O2: 'O=O',
-  O3: '[O-][O+]=O',
-  N2: 'N#N',
-  NH3: 'N',
-  HCl: 'Cl',
-  HNO3: 'O[N+](=O)[O-]',
-  H2SO4: 'OS(=O)(=O)O',
-  H3PO4: 'OP(=O)(O)O',
-  H2CO3: 'OC(=O)O',
-};
+// Mã SMILES (chuỗi mô tả cấu trúc phân tử chuẩn quốc tế) là NGUỒN CHÂN LÝ để
+// sinh hình cấu tạo. Đặt ở file JSON dùng chung (src/data/smiles.json) để cả app
+// và script sinh hình (scripts/gen-structures.mjs) cùng đọc.
+// Chỉ có cho phân tử cộng hóa trị; muối ion (NaCl, CaCO3...) không có hình cấu tạo.
+import SMILES_JSON from './smiles.json';
+
+export const SMILES: Record<string, string> = SMILES_JSON;
 
 export const getSmiles = (formula: string): string | undefined => SMILES[formula];
 
