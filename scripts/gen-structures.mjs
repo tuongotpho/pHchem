@@ -50,6 +50,21 @@ for (const [formula, smiles] of Object.entries(SMILES)) {
   try {
     const mol = RDKit.get_mol(smiles);
     if (!mol || !mol.is_valid()) throw new Error('SMILES không hợp lệ');
+
+    // Đếm nguyên tử nặng (dòng đếm của molblock: 3 ký tự đầu dòng thứ 4).
+    // Chất nhỏ (≤ 2 nguyên tử nặng) thì BUNG H tường minh cho đúng công thức
+    // cấu tạo kiểu SGK (CH4 ra chữ thập, H2O ra H–O–H…).
+    const heavy = parseInt(mol.get_molblock().split('\n')[3].slice(0, 3).trim(), 10);
+    let drawMol = mol;
+    let expanded = null;
+    if (heavy <= 2) {
+      const mb = mol.add_hs();
+      if (typeof mb === 'string' && mb.length) {
+        expanded = RDKit.get_mol(mb);
+        if (expanded && expanded.is_valid()) drawMol = expanded;
+      }
+    }
+
     const details = {
       width: 300,
       height: 230,
@@ -57,7 +72,8 @@ for (const [formula, smiles] of Object.entries(SMILES)) {
       bondLineWidth: 1.4,
       addStereoAnnotation: true, // đầy đủ lập thể (R/S + nêm/dập)
     };
-    const svg = clean(mol.get_svg_with_highlights(JSON.stringify(details)));
+    const svg = clean(drawMol.get_svg_with_highlights(JSON.stringify(details)));
+    if (expanded) expanded.delete();
     mol.delete();
     svgs[formula] = svg;
     reviewCards.push(
