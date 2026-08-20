@@ -18,6 +18,7 @@ export const STRINGS = {
   nav_formulas: { vi: 'Công thức', en: 'Formulas' },
   nav_dictionary: { vi: 'Từ điển', en: 'Dictionary' },
   nav_facts: { vi: 'Sự thật', en: 'Facts' },
+  nav_reactions: { vi: 'Phản ứng', en: 'Reactions' },
   nav_settings: { vi: 'Cài đặt', en: 'Settings' },
 
   // Trang chủ
@@ -45,6 +46,11 @@ export const STRINGS = {
   home_desc_dictionary: {
     vi: 'Thuật ngữ chuyên ngành',
     en: 'Professional terms',
+  },
+  home_title_reactions: { vi: 'Thư viện phản ứng', en: 'Reaction Library' },
+  home_desc_reactions: {
+    vi: 'Điều kiện, hiện tượng, phương trình ion',
+    en: 'Conditions, observations, ionic equations',
   },
   home_title_facts: { vi: 'Bách khoa sự thật', en: 'Fact Encyclopedia' },
   home_desc_facts: {

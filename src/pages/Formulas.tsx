@@ -6,6 +6,7 @@ import Pagination from '../components/Pagination';
 import { useLang } from '../i18n/LangContext';
 import { hasStructure, STRUCTURE_COUNT } from '../generated/structures';
 import { elementsOfFormula } from '../lib/compoundIndex';
+import { reactionsForFormula } from '../lib/reactionIndex';
 import { byNumber } from '../data/elements';
 import {
   FORMULAS,
@@ -198,6 +199,17 @@ export default function Formulas() {
             <div className="text-sm text-slate-400 mt-1">
               {lang === 'vi' ? sel.note_vi : sel.note_en}
             </div>
+
+            {reactionsForFormula(sel.formula).length > 0 && (
+              <Link
+                to={`/reactions?q=${encodeURIComponent(sel.formula)}`}
+                className="btn-ghost text-xs mt-3 w-full"
+              >
+                {lang === 'vi'
+                  ? `Xem ${reactionsForFormula(sel.formula).length} phản ứng liên quan →`
+                  : `See ${reactionsForFormula(sel.formula).length} related reactions →`}
+              </Link>
+            )}
 
             {elementsOfFormula(sel).length > 0 && (
               <div className="mt-3">

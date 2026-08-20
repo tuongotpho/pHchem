@@ -66,3 +66,9 @@ export const IconSearch = ({ className }: P) => (
     <path d="m20 20-3.5-3.5" strokeLinecap="round" />
   </svg>
 );
+
+export const IconReaction = ({ className }: P) => (
+  <svg viewBox="0 0 24 24" fill="none" className={className} stroke="currentColor" strokeWidth="1.8">
+    <path d="M4 8h13l-2.5-2.5M20 16H7l2.5 2.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);

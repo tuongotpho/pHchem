@@ -9,6 +9,7 @@ import Solubility from './pages/Solubility';
 import Formulas from './pages/Formulas';
 import Dictionary from './pages/Dictionary';
 import Facts from './pages/Facts';
+import Reactions from './pages/Reactions';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="formulas" element={<Formulas />} />
         <Route path="dictionary" element={<Dictionary />} />
         <Route path="facts" element={<Facts />} />
+        <Route path="reactions" element={<Reactions />} />
         <Route path="settings" element={<Settings />} />
         <Route path="*" element={<Home />} />
       </Route>

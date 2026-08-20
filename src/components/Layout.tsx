@@ -10,6 +10,7 @@ import {
   IconBulb,
   IconGrid,
   IconSettings,
+  IconReaction,
 } from './icons';
 
 type Item = {
@@ -23,6 +24,7 @@ const ITEMS: Item[] = [
   { to: '/table', label: 'nav_table', Icon: IconTable },
   { to: '/calculator', label: 'nav_calc', Icon: IconCalc },
   { to: '/solubility', label: 'nav_solubility', Icon: IconGrid },
+  { to: '/reactions', label: 'nav_reactions', Icon: IconReaction },
   { to: '/formulas', label: 'nav_formulas', Icon: IconFlask },
   { to: '/dictionary', label: 'nav_dictionary', Icon: IconBook },
   { to: '/facts', label: 'nav_facts', Icon: IconBulb },
@@ -86,8 +88,8 @@ export default function Layout() {
       </main>
 
       {/* Thanh dưới cho điện thoại */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-base-900/95 backdrop-blur border-t border-base-800 flex justify-around px-1 py-1.5">
-        {[...ITEMS.slice(0, 6), { to: '/settings', label: 'nav_settings' as StringKey, Icon: IconSettings }].map(
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-base-900/95 backdrop-blur border-t border-base-800 flex overflow-x-auto px-1 py-1.5 gap-0.5">
+        {[...ITEMS, { to: '/settings', label: 'nav_settings' as StringKey, Icon: IconSettings }].map(
           ({ to, label, Icon }) => (
             <NavLink
               key={to}

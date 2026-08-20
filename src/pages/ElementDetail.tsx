@@ -6,6 +6,7 @@ import { byNumber, CATEGORY_META, type Element } from '../data/elements';
 import { DETAILS, PHASE_META, formatDensity } from '../data/elements.details';
 import { factsForElement } from '../data/facts';
 import { compoundsForElement } from '../lib/compoundIndex';
+import { reactionsForElement } from '../lib/reactionIndex';
 import FormulaText from '../components/FormulaText';
 
 function block(el: Element): string {
@@ -44,6 +45,7 @@ export default function ElementDetail() {
   const phase = PHASE_META[d.state];
   const facts = factsForElement(el.n);
   const hopChat = compoundsForElement(el.n);
+  const phanUng = reactionsForElement(el.n);
   const hopChatHien = xemHetHC ? hopChat : hopChat.slice(0, 24);
   const factsHien = xemHet ? facts : facts.slice(0, 6);
   const prev = byNumber(el.n - 1);
@@ -199,6 +201,32 @@ export default function ElementDetail() {
                     : `Show ${hopChat.length - 24} more`}
               </button>
             )}
+          </section>
+        )}
+
+        {/* Phản ứng có mặt nguyên tố này */}
+        {phanUng.length > 0 && (
+          <section className="mt-5">
+            <h2 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-2">
+              {lang === 'vi'
+                ? `Phản ứng có ${el.vi} (${phanUng.length})`
+                : `Reactions involving ${el.en} (${phanUng.length})`}
+            </h2>
+            <div className="grid gap-1.5 sm:grid-cols-2 xl:grid-cols-3">
+              {phanUng.slice(0, 6).map((r) => (
+                <div key={r.eq} className="card px-3 py-2 font-mono text-xs text-slate-300">
+                  {r.eq}
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={() => navigate(`/reactions?el=${el.n}`)}
+              className="btn-ghost text-xs mt-2 w-full"
+            >
+              {lang === 'vi'
+                ? `Xem tất cả ${phanUng.length} phản ứng`
+                : `See all ${phanUng.length} reactions`}
+            </button>
           </section>
         )}
 
