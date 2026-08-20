@@ -5,6 +5,8 @@ import { useLang } from '../i18n/LangContext';
 import { byNumber, CATEGORY_META, type Element } from '../data/elements';
 import { DETAILS, PHASE_META, formatDensity } from '../data/elements.details';
 import { factsForElement } from '../data/facts';
+import { compoundsForElement } from '../lib/compoundIndex';
+import FormulaText from '../components/FormulaText';
 
 function block(el: Element): string {
   // Khối s/p/d/f suy theo vị trí trong bảng (chuẩn hơn là đọc ký tự cuối
@@ -25,6 +27,7 @@ export default function ElementDetail() {
   const navigate = useNavigate();
   const { t, lang } = useLang();
   const [xemHet, setXemHet] = useState(false);
+  const [xemHetHC, setXemHetHC] = useState(false);
   const el = byNumber(Number(n));
 
   if (!el) {
@@ -40,6 +43,8 @@ export default function ElementDetail() {
   const d = DETAILS[el.n];
   const phase = PHASE_META[d.state];
   const facts = factsForElement(el.n);
+  const hopChat = compoundsForElement(el.n);
+  const hopChatHien = xemHetHC ? hopChat : hopChat.slice(0, 24);
   const factsHien = xemHet ? facts : facts.slice(0, 6);
   const prev = byNumber(el.n - 1);
   const next = byNumber(el.n + 1);
@@ -157,6 +162,45 @@ export default function ElementDetail() {
             )}
           </div>
         </div>
+
+        {/* Hợp chất trong thư viện có chứa nguyên tố này */}
+        {hopChat.length > 0 && (
+          <section className="mt-5">
+            <h2 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-2">
+              {lang === 'vi'
+                ? `Hợp chất chứa ${el.vi} (${hopChat.length})`
+                : `Compounds containing ${el.en} (${hopChat.length})`}
+            </h2>
+            <div className="flex flex-wrap gap-1.5">
+              {hopChatHien.map((f) => (
+                <button
+                  key={f.formula + f.en}
+                  onClick={() =>
+                    navigate(`/formulas?q=${encodeURIComponent(f.formula)}`)
+                  }
+                  title={lang === 'vi' ? f.vi : f.en}
+                  className="text-xs px-2 py-1 rounded-lg border border-base-700 text-slate-300 hover:bg-accent/15 hover:border-accent/40 hover:text-accent transition"
+                >
+                  <FormulaText value={f.formula} className="font-mono" />
+                </button>
+              ))}
+            </div>
+            {hopChat.length > 24 && (
+              <button
+                onClick={() => setXemHetHC((v) => !v)}
+                className="btn-ghost text-xs mt-2 w-full"
+              >
+                {xemHetHC
+                  ? lang === 'vi'
+                    ? 'Thu gọn'
+                    : 'Show less'
+                  : lang === 'vi'
+                    ? `Xem thêm ${hopChat.length - 24} hợp chất`
+                    : `Show ${hopChat.length - 24} more`}
+              </button>
+            )}
+          </section>
+        )}
 
         {/* Sự thật gắn với nguyên tố này — giúp nhớ bài dễ hơn */}
         {facts.length > 0 && (

@@ -1,9 +1,12 @@
 import { useState, useMemo, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import FormulaText from '../components/FormulaText';
 import Pagination from '../components/Pagination';
 import { useLang } from '../i18n/LangContext';
 import { hasStructure, STRUCTURE_COUNT } from '../generated/structures';
+import { elementsOfFormula } from '../lib/compoundIndex';
+import { byNumber } from '../data/elements';
 import {
   FORMULAS,
   FORMULA_CAT_META,
@@ -19,11 +22,18 @@ const PER_PAGE = 24;
 
 export default function Formulas() {
   const { t, lang } = useLang();
-  const [q, setQ] = useState('');
+  const [params] = useSearchParams();
+  const [q, setQ] = useState(params.get('q') ?? '');
   const [cat, setCat] = useState<FormulaCat | 'all'>('all');
   const [onlyStruct, setOnlyStruct] = useState(false);
   const [sel, setSel] = useState<Formula | null>(null);
   const [page, setPage] = useState(1);
+
+  // Đến từ trang nguyên tố: điền sẵn ô tìm kiếm theo công thức được bấm
+  useEffect(() => {
+    const tuDiaChi = params.get('q');
+    if (tuDiaChi !== null) setQ(tuDiaChi);
+  }, [params]);
   // Kho hình chỉ tải khi người dùng mở xem chất đầu tiên (giữ app nhẹ lúc mở).
   const [svgs, setSvgs] = useState<Record<string, string> | null>(null);
 
@@ -188,6 +198,29 @@ export default function Formulas() {
             <div className="text-sm text-slate-400 mt-1">
               {lang === 'vi' ? sel.note_vi : sel.note_en}
             </div>
+
+            {elementsOfFormula(sel).length > 0 && (
+              <div className="mt-3">
+                <div className="text-[11px] text-slate-500 mb-1">
+                  {lang === 'vi' ? 'Nguyên tố cấu thành' : 'Elements'}
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {elementsOfFormula(sel).map((n) => {
+                    const e = byNumber(n);
+                    if (!e) return null;
+                    return (
+                      <Link
+                        key={n}
+                        to={`/table/${n}`}
+                        className="text-[11px] px-1.5 py-0.5 rounded bg-base-800 text-slate-400 hover:bg-accent/15 hover:text-accent transition"
+                      >
+                        {e.sym} {lang === 'vi' ? e.vi : e.en}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {hasStructure(keyOf(sel)) ? (
               <div className="mt-4 rounded-xl bg-base-900 border border-base-800 p-3">
