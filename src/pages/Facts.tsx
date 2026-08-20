@@ -1,7 +1,9 @@
 import { useState, useMemo } from 'react';
 import PageHeader from '../components/PageHeader';
 import { useLang } from '../i18n/LangContext';
+import { Link } from 'react-router-dom';
 import { FACTS } from '../data/facts';
+import { byNumber } from '../data/elements';
 
 export default function Facts() {
   const { t, lang } = useLang();
@@ -66,6 +68,23 @@ export default function Facts() {
                 <p className="text-sm text-slate-200 mt-1.5">
                   {lang === 'vi' ? f.vi : f.en}
                 </p>
+                {f.el && f.el.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {f.el.map((n) => {
+                      const e = byNumber(n);
+                      if (!e) return null;
+                      return (
+                        <Link
+                          key={n}
+                          to={`/table/${n}`}
+                          className="text-[10px] px-1.5 py-0.5 rounded bg-base-800 text-slate-400 hover:bg-accent/15 hover:text-accent transition"
+                        >
+                          {e.sym} {lang === 'vi' ? e.vi : e.en}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </div>
           ))}

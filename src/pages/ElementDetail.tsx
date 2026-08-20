@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import { useLang } from '../i18n/LangContext';
 import { byNumber, CATEGORY_META, type Element } from '../data/elements';
 import { DETAILS, PHASE_META, formatDensity } from '../data/elements.details';
+import { factsForElement } from '../data/facts';
 
 function block(el: Element): string {
   // Khối s/p/d/f suy theo vị trí trong bảng (chuẩn hơn là đọc ký tự cuối
@@ -18,6 +20,7 @@ export default function ElementDetail() {
   const { n } = useParams();
   const navigate = useNavigate();
   const { t, lang } = useLang();
+  const [xemHet, setXemHet] = useState(false);
   const el = byNumber(Number(n));
 
   if (!el) {
@@ -31,6 +34,8 @@ export default function ElementDetail() {
 
   const meta = CATEGORY_META[el.cat];
   const d = DETAILS[el.n];
+  const facts = factsForElement(el.n);
+  const factsHien = xemHet ? facts : facts.slice(0, 4);
   const prev = byNumber(el.n - 1);
   const next = byNumber(el.n + 1);
 
@@ -147,6 +152,46 @@ export default function ElementDetail() {
             rows={history}
           />
         </div>
+
+        {/* Sự thật gắn với nguyên tố này — giúp nhớ bài dễ hơn */}
+        {facts.length > 0 && (
+          <section className="mt-5">
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">
+              {lang === 'vi'
+                ? `Sự thật về ${el.vi} (${facts.length})`
+                : `Facts about ${el.en} (${facts.length})`}
+            </h2>
+            <div className="space-y-2">
+              {factsHien.map((f, i) => (
+                <div key={i} className="card p-3.5 flex gap-3">
+                  <div className="text-xl shrink-0 leading-none">💡</div>
+                  <div className="min-w-0">
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-base-800 text-accent">
+                      {f.tag}
+                    </span>
+                    <p className="text-sm text-slate-300 mt-1.5">
+                      {lang === 'vi' ? f.vi : f.en}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {facts.length > 4 && (
+              <button
+                onClick={() => setXemHet((v) => !v)}
+                className="btn-ghost text-xs mt-2 w-full"
+              >
+                {xemHet
+                  ? lang === 'vi'
+                    ? 'Thu gọn'
+                    : 'Show less'
+                  : lang === 'vi'
+                    ? `Xem thêm ${facts.length - 4} sự thật`
+                    : `Show ${facts.length - 4} more`}
+              </button>
+            )}
+          </section>
+        )}
 
         {/* Điều hướng trước/sau */}
         <div className="flex justify-between gap-3 mt-6">
