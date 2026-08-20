@@ -38,7 +38,7 @@ export default function Layout() {
       {/* Cột trái cho tablet/PC */}
       <aside className="hidden md:flex md:flex-col md:w-52 shrink-0 border-r border-base-800 p-3 gap-0.5 md:sticky md:top-0 md:h-screen md:overflow-y-auto">
         <div className="flex items-center gap-2 px-1.5 py-2 mb-1">
-          <div className="w-8 h-8 shrink-0 rounded-lg bg-accent text-base-950 grid place-items-center font-bold">
+          <div className="w-8 h-8 shrink-0 rounded-lg bg-accent text-on-accent grid place-items-center font-bold">
             ⚗
           </div>
           <div>

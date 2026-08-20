@@ -69,9 +69,9 @@ export const SOLUB_META: Record<
   Solub,
   { vi: string; en: string; color: string; text: string }
 > = {
-  T: { vi: 'Tan', en: 'Soluble', color: 'bg-emerald-500/25', text: 'text-emerald-200' },
-  I: { vi: 'Không tan (kết tủa)', en: 'Insoluble', color: 'bg-rose-500/30', text: 'text-rose-200' },
-  IT: { vi: 'Ít tan', en: 'Slightly soluble', color: 'bg-amber-500/25', text: 'text-amber-200' },
+  T: { vi: 'Tan', en: 'Soluble', color: 'bg-emerald-500/25', text: 'text-emerald-700 dark:text-emerald-200' },
+  I: { vi: 'Không tan (kết tủa)', en: 'Insoluble', color: 'bg-rose-500/30', text: 'text-rose-700 dark:text-rose-200' },
+  IT: { vi: 'Ít tan', en: 'Slightly soluble', color: 'bg-amber-500/25', text: 'text-amber-700 dark:text-amber-200' },
   '-': { vi: 'Không tồn tại / phân hủy', en: 'Does not exist / decomposes', color: 'bg-base-800', text: 'text-slate-500' },
 };
 

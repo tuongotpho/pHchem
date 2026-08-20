@@ -96,7 +96,7 @@ function MassTab() {
       </div>
 
       {res && !res.ok && (
-        <div className="card border-rose-500/40 bg-rose-500/10 p-3 text-sm text-rose-200">
+        <div className="card border-rose-500/40 bg-rose-500/10 p-3 text-sm text-rose-700 dark:text-rose-200">
           {res.error}
         </div>
       )}
@@ -174,7 +174,7 @@ function ConvertTab() {
           autoCapitalize="none"
         />
         {parsed && !parsed.ok && (
-          <p className="text-xs text-rose-300 mt-1">{parsed.error}</p>
+          <p className="text-xs text-rose-700 dark:text-rose-300 mt-1">{parsed.error}</p>
         )}
         {M && (
           <p className="text-xs text-slate-500 mt-1">
@@ -332,13 +332,13 @@ function DilutionTab() {
       </div>
 
       {soTrong !== 1 && (
-        <p className="text-xs text-amber-300">
+        <p className="text-xs text-amber-700 dark:text-amber-300">
           {lang === 'vi'
             ? `Đang để trống ${soTrong} ô — cần đúng 1 ô.`
             : `${soTrong} boxes empty — need exactly 1.`}
         </p>
       )}
-      {loi && <p className="text-xs text-rose-300">{loi}</p>}
+      {loi && <p className="text-xs text-rose-700 dark:text-rose-300">{loi}</p>}
 
       {out && (
         <div className="card p-5 text-center">
@@ -382,10 +382,10 @@ function PhTab() {
     res === null
       ? ''
       : res.pH < 6.5
-        ? 'text-rose-300'
+        ? 'text-rose-700 dark:text-rose-300'
         : res.pH > 7.5
-          ? 'text-sky-300'
-          : 'text-emerald-300';
+          ? 'text-sky-700 dark:text-sky-300'
+          : 'text-emerald-700 dark:text-emerald-300';
 
   const nhom: AcidBaseKind[] = ['strongAcid', 'weakAcid', 'strongBase', 'weakBase'];
 
@@ -460,7 +460,7 @@ function PhTab() {
         </span>
       </div>
 
-      {loi && <p className="text-xs text-rose-300">{loi}</p>}
+      {loi && <p className="text-xs text-rose-700 dark:text-rose-300">{loi}</p>}
 
       {res && (
         <>
@@ -499,7 +499,7 @@ function PhTab() {
           </div>
 
           {(chat.note_vi || chat.note_en) && (
-            <p className="text-[11px] text-amber-300/80">
+            <p className="text-[11px] text-amber-700 dark:text-amber-300/80">
               ⚠ {lang === 'vi' ? chat.note_vi : chat.note_en}
             </p>
           )}
@@ -545,7 +545,7 @@ function BalanceTab() {
       </div>
 
       {res && !res.ok && (
-        <div className="card border-rose-500/40 bg-rose-500/10 p-3 text-sm text-rose-200">
+        <div className="card border-rose-500/40 bg-rose-500/10 p-3 text-sm text-rose-700 dark:text-rose-200">
           {res.error}
         </div>
       )}

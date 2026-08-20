@@ -56,7 +56,7 @@ export default function Pagination({
             onClick={() => go(n)}
             className={`${btn} ${
               n === page
-                ? 'bg-accent text-base-950 border-accent font-semibold'
+                ? 'bg-accent text-on-accent border-accent font-semibold'
                 : 'border-base-700 text-slate-300 hover:bg-base-800'
             }`}
           >

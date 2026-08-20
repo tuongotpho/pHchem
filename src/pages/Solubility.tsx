@@ -165,7 +165,7 @@ export default function Solubility() {
             <div
               className={`mt-3 inline-block px-3 py-1 rounded-lg text-sm font-medium ${
                 isWater
-                  ? 'bg-sky-500/25 text-sky-200'
+                  ? 'bg-sky-500/25 text-sky-700 dark:text-sky-200'
                   : `${SOLUB_META[cell].color} ${SOLUB_META[cell].text}`
               }`}
             >

@@ -2,8 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Bảng màu khai báo bằng biến CSS, dạng "R G B" để Tailwind ghép được độ mờ.
+  :root      = TÔNG SÁNG
+  :root.dark = TÔNG TỐI (mặc định, class do ThemeProvider gắn vào <html>)
+
+  Thang chữ slate được ĐẢO khi sang tông sáng: trong tông tối slate-100 là chữ
+  sáng nhất, sang tông sáng nó thành chữ đậm nhất. Nhờ vậy mọi lớp text-slate-*
+  có sẵn trong các trang tự đúng ở cả hai tông, không phải sửa từng chỗ.
+*/
 :root {
+  color-scheme: light;
+
+  --c-base-950: 248 250 252; /* nền trang */
+  --c-base-900: 241 245 249; /* khung lồng bên trong */
+  --c-base-850: 255 255 255; /* thẻ */
+  --c-base-800: 226 232 240; /* nhãn, chip */
+  --c-base-700: 203 213 225; /* viền */
+  --c-base-600: 148 163 184;
+  --c-base-500: 100 116 139;
+
+  --c-slate-100: 15 23 42; /* chữ chính */
+  --c-slate-200: 30 41 59;
+  --c-slate-300: 51 65 85;
+  --c-slate-400: 71 85 105;
+  --c-slate-500: 100 116 139; /* chữ phụ */
+  --c-slate-600: 148 163 184; /* chữ mờ nhất */
+
+  --c-accent: 13 148 136; /* teal đậm hơn cho dễ đọc trên nền sáng */
+  --c-accent-soft: 20 184 166;
+  --c-accent-deep: 15 118 110;
+  --c-on-accent: 255 255 255; /* chữ trắng trên nút teal đậm */
+}
+
+:root.dark {
   color-scheme: dark;
+
+  --c-base-950: 10 14 20;
+  --c-base-900: 15 20 27;
+  --c-base-850: 21 27 36;
+  --c-base-800: 27 35 46;
+  --c-base-700: 38 49 63;
+  --c-base-600: 55 66 82;
+  --c-base-500: 75 85 99;
+
+  --c-slate-100: 241 245 249;
+  --c-slate-200: 226 232 240;
+  --c-slate-300: 203 213 225;
+  --c-slate-400: 148 163 184;
+  --c-slate-500: 100 116 139;
+  --c-slate-600: 71 85 105;
+
+  --c-accent: 45 212 191;
+  --c-accent-soft: 94 234 212;
+  --c-accent-deep: 13 148 136;
+  --c-on-accent: 10 14 20; /* chữ tối trên nút teal sáng */
 }
 
 html,
@@ -17,7 +70,7 @@ body {
   @apply bg-base-950 text-slate-200 font-sans antialiased;
 }
 
-/* Thanh cuộn gọn cho tông tối */
+/* Thanh cuộn gọn theo tông đang dùng */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -41,7 +94,7 @@ body {
       font-medium transition-colors select-none;
   }
   .btn-accent {
-    @apply btn bg-accent text-base-950 hover:bg-accent-soft;
+    @apply btn bg-accent text-on-accent hover:bg-accent-soft;
   }
   .btn-ghost {
     @apply btn bg-base-800 text-slate-200 hover:bg-base-700;
