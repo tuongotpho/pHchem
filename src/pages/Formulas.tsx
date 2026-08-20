@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import PageHeader from '../components/PageHeader';
 import FormulaText from '../components/FormulaText';
+import Pagination from '../components/Pagination';
 import { useLang } from '../i18n/LangContext';
 import { hasStructure, STRUCTURE_COUNT } from '../generated/structures';
 import {
@@ -13,12 +14,16 @@ import {
 
 const CATS: (FormulaCat | 'all')[] = ['all', 'inorganic', 'organic', 'physical'];
 
+// Số công thức hiển thị mỗi trang
+const PER_PAGE = 24;
+
 export default function Formulas() {
   const { t, lang } = useLang();
   const [q, setQ] = useState('');
   const [cat, setCat] = useState<FormulaCat | 'all'>('all');
   const [onlyStruct, setOnlyStruct] = useState(false);
   const [sel, setSel] = useState<Formula | null>(null);
+  const [page, setPage] = useState(1);
   // Kho hình chỉ tải khi người dùng mở xem chất đầu tiên (giữ app nhẹ lúc mở).
   const [svgs, setSvgs] = useState<Record<string, string> | null>(null);
 
@@ -48,6 +53,14 @@ export default function Formulas() {
       );
     });
   }, [q, cat, onlyStruct]);
+
+  // Đổi bộ lọc hay từ khóa thì quay về trang 1
+  useEffect(() => setPage(1), [q, cat, onlyStruct]);
+
+  const totalPages = Math.max(1, Math.ceil(list.length / PER_PAGE));
+  const current = Math.min(page, totalPages);
+  const start = (current - 1) * PER_PAGE;
+  const paged = list.slice(start, start + PER_PAGE);
 
   return (
     <>
@@ -90,11 +103,14 @@ export default function Formulas() {
         </div>
 
         <div className="text-xs text-slate-500 mb-2">
-          {list.length} {t('items_count')}
+          {list.length > 0
+            ? `${start + 1}–${start + paged.length} / ${list.length}`
+            : 0}{' '}
+          {t('items_count')}
         </div>
 
         <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          {list.map((f) => {
+          {paged.map((f) => {
             const hasStruct = hasStructure(keyOf(f));
             return (
               <button
@@ -129,6 +145,8 @@ export default function Formulas() {
             );
           })}
         </div>
+
+        <Pagination page={current} totalPages={totalPages} onChange={setPage} />
 
         {list.length === 0 && (
           <div className="text-center text-slate-500 py-10">

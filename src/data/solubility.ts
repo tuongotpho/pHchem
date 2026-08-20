@@ -9,38 +9,41 @@
 export type Solub = 'T' | 'I' | 'IT' | '-';
 
 export interface Ion {
-  formula: string; // hiển thị, vd "SO₄²⁻"
-  ascii: string; // để tìm kiếm
+  formula: string; // hiển thị kèm điện tích, vd "SO₄²⁻"
+  ascii: string; // khóa tìm kiếm (phân biệt Fe2/Fe3)
+  sym: string; // ký hiệu trần để ghép công thức, vd "SO4", "Fe"
+  charge: number; // độ lớn điện tích
+  poly: boolean; // nhóm nhiều nguyên tử → cần ngoặc khi có chỉ số
 }
 
 // Cation (hàng)
 export const CATIONS: Ion[] = [
-  { formula: 'H⁺', ascii: 'H' },
-  { formula: 'Na⁺', ascii: 'Na' },
-  { formula: 'K⁺', ascii: 'K' },
-  { formula: 'NH₄⁺', ascii: 'NH4' },
-  { formula: 'Ag⁺', ascii: 'Ag' },
-  { formula: 'Mg²⁺', ascii: 'Mg' },
-  { formula: 'Ca²⁺', ascii: 'Ca' },
-  { formula: 'Ba²⁺', ascii: 'Ba' },
-  { formula: 'Zn²⁺', ascii: 'Zn' },
-  { formula: 'Cu²⁺', ascii: 'Cu' },
-  { formula: 'Fe²⁺', ascii: 'Fe2' },
-  { formula: 'Fe³⁺', ascii: 'Fe3' },
-  { formula: 'Al³⁺', ascii: 'Al' },
-  { formula: 'Pb²⁺', ascii: 'Pb' },
+  { formula: 'H⁺', ascii: 'H', sym: 'H', charge: 1, poly: false },
+  { formula: 'Na⁺', ascii: 'Na', sym: 'Na', charge: 1, poly: false },
+  { formula: 'K⁺', ascii: 'K', sym: 'K', charge: 1, poly: false },
+  { formula: 'NH₄⁺', ascii: 'NH4', sym: 'NH4', charge: 1, poly: true },
+  { formula: 'Ag⁺', ascii: 'Ag', sym: 'Ag', charge: 1, poly: false },
+  { formula: 'Mg²⁺', ascii: 'Mg', sym: 'Mg', charge: 2, poly: false },
+  { formula: 'Ca²⁺', ascii: 'Ca', sym: 'Ca', charge: 2, poly: false },
+  { formula: 'Ba²⁺', ascii: 'Ba', sym: 'Ba', charge: 2, poly: false },
+  { formula: 'Zn²⁺', ascii: 'Zn', sym: 'Zn', charge: 2, poly: false },
+  { formula: 'Cu²⁺', ascii: 'Cu', sym: 'Cu', charge: 2, poly: false },
+  { formula: 'Fe²⁺', ascii: 'Fe2', sym: 'Fe', charge: 2, poly: false },
+  { formula: 'Fe³⁺', ascii: 'Fe3', sym: 'Fe', charge: 3, poly: false },
+  { formula: 'Al³⁺', ascii: 'Al', sym: 'Al', charge: 3, poly: false },
+  { formula: 'Pb²⁺', ascii: 'Pb', sym: 'Pb', charge: 2, poly: false },
 ];
 
 // Anion (cột)
 export const ANIONS: Ion[] = [
-  { formula: 'OH⁻', ascii: 'OH' },
-  { formula: 'Cl⁻', ascii: 'Cl' },
-  { formula: 'NO₃⁻', ascii: 'NO3' },
-  { formula: 'SO₄²⁻', ascii: 'SO4' },
-  { formula: 'CO₃²⁻', ascii: 'CO3' },
-  { formula: 'PO₄³⁻', ascii: 'PO4' },
-  { formula: 'S²⁻', ascii: 'S' },
-  { formula: 'Br⁻', ascii: 'Br' },
+  { formula: 'OH⁻', ascii: 'OH', sym: 'OH', charge: 1, poly: true },
+  { formula: 'Cl⁻', ascii: 'Cl', sym: 'Cl', charge: 1, poly: false },
+  { formula: 'NO₃⁻', ascii: 'NO3', sym: 'NO3', charge: 1, poly: true },
+  { formula: 'SO₄²⁻', ascii: 'SO4', sym: 'SO4', charge: 2, poly: true },
+  { formula: 'CO₃²⁻', ascii: 'CO3', sym: 'CO3', charge: 2, poly: true },
+  { formula: 'PO₄³⁻', ascii: 'PO4', sym: 'PO4', charge: 3, poly: true },
+  { formula: 'S²⁻', ascii: 'S', sym: 'S', charge: 2, poly: false },
+  { formula: 'Br⁻', ascii: 'Br', sym: 'Br', charge: 1, poly: false },
 ];
 
 // Ma trận[cation][anion]. Thứ tự khớp với 2 mảng trên.
@@ -71,3 +74,23 @@ export const SOLUB_META: Record<
   IT: { vi: 'Ít tan', en: 'Slightly soluble', color: 'bg-amber-500/25', text: 'text-amber-200' },
   '-': { vi: 'Không tồn tại / phân hủy', en: 'Does not exist / decomposes', color: 'bg-base-800', text: 'text-slate-500' },
 };
+
+// ---- Ghép công thức hợp chất từ cation + anion ----
+// Dùng quy tắc hóa trị: nhân chéo điện tích rồi rút gọn.
+// vd Ca²⁺ + OH⁻ → Ca(OH)2 ; Al³⁺ + SO₄²⁻ → Al2(SO4)3 ; Fe³⁺ + PO₄³⁻ → FePO4
+const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
+
+function part(ion: Ion, count: number): string {
+  if (count === 1) return ion.sym;
+  return ion.poly ? `(${ion.sym})${count}` : `${ion.sym}${count}`;
+}
+
+/** Công thức dạng ASCII, vd "Al2(SO4)3". Khớp cách viết trong thư viện công thức. */
+export function buildFormula(cation: Ion, anion: Ion): string {
+  // Nước là ca đặc biệt: H⁺ + OH⁻ → H2O chứ không phải "HOH"
+  if (cation.sym === 'H' && anion.sym === 'OH') return 'H2O';
+  const g = gcd(cation.charge, anion.charge);
+  const nCat = anion.charge / g;
+  const nAn = cation.charge / g;
+  return part(cation, nCat) + part(anion, nAn);
+}

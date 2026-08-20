@@ -1,19 +1,61 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import PageHeader from '../components/PageHeader';
+import FormulaText from '../components/FormulaText';
 import { useLang } from '../i18n/LangContext';
+import { hasStructure } from '../generated/structures';
+import { FORMULAS, keyOf } from '../data/formulas';
 import {
   CATIONS,
   ANIONS,
   MATRIX,
   SOLUB_META,
+  buildFormula,
   type Solub,
 } from '../data/solubility';
 
 export default function Solubility() {
   const { t, lang } = useLang();
   const [sel, setSel] = useState<{ c: number; a: number } | null>(null);
+  const [svgs, setSvgs] = useState<Record<string, string> | null>(null);
 
-  const cell = sel ? MATRIX[sel.c][sel.a] : null;
+  // Tra nhanh chất trong thư viện công thức theo công thức ASCII
+  const libByFormula = useMemo(() => {
+    const m = new Map<string, (typeof FORMULAS)[number]>();
+    for (const f of FORMULAS) if (!m.has(f.formula)) m.set(f.formula, f);
+    return m;
+  }, []);
+
+  const cation = sel ? CATIONS[sel.c] : null;
+  const anion = sel ? ANIONS[sel.a] : null;
+  const cell: Solub | null = sel ? MATRIX[sel.c][sel.a] : null;
+  const formula = cation && anion ? buildFormula(cation, anion) : '';
+  const inLib = formula ? libByFormula.get(formula) : undefined;
+  const structKey = inLib ? keyOf(inLib) : formula;
+  const showStruct = !!formula && hasStructure(structKey);
+  // H+ + OH- không phải muối mà là phản ứng trung hòa tạo nước
+  const isWater = formula === 'H2O';
+
+  // Đóng modal bằng phím Esc
+  useEffect(() => {
+    if (!sel) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSel(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [sel]);
+
+  // Kho hình chỉ tải khi thật sự cần
+  useEffect(() => {
+    if (!showStruct || svgs) return;
+    let alive = true;
+    import('../generated/structures-svgs').then((m) => {
+      if (alive) setSvgs(m.STRUCTURE_SVGS);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [showStruct, svgs]);
 
   return (
     <>
@@ -56,14 +98,12 @@ export default function Solubility() {
                   {ANIONS.map((_, ai) => {
                     const v = MATRIX[ci][ai];
                     const meta = SOLUB_META[v];
-                    const on = sel?.c === ci && sel?.a === ai;
                     return (
                       <td key={ai} className="p-0">
                         <button
                           onClick={() => setSel({ c: ci, a: ai })}
-                          className={`w-9 h-9 md:w-11 md:h-11 rounded-md grid place-items-center text-xs md:text-sm font-bold ${meta.color} ${meta.text} ${
-                            on ? 'ring-2 ring-accent' : 'hover:ring-1 hover:ring-white/30'
-                          }`}
+                          title={buildFormula(CATIONS[ci], ANIONS[ai])}
+                          className={`w-9 h-9 md:w-11 md:h-11 rounded-md grid place-items-center text-xs md:text-sm font-bold transition hover:ring-2 hover:ring-accent hover:scale-105 ${meta.color} ${meta.text}`}
                         >
                           {v === '-' ? '—' : v}
                         </button>
@@ -76,28 +116,118 @@ export default function Solubility() {
           </table>
         </div>
 
-        {/* Chi tiết ô đang chọn */}
-        {sel && cell && (
-          <div className="card p-4 mt-4 max-w-md">
+        <p className="mt-3 text-xs text-slate-500">
+          {lang === 'vi'
+            ? 'Bấm vào một ô để xem công thức chất tạo thành.'
+            : 'Tap a cell to see the compound formed.'}
+        </p>
+      </div>
+
+      {/* Modal chi tiết ô đang chọn */}
+      {sel && cation && anion && cell && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm grid place-items-center p-4"
+          onClick={() => setSel(null)}
+        >
+          <div
+            className="card p-5 max-w-sm w-full relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSel(null)}
+              className="absolute right-3 top-3 text-slate-500 hover:text-slate-200 text-lg"
+            >
+              ✕
+            </button>
+
+            {/* Phép cộng ion */}
             <div className="text-xs text-slate-500 mb-1">
-              {lang === 'vi' ? 'Kết hợp' : 'Combination'}
+              {lang === 'vi' ? 'Kết hợp ion' : 'Ion combination'}
             </div>
-            <div className="font-mono text-lg text-slate-100">
-              {CATIONS[sel.c].formula} + {ANIONS[sel.a].formula}
+            <div className="font-mono text-base text-slate-300">
+              {cation.formula} + {anion.formula}
             </div>
-            <div className={`mt-2 inline-block px-3 py-1 rounded-lg ${SOLUB_META[cell].color} ${SOLUB_META[cell].text} text-sm font-medium`}>
-              {lang === 'vi' ? SOLUB_META[cell].vi : SOLUB_META[cell].en}
+
+            {/* Công thức tạo thành */}
+            <div className="mt-3 rounded-xl bg-base-900 border border-base-800 py-4 text-center">
+              <FormulaText
+                value={formula}
+                className="text-3xl font-bold text-accent font-mono"
+              />
+              {inLib && (
+                <div className="text-sm text-slate-200 mt-1.5">
+                  {lang === 'vi' ? inLib.vi : inLib.en}
+                </div>
+              )}
             </div>
+
+            {/* Trạng thái tan */}
+            <div
+              className={`mt-3 inline-block px-3 py-1 rounded-lg text-sm font-medium ${
+                isWater
+                  ? 'bg-sky-500/25 text-sky-200'
+                  : `${SOLUB_META[cell].color} ${SOLUB_META[cell].text}`
+              }`}
+            >
+              {isWater
+                ? lang === 'vi'
+                  ? 'Phản ứng trung hòa'
+                  : 'Neutralization'
+                : lang === 'vi'
+                  ? SOLUB_META[cell].vi
+                  : SOLUB_META[cell].en}
+            </div>
+
             {cell === 'I' && (
               <p className="text-xs text-slate-400 mt-2">
                 {lang === 'vi'
-                  ? '→ Tạo kết tủa khi trộn hai dung dịch chứa các ion này.'
-                  : '→ Forms a precipitate when the two ion solutions are mixed.'}
+                  ? '→ Trộn hai dung dịch chứa các ion này sẽ tạo kết tủa.'
+                  : '→ Mixing solutions of these ions gives a precipitate.'}
               </p>
             )}
+            {isWater && (
+              <p className="text-xs text-slate-400 mt-2">
+                {lang === 'vi'
+                  ? 'Axit tác dụng bazơ tạo nước: H⁺ + OH⁻ → H₂O.'
+                  : 'Acid meets base to form water: H⁺ + OH⁻ → H₂O.'}
+              </p>
+            )}
+            {cell === '-' && !isWater && (
+              <p className="text-xs text-slate-400 mt-2">
+                {lang === 'vi'
+                  ? '→ Chất này không tồn tại trong dung dịch hoặc bị phân hủy ngay.'
+                  : '→ This compound does not exist in solution or decomposes.'}
+              </p>
+            )}
+
+            {/* Mô tả lấy từ thư viện công thức nếu có */}
+            {inLib && (
+              <p className="text-xs text-slate-400 mt-2">
+                {lang === 'vi' ? inLib.note_vi : inLib.note_en}
+              </p>
+            )}
+
+            {/* Hình cấu tạo nếu có */}
+            {showStruct && (
+              <div className="mt-3 rounded-xl bg-base-900 border border-base-800 p-2">
+                {svgs ? (
+                  <div
+                    className="h-40 text-slate-100"
+                    dangerouslySetInnerHTML={{ __html: svgs[structKey] }}
+                  />
+                ) : (
+                  <div className="h-40 grid place-items-center text-xs text-slate-600">
+                    {lang === 'vi' ? 'Đang tải hình…' : 'Loading…'}
+                  </div>
+                )}
+                <div className="text-center text-[11px] text-slate-500">
+                  {lang === 'vi' ? 'Công thức cấu tạo' : 'Structural formula'}
+                </div>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 }
