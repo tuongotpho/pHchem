@@ -36,16 +36,16 @@ export default function Layout() {
   return (
     <div className="min-h-full flex flex-col md:flex-row bg-base-950">
       {/* Cột trái cho tablet/PC */}
-      <aside className="hidden md:flex md:flex-col md:w-60 shrink-0 border-r border-base-800 p-4 gap-1">
-        <div className="flex items-center gap-2 px-2 py-3 mb-2">
-          <div className="w-9 h-9 rounded-xl bg-accent text-base-950 grid place-items-center font-bold text-lg">
+      <aside className="hidden md:flex md:flex-col md:w-52 shrink-0 border-r border-base-800 p-3 gap-0.5 md:sticky md:top-0 md:h-screen md:overflow-y-auto">
+        <div className="flex items-center gap-2 px-1.5 py-2 mb-1">
+          <div className="w-8 h-8 shrink-0 rounded-lg bg-accent text-base-950 grid place-items-center font-bold">
             ⚗
           </div>
           <div>
-            <div className="font-bold text-slate-100 leading-tight">
+            <div className="font-bold text-slate-100 leading-tight text-sm">
               {t('appName')}
             </div>
-            <div className="text-xs text-slate-500">{t('tagline')}</div>
+            <div className="text-[11px] text-slate-500 leading-tight">{t('tagline')}</div>
           </div>
         </div>
         {ITEMS.map(({ to, label, Icon }) => (
@@ -54,7 +54,7 @@ export default function Layout() {
             to={to}
             end={to === '/'}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+              `flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isActive
                   ? 'bg-accent/15 text-accent'
                   : 'text-slate-400 hover:bg-base-850 hover:text-slate-200'
@@ -69,7 +69,7 @@ export default function Layout() {
           <NavLink
             to="/settings"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+              `flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isActive
                   ? 'bg-accent/15 text-accent'
                   : 'text-slate-400 hover:bg-base-850 hover:text-slate-200'
@@ -96,13 +96,13 @@ export default function Layout() {
               to={to}
               end={to === '/'}
               className={({ isActive }) =>
-                `flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg text-[10px] font-medium min-w-0 ${
+                `flex shrink-0 w-[58px] flex-col items-center gap-0.5 px-1 py-1 rounded-lg text-[10px] font-medium ${
                   isActive ? 'text-accent' : 'text-slate-500'
                 }`
               }
             >
               <Icon className="w-5 h-5" />
-              <span className="truncate max-w-[52px]">{t(label)}</span>
+              <span className="truncate w-full text-center">{t(label)}</span>
             </NavLink>
           ),
         )}
