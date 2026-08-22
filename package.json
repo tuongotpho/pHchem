@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "icons": "node scripts/gen-icons.mjs",
-    "struct": "node scripts/gen-structures.mjs"
+    "struct": "node scripts/gen-structures.mjs",
+    "audit": "tsc -b && vitest run && node scripts/gen-structures.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",
