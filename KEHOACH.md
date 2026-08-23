@@ -88,7 +88,15 @@ Cần: bảng thế điện cực chuẩn, và công cụ tra "A có đẩy đư
 
 ---
 
-## Đợt C — Chế độ luyện tập
+## Đợt C — Chế độ luyện tập ✅ XONG 23/08/2026
+
+Trang "Luyện tập" sinh đề tự động từ dữ liệu, đủ sáu dạng. Chọn dạng bài và
+số câu, làm xong chấm ngay kèm giải thích và liên kết mở phần liên quan để
+học thêm. Mỗi bộ đề có mã riêng nên chia sẻ lại được đúng đề đã làm.
+
+17 phép kiểm, trong đó ba phép đối chiếu NGƯỢC về dữ liệu gốc: cân bằng lại
+phương trình để so tổng hệ số, dò công thức về đúng ô bảng tính tan, và tra
+hiện tượng về đúng phản ứng.
 
 App hiện **thuần tra cứu**, không có chỗ nào tự kiểm tra. Đây là mảng thiếu rõ
 nhất với người đi dạy.

@@ -29,6 +29,7 @@ const ITEMS: Item[] = [
   { to: '/formulas', label: 'nav_formulas', Icon: IconFlask },
   { to: '/dictionary', label: 'nav_dictionary', Icon: IconBook },
   { to: '/facts', label: 'nav_facts', Icon: IconBulb },
+  { to: '/quiz', label: 'nav_quiz', Icon: IconCalc },
 ];
 
 export default function Layout() {

@@ -11,6 +11,7 @@ import Dictionary from './pages/Dictionary';
 import Facts from './pages/Facts';
 import Reactions from './pages/Reactions';
 import Electro from './pages/Electro';
+import Quiz from './pages/Quiz';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="calculator" element={<Calculator />} />
         <Route path="solubility" element={<Solubility />} />
         <Route path="electro" element={<Electro />} />
+        <Route path="quiz" element={<Quiz />} />
         <Route path="formulas" element={<Formulas />} />
         <Route path="dictionary" element={<Dictionary />} />
         <Route path="facts" element={<Facts />} />

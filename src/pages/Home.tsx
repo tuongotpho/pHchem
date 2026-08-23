@@ -24,6 +24,7 @@ type Tile = {
 };
 
 const TILES: Tile[] = [
+  { to: '/quiz', title: 'home_title_quiz', desc: 'home_desc_quiz', Icon: IconBulb, color: 'from-fuchsia-500/20 to-fuchsia-500/5 text-fuchsia-700 dark:text-fuchsia-300' },
   { to: '/table', title: 'home_title_table', desc: 'home_desc_table', Icon: IconTable, color: 'from-teal-500/20 to-teal-500/5 text-teal-700 dark:text-teal-300' },
   { to: '/calculator', title: 'home_title_calc', desc: 'home_desc_calc', Icon: IconCalc, color: 'from-sky-500/20 to-sky-500/5 text-sky-700 dark:text-sky-300' },
   { to: '/solubility', title: 'home_title_solubility', desc: 'home_desc_solubility', Icon: IconGrid, color: 'from-violet-500/20 to-violet-500/5 text-violet-700 dark:text-violet-300' },
