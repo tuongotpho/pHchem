@@ -15,12 +15,17 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+# Các action đều nâng lên bản mới nhất vào 23/08/2026. Lý do: GitHub bỏ dần
+# Node 20, bản cũ bị ép chạy trên Node 24 và sẽ hỏng hẳn khi lớp tương thích
+# được gỡ. Đã kiểm bản mới đều khai using: node24.
+# Riêng setup-node v6 có thay đổi gây vỡ "chỉ tự động cache cho npm" — ở đây
+# khai cache: npm tường minh nên không ảnh hưởng.
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -28,7 +33,7 @@ jobs:
       - run: npm run build
       # SPA fallback: Pages trả 404.html cho các đường dẫn con → dùng chính index.html
       - run: cp dist/index.html dist/404.html
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
@@ -40,4 +45,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
