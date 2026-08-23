@@ -45,7 +45,29 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
     return tu.every((x) => k.includes(x));
   };
 
-  const out: SearchResult[] = [];
+  // Chấm điểm để xếp hạng — càng nhỏ càng sát ý người tìm:
+  //   0 = trùng khít cả tên     1 = tên bắt đầu bằng câu tìm     2 = chỉ chứa
+  // Không có bước này thì gõ "ethanoic acid" lại ra axit fomic trước axit
+  // axetic, chỉ vì chuỗi "methanoic acid" tình cờ chứa "ethanoic".
+  const diemKhop = (...cacTen: (string | undefined)[]): number => {
+    let diem = 2;
+    for (const ten of cacTen) {
+      if (!ten) continue;
+      const k = norm(ten);
+      if (k === q) return 0;
+      if (k.startsWith(q)) diem = 1;
+    }
+    return diem;
+  };
+
+  // Giữ nguyên thứ tự nhóm (nguyên tố → công thức → phản ứng → thuật ngữ →
+  // sự thật) trong cùng một mức điểm: phép sắp xếp của JS là ổn định.
+  const kho: { r: SearchResult; diem: number }[] = [];
+  const out = {
+    push(r: SearchResult, diem = 2) {
+      kho.push({ r, diem });
+    },
+  };
 
   // Nguyên tố
   for (const e of ELEMENTS) {
@@ -55,13 +77,16 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
       khop(e.en) ||
       String(e.n) === q
     ) {
-      out.push({
-        kind: 'element',
-        title: `${e.sym} · ${lang === 'vi' ? e.vi : e.en}`,
-        sub: `${lang === 'vi' ? 'Số hiệu' : 'Number'} ${e.n} · ${e.mass} u`,
-        to: `/table/${e.n}`,
-        badge: lang === 'vi' ? 'Nguyên tố' : 'Element',
-      });
+      out.push(
+        {
+          kind: 'element',
+          title: `${e.sym} · ${lang === 'vi' ? e.vi : e.en}`,
+          sub: `${lang === 'vi' ? 'Số hiệu' : 'Number'} ${e.n} · ${e.mass} u`,
+          to: `/table/${e.n}`,
+          badge: lang === 'vi' ? 'Nguyên tố' : 'Element',
+        },
+        diemKhop(e.sym, e.vi, e.en, String(e.n)),
+      );
     }
   }
 
@@ -71,18 +96,20 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
       khop(f.formula) ||
       khop(f.vi) ||
       khop(f.en) ||
-      // gõ tên IUPAC cũng phải ra: học sinh tra "axit etanoic" chứ không
+      // gõ tên IUPAC cũng phải ra: học sinh tra "ethanoic acid" chứ không
       // phải lúc nào cũng nhớ tên thường "axit axetic"
-      khop(iupacOf(keyOf(f))?.vi ?? '') ||
-      khop(iupacOf(keyOf(f))?.en ?? '')
+      khop(iupacOf(keyOf(f)) ?? '')
     ) {
-      out.push({
-        kind: 'formula',
-        title: `${f.formula} · ${lang === 'vi' ? f.vi : f.en}`,
-        sub: lang === 'vi' ? f.note_vi : f.note_en,
-        to: `/formulas?item=${encodeURIComponent(keyOf(f))}`,
-        badge: lang === 'vi' ? 'Công thức' : 'Formula',
-      });
+      out.push(
+        {
+          kind: 'formula',
+          title: `${f.formula} · ${lang === 'vi' ? f.vi : f.en}`,
+          sub: lang === 'vi' ? f.note_vi : f.note_en,
+          to: `/formulas?item=${encodeURIComponent(keyOf(f))}`,
+          badge: lang === 'vi' ? 'Công thức' : 'Formula',
+        },
+        diemKhop(f.formula, f.vi, f.en, iupacOf(keyOf(f))),
+      );
     }
   }
 
@@ -104,16 +131,19 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
     ].join(' ');
     if (khop(kho)) {
       const loai = r.type.map((ty) => TYPE_META[ty][lang]).join(' · ');
-      out.push({
-        kind: 'reaction',
-        title: r.eq,
-        sub:
-          (lang === 'vi' ? r.cond_vi : r.cond_en) ??
-          (lang === 'vi' ? r.phen_vi : r.phen_en) ??
-          loai,
-        to: `/reactions?item=${itemId(r.eq)}`,
-        badge: lang === 'vi' ? 'Phản ứng' : 'Reaction',
-      });
+      out.push(
+        {
+          kind: 'reaction',
+          title: r.eq,
+          sub:
+            (lang === 'vi' ? r.cond_vi : r.cond_en) ??
+            (lang === 'vi' ? r.phen_vi : r.phen_en) ??
+            loai,
+          to: `/reactions?item=${itemId(r.eq)}`,
+          badge: lang === 'vi' ? 'Phản ứng' : 'Reaction',
+        },
+        diemKhop(r.eq),
+      );
     }
   }
 
@@ -122,13 +152,16 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
     if (
       khop(t.vi) || khop(t.en) || khop(t.def_vi) || khop(t.def_en)
     ) {
-      out.push({
-        kind: 'term',
-        title: lang === 'vi' ? t.vi : t.en,
-        sub: lang === 'vi' ? t.def_vi : t.def_en,
-        to: `/dictionary?item=${encodeURIComponent(t.en)}`,
-        badge: lang === 'vi' ? 'Thuật ngữ' : 'Term',
-      });
+      out.push(
+        {
+          kind: 'term',
+          title: lang === 'vi' ? t.vi : t.en,
+          sub: lang === 'vi' ? t.def_vi : t.def_en,
+          to: `/dictionary?item=${encodeURIComponent(t.en)}`,
+          badge: lang === 'vi' ? 'Thuật ngữ' : 'Term',
+        },
+        diemKhop(t.vi, t.en),
+      );
     }
   }
 
@@ -145,5 +178,8 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
     }
   }
 
-  return out.slice(0, 40); // giới hạn cho gọn
+  // Sắp xếp theo độ sát rồi mới cắt bớt — nếu cắt trước thì kết quả đúng nhất
+  // có thể bị loại ngay từ đầu.
+  kho.sort((a, b) => a.diem - b.diem);
+  return kho.slice(0, 40).map((x) => x.r);
 }

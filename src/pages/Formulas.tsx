@@ -202,14 +202,16 @@ export default function Formulas() {
             <div className="font-medium text-slate-100">
               {lang === 'vi' ? sel.vi : sel.en}
             </div>
-            {/* Tên IUPAC — chỉ hiện khi khác tên đang dùng ở trên */}
-            {iupacKhacTen(keyOf(sel), lang === 'vi' ? sel.vi : sel.en, lang) && (
+            {/* Tên IUPAC — luôn giữ nguyên dạng tiếng Anh, kể cả ở giao diện
+                tiếng Việt: đây là chuẩn quốc tế, chỉ có một cách viết.
+                Ẩn đi khi trùng đúng tên đang hiện ngay bên trên. */}
+            {iupacKhacTen(keyOf(sel), lang === 'vi' ? sel.vi : sel.en) && (
               <div className="text-xs mt-0.5">
                 <span className="text-slate-500">
                   {lang === 'vi' ? 'Danh pháp IUPAC: ' : 'IUPAC name: '}
                 </span>
                 <span className="text-slate-300">
-                  {iupacKhacTen(keyOf(sel), lang === 'vi' ? sel.vi : sel.en, lang)}
+                  {iupacKhacTen(keyOf(sel), lang === 'vi' ? sel.vi : sel.en)}
                 </span>
               </div>
             )}

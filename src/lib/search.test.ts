@@ -41,6 +41,32 @@ describe('tìm theo từng chữ, không đòi liền mạch', () => {
   });
 });
 
+describe('xếp hạng kết quả', () => {
+  const dau = (q: string) => searchAll(q, 'vi')[0]?.title ?? '';
+
+  it('trùng khít cả tên thì đứng đầu, không thua chất chỉ chứa tình cờ', () => {
+    // "methanoic acid" có chứa chuỗi "ethanoic acid" nên axit fomic cũng khớp;
+    // nhưng axit axetic mới trùng khít nên phải đứng trước.
+    expect(dau('ethanoic acid')).toContain('CH3COOH');
+    expect(dau('methanoic acid')).toContain('HCOOH');
+  });
+
+  it('gõ đúng công thức thì chính chất đó đứng đầu', () => {
+    expect(dau('H2O')).toContain('H2O ·');
+    expect(dau('CH3COOH')).toContain('CH3COOH');
+  });
+
+  it('gõ đúng ký hiệu nguyên tố thì nguyên tố đó đứng đầu', () => {
+    expect(dau('Fe')).toContain('Fe ·');
+    expect(dau('Na')).toContain('Na ·');
+  });
+
+  it('gõ tên IUPAC ra đúng chất', () => {
+    expect(dau('propan-2-one')).toContain('CH3COCH3');
+    expect(dau('dioxygen')).toContain('O2');
+  });
+});
+
 describe('phạm vi tìm kiếm', () => {
   it('có tìm được phản ứng', () => {
     const kq = searchAll('dien phan', 'vi');
