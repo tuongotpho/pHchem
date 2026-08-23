@@ -213,6 +213,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 
 | Ngày | Đã xong tới | Đang dở | Việc kế tiếp |
 |---|---|---|---|
+| 24/08/2026 05:25 | **E9** xong — dựng sẵn bảng đã bỏ dấu, 8,92 ms → 1,24 ms mỗi lần gõ | không | **E10** (nhóm việc lẻ) |
 | 24/08/2026 05:22 | **E7** xong — bộ lọc phản ứng dò cả hai thứ tiếng, 6 test mới | không | **E9** (E8 để dành cho lúc có người xem) |
 | 24/08/2026 05:20 | **E6** xong — khóa ô nhập bằng cả vị trí lẫn công thức, 6 test mới | không | **E7** |
 | 24/08/2026 05:15 | **E5** xong — bọc localStorage vào `lib/boNho.ts`, 5 test mới. Bộ hẹn giờ 00:25 có nổ nhưng KHÔNG làm được gì (hạn mức chưa hồi), phải làm tay lại | không | **E6** |
@@ -236,7 +237,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 | ✅ | **E6** Sửa PT thì lượng chất gắn nhầm | 🟡 warning | `pages/Calculator.tsx` | xong |
 | ✅ | **E7** Lọc phản ứng chết khi dùng tiếng Anh | 🟡 warning | `pages/Reactions.tsx` | xong |
 | ☐ | **E8** Gói chính 596 KB, chưa tách tuyến | 🟡 warning | `App.tsx` | vừa |
-| ☐ | **E9** Tìm kiếm tính lại bỏ dấu mỗi phím gõ | 🟡 warning | `lib/search.ts` | vừa |
+| ✅ | **E9** Tìm kiếm tính lại bỏ dấu mỗi phím gõ | 🟡 warning | `lib/search.ts` | xong, nhanh 7,2× |
 | ☐ | **E10** Từ điển làm đôi việc mỗi lần vẽ | 🔵 nitpick | `pages/Dictionary.tsx` | rất nhỏ |
 | ☐ | **E11** Luyện tập chia 0 → `NaN%` | 🔵 nitpick | `pages/Quiz.tsx` | rất nhỏ |
 | ☐ | **E12** `chon()` trên mảng rỗng → sập | 🔵 nitpick | `lib/quiz.ts` | rất nhỏ |

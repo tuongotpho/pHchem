@@ -31,6 +31,70 @@ const norm = (s: string) =>
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '');
 
+// ---------- Bảng tra dựng sẵn MỘT LẦN lúc nạp module ----------
+//
+// VÌ SAO PHẢI DỰNG SẴN: bỏ dấu tiếng Việt không rẻ — `normalize('NFD')` phải
+// tách từng ký tự ra thành chữ cái và dấu rồi lọc lại. Trước đây việc đó chạy
+// lại cho MỌI trường của MỌI mục sau MỖI phím gõ: hơn tám trăm mục, mỗi mục
+// vài trường, lại nhân thêm vì hàm chấm điểm cũng gọi bỏ dấu lần nữa.
+//
+// Máy bàn không thấy gì, nhưng điện thoại phổ thông thì chữ đuổi không kịp
+// tay — mà app này là để cho học sinh dùng trên điện thoại.
+//
+// Bỏ dấu sẵn một lần lúc mở app thì lúc gõ chỉ còn so chuỗi, việc rẻ nhất.
+// Cùng lối với các chỉ mục khác trong app (reactionIndex, classIndex).
+
+const NGUYEN_TO = ELEMENTS.map((e) => ({
+  e,
+  sym: norm(e.sym),
+  vi: norm(e.vi),
+  en: norm(e.en),
+  n: String(e.n),
+}));
+
+const CONG_THUC = FORMULAS.map((f) => {
+  const iupac = iupacOf(keyOf(f), f.en);
+  return {
+    f,
+    /** Các trường để dò. Khớp khi MỘT trường chứa đủ mọi chữ người dùng gõ. */
+    truong: [norm(f.formula), norm(f.vi), norm(f.en), iupac ? norm(iupac) : ''],
+    /** Các tên để chấm điểm — bỏ tên rỗng cho khỏi tính nhầm. */
+    ten: [norm(f.formula), norm(f.vi), norm(f.en), iupac ? norm(iupac) : ''].filter(
+      Boolean,
+    ),
+  };
+});
+
+const PHAN_UNG = REACTIONS.map((r) => ({
+  r,
+  // Phản ứng dò trên một kho gộp: phương trình, loại, điều kiện, hiện tượng,
+  // ghi chú — cả hai thứ tiếng.
+  kho: norm(
+    [
+      r.eq,
+      r.type.map((ty) => `${TYPE_META[ty].vi} ${TYPE_META[ty].en}`).join(' '),
+      r.cond_vi ?? '',
+      r.cond_en ?? '',
+      r.phen_vi ?? '',
+      r.phen_en ?? '',
+      r.note_vi ?? '',
+      r.note_en ?? '',
+    ].join(' '),
+  ),
+  eq: norm(r.eq),
+}));
+
+const THUAT_NGU = TERMS.map((t) => ({
+  t,
+  truong: [norm(t.vi), norm(t.en), norm(t.def_vi), norm(t.def_en)],
+  ten: [norm(t.vi), norm(t.en)],
+}));
+
+const SU_THAT = FACTS.map((fact) => ({
+  fact,
+  truong: [norm(fact.vi), norm(fact.en)],
+}));
+
 export function searchAll(query: string, lang: Lang): SearchResult[] {
   const q = norm(query.trim());
   if (q.length < 1) return [];
@@ -40,20 +104,20 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
   // "axit stearic" không ra "Axit béo stearic" — thiếu đúng một chữ đệm là mất
   // kết quả. Người dùng không nhớ chính xác từng chữ đệm.
   const tu = q.split(/\s+/).filter(Boolean);
-  const khop = (kho: string): boolean => {
-    const k = norm(kho);
-    return tu.every((x) => k.includes(x));
-  };
+
+  /** Một trường ĐÃ BỎ DẤU SẴN có chứa đủ mọi chữ người dùng gõ không. */
+  const khop = (daBoDau: string): boolean => tu.every((x) => daBoDau.includes(x));
+  /** Bất kỳ trường nào trong danh sách khớp là được. */
+  const khopMot = (cacTruong: string[]): boolean => cacTruong.some(khop);
 
   // Chấm điểm để xếp hạng — càng nhỏ càng sát ý người tìm:
   //   0 = trùng khít cả tên     1 = tên bắt đầu bằng câu tìm     2 = chỉ chứa
   // Không có bước này thì gõ "ethanoic acid" lại ra axit fomic trước axit
   // axetic, chỉ vì chuỗi "methanoic acid" tình cờ chứa "ethanoic".
-  const diemKhop = (...cacTen: (string | undefined)[]): number => {
+  const diemKhop = (cacTen: string[]): number => {
     let diem = 2;
-    for (const ten of cacTen) {
-      if (!ten) continue;
-      const k = norm(ten);
+    for (const k of cacTen) {
+      if (!k) continue;
       if (k === q) return 0;
       if (k.startsWith(q)) diem = 1;
     }
@@ -63,21 +127,14 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
   // Giữ nguyên thứ tự nhóm (nguyên tố → công thức → phản ứng → thuật ngữ →
   // sự thật) trong cùng một mức điểm: phép sắp xếp của JS là ổn định.
   const kho: { r: SearchResult; diem: number }[] = [];
-  const out = {
-    push(r: SearchResult, diem = 2) {
-      kho.push({ r, diem });
-    },
-  };
+  const them = (r: SearchResult, diem = 2) => kho.push({ r, diem });
 
-  // Nguyên tố
-  for (const e of ELEMENTS) {
-    if (
-      norm(e.sym) === q ||
-      khop(e.vi) ||
-      khop(e.en) ||
-      String(e.n) === q
-    ) {
-      out.push(
+  // Nguyên tố — ký hiệu và số hiệu đòi TRÙNG KHÍT, không phải chỉ chứa:
+  // gõ "C" mà ra mọi nguyên tố có chữ c trong tên thì vô dụng.
+  for (const m of NGUYEN_TO) {
+    if (m.sym === q || khop(m.vi) || khop(m.en) || m.n === q) {
+      const e = m.e;
+      them(
         {
           kind: 'element',
           title: `${e.sym} · ${lang === 'vi' ? e.vi : e.en}`,
@@ -85,97 +142,75 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
           to: `/table/${e.n}`,
           badge: lang === 'vi' ? 'Nguyên tố' : 'Element',
         },
-        diemKhop(e.sym, e.vi, e.en, String(e.n)),
+        diemKhop([m.sym, m.vi, m.en, m.n]),
       );
     }
   }
 
-  // Công thức
-  for (const f of FORMULAS) {
-    if (
-      khop(f.formula) ||
-      khop(f.vi) ||
-      khop(f.en) ||
-      // gõ tên IUPAC cũng phải ra: học sinh tra "ethanoic acid" chứ không
-      // phải lúc nào cũng nhớ tên thường "axit axetic"
-      khop(iupacOf(keyOf(f), f.en) ?? '')
-    ) {
-      out.push(
-        {
-          kind: 'formula',
-          title: `${f.formula} · ${lang === 'vi' ? f.vi : f.en}`,
-          sub: lang === 'vi' ? f.note_vi : f.note_en,
-          to: `/formulas?item=${encodeURIComponent(keyOf(f))}`,
-          badge: lang === 'vi' ? 'Công thức' : 'Formula',
-        },
-        diemKhop(f.formula, f.vi, f.en, iupacOf(keyOf(f), f.en)),
-      );
-    }
+  // Công thức — gõ tên IUPAC cũng phải ra: học sinh tra "ethanoic acid" chứ
+  // không phải lúc nào cũng nhớ tên thường "axit axetic".
+  for (const m of CONG_THUC) {
+    if (!khopMot(m.truong)) continue;
+    const f = m.f;
+    them(
+      {
+        kind: 'formula',
+        title: `${f.formula} · ${lang === 'vi' ? f.vi : f.en}`,
+        sub: lang === 'vi' ? f.note_vi : f.note_en,
+        to: `/formulas?item=${encodeURIComponent(keyOf(f))}`,
+        badge: lang === 'vi' ? 'Công thức' : 'Formula',
+      },
+      diemKhop(m.ten),
+    );
   }
 
   // Phản ứng — tìm theo phương trình, loại phản ứng, điều kiện, hiện tượng.
   // Đặt ngay sau công thức vì tra chất thì thường muốn xem luôn phản ứng của nó.
-  for (const r of REACTIONS) {
-    const nhan = r.type
-      .map((ty) => `${TYPE_META[ty].vi} ${TYPE_META[ty].en}`)
-      .join(' ');
-    const kho = [
-      r.eq,
-      nhan,
-      r.cond_vi ?? '',
-      r.cond_en ?? '',
-      r.phen_vi ?? '',
-      r.phen_en ?? '',
-      r.note_vi ?? '',
-      r.note_en ?? '',
-    ].join(' ');
-    if (khop(kho)) {
-      const loai = r.type.map((ty) => TYPE_META[ty][lang]).join(' · ');
-      out.push(
-        {
-          kind: 'reaction',
-          title: r.eq,
-          sub:
-            (lang === 'vi' ? r.cond_vi : r.cond_en) ??
-            (lang === 'vi' ? r.phen_vi : r.phen_en) ??
-            loai,
-          to: `/reactions?item=${itemId(r.eq)}`,
-          badge: lang === 'vi' ? 'Phản ứng' : 'Reaction',
-        },
-        diemKhop(r.eq),
-      );
-    }
+  for (const m of PHAN_UNG) {
+    if (!khop(m.kho)) continue;
+    const r = m.r;
+    them(
+      {
+        kind: 'reaction',
+        title: r.eq,
+        sub:
+          (lang === 'vi' ? r.cond_vi : r.cond_en) ??
+          (lang === 'vi' ? r.phen_vi : r.phen_en) ??
+          r.type.map((ty) => TYPE_META[ty][lang]).join(' · '),
+        to: `/reactions?item=${itemId(r.eq)}`,
+        badge: lang === 'vi' ? 'Phản ứng' : 'Reaction',
+      },
+      diemKhop([m.eq]),
+    );
   }
 
   // Thuật ngữ
-  for (const t of TERMS) {
-    if (
-      khop(t.vi) || khop(t.en) || khop(t.def_vi) || khop(t.def_en)
-    ) {
-      out.push(
-        {
-          kind: 'term',
-          title: lang === 'vi' ? t.vi : t.en,
-          sub: lang === 'vi' ? t.def_vi : t.def_en,
-          to: `/dictionary?item=${encodeURIComponent(t.en)}`,
-          badge: lang === 'vi' ? 'Thuật ngữ' : 'Term',
-        },
-        diemKhop(t.vi, t.en),
-      );
-    }
+  for (const m of THUAT_NGU) {
+    if (!khopMot(m.truong)) continue;
+    const t = m.t;
+    them(
+      {
+        kind: 'term',
+        title: lang === 'vi' ? t.vi : t.en,
+        sub: lang === 'vi' ? t.def_vi : t.def_en,
+        to: `/dictionary?item=${encodeURIComponent(t.en)}`,
+        badge: lang === 'vi' ? 'Thuật ngữ' : 'Term',
+      },
+      diemKhop(m.ten),
+    );
   }
 
   // Sự thật
-  for (const fact of FACTS) {
-    if (khop(fact.vi) || khop(fact.en)) {
-      out.push({
-        kind: 'fact',
-        title: lang === 'vi' ? fact.vi : fact.en,
-        sub: fact.tag,
-        to: `/facts?item=${itemId(fact.en)}`,
-        badge: lang === 'vi' ? 'Thực tiễn' : 'Fact',
-      });
-    }
+  for (const m of SU_THAT) {
+    if (!khopMot(m.truong)) continue;
+    const fact = m.fact;
+    them({
+      kind: 'fact',
+      title: lang === 'vi' ? fact.vi : fact.en,
+      sub: fact.tag,
+      to: `/facts?item=${itemId(fact.en)}`,
+      badge: lang === 'vi' ? 'Thực tiễn' : 'Fact',
+    });
   }
 
   // Sắp xếp theo độ sát rồi mới cắt bớt — nếu cắt trước thì kết quả đúng nhất
