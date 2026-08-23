@@ -62,7 +62,12 @@ PT ion. Bộ kiểm cân bằng tự chạy trên mọi phương trình mới.
 
 ---
 
-## Đợt B — Hai công cụ đang thiếu hẳn
+## Đợt B — Hai công cụ đang thiếu hẳn ✅ XONG 23/08/2026
+
+- **B1** thêm tab "Tính theo PT" trên trang Máy tính, có xử lý chất hết trước.
+  17 phép kiểm, trong đó có phép tự kiểm bảo toàn khối lượng.
+- **B2** thêm trang "Dãy điện hóa" với 21 cặp oxi hóa - khử và công cụ tra
+  "kim loại này có đẩy được kim loại kia không". 15 phép kiểm.
 
 ### B1. Tính theo phương trình hóa học
 

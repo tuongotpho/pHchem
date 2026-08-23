@@ -15,6 +15,7 @@ export const STRINGS = {
   nav_table: { vi: 'Bảng tuần hoàn', en: 'Periodic Table' },
   nav_calc: { vi: 'Máy tính', en: 'Calculator' },
   nav_solubility: { vi: 'Độ tan', en: 'Solubility' },
+  nav_electro: { vi: 'Dãy điện hóa', en: 'Electro series' },
   nav_formulas: { vi: 'Công thức', en: 'Formulas' },
   nav_dictionary: { vi: 'Từ điển', en: 'Dictionary' },
   nav_facts: { vi: 'Thực tiễn', en: 'Facts' },
@@ -51,6 +52,11 @@ export const STRINGS = {
   home_desc_reactions: {
     vi: 'Điều kiện, hiện tượng, phương trình ion',
     en: 'Conditions, observations, ionic equations',
+  },
+  home_title_electro: { vi: 'Dãy điện hóa', en: 'Electrochemical series' },
+  home_desc_electro: {
+    vi: 'Kim loại nào đẩy được kim loại nào',
+    en: 'Which metal displaces which',
   },
   home_title_facts: { vi: 'Thực tiễn hóa học', en: 'Chemistry in Practice' },
   home_desc_facts: {

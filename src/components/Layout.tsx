@@ -24,6 +24,7 @@ const ITEMS: Item[] = [
   { to: '/table', label: 'nav_table', Icon: IconTable },
   { to: '/calculator', label: 'nav_calc', Icon: IconCalc },
   { to: '/solubility', label: 'nav_solubility', Icon: IconGrid },
+  { to: '/electro', label: 'nav_electro', Icon: IconReaction },
   { to: '/reactions', label: 'nav_reactions', Icon: IconReaction },
   { to: '/formulas', label: 'nav_formulas', Icon: IconFlask },
   { to: '/dictionary', label: 'nav_dictionary', Icon: IconBook },

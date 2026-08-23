@@ -28,6 +28,7 @@ const TILES: Tile[] = [
   { to: '/calculator', title: 'home_title_calc', desc: 'home_desc_calc', Icon: IconCalc, color: 'from-sky-500/20 to-sky-500/5 text-sky-700 dark:text-sky-300' },
   { to: '/solubility', title: 'home_title_solubility', desc: 'home_desc_solubility', Icon: IconGrid, color: 'from-violet-500/20 to-violet-500/5 text-violet-700 dark:text-violet-300' },
   { to: '/reactions', title: 'home_title_reactions', desc: 'home_desc_reactions', Icon: IconReaction, color: 'from-orange-500/20 to-orange-500/5 text-orange-700 dark:text-orange-300' },
+  { to: '/electro', title: 'home_title_electro', desc: 'home_desc_electro', Icon: IconGrid, color: 'from-cyan-500/20 to-cyan-500/5 text-cyan-700 dark:text-cyan-300' },
   { to: '/formulas', title: 'home_title_formulas', desc: 'home_desc_formulas', Icon: IconFlask, color: 'from-amber-500/20 to-amber-500/5 text-amber-700 dark:text-amber-300' },
   { to: '/dictionary', title: 'home_title_dictionary', desc: 'home_desc_dictionary', Icon: IconBook, color: 'from-rose-500/20 to-rose-500/5 text-rose-700 dark:text-rose-300' },
   { to: '/facts', title: 'home_title_facts', desc: 'home_desc_facts', Icon: IconBulb, color: 'from-emerald-500/20 to-emerald-500/5 text-emerald-700 dark:text-emerald-300' },
