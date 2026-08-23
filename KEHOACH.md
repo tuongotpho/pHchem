@@ -33,7 +33,19 @@ Axit              thiếu  7/15     Ankan         thiếu  5/10
 
 ---
 
-## Đợt A — Lấp lỗ hổng phản ứng
+## Đợt A — Lấp lỗ hổng phản ứng ✅ XONG 23/08/2026
+
+| | Trước | Sau |
+|---|---|---|
+| Phản ứng | 159 | **224** |
+| Chất có phản ứng | 128 (43%) | **197 (66%)** |
+| Có hiện tượng | 63 (40%) | **110 (49%)** |
+| Có điều kiện | 86 (54%) | **110 (49%)** |
+| Có PT ion | 27 (17%) | **60 (27%)** |
+| Phản ứng tạo khí chưa mô tả | 23 | **0** |
+
+Còn 100 chất chưa có phản ứng, phần lớn là hiđrua, oxit kim loại hiếm và
+nhóm dược phẩm - sinh học. Những chất này ít khi được dạy kèm phương trình.
 
 **Vì sao trước:** mọi thứ khác dựa lên đây. Có phản ứng thì chất mới "sống",
 mà đề luyện tập ở đợt C cũng lấy từ đây.
