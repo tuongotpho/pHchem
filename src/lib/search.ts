@@ -98,7 +98,7 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
       khop(f.en) ||
       // gõ tên IUPAC cũng phải ra: học sinh tra "ethanoic acid" chứ không
       // phải lúc nào cũng nhớ tên thường "axit axetic"
-      khop(iupacOf(keyOf(f)) ?? '')
+      khop(iupacOf(keyOf(f), f.en) ?? '')
     ) {
       out.push(
         {
@@ -108,7 +108,7 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
           to: `/formulas?item=${encodeURIComponent(keyOf(f))}`,
           badge: lang === 'vi' ? 'Công thức' : 'Formula',
         },
-        diemKhop(f.formula, f.vi, f.en, iupacOf(keyOf(f))),
+        diemKhop(f.formula, f.vi, f.en, iupacOf(keyOf(f), f.en)),
       );
     }
   }

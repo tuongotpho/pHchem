@@ -154,18 +154,85 @@ export const IUPAC: Record<string, string> = {
   C4H4N2O2: 'Pyrimidine-2,4(1H,3H)-dione',
   C5H6N2O2: '5-Methylpyrimidine-2,4(1H,3H)-dione',
   C4H5N3O: '4-Aminopyrimidin-2(1H)-one',
+  // ===== CHỖ TÊN TIẾNG ANH LÀ TÊN THƯƠNG MẠI / TÊN KHOÁNG VẬT =====
+  // Những chất này KHÔNG được lấy tên tiếng Anh làm tên IUPAC.
+  'CaSO4.2H2O': 'Calcium sulfate dihydrate',
+  CaOCl2: 'Calcium chloride hypochlorite',
+  'KAl(SO4)2.12H2O': 'Potassium aluminium sulfate dodecahydrate',
+  'C3H8O-iso': 'Propan-2-ol',
+  C4H8: 'Butan-2-one',
+  '(C6H11NO)n': 'Poly[imino(1-oxohexane-1,6-diyl)]',
+  '(C12H22N2O2)n': 'Poly[imino(1,6-dioxohexane-1,6-diyl)iminohexane-1,6-diyl]',
+  C16H18N2O4S:
+    '(2S,5R,6R)-3,3-Dimethyl-7-oxo-6-(2-phenylacetamido)-4-thia-1-azabicyclo[3.2.0]heptane-2-carboxylic acid',
+  C14H18N2O5: 'Methyl L-alpha-aspartyl-L-phenylalaninate',
+  C17H19NO3:
+    '(4R,4aR,7S,7aR,12bS)-3-Methyl-2,4,4a,7,7a,13-hexahydro-1H-4,12-methanobenzofuro[3,2-e]isoquinoline-7,9-diol',
+
+  // ===== AMINO AXIT CÒN LẠI (cho đủ bộ, dạng L) =====
+  C3H7NO2S: '(2R)-2-Amino-3-sulfanylpropanoic acid',
+  C9H11NO2: '(2S)-2-Amino-3-phenylpropanoic acid',
+  C5H11NO2S: '(2S)-2-Amino-4-(methylsulfanyl)butanoic acid',
+  C11H12N2O2: '(2S)-2-Amino-3-(1H-indol-3-yl)propanoic acid',
+  C9H11NO3: '(2S)-2-Amino-3-(4-hydroxyphenyl)propanoic acid',
+  C5H9NO2: '(2S)-Pyrrolidine-2-carboxylic acid',
+  C6H14N4O2: '(2S)-2-Amino-5-carbamimidamidopentanoic acid',
+  C5H5N5O: '2-Amino-1,7-dihydro-6H-purin-6-one',
+
+  // ===== ĐƯỜNG: tên IUPAC ghi rõ dạng vòng và cấu hình =====
+  // Đây chính là dạng đã đối chiếu InChI với PubChem ở scripts/references.mjs,
+  // nên tên và hình vẽ trong app luôn nói cùng một chuyện.
+  C6H12O6: 'alpha-D-Glucopyranose',
+  'C6H12O6-fru': 'beta-D-Fructofuranose',
+  'C6H12O6-gal': 'alpha-D-Galactopyranose',
+  C5H10O5: 'beta-D-Ribofuranose',
+  C5H10O4: '2-Deoxy-beta-D-ribofuranose',
+  C12H22O11: 'beta-D-Fructofuranosyl alpha-D-glucopyranoside',
+  'C12H22O11-mal': '4-O-(alpha-D-Glucopyranosyl)-beta-D-glucopyranose',
+  'C12H22O11-lac': '4-O-(beta-D-Galactopyranosyl)-beta-D-glucopyranose',
+  C6H14O6: 'D-Glucitol',
+  C5H12O5: '(2R,3r,4S)-Pentane-1,2,3,4,5-pentol',
 };
 
-/** Tên IUPAC của một chất theo khóa tra, hoặc undefined nếu chưa ghi. */
-export const iupacOf = (key: string): string | undefined => IUPAC[key];
+/**
+ * Chất mà tên tiếng Anh KHÔNG phải tên IUPAC và cũng chưa có tên IUPAC gọn để
+ * ghi. Phải liệt kê ra để không bị lấy nhầm tên tiếng Anh làm tên IUPAC.
+ *
+ * (C6H10O5)n gộp tinh bột và xenlulozơ vào một mục, mà hai chất này khác nhau
+ * ở kiểu nối giữa các mắt xích nên tên IUPAC cũng khác — không có một tên
+ * chung nào đúng cho cả hai.
+ */
+const KHONG_LAY_TEN_ANH = new Set(['(C6H10O5)n']);
+
+/**
+ * Tên IUPAC của một chất.
+ *
+ * Phần lớn chất trong kho có TÊN TIẾNG ANH chính là tên IUPAC (nước là Water,
+ * oxy già là Hydrogen peroxide…), nên chỉ cần lấy luôn. Bảng IUPAC ở trên chỉ
+ * để ĐÈ LÊN những chỗ tên tiếng Anh là tên thường hay tên thương mại —
+ * "Acetone" phải thành "Propan-2-one", "Aspirin" thành tên hệ thống.
+ *
+ * Nhờ vậy người đọc giao diện tiếng Việt luôn thấy được tên IUPAC, chứ không
+ * chỉ thấy ở 111 chất được ghi tay.
+ */
+export function iupacOf(key: string, tenTiengAnh?: string): string | undefined {
+  const rieng = IUPAC[key];
+  if (rieng) return rieng;
+  if (KHONG_LAY_TEN_ANH.has(key)) return undefined;
+  return tenTiengAnh || undefined;
+}
 
 /**
  * Tên IUPAC để HIỂN THỊ, hoặc null nếu trùng đúng tên đang hiện.
- * Vài chất vốn đã mang tên IUPAC ở phần tên tiếng Anh (vd CH3Cl là
- * "Chloromethane"); lúc đó hiện lại y nguyên chỉ tổ rườm mắt.
+ * Ở giao diện tiếng Anh, phần lớn chất sẽ trùng nên dòng này tự ẩn; ở giao
+ * diện tiếng Việt thì gần như luôn hiện.
  */
-export function iupacKhacTen(key: string, tenDangHien: string): string | null {
-  const ten = IUPAC[key];
+export function iupacKhacTen(
+  key: string,
+  tenDangHien: string,
+  tenTiengAnh?: string,
+): string | null {
+  const ten = iupacOf(key, tenTiengAnh);
   if (!ten) return null;
   return ten === tenDangHien ? null : ten;
 }
