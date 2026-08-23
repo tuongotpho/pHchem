@@ -6,6 +6,7 @@ import { balance, formatBalanced } from '../lib/balance';
 import { convert, dilution, VM_STP, type KnownQuantity } from '../lib/solution';
 import { computePh, ACIDS_BASES, KIND_META, type AcidBaseKind } from '../lib/ph';
 import { tinhTheoPhuongTrinh, type DonVi, type LuongDaBiet } from '../lib/stoichiometry';
+import { doSo, doSoHoacTrong, laSoDuong } from '../lib/soNhap';
 
 type Tab = 'mass' | 'convert' | 'dilute' | 'ph' | 'balance' | 'stoich';
 
@@ -148,8 +149,8 @@ function ConvertTab() {
 
   const parsed = formula.trim() ? parseFormula(formula) : null;
   const M = parsed?.ok ? parsed.mass! : null;
-  const v = parseFloat(value.replace(',', '.'));
-  const solV = volume.trim() ? parseFloat(volume.replace(',', '.')) : null;
+  const v = doSo(value);
+  const solV = doSoHoacTrong(volume);
 
   const res =
     M && Number.isFinite(v) && v > 0
@@ -280,11 +281,12 @@ function DilutionTab() {
   const { lang } = useLang();
   const [f, setF] = useState({ c1: '1', v1: '100', c2: '', v2: '500' });
 
-  const num = (s: string) => {
-    const x = s.trim();
-    return x === '' ? null : parseFloat(x.replace(',', '.'));
+  const vals = {
+    c1: doSoHoacTrong(f.c1),
+    v1: doSoHoacTrong(f.v1),
+    c2: doSoHoacTrong(f.c2),
+    v2: doSoHoacTrong(f.v2),
   };
-  const vals = { c1: num(f.c1), v1: num(f.v1), c2: num(f.c2), v2: num(f.v2) };
   const soTrong = Object.values(vals).filter((x) => x === null).length;
   const hopLe = Object.values(vals).every((x) => x === null || Number.isFinite(x));
 
@@ -370,7 +372,7 @@ function PhTab() {
   const [C, setC] = useState('0.01');
   const chat = ACIDS_BASES[chon];
 
-  const c = parseFloat(C.replace(',', '.'));
+  const c = doSo(C);
   let res: ReturnType<typeof computePh> | null = null;
   let loi: string | null = null;
   if (Number.isFinite(c) && c > 0) {
@@ -581,8 +583,8 @@ function StoichTab() {
   });
 
   const daBiet: LuongDaBiet[] = Object.entries(nhap)
-    .filter(([, v]) => v.giaTri.trim() !== '' && Number(v.giaTri) > 0)
-    .map(([k, v]) => ({ viTri: Number(k), donVi: v.donVi, giaTri: Number(v.giaTri) }));
+    .filter(([, v]) => laSoDuong(v.giaTri))
+    .map(([k, v]) => ({ viTri: Number(k), donVi: v.donVi, giaTri: doSo(v.giaTri) }));
 
   const kq = pt.trim() ? tinhTheoPhuongTrinh(pt, daBiet) : null;
   // Danh sách chất lấy từ kết quả; nếu phương trình hỏng thì không có gì để nhập
