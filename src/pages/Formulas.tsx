@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useSyncExternalStore } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import FormulaText from '../components/FormulaText';
@@ -38,6 +38,24 @@ export default function Formulas() {
   // Đang phóng to hình cấu tạo của chất nào. Chất nhiều nguyên tử như
   // cholesterol hay saccarozơ nhồi vào khung nhỏ thì đọc không nổi.
   const [phongTo, setPhongTo] = useState(false);
+  // Người dùng tự tắt chế độ xoay khi không thích
+  const [tatXoay, setTatXoay] = useState(false);
+
+  // Màn hình hẹp mà lại dựng đứng: hình cấu tạo nằm ngang (300×230) chỉ dùng
+  // được bề ngang ít ỏi, trong khi chiều cao thừa mứa. Xoay hình 90° thì đổi
+  // được bề ngang lấy chiều dài.
+  // Đọc trạng thái trình duyệt bằng useSyncExternalStore để tự cập nhật khi
+  // người dùng xoay máy sang nằm ngang — lúc đó phải thôi xoay hình.
+  const manHinhDungHep = useSyncExternalStore(
+    (baoLai) => {
+      const mq = window.matchMedia('(max-width: 767px) and (orientation: portrait)');
+      mq.addEventListener('change', baoLai);
+      return () => mq.removeEventListener('change', baoLai);
+    },
+    () => window.matchMedia('(max-width: 767px) and (orientation: portrait)').matches,
+    () => false, // lúc dựng sẵn trang trên máy chủ thì coi như không xoay
+  );
+  const xoayHinh = manHinhDungHep && !tatXoay;
 
   // Đến từ trang nguyên tố: điền sẵn ô tìm kiếm theo công thức được bấm
   useEffect(() => {
@@ -330,7 +348,9 @@ export default function Formulas() {
           Đặt z cao hơn khung chi tiết để nằm hẳn lên trên. */}
       {phongTo && sel && svgs && (
         <div
-          className="fixed inset-0 z-[70] bg-base-950/95 backdrop-blur-sm flex flex-col p-4 md:p-8"
+          // Màn hình THẤP (điện thoại nằm ngang) thì thu lề và tiêu đề lại,
+          // nhường hết chỗ cho hình — chiều cao mới là thứ khan hiếm.
+          className="fixed inset-0 z-[70] bg-base-950/95 backdrop-blur-sm flex flex-col p-4 md:p-8 [@media(max-height:500px)]:p-2"
           onClick={() => setPhongTo(false)}
         >
           <div className="flex items-start justify-between gap-3 shrink-0">
@@ -338,9 +358,9 @@ export default function Formulas() {
               <FormulaText
                 value={sel.formula}
                 subscript={sel.cat !== 'physical'}
-                className="text-xl md:text-2xl font-bold text-accent font-mono"
+                className="text-xl md:text-2xl [@media(max-height:500px)]:text-base font-bold text-accent font-mono"
               />
-              <div className="text-sm text-slate-300 truncate">
+              <div className="text-sm [@media(max-height:500px)]:text-xs text-slate-300 truncate">
                 {lang === 'vi' ? sel.vi : sel.en}
               </div>
             </div>
@@ -352,12 +372,38 @@ export default function Formulas() {
               ✕
             </button>
           </div>
-          <div
-            className="flex-1 min-h-0 mt-3 text-slate-100 cursor-zoom-out"
-            dangerouslySetInnerHTML={{ __html: svgs[keyOf(sel)] }}
-          />
-          <div className="text-center text-xs text-slate-500 shrink-0 pt-2">
-            {lang === 'vi' ? 'Bấm bất cứ đâu để đóng' : 'Click anywhere to close'}
+          <div className="flex-1 min-h-0 mt-3 [@media(max-height:500px)]:mt-1 relative cursor-zoom-out">
+            {/* Khi xoay: cho khối này mang đúng kích thước ĐÃ HOÁN ĐỔI rồi mới
+                quay 90°, nhờ vậy sau khi quay nó phủ vừa khít vùng trống.
+                Quay bằng transform nên không ảnh hưởng bố cục xung quanh. */}
+            <div
+              className={
+                xoayHinh
+                  ? 'absolute top-1/2 left-1/2 w-[calc(100vh-12rem)] h-[88vw] -translate-x-1/2 -translate-y-1/2 rotate-90 text-slate-100'
+                  : 'absolute inset-0 text-slate-100'
+              }
+              dangerouslySetInnerHTML={{ __html: svgs[keyOf(sel)] }}
+            />
+          </div>
+          <div className="flex items-center justify-center gap-3 shrink-0 pt-2 [@media(max-height:500px)]:pt-1 [@media(max-height:500px)]:text-[10px] text-xs text-slate-500">
+            <span>{lang === 'vi' ? 'Bấm bất cứ đâu để đóng' : 'Click anywhere to close'}</span>
+            {manHinhDungHep && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation(); // đừng để cú bấm này đóng luôn khung
+                  setTatXoay((v) => !v);
+                }}
+                className="btn-ghost px-2 py-1 text-xs"
+              >
+                {xoayHinh
+                  ? lang === 'vi'
+                    ? '⟲ Để thẳng'
+                    : '⟲ Upright'
+                  : lang === 'vi'
+                    ? '⟳ Xoay ngang'
+                    : '⟳ Rotate'}
+              </button>
+            )}
           </div>
         </div>
       )}
