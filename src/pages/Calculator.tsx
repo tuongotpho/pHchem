@@ -5,8 +5,14 @@ import { parseFormula, percentComposition } from '../lib/formula';
 import { balance, formatBalanced } from '../lib/balance';
 import { convert, dilution, VM_STP, type KnownQuantity } from '../lib/solution';
 import { computePh, ACIDS_BASES, KIND_META, type AcidBaseKind } from '../lib/ph';
-import { tinhTheoPhuongTrinh, type DonVi, type LuongDaBiet } from '../lib/stoichiometry';
-import { doSo, doSoHoacTrong, laSoDuong } from '../lib/soNhap';
+import {
+  tinhTheoPhuongTrinh,
+  gomLuongDaBiet,
+  khoaLuong,
+  type DonVi,
+  type ONhap,
+} from '../lib/stoichiometry';
+import { doSo, doSoHoacTrong } from '../lib/soNhap';
 
 type Tab = 'mass' | 'convert' | 'dilute' | 'ph' | 'balance' | 'stoich';
 
@@ -577,24 +583,34 @@ function StoichTab() {
   const { lang } = useLang();
   const vi = lang === 'vi';
   const [pt, setPt] = useState('Fe + HCl -> FeCl2 + H2');
-  // lượng đã biết: khóa theo vị trí chất trong phương trình
-  const [nhap, setNhap] = useState<Record<number, { donVi: DonVi; giaTri: string }>>({
-    0: { donVi: 'gam', giaTri: '5.6' },
+  // Lượng đã biết, khóa bằng CẢ vị trí lẫn công thức — xem khoaLuong trong
+  // lib/stoichiometry.ts để biết vì sao không khóa bằng riêng vị trí.
+  const [nhap, setNhap] = useState<Record<string, ONhap>>({
+    [khoaLuong(0, 'Fe')]: { donVi: 'gam', giaTri: '5.6' },
   });
 
-  const daBiet: LuongDaBiet[] = Object.entries(nhap)
-    .filter(([, v]) => laSoDuong(v.giaTri))
-    .map(([k, v]) => ({ viTri: Number(k), donVi: v.donVi, giaTri: doSo(v.giaTri) }));
+  // Phải biết phương trình gồm những chất nào TRƯỚC khi gom lượng, để loại bỏ
+  // những ô không còn khớp. Cân bằng là hàm thuần và rất nhẹ nên gọi thêm một
+  // lần ở đây không đáng kể.
+  const canBang = pt.trim() ? balance(pt) : null;
+  const congThucCuaPt = canBang?.ok
+    ? [...(canBang.reactants ?? []), ...(canBang.products ?? [])]
+    : [];
 
-  const kq = pt.trim() ? tinhTheoPhuongTrinh(pt, daBiet) : null;
+  const kq = pt.trim()
+    ? tinhTheoPhuongTrinh(pt, gomLuongDaBiet(congThucCuaPt, nhap))
+    : null;
   // Danh sách chất lấy từ kết quả; nếu phương trình hỏng thì không có gì để nhập
   const chat = kq?.ok ? kq.chat! : [];
 
-  const dat = (i: number, phan: Partial<{ donVi: DonVi; giaTri: string }>) =>
-    setNhap((cu) => ({
-      ...cu,
-      [i]: { donVi: cu[i]?.donVi ?? 'mol', giaTri: cu[i]?.giaTri ?? '', ...phan },
-    }));
+  const dat = (i: number, congThuc: string, phan: Partial<ONhap>) =>
+    setNhap((cu) => {
+      const k = khoaLuong(i, congThuc);
+      return {
+        ...cu,
+        [k]: { donVi: cu[k]?.donVi ?? 'mol', giaTri: cu[k]?.giaTri ?? '', ...phan },
+      };
+    });
 
   const DON_VI: { id: DonVi; vi: string; en: string }[] = [
     { id: 'mol', vi: 'mol', en: 'mol' },
@@ -629,7 +645,14 @@ function StoichTab() {
             key={q}
             onClick={() => {
               setPt(q);
-              setNhap({ 0: { donVi: 'mol', giaTri: '1' } });
+              // Điền sẵn 1 mol cho chất đầu tiên để có kết quả xem ngay
+              const b = balance(q);
+              const dauTien = b.ok ? b.reactants?.[0] : undefined;
+              setNhap(
+                dauTien
+                  ? { [khoaLuong(0, dauTien)]: { donVi: 'mol', giaTri: '1' } }
+                  : {},
+              );
             }}
             className="text-xs font-mono px-2 py-1 rounded-lg bg-base-800 hover:bg-base-700 text-slate-300"
           >
@@ -704,15 +727,17 @@ function StoichTab() {
                     <td className="py-2 px-2">
                       <div className="flex gap-1">
                         <input
-                          value={nhap[i]?.giaTri ?? ''}
-                          onChange={(e) => dat(i, { giaTri: e.target.value })}
+                          value={nhap[khoaLuong(i, c.congThuc)]?.giaTri ?? ''}
+                          onChange={(e) => dat(i, c.congThuc, { giaTri: e.target.value })}
                           inputMode="decimal"
                           placeholder="—"
                           className="w-20 bg-base-850 border border-base-700 rounded-lg px-2 py-1 text-sm outline-none focus:border-accent"
                         />
                         <select
-                          value={nhap[i]?.donVi ?? 'mol'}
-                          onChange={(e) => dat(i, { donVi: e.target.value as DonVi })}
+                          value={nhap[khoaLuong(i, c.congThuc)]?.donVi ?? 'mol'}
+                          onChange={(e) =>
+                            dat(i, c.congThuc, { donVi: e.target.value as DonVi })
+                          }
                           className="bg-base-850 border border-base-700 rounded-lg px-1 py-1 text-xs outline-none focus:border-accent"
                         >
                           {DON_VI.map((d) => (

@@ -12,6 +12,7 @@
 import { balance } from './balance';
 import { parseFormula } from './formula';
 import { VM_STP } from './solution';
+import { doSo, laSoDuong } from './soNhap';
 
 /** Đơn vị của lượng chất người dùng nhập. */
 export type DonVi = 'mol' | 'gam' | 'lit';
@@ -151,4 +152,43 @@ function dinhDangPhuongTrinh(congThuc: string[], heSo: number[], soTrai: number)
       .map((ct, k) => (heSo[tu + k] === 1 ? ct : `${heSo[tu + k]} ${ct}`))
       .join(' + ');
   return `${ve(0, soTrai)} → ${ve(soTrai, congThuc.length)}`;
+}
+
+// ---------- Giữ lượng người dùng đã gõ, gắn đúng chất ----------
+//
+// VÌ SAO CẦN KHÓA RIÊNG: trước đây ô nhập được đánh số theo VỊ TRÍ trong
+// phương trình. Người dùng nhập "Fe 5,6 g" rồi sửa phương trình từ
+// "Fe + HCl → ..." thành "HCl + Fe → ...", con số 5,6 g vẫn nằm ở ô số 0 —
+// giờ là HCl. App cho ra đáp án khác hẳn mà không báo một tiếng nào.
+//
+// Gắn cả CÔNG THỨC vào khóa thì sửa phương trình xong, ô cũ không còn khớp
+// nữa nên tự rụng. Thà mất con số vừa gõ còn hơn gán nhầm rồi tính sai.
+// Vẫn giữ vị trí trong khóa vì một chất có thể đứng ở cả hai vế, ví dụ nước
+// vừa là chất tham gia vừa là sản phẩm.
+
+/** Khóa của một ô nhập lượng: gắn cả vị trí lẫn công thức. */
+export const khoaLuong = (viTri: number, congThuc: string): string =>
+  `${viTri}:${congThuc}`;
+
+/** Một ô nhập trên giao diện: con số người dùng gõ, kèm đơn vị đang chọn. */
+export interface ONhap {
+  donVi: DonVi;
+  giaTri: string;
+}
+
+/**
+ * Gom các ô đã điền thành danh sách lượng đã biết để đưa vào phép tính.
+ * Chỉ nhận ô còn khớp phương trình HIỆN TẠI; ô trống hoặc gõ bậy thì bỏ qua.
+ */
+export function gomLuongDaBiet(
+  congThuc: string[],
+  nhap: Record<string, ONhap>,
+): LuongDaBiet[] {
+  const ds: LuongDaBiet[] = [];
+  congThuc.forEach((ct, i) => {
+    const o = nhap[khoaLuong(i, ct)];
+    if (!o || !laSoDuong(o.giaTri)) return;
+    ds.push({ viTri: i, donVi: o.donVi, giaTri: doSo(o.giaTri) });
+  });
+  return ds;
 }

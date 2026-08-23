@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { tinhTheoPhuongTrinh } from './stoichiometry';
+import {
+  tinhTheoPhuongTrinh,
+  gomLuongDaBiet,
+  khoaLuong,
+  type DonVi,
+} from './stoichiometry';
 
 const chat = (r: ReturnType<typeof tinhTheoPhuongTrinh>, ct: string) =>
   r.chat!.find((c) => c.congThuc === ct)!;
@@ -137,5 +142,65 @@ describe('phương trình cân bằng được ghi lại để đối chiếu', 
       { viTri: 0, donVi: 'mol', giaTri: 1 },
     ]);
     expect(r.phuongTrinhCanBang).toBe('Fe + 2 HCl → FeCl2 + H2');
+  });
+});
+
+// Lỗi cũ: ô nhập đánh số theo VỊ TRÍ. Nhập "Fe 5,6 g" rồi sửa phương trình từ
+// "Fe + HCl → ..." thành "HCl + Fe → ...", con số 5,6 g vẫn nằm ở ô số 0 —
+// giờ là HCl. Đáp án khác hẳn mà app không báo một tiếng.
+describe('giữ lượng đã gõ — sửa phương trình không được gắn nhầm chất', () => {
+  const FE_HCL = ['Fe', 'HCl', 'FeCl2', 'H2'];
+
+  it('lấy đúng ô khớp cả vị trí lẫn công thức', () => {
+    const nhap = { [khoaLuong(0, 'Fe')]: { donVi: 'gam' as DonVi, giaTri: '5,6' } };
+    expect(gomLuongDaBiet(FE_HCL, nhap)).toEqual([
+      { viTri: 0, donVi: 'gam', giaTri: 5.6 },
+    ]);
+  });
+
+  it('ĐẢO THỨ TỰ CHẤT thì lượng cũ rụng, không nhảy sang chất khác', () => {
+    const nhap = { [khoaLuong(0, 'Fe')]: { donVi: 'gam' as DonVi, giaTri: '5,6' } };
+    // Fe không còn ở vị trí 0 nữa → không có lượng nào được nhận
+    expect(gomLuongDaBiet(['HCl', 'Fe', 'FeCl2', 'H2'], nhap)).toEqual([]);
+  });
+
+  it('đổi hẳn sang phương trình khác thì cũng rụng sạch', () => {
+    const nhap = { [khoaLuong(0, 'Fe')]: { donVi: 'gam' as DonVi, giaTri: '5,6' } };
+    expect(gomLuongDaBiet(['C3H8', 'O2', 'CO2', 'H2O'], nhap)).toEqual([]);
+  });
+
+  it('cùng một chất đứng cả hai vế vẫn phân biệt được', () => {
+    // Vì sao khóa phải có CẢ vị trí: nước vừa tham gia vừa là sản phẩm.
+    const nhap = {
+      [khoaLuong(0, 'H2O')]: { donVi: 'mol' as DonVi, giaTri: '2' },
+      [khoaLuong(2, 'H2O')]: { donVi: 'mol' as DonVi, giaTri: '5' },
+    };
+    expect(gomLuongDaBiet(['H2O', 'CaO', 'H2O'], nhap)).toEqual([
+      { viTri: 0, donVi: 'mol', giaTri: 2 },
+      { viTri: 2, donVi: 'mol', giaTri: 5 },
+    ]);
+  });
+
+  it('bỏ qua ô trống và ô gõ bậy', () => {
+    const nhap = {
+      [khoaLuong(0, 'Fe')]: { donVi: 'gam' as DonVi, giaTri: '' },
+      [khoaLuong(1, 'HCl')]: { donVi: 'mol' as DonVi, giaTri: 'abc' },
+      [khoaLuong(2, 'FeCl2')]: { donVi: 'mol' as DonVi, giaTri: '0' },
+      [khoaLuong(3, 'H2')]: { donVi: 'lit' as DonVi, giaTri: '2,24' },
+    };
+    expect(gomLuongDaBiet(FE_HCL, nhap)).toEqual([
+      { viTri: 3, donVi: 'lit', giaTri: 2.24 },
+    ]);
+  });
+
+  it('nối thẳng vào phép tính vẫn ra đúng số', () => {
+    // Kiểm chéo: gom xong đưa luôn vào tinhTheoPhuongTrinh, 5,6 g Fe = 0,1 mol
+    const nhap = { [khoaLuong(0, 'Fe')]: { donVi: 'gam' as DonVi, giaTri: '5,6' } };
+    const kq = tinhTheoPhuongTrinh(
+      'Fe + HCl -> FeCl2 + H2',
+      gomLuongDaBiet(FE_HCL, nhap),
+    );
+    expect(kq.ok).toBe(true);
+    expect(kq.chat![3].theTichKhi).toBeCloseTo(2.246, 2); // lít H2 ở đktc
   });
 });
