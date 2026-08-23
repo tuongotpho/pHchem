@@ -8,6 +8,7 @@ import { hasStructure, STRUCTURE_COUNT } from '../generated/structures';
 import { elementsOfFormula } from '../lib/compoundIndex';
 import { reactionsForFormula } from '../lib/reactionIndex';
 import { isomersOf, ctptOf } from '../lib/isomerIndex';
+import { iupacKhacTen } from '../data/iupac';
 import { byNumber } from '../data/elements';
 import {
   FORMULAS,
@@ -201,7 +202,19 @@ export default function Formulas() {
             <div className="font-medium text-slate-100">
               {lang === 'vi' ? sel.vi : sel.en}
             </div>
-            <div className="text-sm text-slate-400 mt-1">
+            {/* Tên IUPAC — chỉ hiện khi khác tên đang dùng ở trên */}
+            {iupacKhacTen(keyOf(sel), lang === 'vi' ? sel.vi : sel.en, lang) && (
+              <div className="text-xs mt-0.5">
+                <span className="text-slate-500">
+                  {lang === 'vi' ? 'Danh pháp IUPAC: ' : 'IUPAC name: '}
+                </span>
+                <span className="text-slate-300">
+                  {iupacKhacTen(keyOf(sel), lang === 'vi' ? sel.vi : sel.en, lang)}
+                </span>
+              </div>
+            )}
+
+            <div className="text-sm text-slate-400 mt-1.5">
               {lang === 'vi' ? sel.note_vi : sel.note_en}
             </div>
 

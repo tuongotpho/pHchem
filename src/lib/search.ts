@@ -5,6 +5,7 @@ import { TERMS } from '../data/dictionary';
 import { FACTS } from '../data/facts';
 import { REACTIONS, TYPE_META } from '../data/reactions';
 import { itemId } from './itemId';
+import { iupacOf } from '../data/iupac';
 import type { Lang } from '../i18n/strings';
 
 export type ResultKind = 'element' | 'formula' | 'reaction' | 'term' | 'fact';
@@ -67,7 +68,13 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
   // Công thức
   for (const f of FORMULAS) {
     if (
-      khop(f.formula) || khop(f.vi) || khop(f.en)
+      khop(f.formula) ||
+      khop(f.vi) ||
+      khop(f.en) ||
+      // gõ tên IUPAC cũng phải ra: học sinh tra "axit etanoic" chứ không
+      // phải lúc nào cũng nhớ tên thường "axit axetic"
+      khop(iupacOf(keyOf(f))?.vi ?? '') ||
+      khop(iupacOf(keyOf(f))?.en ?? '')
     ) {
       out.push({
         kind: 'formula',

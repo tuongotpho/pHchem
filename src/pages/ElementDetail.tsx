@@ -123,7 +123,16 @@ export default function ElementDetail() {
     <>
       <PageHeader
         title={lang === 'vi' ? el.vi : el.en}
-        subtitle={el.en !== el.vi ? el.en : undefined}
+        subtitle={
+          // Tên tiếng Anh của nguyên tố CHÍNH LÀ tên IUPAC. Sách giáo khoa mới
+          // đã chuyển sang dùng tên này, nên ghi rõ nhãn để người đọc biết đó
+          // không phải chỉ là bản dịch.
+          el.en !== el.vi
+            ? lang === 'vi'
+              ? `Danh pháp IUPAC: ${el.en}`
+              : el.vi
+            : undefined
+        }
       />
 
       <div className="p-4 md:p-6">
