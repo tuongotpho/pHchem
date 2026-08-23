@@ -127,6 +127,17 @@ function clean(svg) {
     .replace(/#000000/gi, 'currentColor')
     .replace(/(stroke|fill):\s*#000\b/gi, '$1:currentColor')
     .replace(/<rect[^>]*fill=['"]#FFFFFF['"][^>]*\/>/gi, '');
+  // RÀO CHẮN. Hình này được nhúng thẳng vào trang bằng dangerouslySetInnerHTML,
+  // nên trong đó tuyệt đối không được có mã chạy được. Hiện RDKit không sinh
+  // ra thứ gì như vậy, nhưng nguồn của nó là smiles.json — ai sửa file đó,
+  // hoặc bản RDKit sau đổi cách vẽ, thì rào này vẫn đứng. Rẻ hơn nhiều so với
+  // việc phải rà lại về sau.
+  svg = svg
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<script[^>]*\/>/gi, '')
+    .replace(/\son[a-z]+\s*=\s*"[^"]*"/gi, '')
+    .replace(/\son[a-z]+\s*=\s*'[^']*'/gi, '')
+    .replace(/javascript:/gi, '');
   svg = svg.replace(/<svg([^>]*)>/i, (_m, attrs) => {
     const vb = (attrs.match(/viewBox=['"][^'"]*['"]/i) || [''])[0];
     return `<svg xmlns="http://www.w3.org/2000/svg" ${vb} width="100%" height="100%" preserveAspectRatio="xMidYMid meet">`;
