@@ -5,8 +5,9 @@ import { parseFormula, percentComposition } from '../lib/formula';
 import { balance, formatBalanced } from '../lib/balance';
 import { convert, dilution, VM_STP, type KnownQuantity } from '../lib/solution';
 import { computePh, ACIDS_BASES, KIND_META, type AcidBaseKind } from '../lib/ph';
+import { tinhTheoPhuongTrinh, type DonVi, type LuongDaBiet } from '../lib/stoichiometry';
 
-type Tab = 'mass' | 'convert' | 'dilute' | 'ph' | 'balance';
+type Tab = 'mass' | 'convert' | 'dilute' | 'ph' | 'balance' | 'stoich';
 
 const QUICK = ['H2O', 'H2SO4', 'NaCl', 'Ca(OH)2', 'C6H12O6', 'CuSO4.5H2O'];
 
@@ -32,6 +33,7 @@ export default function Calculator() {
     { id: 'dilute', vi: 'Pha loãng', en: 'Dilution' },
     { id: 'ph', vi: 'Tính pH', en: 'pH' },
     { id: 'balance', vi: 'Cân bằng PT', en: 'Balance' },
+    { id: 'stoich', vi: 'Tính theo PT', en: 'Stoichiometry' },
   ];
 
   return (
@@ -59,6 +61,7 @@ export default function Calculator() {
         {tab === 'dilute' && <DilutionTab />}
         {tab === 'ph' && <PhTab />}
         {tab === 'balance' && <BalanceTab />}
+        {tab === 'stoich' && <StoichTab />}
       </div>
     </>
   );
@@ -559,6 +562,190 @@ function BalanceTab() {
             {formatBalanced(res)}
           </div>
         </div>
+      )}
+    </div>
+  );
+}
+
+/* ---------------- Tính theo phương trình hóa học ---------------- */
+// Nhập phương trình rồi cho biết lượng của một hoặc vài chất, app suy ra lượng
+// mọi chất còn lại. Cho biết từ hai chất tham gia trở lên thì tự tìm chất phản
+// ứng hết trước — chỗ học sinh hay tính nhầm theo chất còn dư.
+function StoichTab() {
+  const { lang } = useLang();
+  const vi = lang === 'vi';
+  const [pt, setPt] = useState('Fe + HCl -> FeCl2 + H2');
+  // lượng đã biết: khóa theo vị trí chất trong phương trình
+  const [nhap, setNhap] = useState<Record<number, { donVi: DonVi; giaTri: string }>>({
+    0: { donVi: 'gam', giaTri: '5.6' },
+  });
+
+  const daBiet: LuongDaBiet[] = Object.entries(nhap)
+    .filter(([, v]) => v.giaTri.trim() !== '' && Number(v.giaTri) > 0)
+    .map(([k, v]) => ({ viTri: Number(k), donVi: v.donVi, giaTri: Number(v.giaTri) }));
+
+  const kq = pt.trim() ? tinhTheoPhuongTrinh(pt, daBiet) : null;
+  // Danh sách chất lấy từ kết quả; nếu phương trình hỏng thì không có gì để nhập
+  const chat = kq?.ok ? kq.chat! : [];
+
+  const dat = (i: number, phan: Partial<{ donVi: DonVi; giaTri: string }>) =>
+    setNhap((cu) => ({
+      ...cu,
+      [i]: { donVi: cu[i]?.donVi ?? 'mol', giaTri: cu[i]?.giaTri ?? '', ...phan },
+    }));
+
+  const DON_VI: { id: DonVi; vi: string; en: string }[] = [
+    { id: 'mol', vi: 'mol', en: 'mol' },
+    { id: 'gam', vi: 'g', en: 'g' },
+    { id: 'lit', vi: 'L khí', en: 'L gas' },
+  ];
+
+  return (
+    <div className="space-y-4">
+      <input
+        value={pt}
+        onChange={(e) => setPt(e.target.value)}
+        placeholder={vi ? 'vd: Fe + HCl -> FeCl2 + H2' : 'e.g. Fe + HCl -> FeCl2 + H2'}
+        className="w-full bg-base-850 border border-base-700 rounded-xl px-4 py-3 text-base font-mono outline-none focus:border-accent"
+        autoCapitalize="none"
+        autoCorrect="off"
+        spellCheck={false}
+      />
+      <p className="text-xs text-slate-500">
+        {vi
+          ? 'Không cần cân bằng sẵn — app tự cân bằng. Điền lượng của một hoặc vài chất, để trống phần còn lại.'
+          : 'No need to balance it yourself. Fill in one or more amounts and leave the rest blank.'}
+      </p>
+
+      <div className="flex flex-wrap gap-1.5">
+        {[
+          'Fe + HCl -> FeCl2 + H2',
+          'C3H8 + O2 -> CO2 + H2O',
+          'Al + Fe2O3 -> Al2O3 + Fe',
+        ].map((q) => (
+          <button
+            key={q}
+            onClick={() => {
+              setPt(q);
+              setNhap({ 0: { donVi: 'mol', giaTri: '1' } });
+            }}
+            className="text-xs font-mono px-2 py-1 rounded-lg bg-base-800 hover:bg-base-700 text-slate-300"
+          >
+            {q}
+          </button>
+        ))}
+      </div>
+
+      {kq && !kq.ok && (
+        <div className="card border-rose-500/40 bg-rose-500/10 p-3 text-sm text-rose-700 dark:text-rose-200">
+          {kq.error}
+        </div>
+      )}
+
+      {kq?.ok && (
+        <>
+          <div className="card p-3 text-center">
+            <div className="text-[11px] text-slate-500 mb-1">
+              {vi ? 'Phương trình đã cân bằng' : 'Balanced equation'}
+            </div>
+            <div className="font-mono font-semibold text-accent break-words">
+              {kq.phuongTrinhCanBang}
+            </div>
+          </div>
+
+          {kq.chatHetTruoc && (
+            <div className="card border-amber-500/40 bg-amber-500/[0.06] p-3 text-sm">
+              <span className="text-slate-400">
+                {vi ? 'Chất phản ứng hết trước: ' : 'Limiting reagent: '}
+              </span>
+              <span className="font-mono font-semibold text-amber-600 dark:text-amber-300">
+                {kq.chatHetTruoc}
+              </span>
+              <div className="text-xs text-slate-500 mt-1">
+                {vi
+                  ? 'Mọi lượng dưới đây tính theo chất này, không theo chất còn dư.'
+                  : 'Everything below follows this reagent, not the one in excess.'}
+              </div>
+            </div>
+          )}
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-[11px] uppercase tracking-wider text-slate-500 text-left">
+                  <th className="py-1.5 pr-2">{vi ? 'Chất' : 'Species'}</th>
+                  <th className="py-1.5 px-2">{vi ? 'Đã biết' : 'Given'}</th>
+                  <th className="py-1.5 px-2 text-right">mol</th>
+                  <th className="py-1.5 px-2 text-right">{vi ? 'gam' : 'grams'}</th>
+                  <th className="py-1.5 pl-2 text-right">{vi ? 'L khí (đktc)' : 'L gas (STP)'}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {chat.map((c, i) => (
+                  <tr
+                    key={c.congThuc + i}
+                    className={`border-t border-base-800 ${
+                      c.congThuc === kq.chatHetTruoc ? 'bg-amber-500/[0.06]' : ''
+                    }`}
+                  >
+                    <td className="py-2 pr-2">
+                      <span className="font-mono font-semibold text-slate-100">
+                        {c.heSo > 1 ? `${c.heSo} ` : ''}
+                        {c.congThuc}
+                      </span>
+                      <div className="text-[10px] text-slate-500">
+                        {c.veTrai ? (vi ? 'tham gia' : 'reactant') : vi ? 'sản phẩm' : 'product'}
+                        {' · M = '}
+                        {fmt(c.M, 2)}
+                      </div>
+                    </td>
+                    <td className="py-2 px-2">
+                      <div className="flex gap-1">
+                        <input
+                          value={nhap[i]?.giaTri ?? ''}
+                          onChange={(e) => dat(i, { giaTri: e.target.value })}
+                          inputMode="decimal"
+                          placeholder="—"
+                          className="w-20 bg-base-850 border border-base-700 rounded-lg px-2 py-1 text-sm outline-none focus:border-accent"
+                        />
+                        <select
+                          value={nhap[i]?.donVi ?? 'mol'}
+                          onChange={(e) => dat(i, { donVi: e.target.value as DonVi })}
+                          className="bg-base-850 border border-base-700 rounded-lg px-1 py-1 text-xs outline-none focus:border-accent"
+                        >
+                          {DON_VI.map((d) => (
+                            <option key={d.id} value={d.id}>
+                              {vi ? d.vi : d.en}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      {c.molDu > 1e-9 && (
+                        <div className="text-[10px] text-amber-600 dark:text-amber-300 mt-0.5">
+                          {vi ? 'còn dư ' : 'excess '}
+                          {fmt(c.molDu)} mol
+                        </div>
+                      )}
+                    </td>
+                    <td className="py-2 px-2 text-right font-mono text-slate-100">{fmt(c.mol)}</td>
+                    <td className="py-2 px-2 text-right font-mono text-slate-300">
+                      {fmt(c.khoiLuong)}
+                    </td>
+                    <td className="py-2 pl-2 text-right font-mono text-slate-500">
+                      {fmt(c.theTichKhi)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <p className="text-[11px] text-slate-600">
+            {vi
+              ? 'Cột thể tích chỉ có nghĩa với chất khí. Khối lượng mol lấy theo số liệu chuẩn nên đáp án có thể lệch chút so với sách vốn làm tròn (Fe = 56 thay vì 55,845).'
+              : 'The volume column only applies to gases. Molar masses are exact, so answers may differ slightly from textbooks that round.'}
+          </p>
+        </>
       )}
     </div>
   );
