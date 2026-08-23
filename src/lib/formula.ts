@@ -86,12 +86,22 @@ export function parseFormula(input: string): ParseResult {
 
   try {
     const comp: Composition = {};
-    for (const seg of splitHydrates(raw)) {
+    const doan = splitHydrates(raw);
+    for (let i = 0; i < doan.length; i++) {
+      const seg = doan[i];
       // hệ số đứng trước đoạn ngậm nước, ví dụ "5H2O"
       const m = seg.match(/^(\d+)(.+)$/);
       let mult = 1;
       let body = seg;
       if (m && /[A-Z(]/.test(m[2][0])) {
+        // Số dẫn đầu chỉ có nghĩa là "mấy phân tử nước ngậm vào" khi nó đứng
+        // SAU dấu chấm. Đứng trước cả chất thì đó là hệ số phương trình, không
+        // thuộc về công thức — nhận bừa thì "2H2O" ra 36,03 g/mol và app dán
+        // nhãn đó là khối lượng mol của nước.
+        if (i === 0)
+          throw new Error(
+            'Bỏ hệ số đứng trước công thức — ô này chỉ nhận công thức của một chất',
+          );
         mult = parseInt(m[1], 10);
         body = m[2];
       }

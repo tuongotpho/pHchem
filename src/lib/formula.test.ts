@@ -29,6 +29,37 @@ describe('parseFormula — khối lượng mol', () => {
   });
 });
 
+// Số đứng đầu là hệ số ngậm nước — thứ chỉ có nghĩa SAU dấu chấm. Đứng trước
+// cả chất thì nó là hệ số phương trình, không thuộc về công thức chất.
+//
+// Trước đây không phân biệt: gõ "2H2O" vào ô Khối lượng mol thì app hiện
+// "36,03 g/mol" — khối lượng của HAI phân tử nước, dán nhãn là khối lượng mol
+// của chất. Học sinh tin theo là hỏng cả bài.
+describe('hệ số đứng trước công thức — phải báo lỗi, không tính bừa', () => {
+  const GO_SAI = ['2H2O', '5H2O', '3 NaCl', '10CO2'];
+  it.each(GO_SAI)('%s bị từ chối', (ct) => {
+    const r = parseFormula(ct);
+    expect(r.ok).toBe(false);
+    expect(r.error).toBeTruthy();
+  });
+
+  it('lời báo lỗi phải chỉ đúng việc cần làm', () => {
+    expect(parseFormula('2H2O').error).toMatch(/hệ số/i);
+  });
+
+  it('muối ngậm nước vẫn đọc được như cũ', () => {
+    // Chốt chặn cho chính chỗ vừa sửa — hệ số SAU dấu chấm là hợp lệ.
+    expect(parseFormula('CuSO4.5H2O').mass!).toBeCloseTo(249.681, 1);
+    expect(parseFormula('Na2CO3.10H2O').mass!).toBeCloseTo(286.14, 1);
+    expect(parseFormula('CaSO4.2H2O').mass!).toBeCloseTo(172.17, 1);
+  });
+
+  it('công thức thường không bị vạ lây', () => {
+    expect(parseFormula('H2O').mass!).toBeCloseTo(18.015, 2);
+    expect(parseFormula('C6H12O6').mass!).toBeCloseTo(180.156, 1);
+  });
+});
+
 describe('balance — cân bằng phương trình', () => {
   const cases: [string, string][] = [
     ['H2 + O2 -> H2O', '2 H2 + O2 → 2 H2O'],
