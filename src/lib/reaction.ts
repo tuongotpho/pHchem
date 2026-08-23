@@ -27,10 +27,13 @@ export function splitEquation(eq: string): Sides | null {
       .map((x) => x.trim())
       .filter(Boolean)
       .map((x) => {
-        const m = x.match(/^(\d+)\s+(.+)$/);
-        return m
-          ? { coef: parseInt(m[1], 10), formula: m[2].trim() }
-          : { coef: 1, formula: x };
+        // Hệ số thường: "2 H2O". Hệ số tượng trưng của polime: "n C2H4",
+        // "3n HNO3" — tách chữ n ra để chỉ mục còn nhận đúng tên chất, nếu
+        // không thì phản ứng trùng hợp không gắn được vào chất nào.
+        const m = x.match(/^(\d*n|\d+)\s+(.+)$/);
+        if (!m) return { coef: 1, formula: x };
+        const soLuong = /n$/.test(m[1]) ? 1 : parseInt(m[1], 10);
+        return { coef: soLuong, formula: m[2].trim() };
       });
 
   const left = doc(parts[0]);

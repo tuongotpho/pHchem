@@ -42,7 +42,7 @@ export const ORGANIC: Formula[] = [
   { formula: '(CH3)2CHOH', id: 'C3H8O-iso', vi: 'Propan-2-ol (cồn y tế)', en: 'Isopropanol', cat: 'organic', note_vi: 'Ancol bậc hai; cồn sát trùng 70%.', note_en: 'Secondary alcohol; 70% rubbing alcohol.' },
   { formula: 'C4H9OH', vi: 'Butan-1-ol', en: '1-Butanol', cat: 'organic', note_vi: 'Dung môi sơn; có mùi đặc trưng.', note_en: 'Paint solvent; characteristic odor.' },
   { formula: 'C2H6O2', vi: 'Etylen glicol', en: 'Ethylene glycol', cat: 'organic', note_vi: 'Ancol hai chức; nước làm mát chống đông, rất độc.', note_en: 'Diol; antifreeze coolant, highly toxic.' },
-  { formula: 'C3H8O3', vi: 'Glixerol', en: 'Glycerol', cat: 'organic', note_vi: 'Ancol ba chức; giữ ẩm, tạo Cu(OH)2 phức xanh lam.', note_en: 'Triol; humectant; blue complex with Cu(OH)2.' },
+  { formula: 'C3H5(OH)3', id: 'C3H8O3', vi: 'Glixerol', en: 'Glycerol', cat: 'organic', note_vi: 'Ancol ba chức, công thức phân tử C3H8O3; giữ ẩm, tạo với Cu(OH)2 phức xanh lam.', note_en: 'Triol, C3H8O3; humectant; blue complex with Cu(OH)2.' },
   { formula: 'C6H5OH', vi: 'Phenol', en: 'Phenol', cat: 'organic', note_vi: 'Có tính axit yếu; sát trùng, làm nhựa.', note_en: 'Weakly acidic; antiseptic and resins.' },
   { formula: 'C7H8O', vi: 'Ancol benzylic', en: 'Benzyl alcohol', cat: 'organic', note_vi: 'Dung môi, chất bảo quản mỹ phẩm.', note_en: 'Solvent and cosmetic preservative.' },
   { formula: 'C10H20O', vi: 'Mentol', en: 'Menthol', cat: 'organic', note_vi: 'Tinh dầu bạc hà; tạo cảm giác mát lạnh.', note_en: 'Mint compound; produces cooling sensation.' },
@@ -88,8 +88,8 @@ export const ORGANIC: Formula[] = [
   { formula: 'C6H12O2', vi: 'Etyl butyrat', en: 'Ethyl butyrate', cat: 'organic', note_vi: 'Mùi dứa, hương liệu thực phẩm.', note_en: 'Pineapple aroma; food flavoring.' },
   { formula: 'C5H8O2', vi: 'Metyl metacrylat', en: 'Methyl methacrylate', cat: 'organic', note_vi: 'Monome tạo thủy tinh hữu cơ (mica).', note_en: 'Monomer for acrylic glass (PMMA).' },
   { formula: 'C9H8O4', vi: 'Aspirin', en: 'Aspirin', cat: 'organic', note_vi: 'Giảm đau, hạ sốt, chống đông máu.', note_en: 'Painkiller, antipyretic, blood thinner.' },
-  { formula: 'C57H110O6', vi: 'Tristearin', en: 'Tristearin', cat: 'organic', note_vi: 'Chất béo no; este của glixerol và axit stearic.', note_en: 'Saturated fat; glycerol tristearate.' },
-  { formula: 'C57H104O6', vi: 'Triolein', en: 'Triolein', cat: 'organic', note_vi: 'Chất béo không no dạng lỏng (dầu).', note_en: 'Unsaturated liquid fat (oil).' },
+  { formula: '(C17H35COO)3C3H5', id: 'C57H110O6', vi: 'Tristearin', en: 'Tristearin', cat: 'organic', note_vi: 'Chất béo no, công thức phân tử C57H110O6; este của glixerol và axit stearic.', note_en: 'Saturated fat, C57H110O6; glycerol tristearate.' },
+  { formula: '(C17H33COO)3C3H5', id: 'C57H104O6', vi: 'Triolein', en: 'Triolein', cat: 'organic', note_vi: 'Chất béo không no dạng lỏng (dầu), công thức phân tử C57H104O6.', note_en: 'Unsaturated liquid fat (oil), C57H104O6.' },
   { formula: 'C3H5N3O9', vi: 'Nitroglixerin', en: 'Nitroglycerin', cat: 'organic', note_vi: 'Thuốc nổ mạnh; cũng là thuốc giãn mạch tim.', note_en: 'Powerful explosive; also a heart medication.' },
 
   // === Amin & hợp chất nitơ ===
@@ -102,7 +102,7 @@ export const ORGANIC: Formula[] = [
   { formula: 'C3H6N6', vi: 'Melamin', en: 'Melamine', cat: 'organic', note_vi: 'Làm nhựa chịu nhiệt; từng bị pha gian vào sữa.', note_en: 'Heat-resistant plastics; infamous milk adulterant.' },
 
   // === Amino axit ===
-  { formula: 'C2H5NO2', vi: 'Glixin', en: 'Glycine', cat: 'organic', note_vi: 'Amino axit đơn giản nhất; không có tính quang hoạt.', note_en: 'Simplest amino acid; not chiral.' },
+  { formula: 'H2NCH2COOH', id: 'C2H5NO2', vi: 'Glyxin', en: 'Glycine', cat: 'organic', note_vi: 'Amino axit đơn giản nhất, công thức phân tử C2H5NO2; không có tính quang hoạt.', note_en: 'Simplest amino acid, C2H5NO2; not chiral.' },
   { formula: 'C3H7NO2', vi: 'Alanin', en: 'Alanine', cat: 'organic', note_vi: 'Amino axit không thiết yếu, phổ biến trong protein.', note_en: 'Non-essential amino acid; common in proteins.' },
   { formula: 'C5H11NO2', vi: 'Valin', en: 'Valine', cat: 'organic', note_vi: 'Amino axit thiết yếu mạch nhánh (BCAA).', note_en: 'Essential branched-chain amino acid.' },
   { formula: 'C6H13NO2', vi: 'Leuxin', en: 'Leucine', cat: 'organic', note_vi: 'BCAA kích thích tổng hợp cơ bắp.', note_en: 'BCAA that stimulates muscle synthesis.' },
