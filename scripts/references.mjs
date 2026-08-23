@@ -43,7 +43,7 @@ export const REFERENCES = {
   'C3H8O3': 'C(O)C(O)CO',
   'C6H5OH': 'c1ccccc1O',
   'C7H8O': 'c1ccccc1CO',
-  'C10H20O': 'CC1CCC(C(C)C)C(O)C1',
+  'C10H20O': 'CC1CCC(C(C)C)C(O)C1', // menthol — lập thể do bảng InChI lo
 
   // --- Ete, anđehit, xeton ---
   'C4H10O': 'C(C)OCC',
@@ -184,12 +184,12 @@ export const VERIFIED_INCHI = {
   // beta-D-fructofuranose — đúng dạng nằm trong saccarozơ
   'C6H12O6-fru':
     'InChI=1S/C6H12O6/c7-1-3-4(9)5(10)6(11,2-8)12-3/h3-5,7-11H,1-2H2/t3-,4-,5+,6-/m1/s1',
-  // alpha-D-ribofuranose
+  // beta-D-ribofuranose — đúng dạng ribozơ nằm trong ARN
   'C5H10O5':
-    'InChI=1S/C5H10O5/c6-1-2-3(7)4(8)5(9)10-2/h2-9H,1H2/t2-,3-,4-,5+/m1/s1',
-  // 2-deoxy-alpha-D-ribofuranose
+    'InChI=1S/C5H10O5/c6-1-2-3(7)4(8)5(9)10-2/h2-9H,1H2/t2-,3-,4-,5-/m1/s1',
+  // 2-deoxy-beta-D-ribofuranose — đúng dạng đường nằm trong ADN
   'C5H10O4':
-    'InChI=1S/C5H10O4/c6-2-4-3(7)1-5(8)9-4/h3-8H,1-2H2/t3-,4+,5-/m0/s1',
+    'InChI=1S/C5H10O4/c6-2-4-3(7)1-5(8)9-4/h3-8H,1-2H2/t3-,4+,5+/m0/s1',
   // sucrose
   'C12H22O11':
     'InChI=1S/C12H22O11/c13-1-4-6(16)8(18)9(19)11(21-4)23-12(3-15)10(20)7(17)5(2-14)22-12/h4-11,13-20H,1-3H2/t4-,5-,6-,7-,8+,9-,10+,11-,12+/m1/s1',
@@ -212,6 +212,9 @@ export const VERIFIED_INCHI = {
   // aspartame
   'C14H18N2O5':
     'InChI=1S/C14H18N2O5/c1-21-14(20)11(7-9-5-3-2-4-6-9)16-13(19)10(15)8-12(17)18/h2-6,10-11H,7-8,15H2,1H3,(H,16,19)(H,17,18)/t10-,11-/m0/s1',
+  // levomenthol = (1R,2S,5R)-menthol, dạng có trong tinh dầu bạc hà
+  'C10H20O':
+    'InChI=1S/C10H20O/c1-7(2)9-5-4-8(3)6-10(9)11/h7-11H,4-6H2,1-3H3/t8-,9+,10-/m1/s1',
   // cholesterol
   'C27H46O':
     'InChI=1S/C27H46O/c1-18(2)7-6-8-19(3)23-11-12-24-22-10-9-20-17-21(28)13-15-26(20,4)25(22)14-16-27(23,24)5/h9,18-19,21-25,28H,6-8,10-17H2,1-5H3/t19-,21+,22+,23-,24+,25+,26+,27-/m1/s1',
