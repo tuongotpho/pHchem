@@ -35,11 +35,6 @@ export const reactionsForFormula = (formula: string): Reaction[] =>
 export const reactionsForElement = (n: number): Reaction[] =>
   THEO_NGUYEN_TO.get(n) ?? [];
 
-/** Số chất / số nguyên tố đang có phản ứng — dùng để báo cáo. */
-export const indexStats = () => ({
-  chat: THEO_CHAT.size,
-  nguyenTo: THEO_NGUYEN_TO.size,
-});
 
 /**
  * Một phản ứng có khớp từ khóa lọc không.

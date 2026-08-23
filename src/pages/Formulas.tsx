@@ -88,7 +88,6 @@ export default function Formulas() {
     };
   }, [sel, svgs]);
 
-  const structCount = STRUCTURE_COUNT;
 
   const list = useMemo(() => {
     const query = q.trim().toLowerCase();
@@ -154,7 +153,7 @@ export default function Formulas() {
             }`}
           >
             {onlyStruct ? '☑' : '☐'} {lang === 'vi' ? 'Có hình' : 'With structure'}
-            <span className="opacity-60">({structCount})</span>
+            <span className="opacity-60">({STRUCTURE_COUNT})</span>
           </button>
         </div>
 

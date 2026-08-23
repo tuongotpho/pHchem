@@ -9,7 +9,7 @@
 //   - từ một ĐỊNH NGHĨA          → cả loạt chất và nguyên tố thuộc lớp đó,
 //                                   để mở ra là học được luôn
 
-import { FORMULAS, keyOf, type Formula } from '../data/formulas';
+import { FORMULAS, type Formula } from '../data/formulas';
 import { ELEMENTS, type Element, type Category } from '../data/elements';
 import { TERMS, type Term } from '../data/dictionary';
 import { NHOM_CHAT, NHOM_NGUYEN_TO, type NhomChat } from '../data/classes';
@@ -97,12 +97,3 @@ export const coNoiDungHoc = (term: Term): boolean => {
   const n = noiDungChoThuatNgu(term);
   return n.chat.length > 0 || n.nguyenTo.length > 0;
 };
-
-/** Số liệu để kiểm tra và báo cáo. */
-export const thongKeNoiKet = () => ({
-  soTermCoChat: CHAT_THEO_TERM.size,
-  soTermCoNguyenTo: NGUYEN_TO_THEO_TERM.size,
-  soChatDaNoi: [...CHAT_THEO_TERM.values()].reduce((s, v) => s + v.length, 0),
-  soChatChuaNoi: FORMULAS.filter((f) => f.cat !== 'physical' && !f.nhom).length,
-  khoaChat: (f: Formula) => keyOf(f),
-});
