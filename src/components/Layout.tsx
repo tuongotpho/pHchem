@@ -1,5 +1,6 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useLang } from '../i18n/LangContext';
+import GlobalSearch from './GlobalSearch';
 import type { StringKey } from '../i18n/strings';
 import {
   IconHome,
@@ -32,6 +33,10 @@ const ITEMS: Item[] = [
 
 export default function Layout() {
   const { t } = useLang();
+  const location = useLocation();
+  const { pathname } = location;
+  // Trang chủ đã có ô tìm kiếm lớn ở giữa màn hình rồi, không cần thêm ô nữa.
+  const hienOTimKiem = pathname !== '/';
 
   return (
     <div className="min-h-full flex flex-col md:flex-row bg-base-950">
@@ -84,6 +89,13 @@ export default function Layout() {
 
       {/* Nội dung */}
       <main className="flex-1 min-w-0 pb-20 md:pb-0">
+        {/* Thanh tìm kiếm toàn app — dính trên đầu, cuộn xuống vẫn thấy */}
+        {hienOTimKiem && (
+          <div className="sticky top-0 z-30 border-b border-base-800 bg-base-950/90 backdrop-blur px-4 md:px-6 py-2.5">
+            {/* key đổi theo địa chỉ → chuyển trang là ô tìm kiếm tự dọn sạch */}
+            <GlobalSearch key={pathname + location.search} />
+          </div>
+        )}
         <Outlet />
       </main>
 

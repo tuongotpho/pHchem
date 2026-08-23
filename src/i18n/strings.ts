@@ -59,6 +59,19 @@ export const STRINGS = {
   },
 
   search_placeholder: { vi: 'Tìm kiếm…', en: 'Search…' },
+
+  // Ô tìm kiếm toàn app (nằm trên đầu mọi trang nhánh)
+  gsearch_placeholder: {
+    vi: 'Tìm mọi thứ trong app…',
+    en: 'Search everything…',
+  },
+  gsearch_open: { vi: 'Tìm kiếm', en: 'Search' },
+  gsearch_empty: { vi: 'Không tìm thấy.', en: 'No results.' },
+  gsearch_hint: {
+    vi: '↑↓ chọn · Enter mở · Esc đóng',
+    en: '↑↓ select · Enter open · Esc close',
+  },
+  gsearch_more: { vi: 'kết quả nữa', en: 'more results' },
   items_count: { vi: 'mục', en: 'items' },
 
   // Cài đặt
