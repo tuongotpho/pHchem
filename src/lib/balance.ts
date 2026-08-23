@@ -58,13 +58,23 @@ function lcm(a: bigint, b: bigint) {
 }
 
 // Tách "A + B -> C + D" (chấp nhận ->, =, →, ⟶)
+//
+// BÓC HỆ SỐ NGƯỜI DÙNG GÕ SẴN. Người ta hay chép nguyên phương trình đã có hệ
+// số từ sách ra, hoặc tự cân bằng rồi nhờ app kiểm lại. Việc của hàm này là
+// tìm hệ số, nên hệ số cũ phải bỏ đi trước.
+//
+// Không bỏ thì hỏng nặng: parseFormula vốn hiểu số đứng đầu là hệ số nhân phân
+// tử — luật đó sinh ra để đọc muối ngậm nước "5H2O" sau dấu chấm. Áp vào đây
+// thì "2 Fe" bị đọc thành Fe₂, rồi máy chồng thêm hệ số lần nữa, trả về
+// "2 2 Fe + 3 O2 → 2 Fe2O3". Không công thức hóa học nào bắt đầu bằng chữ số
+// nên bóc đi là an toàn.
 function splitSides(input: string): { left: string[]; right: string[] } | null {
   const parts = input.split(/->|=>|=|→|⟶/);
   if (parts.length !== 2) return null;
   const clean = (s: string) =>
     s
       .split('+')
-      .map((x) => x.trim())
+      .map((x) => x.trim().replace(/^\d+\s*/, '')) // "2 Fe" và "4Fe" → "Fe"
       .filter(Boolean);
   return { left: clean(parts[0]), right: clean(parts[1]) };
 }

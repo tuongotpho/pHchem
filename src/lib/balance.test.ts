@@ -123,6 +123,38 @@ describe('báo lỗi rõ ràng thay vì trả kết quả sai', () => {
   });
 });
 
+// Gõ lại phương trình ĐÃ CÓ HỆ SỐ là chuyện xảy ra suốt: chép nguyên từ sách
+// ra, hoặc tự cân bằng rồi nhờ app kiểm lại hộ. Trước đây "2 Fe" bị hiểu thành
+// Fe₂ — vì luật đọc hệ số vốn dành cho muối ngậm nước bị áp cho cả chuỗi nhập —
+// nên máy chồng thêm hệ số lần nữa, trả về "2 2 Fe + 3 O2 → 2 Fe2O3".
+describe('người dùng gõ sẵn hệ số — vẫn phải ra đúng một đáp án', () => {
+  const MONG = '4 Fe + 3 O2 → 2 Fe2O3';
+  const CACH_GO = [
+    'Fe + O2 -> Fe2O3', // chưa cân bằng
+    '2 Fe + O2 -> Fe2O3', // cân bằng dở dang
+    '4 Fe + 3 O2 -> 2 Fe2O3', // cân bằng sẵn đúng
+    '4Fe + 3O2 -> 2Fe2O3', // cân bằng sẵn, không gõ dấu cách
+  ];
+  it.each(CACH_GO)('%s', (pt) => {
+    expect(formatBalanced(balance(pt))).toBe(MONG);
+  });
+
+  it('hệ số gõ sẵn không làm hỏng phép đếm nguyên tử', () => {
+    const r = balance('2 H2 + O2 -> H2O');
+    expect(r.ok).toBe(true);
+    expect(formatBalanced(r)).toBe('2 H2 + O2 → 2 H2O');
+    expect(isBalanced(formatBalanced(r)).ok).toBe(true);
+  });
+
+  it('muối ngậm nước KHÔNG bị bóc nhầm', () => {
+    // Chốt chặn cho chính chỗ vừa sửa: hệ số ngậm nước nằm SAU dấu chấm,
+    // khác hẳn hệ số đứng trước cả chất. Sửa nhầm là ca này gãy ngay.
+    const r = balance('CuSO4.5H2O -> CuSO4 + H2O');
+    expect(r.ok).toBe(true);
+    expect(r.coefficients).toEqual([1, 1, 5]);
+  });
+});
+
 describe('ghép chuỗi hiển thị', () => {
   it('bỏ hệ số 1 cho gọn', () => {
     expect(formatBalanced(balance('CaCO3 -> CaO + CO2'))).toBe('CaCO3 → CaO + CO2');
