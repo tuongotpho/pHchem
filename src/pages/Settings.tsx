@@ -11,6 +11,31 @@ import { STRUCTURE_COUNT } from '../generated/structures';
 
 const VERSION = '0.4';
 
+/** Nhãn nhỏ in hoa, dùng chia trang thành từng vùng rõ ràng. */
+function NhanVung({ children }: { children: string }) {
+  return (
+    <h2 className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 px-1 pt-2">
+      {children}
+    </h2>
+  );
+}
+
+/** Một hàng tùy chọn: nhãn bên trái, hai nút chọn bên phải. */
+function HangChon({
+  nhan,
+  children,
+}: {
+  nhan: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 py-3 first:pt-0 last:pb-0">
+      <div className="text-sm text-slate-300 sm:w-32 shrink-0">{nhan}</div>
+      <div className="flex gap-2 flex-1">{children}</div>
+    </div>
+  );
+}
+
 export default function Settings() {
   const { t, lang, setLang } = useLang();
   const { theme, setTheme } = useTheme();
@@ -19,12 +44,15 @@ export default function Settings() {
   // Số liệu ĐẾM TỪ DỮ LIỆU, không gõ tay — thêm bớt nội dung là tự cập nhật.
   const soLieu: { nhan: string; so: string }[] = [
     { nhan: vi ? 'Nguyên tố' : 'Elements', so: String(ELEMENTS.length) },
-    { nhan: vi ? 'Công thức hóa học' : 'Chemical formulas', so: String(FORMULAS.length) },
-    { nhan: vi ? 'Hình công thức cấu tạo' : 'Structural diagrams', so: String(STRUCTURE_COUNT) },
+    { nhan: vi ? 'Công thức' : 'Formulas', so: String(FORMULAS.length) },
+    { nhan: vi ? 'Hình cấu tạo' : 'Structures', so: String(STRUCTURE_COUNT) },
     { nhan: vi ? 'Phản ứng' : 'Reactions', so: String(REACTIONS.length) },
-    { nhan: vi ? 'Thuật ngữ' : 'Dictionary terms', so: String(TERMS.length) },
+    { nhan: vi ? 'Thuật ngữ' : 'Terms', so: String(TERMS.length) },
     { nhan: vi ? 'Sự thật' : 'Facts', so: String(FACTS.length) },
-    { nhan: vi ? 'Ô bảng độ tan' : 'Solubility cells', so: `${CATIONS.length}×${ANIONS.length}` },
+    {
+      nhan: vi ? 'Ô bảng độ tan' : 'Solubility cells',
+      so: String(CATIONS.length * ANIONS.length),
+    },
   ];
 
   const nguyenTac: { tieuDe: string; noiDung: string }[] = vi
@@ -42,17 +70,17 @@ export default function Settings() {
         {
           tieuDe: 'Máy tự kiểm số liệu, không tin vào mắt người',
           noiDung:
-            'Mỗi lần sửa mã, hơn 100 phép kiểm tự động chạy lại: cân bằng phương trình, đối chiếu công thức với cấu trúc phân tử, kiểm nhiệt độ nóng chảy có khớp trạng thái chất hay không.',
+            'Mỗi lần sửa mã, bộ phép kiểm tự động chạy lại toàn bộ: cân bằng từng phương trình, đối chiếu công thức với cấu trúc phân tử, kiểm nhiệt độ nóng chảy có khớp trạng thái chất hay không.',
+        },
+        {
+          tieuDe: 'Hình cấu tạo đối chiếu với cơ sở dữ liệu quốc tế',
+          noiDung:
+            'Những chất có tâm bất đối được so mã InChI với PubChem của Viện Y tế Quốc gia Mỹ. Vẽ nhầm chiều xoay một tâm là bộ kiểm báo ngay.',
         },
         {
           tieuDe: 'Không có số liệu là để trống, không đoán',
           noiDung:
             'Những nguyên tố siêu nặng chưa ai đo được nhiệt độ nóng chảy hay khối lượng riêng thì ứng dụng để dấu gạch ngang, không điền số dự đoán cho đẹp bảng.',
-        },
-        {
-          tieuDe: 'Hình cấu tạo do phần mềm chuyên ngành vẽ',
-          noiDung:
-            'Hình vẽ bằng RDKit theo chuẩn IUPAC, sinh sẵn lúc đóng gói nên mở lên là có ngay, đầy đủ ký hiệu lập thể.',
         },
         {
           tieuDe: 'Phép tính do thuật toán làm, không phải AI đoán',
@@ -72,17 +100,17 @@ export default function Settings() {
         {
           tieuDe: 'Data checked by machine, not by eye',
           noiDung:
-            'Over 100 automated checks run on every change: equation balance, formula versus structure, melting point versus physical state.',
+            'Every change re-runs the whole automated suite: equation balance, formula versus structure, melting point versus physical state.',
+        },
+        {
+          tieuDe: 'Structures checked against an international database',
+          noiDung:
+            'Every compound with a stereocentre has its InChI matched against PubChem. Flip one centre and the check fails.',
         },
         {
           tieuDe: 'Missing data is left blank, never guessed',
           noiDung:
             'Superheavy elements with no measured melting point or density show a dash instead of a predicted number.',
-        },
-        {
-          tieuDe: 'Structures drawn by professional software',
-          noiDung:
-            'Diagrams are generated with RDKit to the IUPAC standard, pre-rendered at build time with full stereochemistry.',
         },
         {
           tieuDe: 'Calculations are deterministic, not AI guesses',
@@ -91,14 +119,31 @@ export default function Settings() {
         },
       ];
 
+  const canBiet: string[] = vi
+    ? [
+        'Số liệu lấy từ bảng tra chuẩn phổ thông. Ứng dụng chưa nhập trực tiếp từ một bộ dữ liệu có tên như NIST hay IUPAC, nên không ghi nguồn cho từng giá trị.',
+        'Hình cấu tạo vẽ theo khung phẳng chuẩn quốc tế. Nhóm đường như glucozơ chưa vẽ theo kiểu Haworth quen thuộc trong sách giáo khoa Việt Nam.',
+        'Polime chỉ vẽ được một mắt xích, hai đầu để hở cho thấy mạch còn nối tiếp, không phải công thức của cả phân tử.',
+        'Tính pH mới xét axit và bazơ đơn thuần, chưa tính dung dịch đệm hay muối thủy phân.',
+      ]
+    : [
+        'Values come from standard reference tables. The app does not import a named dataset such as NIST or IUPAC, so individual values carry no citation.',
+        'Structures use the international flat layout. Sugars such as glucose are not drawn in the Haworth projection.',
+        'Polymers show one repeating unit with open ends, not a whole-molecule formula.',
+        'The pH tool covers plain acids and bases only, not buffers or salt hydrolysis.',
+      ];
+
   return (
     <>
       <PageHeader title={t('nav_settings')} />
-      <div className="p-4 md:p-6 max-w-3xl space-y-4">
-        {/* Ngôn ngữ */}
-        <section className="card p-4">
-          <h2 className="font-semibold text-slate-200 mb-3">{t('settings_language')}</h2>
-          <div className="flex gap-2">
+      <div className="p-4 md:p-6 max-w-3xl space-y-3">
+        {/* ---------- VÙNG 1: TÙY CHỌN ---------- */}
+        {/* Gộp ngôn ngữ và giao diện vào MỘT thẻ: cùng là lựa chọn cá nhân, để
+            riêng hai thẻ vừa tốn chỗ vừa làm phần cài đặt trông lép vế hẳn so
+            với phần giới thiệu bên dưới. */}
+        <NhanVung>{vi ? 'Tùy chọn' : 'Preferences'}</NhanVung>
+        <section className="card px-4 py-2 divide-y divide-base-800">
+          <HangChon nhan={t('settings_language')}>
             <button
               onClick={() => setLang('vi')}
               className={lang === 'vi' ? 'btn-accent flex-1' : 'btn-ghost flex-1'}
@@ -111,13 +156,8 @@ export default function Settings() {
             >
               🇬🇧 English
             </button>
-          </div>
-        </section>
-
-        {/* Giao diện */}
-        <section className="card p-4">
-          <h2 className="font-semibold text-slate-200 mb-3">{t('settings_theme')}</h2>
-          <div className="flex gap-2">
+          </HangChon>
+          <HangChon nhan={t('settings_theme')}>
             <button
               onClick={() => setTheme('dark')}
               className={theme === 'dark' ? 'btn-accent flex-1' : 'btn-ghost flex-1'}
@@ -130,95 +170,111 @@ export default function Settings() {
             >
               ☀️ {t('settings_light')}
             </button>
-          </div>
+          </HangChon>
         </section>
 
-        {/* Giới thiệu */}
+        {/* ---------- VÙNG 2: GIỚI THIỆU ---------- */}
+        {/* Tách khối giới thiệu thành từng thẻ riêng theo chủ đề. Trước đây dồn
+            hết vào một thẻ nên phải cuộn dài mà không biết mình đang đọc mục
+            nào. */}
+        <NhanVung>{vi ? 'Giới thiệu' : 'About'}</NhanVung>
+
         <section className="card p-4">
-          <h2 className="font-semibold text-slate-200">
-            {vi ? 'Về pH-Chem' : 'About pH-Chem'}
-          </h2>
-          <p className="text-sm text-slate-400 mt-1">
+          <div className="flex items-center gap-2.5 mb-1.5">
+            <span className="text-2xl">⚗️</span>
+            <h3 className="font-semibold text-slate-100">
+              {vi ? 'Về pH-Chem' : 'About pH-Chem'}
+            </h3>
+          </div>
+          <p className="text-sm text-slate-400">
             {vi
               ? 'Bộ công cụ hóa học dùng cho học sinh, giáo viên và người làm thí nghiệm. Tra cứu, tính toán và luyện tra phản ứng ngay trên điện thoại hay máy tính, không cần mạng.'
               : 'A chemistry toolkit for students, teachers and lab users. Look things up, calculate and explore reactions on phone or desktop, with no network needed.'}
           </p>
+        </section>
 
-          {/* Kho dữ liệu */}
-          <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mt-4 mb-2">
-            {vi ? 'Kho dữ liệu hiện có' : 'Data included'}
+        {/* Kho dữ liệu — con số là thứ đáng khoe nhất nên cho hẳn ô riêng, chữ to */}
+        <section className="card p-4">
+          <h3 className="font-semibold text-slate-100 mb-3">
+            {vi ? 'Kho dữ liệu' : 'Data included'}
           </h3>
-          <dl className="grid grid-cols-2 sm:grid-cols-3 gap-x-5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {soLieu.map((x) => (
               <div
                 key={x.nhan}
-                className="flex items-baseline justify-between gap-2 border-b border-base-800/70 py-1"
+                className="rounded-xl bg-base-850 border border-base-800 px-3 py-2.5"
               >
-                <dt className="text-xs text-slate-500">{x.nhan}</dt>
-                <dd className="text-sm font-mono font-semibold text-slate-100">{x.so}</dd>
+                <div className="text-xl font-bold font-mono text-accent leading-none">
+                  {x.so}
+                </div>
+                <div className="text-[11px] text-slate-500 mt-1 leading-tight">
+                  {x.nhan}
+                </div>
               </div>
             ))}
-          </dl>
-          <p className="text-[11px] text-slate-600 mt-2">
+          </div>
+          <p className="text-[11px] text-slate-600 mt-2.5">
             {vi
-              ? 'Các con số trên do ứng dụng tự đếm từ dữ liệu thật, không phải ghi tay nên không bao giờ lạc hậu.'
-              : 'These numbers are counted from the live data, never typed by hand.'}
+              ? 'Các con số này do ứng dụng tự đếm từ dữ liệu thật mỗi lần mở, không phải ghi tay nên không bao giờ lạc hậu.'
+              : 'These numbers are counted from the live data on every load, never typed by hand.'}
           </p>
+        </section>
 
-          {/* Nguyên tắc */}
-          <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mt-4 mb-2">
+        {/* Nguyên tắc làm app */}
+        <section className="card p-4">
+          <h3 className="font-semibold text-slate-100 mb-3">
             {vi ? 'Cách ứng dụng được làm' : 'How it is built'}
           </h3>
-          <div className="space-y-2.5">
+          <div className="space-y-3">
             {nguyenTac.map((x) => (
-              <div key={x.tieuDe}>
-                <div className="text-sm font-medium text-slate-200">{x.tieuDe}</div>
-                <p className="text-xs text-slate-400 mt-0.5">{x.noiDung}</p>
+              <div key={x.tieuDe} className="flex gap-2.5">
+                <span className="text-accent text-sm leading-5 shrink-0">✓</span>
+                <div className="min-w-0">
+                  <div className="text-sm font-medium text-slate-200">{x.tieuDe}</div>
+                  <p className="text-xs text-slate-400 mt-0.5">{x.noiDung}</p>
+                </div>
               </div>
             ))}
           </div>
+        </section>
 
-          {/* Điều cần biết */}
-          <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mt-4 mb-2">
+        {/* Điều cần biết — tô khác màu để không lẫn với phần khoe ở trên */}
+        <section className="card p-4 border-amber-500/25 bg-amber-500/[0.04]">
+          <h3 className="font-semibold text-slate-100 mb-1">
             {vi ? 'Điều nên biết trước khi dùng để dạy' : 'Before using this to teach'}
           </h3>
-          <ul className="text-xs text-slate-400 space-y-1.5 list-disc pl-4">
-            <li>
-              {vi
-                ? 'Số liệu lấy từ bảng tra chuẩn phổ thông. Ứng dụng chưa nhập trực tiếp từ một bộ dữ liệu có tên như NIST hay IUPAC, nên không ghi nguồn cho từng giá trị.'
-                : 'Values come from standard reference tables. The app does not import a named dataset such as NIST or IUPAC, so individual values carry no citation.'}
-            </li>
-            <li>
-              {vi
-                ? 'Hình cấu tạo vẽ theo khung phẳng chuẩn quốc tế. Nhóm đường như glucozơ chưa vẽ theo kiểu Haworth quen thuộc trong sách giáo khoa Việt Nam.'
-                : 'Structures use the international flat layout. Sugars such as glucose are not drawn in the Haworth projection.'}
-            </li>
-            <li>
-              {vi
-                ? 'Tính pH mới xét axit và bazơ đơn thuần, chưa tính dung dịch đệm hay muối thủy phân.'
-                : 'The pH tool covers plain acids and bases only, not buffers or salt hydrolysis.'}
-            </li>
+          <p className="text-[11px] text-slate-500 mb-2.5">
+            {vi
+              ? 'Những giới hạn còn tồn tại, ghi ra để người dùng khỏi tin nhầm.'
+              : 'Known limits, written down so nobody assumes otherwise.'}
+          </p>
+          <ul className="space-y-2">
+            {canBiet.map((x) => (
+              <li key={x} className="flex gap-2.5 text-xs text-slate-400">
+                <span className="text-amber-500/80 leading-4 shrink-0">•</span>
+                <span className="min-w-0">{x}</span>
+              </li>
+            ))}
           </ul>
-
-          {/* Phiên bản */}
-          <div className="mt-4 pt-3 border-t border-base-800 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
-            <span className="text-slate-500">
-              {vi ? 'Phiên bản' : 'Version'}{' '}
-              <span className="font-mono text-slate-300">{VERSION}</span>
-            </span>
-            <a
-              href="https://github.com/tuongotpho/pHchem"
-              target="_blank"
-              rel="noreferrer"
-              className="text-accent hover:underline"
-            >
-              {vi ? 'Mã nguồn trên GitHub' : 'Source on GitHub'}
-            </a>
-            <span className="text-slate-500">
-              {vi ? 'Miễn phí, không quảng cáo' : 'Free, no ads'}
-            </span>
-          </div>
         </section>
+
+        {/* Chân trang */}
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-1 pt-1 pb-2 text-xs">
+          <span className="text-slate-500">
+            {vi ? 'Phiên bản' : 'Version'}{' '}
+            <span className="font-mono text-slate-300">{VERSION}</span>
+            <span className="mx-2 text-base-700">·</span>
+            {vi ? 'Miễn phí, không quảng cáo' : 'Free, no ads'}
+          </span>
+          <a
+            href="https://github.com/tuongotpho/pHchem"
+            target="_blank"
+            rel="noreferrer"
+            className="text-accent hover:underline"
+          >
+            {vi ? 'Mã nguồn trên GitHub' : 'Source on GitHub'}
+          </a>
+        </div>
       </div>
     </>
   );
