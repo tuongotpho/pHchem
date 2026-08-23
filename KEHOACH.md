@@ -213,6 +213,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 
 | Ngày | Đã xong tới | Đang dở | Việc kế tiếp |
 |---|---|---|---|
+| 24/08/2026 05:37 | **E18** xong. **HẾT NHÓM 3.** Còn đúng E8 và E17, cả hai cố ý để dành vì cần người xem | không | **E8** hoặc **E17**, khi có người ngồi cạnh |
 | 24/08/2026 05:34 | **E16** xong — lọc thẻ script khỏi SVG, sinh lại 295 hình diff rỗng | không | **E18** |
 | 24/08/2026 05:32 | **E15** xong — dọn 3 đoạn mã chết + 1 import thừa lộ theo | không | **E16** |
 | 24/08/2026 05:31 | **E13 + E14** xong — hai chỗ i18n sót | không | **E15** |
@@ -251,7 +252,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 | ✅ | **E15** Ba đoạn mã chết | 🔵 nitpick | 3 file | xong |
 | ✅ | **E16** `clean()` chưa lọc script trong SVG | 🔵 nitpick | `scripts/gen-structures.mjs` | xong |
 | ☐ | **E17** Hai bản `parseFormula` viết riêng | 🔵 nitpick | app ↔ script | vừa |
-| ☐ | **E18** Khung phóng to thiếu Esc + khóa cuộn | 🔵 nitpick | `pages/Formulas.tsx` | rất nhỏ |
+| ✅ | **E18** Khung phóng to thiếu Esc + khóa cuộn | 🔵 nitpick | `pages/Formulas.tsx` | xong |
 
 ---
 

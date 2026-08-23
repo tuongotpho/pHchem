@@ -88,6 +88,24 @@ export default function Formulas() {
     };
   }, [sel, svgs]);
 
+  // Khung phóng to hình: đóng bằng Esc và khóa cuộn nền, giống hệt các khung
+  // nổi khác trong app (Reactions, Solubility, GlobalSearch). Thiếu hai thứ
+  // này thì trên điện thoại bấm phóng to xong nền vẫn trôi phía sau, còn trên
+  // máy tính thì gõ Esc không ăn — trái thói quen mà chính app đã tạo ra.
+  useEffect(() => {
+    if (!phongTo) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setPhongTo(false);
+    };
+    window.addEventListener('keydown', onKey);
+    const cuonCu = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = cuonCu;
+    };
+  }, [phongTo]);
+
 
   const list = useMemo(() => {
     const query = q.trim().toLowerCase();
