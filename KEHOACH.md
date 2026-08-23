@@ -213,6 +213,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 
 | Ngày | Đã xong tới | Đang dở | Việc kế tiếp |
 |---|---|---|---|
+| 24/08/2026 05:31 | **E13 + E14** xong — hai chỗ i18n sót | không | **E15** |
 | 24/08/2026 05:29 | **E10** xong — nhớ sẵn nội dung học kèm, 3 test mới | không | **E13 + E14** |
 | 24/08/2026 05:27 | **E11 + E12** xong — chống sập và chống chia 0 ở phần Luyện tập, 4 test hợp đồng mới | không | **E10** |
 | 24/08/2026 05:25 | **E9** xong — dựng sẵn bảng đã bỏ dấu, 8,92 ms → 1,24 ms mỗi lần gõ | không | **E10** (nhóm việc lẻ) |
@@ -243,8 +244,8 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 | ✅ | **E10** Từ điển làm đôi việc mỗi lần vẽ | 🔵 nitpick | `lib/classIndex.ts` | xong |
 | ✅ | **E11** Luyện tập chia 0 → `NaN%` | 🔵 nitpick | `pages/Quiz.tsx` | xong |
 | ✅ | **E12** `chon()` trên mảng rỗng → sập | 🔵 nitpick | `lib/quiz.ts` | xong |
-| ☐ | **E13** `html lang` không đặt lúc mở app | 🔵 nitpick | `i18n/LangContext.tsx` | rất nhỏ |
-| ☐ | **E14** Câu tiếng Việt chết cứng | 🔵 nitpick | `pages/ElementDetail.tsx` | rất nhỏ |
+| ✅ | **E13** `html lang` không đặt lúc mở app | 🔵 nitpick | `i18n/LangContext.tsx` | xong |
+| ✅ | **E14** Câu tiếng Việt chết cứng | 🔵 nitpick | `pages/ElementDetail.tsx` | xong |
 | ☐ | **E15** Ba đoạn mã chết | 🔵 nitpick | 3 file | rất nhỏ |
 | ☐ | **E16** `clean()` chưa lọc script trong SVG | 🔵 nitpick | `scripts/gen-structures.mjs` | rất nhỏ |
 | ☐ | **E17** Hai bản `parseFormula` viết riêng | 🔵 nitpick | app ↔ script | vừa |

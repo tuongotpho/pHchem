@@ -3,6 +3,7 @@ import {
   useContext,
   useState,
   useCallback,
+  useEffect,
   type ReactNode,
 } from 'react';
 import { STRINGS, type Lang, type StringKey } from './strings';
@@ -28,10 +29,17 @@ function readInitial(): Lang {
 export function LangProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(readInitial);
 
+  // Khai ngôn ngữ cho chính thẻ <html>. Trước đây chỉ đặt trong setLang, nên
+  // người chọn tiếng Anh rồi mở lại app thì trang vẫn khai lang="vi" — trình
+  // đọc màn hình đọc tiếng Anh bằng giọng tiếng Việt.
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
     ghi(STORAGE_KEY, l);
-    document.documentElement.lang = l;
+    // Thẻ <html> do useEffect ở trên lo, khỏi đặt hai nơi.
   }, []);
 
   const toggle = useCallback(

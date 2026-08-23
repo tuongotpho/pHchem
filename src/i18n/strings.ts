@@ -13,6 +13,10 @@ export const STRINGS = {
   // Điều hướng / module
   nav_home: { vi: 'Trang chủ', en: 'Home' },
   nav_table: { vi: 'Bảng tuần hoàn', en: 'Periodic Table' },
+  element_not_found: {
+    vi: 'Không tìm thấy nguyên tố.',
+    en: 'Element not found.',
+  },
   nav_calc: { vi: 'Máy tính', en: 'Calculator' },
   nav_solubility: { vi: 'Độ tan', en: 'Solubility' },
   nav_electro: { vi: 'Dãy điện hóa', en: 'Electro series' },

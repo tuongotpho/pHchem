@@ -87,7 +87,7 @@ export default function ElementDetail() {
     return (
       <>
         <PageHeader title={t('nav_table')} />
-        <div className="p-6 text-slate-400">Không tìm thấy nguyên tố.</div>
+        <div className="p-6 text-slate-400">{t('element_not_found')}</div>
       </>
     );
   }
