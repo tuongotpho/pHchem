@@ -40,3 +40,27 @@ export const indexStats = () => ({
   chat: THEO_CHAT.size,
   nguyenTo: THEO_NGUYEN_TO.size,
 });
+
+/**
+ * Một phản ứng có khớp từ khóa lọc không.
+ *
+ * Dò CẢ HAI THỨ TIẾNG. Trước đây chỉ dò các trường tiếng Việt (cond_vi,
+ * phen_vi, note_vi) nên người đang dùng giao diện tiếng Anh gõ "precipitate"
+ * hay "colourless gas" thì không ra gì, dù dữ liệu có đủ bản tiếng Anh.
+ *
+ * Dò cả hai thay vì chọn theo ngôn ngữ đang bật: người học hay gõ lẫn, nhớ
+ * được chữ nào gõ chữ nấy.
+ */
+export function khopTuKhoa(r: Reaction, tuKhoa: string): boolean {
+  const q = tuKhoa.trim().toLowerCase();
+  if (!q) return true;
+  return [
+    r.eq,
+    r.cond_vi,
+    r.cond_en,
+    r.phen_vi,
+    r.phen_en,
+    r.note_vi,
+    r.note_en,
+  ].some((x) => (x ?? '').toLowerCase().includes(q));
+}

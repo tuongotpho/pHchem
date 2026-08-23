@@ -8,7 +8,7 @@ import { useLang } from '../i18n/LangContext';
 import { REACTIONS, TYPE_META, type Reaction, type ReactionType } from '../data/reactions';
 import { speciesOf } from '../lib/reaction';
 import { elementsOf } from '../lib/compoundIndex';
-import { reactionsForElement } from '../lib/reactionIndex';
+import { reactionsForElement, khopTuKhoa } from '../lib/reactionIndex';
 import { byNumber } from '../data/elements';
 
 const PER_PAGE = 20;
@@ -80,19 +80,14 @@ export default function Reactions() {
     return Number.isFinite(n) ? reactionsForElement(n) : REACTIONS;
   }, [elParam]);
 
-  const list = useMemo(() => {
-    const query = q.trim().toLowerCase();
-    return nguonList.filter((r) => {
-      if (loai !== 'all' && !r.type.includes(loai)) return false;
-      if (!query) return true;
-      return (
-        r.eq.toLowerCase().includes(query) ||
-        (r.phen_vi ?? '').toLowerCase().includes(query) ||
-        (r.note_vi ?? '').toLowerCase().includes(query) ||
-        (r.cond_vi ?? '').toLowerCase().includes(query)
-      );
-    });
-  }, [q, loai, nguonList]);
+  const list = useMemo(
+    () =>
+      nguonList.filter((r) => {
+        if (loai !== 'all' && !r.type.includes(loai)) return false;
+        return khopTuKhoa(r, q);
+      }),
+    [q, loai, nguonList],
+  );
 
   const totalPages = Math.max(1, Math.ceil(list.length / PER_PAGE));
   const current = Math.min(page, totalPages);
