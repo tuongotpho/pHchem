@@ -1,0 +1,21 @@
+# Chuẩn hóa ký tự xuống dòng.
+#
+# Máy Windows đặt core.autocrlf=true nên khi lấy mã về, Git đổi LF thành CRLF.
+# Trong khi scripts/gen-structures.mjs ghi file bằng LF. Hậu quả: cứ chạy
+# `npm run audit` là git báo hai file trong src/generated bị sửa, dù nội dung
+# giống hệt — nhiễu mỗi lần xem trạng thái, và dễ vô tình commit thay đổi rỗng.
+#
+# Khai ở đây thì Git luôn LƯU bằng LF trong kho, bất kể máy nào tạo ra file,
+# nên máy Windows và máy CI chạy Linux nhìn thấy đúng một nội dung.
+* text=auto eol=lf
+
+# File nhị phân: cấm Git đụng vào, đổi một byte là hỏng file.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.wasm binary
+*.pdf binary
