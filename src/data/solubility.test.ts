@@ -27,6 +27,11 @@ describe('buildFormula — ghép công thức từ cation + anion', () => {
     ['K', 'CO3', 'K2CO3'],
     ['Pb', 'S', 'PbS'],
     ['H', 'OH', 'H2O'],
+    ['Na', 'CH3COO', 'CH3COONa'],
+    ['Ca', 'CH3COO', '(CH3COO)2Ca'],
+    ['Pb', 'I', 'PbI2'],
+    ['Na', 'SO3', 'Na2SO3'],
+    ['Ca', 'SiO3', 'CaSiO3'],
   ];
   it.each(cases)('%s + %s = %s', (c, a, expected) => {
     expect(buildFormula(cat(c), an(a))).toBe(expected);
@@ -34,13 +39,29 @@ describe('buildFormula — ghép công thức từ cation + anion', () => {
 });
 
 describe('ma trận độ tan', () => {
-  it('đúng kích thước 14 cation x 8 anion', () => {
+  it('ma trận đủ ô cho mọi cặp cation-anion', () => {
     expect(MATRIX.length).toBe(CATIONS.length);
     MATRIX.forEach((row) => expect(row.length).toBe(ANIONS.length));
   });
   it('mọi muối nitrat đều tan', () => {
     const i = ANIONS.findIndex((a) => a.ascii === 'NO3');
     MATRIX.forEach((row) => expect(row[i]).toBe('T'));
+  });
+  it('mọi muối axetat đều tan hoặc ít tan, không có ô kết tủa', () => {
+    const i = ANIONS.findIndex((a) => a.ascii === 'CH3COO');
+    MATRIX.forEach((row) => expect(['T', 'IT']).toContain(row[i]));
+  });
+  it('Cu2+ và Fe3+ không cùng tồn tại với I- vì oxi hóa iotua thành iot', () => {
+    const i = ANIONS.findIndex((a) => a.ascii === 'I');
+    expect(MATRIX[CATIONS.findIndex((c) => c.ascii === 'Cu')][i]).toBe('-');
+    expect(MATRIX[CATIONS.findIndex((c) => c.ascii === 'Fe3')][i]).toBe('-');
+  });
+  it('silicat chỉ tan với natri và kali', () => {
+    const i = ANIONS.findIndex((a) => a.ascii === 'SiO3');
+    CATIONS.forEach((c, r) => {
+      if (c.ascii === 'Na' || c.ascii === 'K') expect(MATRIX[r][i]).toBe('T');
+      else expect(MATRIX[r][i]).not.toBe('T');
+    });
   });
   it('AgCl và BaSO4 không tan', () => {
     const ag = CATIONS.findIndex((c) => c.ascii === 'Ag');

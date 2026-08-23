@@ -14,6 +14,9 @@ export interface Ion {
   sym: string; // ký hiệu trần để ghép công thức, vd "SO4", "Fe"
   charge: number; // độ lớn điện tích
   poly: boolean; // nhóm nhiều nguyên tử → cần ngoặc khi có chỉ số
+  /** Gốc axit viết TRƯỚC kim loại, vd CH3COONa chứ không phải NaCH3COO.
+   *  Chỉ dùng cho gốc hữu cơ, nơi lối viết quen thuộc đảo ngược. */
+  anionFirst?: true;
 }
 
 // Cation (hàng)
@@ -44,25 +47,34 @@ export const ANIONS: Ion[] = [
   { formula: 'PO₄³⁻', ascii: 'PO4', sym: 'PO4', charge: 3, poly: true },
   { formula: 'S²⁻', ascii: 'S', sym: 'S', charge: 2, poly: false },
   { formula: 'Br⁻', ascii: 'Br', sym: 'Br', charge: 1, poly: false },
+  { formula: 'I⁻', ascii: 'I', sym: 'I', charge: 1, poly: false },
+  { formula: 'CH₃COO⁻', ascii: 'CH3COO', sym: 'CH3COO', charge: 1, poly: true, anionFirst: true },
+  { formula: 'SO₃²⁻', ascii: 'SO3', sym: 'SO3', charge: 2, poly: true },
+  { formula: 'SiO₃²⁻', ascii: 'SiO3', sym: 'SiO3', charge: 2, poly: true },
 ];
 
 // Ma trận[cation][anion]. Thứ tự khớp với 2 mảng trên.
-// Cột:      OH   Cl   NO3  SO4  CO3  PO4  S    Br
+//
+// Vài ô ghi "-" vì hai ion KHÔNG cùng tồn tại chứ không phải vì không tan:
+//   Cu²⁺ và Fe³⁺ gặp I⁻ thì oxi hóa luôn iotua thành iot, không ra muối.
+//   Fe³⁺ và Al³⁺ gặp SO₃²⁻ hay CO₃²⁻ thì thủy phân hoàn toàn.
+//
+// Cột:      OH   Cl   NO3  SO4  CO3  PO4  S    Br   I    CH3COO SO3  SiO3
 export const MATRIX: Solub[][] = [
-  /* H⁺   */ ['-', 'T', 'T', 'T', '-', 'T', 'T', 'T'],
-  /* Na⁺  */ ['T', 'T', 'T', 'T', 'T', 'T', 'T', 'T'],
-  /* K⁺   */ ['T', 'T', 'T', 'T', 'T', 'T', 'T', 'T'],
-  /* NH₄⁺ */ ['T', 'T', 'T', 'T', 'T', 'T', 'T', 'T'],
-  /* Ag⁺  */ ['-', 'I', 'T', 'IT', 'I', 'I', 'I', 'I'],
-  /* Mg²⁺ */ ['I', 'T', 'T', 'T', 'I', 'I', '-', 'T'],
-  /* Ca²⁺ */ ['IT', 'T', 'T', 'IT', 'I', 'I', '-', 'T'],
-  /* Ba²⁺ */ ['T', 'T', 'T', 'I', 'I', 'I', '-', 'T'],
-  /* Zn²⁺ */ ['I', 'T', 'T', 'T', 'I', 'I', 'I', 'T'],
-  /* Cu²⁺ */ ['I', 'T', 'T', 'T', 'I', 'I', 'I', 'T'],
-  /* Fe²⁺ */ ['I', 'T', 'T', 'T', 'I', 'I', 'I', 'T'],
-  /* Fe³⁺ */ ['I', 'T', 'T', 'T', '-', 'I', '-', 'T'],
-  /* Al³⁺ */ ['I', 'T', 'T', 'T', '-', 'I', '-', 'T'],
-  /* Pb²⁺ */ ['I', 'IT', 'T', 'I', 'I', 'I', 'I', 'IT'],
+  /* H⁺   */ ['-', 'T', 'T', 'T', '-', 'T', 'T', 'T', 'T', 'T', 'T', 'I'],
+  /* Na⁺  */ ['T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T'],
+  /* K⁺   */ ['T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T'],
+  /* NH₄⁺ */ ['T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', '-'],
+  /* Ag⁺  */ ['-', 'I', 'T', 'IT', 'I', 'I', 'I', 'I', 'I', 'IT', 'I', 'I'],
+  /* Mg²⁺ */ ['I', 'T', 'T', 'T', 'I', 'I', '-', 'T', 'T', 'T', 'IT', 'I'],
+  /* Ca²⁺ */ ['IT', 'T', 'T', 'IT', 'I', 'I', '-', 'T', 'T', 'T', 'I', 'I'],
+  /* Ba²⁺ */ ['T', 'T', 'T', 'I', 'I', 'I', '-', 'T', 'T', 'T', 'I', 'I'],
+  /* Zn²⁺ */ ['I', 'T', 'T', 'T', 'I', 'I', 'I', 'T', 'T', 'T', 'I', 'I'],
+  /* Cu²⁺ */ ['I', 'T', 'T', 'T', 'I', 'I', 'I', 'T', '-', 'T', 'I', 'I'],
+  /* Fe²⁺ */ ['I', 'T', 'T', 'T', 'I', 'I', 'I', 'T', 'T', 'T', 'I', 'I'],
+  /* Fe³⁺ */ ['I', 'T', 'T', 'T', '-', 'I', '-', 'T', '-', 'T', '-', 'I'],
+  /* Al³⁺ */ ['I', 'T', 'T', 'T', '-', 'I', '-', 'T', 'T', 'T', '-', 'I'],
+  /* Pb²⁺ */ ['I', 'IT', 'T', 'I', 'I', 'I', 'I', 'IT', 'I', 'T', 'I', 'I'],
 ];
 
 export const SOLUB_META: Record<
@@ -92,5 +104,7 @@ export function buildFormula(cation: Ion, anion: Ion): string {
   const g = gcd(cation.charge, anion.charge);
   const nCat = anion.charge / g;
   const nAn = cation.charge / g;
+  // Gốc hữu cơ viết trước theo lối quen thuộc: CH3COONa, (CH3COO)2Ca
+  if (anion.anionFirst) return part(anion, nAn) + part(cation, nCat);
   return part(cation, nCat) + part(anion, nAn);
 }
