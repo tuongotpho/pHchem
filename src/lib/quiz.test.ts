@@ -151,3 +151,43 @@ describe('sinh đề bằng tiếng Anh', () => {
     expect(coDau.map((c) => c.de)).toEqual([]);
   });
 });
+
+// Hợp đồng của bộ sinh đề: dù hạt giống nào, dạng nào, cũng KHÔNG được ném
+// lỗi và không được trả câu hỏng. Trước đây `chon()` rút từ mảng rỗng sẽ trả
+// undefined rồi câu lệnh ngay sau đọc thuộc tính của undefined và làm sập cả
+// trang — các mảng nguồn đều lọc từ dữ liệu nên chỉ cần dữ liệu đổi là rỗng
+// lúc nào không hay.
+describe('bộ sinh đề không bao giờ được ném lỗi hay trả câu hỏng', () => {
+  const MOI_DANG = Object.keys(TEN_LOAI) as LoaiCau[];
+
+  it('200 hạt giống, mọi dạng, không lần nào nổ', () => {
+    for (let hat = 0; hat < 200; hat++) {
+      expect(() => sinhDe(hat, 5, 'vi')).not.toThrow();
+    }
+  });
+
+  it('từng dạng riêng lẻ cũng không nổ', () => {
+    for (const loai of MOI_DANG) {
+      for (let hat = 0; hat < 30; hat++) {
+        expect(() => sinhDe(hat, 5, 'vi', [loai]), `${loai} hạt ${hat}`).not.toThrow();
+        expect(() => sinhDe(hat, 5, 'en', [loai]), `${loai} hạt ${hat}`).not.toThrow();
+      }
+    }
+  });
+
+  it('mọi câu ra được đều dùng được: đủ lựa chọn, đáp án nằm trong tầm', () => {
+    for (let hat = 0; hat < 100; hat++) {
+      for (const c of sinhDe(hat, 10, 'vi')) {
+        expect(c.luaChon.length, c.de).toBeGreaterThanOrEqual(3);
+        expect(c.dapAn).toBeGreaterThanOrEqual(0);
+        expect(c.dapAn).toBeLessThan(c.luaChon.length);
+        expect(c.luaChon[c.dapAn]).toBeTruthy();
+      }
+    }
+  });
+
+  it('luôn trả về mảng, kể cả khi xin số câu bằng 0', () => {
+    expect(Array.isArray(sinhDe(1, 0, 'vi'))).toBe(true);
+    expect(sinhDe(1, 0, 'vi')).toEqual([]);
+  });
+});

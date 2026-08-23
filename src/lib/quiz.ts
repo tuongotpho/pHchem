@@ -57,7 +57,16 @@ function taoRng(hat: number) {
 }
 
 type Rng = () => number;
-const chon = <T>(rng: Rng, ds: readonly T[]): T => ds[Math.floor(rng() * ds.length)];
+/**
+ * Rút ngẫu nhiên một phần tử. Mảng RỖNG thì trả undefined chứ không trả bừa.
+ *
+ * Trước đây `ds[Math.floor(rng() * 0)]` cho undefined rồi câu lệnh ngay sau
+ * đó đọc thuộc tính của undefined và làm SẬP cả trang. Các mảng nguồn bên
+ * dưới đều lọc từ dữ liệu, nên chỉ cần dữ liệu đổi là chúng rỗng lúc nào
+ * không hay. Trả undefined thì nơi gọi bỏ câu đó đi, đề vẫn ra bình thường.
+ */
+const chon = <T>(rng: Rng, ds: readonly T[]): T | undefined =>
+  ds.length ? ds[Math.floor(rng() * ds.length)] : undefined;
 
 /** Trộn mảng, không đụng vào mảng gốc. */
 function tron<T>(rng: Rng, ds: T[]): T[] {
@@ -99,6 +108,7 @@ const nguyenToCoNhom = ELEMENTS.filter((e) => NHOM_NGUYEN_TO[e.cat]);
 /** Tổng hệ số sau khi cân bằng — dạng câu hỏi quen thuộc trong đề trắc nghiệm. */
 function cauCanBang(rng: Rng, lang: Lang): CauHoi | null {
   const r = chon(rng, phanUngThuong);
+  if (!r) return null;
   const { reactants, products } = speciesOf(r.eq);
   const kq = balance(`${reactants.join(' + ')} -> ${products.join(' + ')}`);
   if (!kq.ok) return null;
@@ -126,6 +136,7 @@ function cauCanBang(rng: Rng, lang: Lang): CauHoi | null {
 function cauHienTuong(rng: Rng, lang: Lang): CauHoi | null {
   const coHt = phanUngThuong.filter((r) => r.phen_vi && r.phen_en);
   const r = chon(rng, coHt);
+  if (!r) return null;
   const dung = (lang === 'vi' ? r.phen_vi : r.phen_en)!;
   const khoNhieu = coHt.map((x) => (lang === 'vi' ? x.phen_vi : x.phen_en)!);
   const lc = dungLuaChon(rng, dung, khoNhieu);
@@ -145,6 +156,7 @@ function cauHienTuong(rng: Rng, lang: Lang): CauHoi | null {
 /** Chất này thuộc lớp nào — dùng dữ liệu phân lớp. */
 function cauLopChat(rng: Rng, lang: Lang): CauHoi | null {
   const f = chon(rng, chatCoLop);
+  if (!f) return null;
   const dung = lang === 'vi' ? NHOM_CHAT[f.nhom!].vi : NHOM_CHAT[f.nhom!].en;
   const khoNhieu = Object.values(NHOM_CHAT).map((n) => (lang === 'vi' ? n.vi : n.en));
   const lc = dungLuaChon(rng, dung, khoNhieu);
@@ -195,6 +207,7 @@ function cauDoTan(rng: Rng, lang: Lang): CauHoi | null {
 function cauIupac(rng: Rng, lang: Lang): CauHoi | null {
   const coTen = FORMULAS.filter((f) => f.cat !== 'physical' && iupacOf(keyOf(f), f.en));
   const f = chon(rng, coTen);
+  if (!f) return null;
   const dung = iupacOf(keyOf(f), f.en)!;
   const khoNhieu = coTen.map((x) => iupacOf(keyOf(x), x.en)!);
   const lc = dungLuaChon(rng, dung, khoNhieu);
@@ -215,6 +228,7 @@ function cauIupac(rng: Rng, lang: Lang): CauHoi | null {
 /** Nguyên tố thuộc nhóm nào trong bảng tuần hoàn. */
 function cauNhomNguyenTo(rng: Rng, lang: Lang): CauHoi | null {
   const e = chon(rng, nguyenToCoNhom);
+  if (!e) return null;
   const dung = lang === 'vi' ? CATEGORY_META[e.cat].vi : CATEGORY_META[e.cat].en;
   const khoNhieu = Object.keys(NHOM_NGUYEN_TO).map((c) =>
     lang === 'vi'
@@ -263,7 +277,9 @@ export function sinhDe(
   const cacLoai = loai?.length ? loai : (Object.keys(BO_SINH) as LoaiCau[]);
   const de: CauHoi[] = [];
   for (let thu = 0; thu < soCau * 20 && de.length < soCau; thu++) {
-    const c = BO_SINH[chon(rng, cacLoai)](rng, lang);
+    const loaiCau = chon(rng, cacLoai);
+    if (!loaiCau) break; // không có dạng nào để ra đề thì thôi, khỏi quay vòng
+    const c = BO_SINH[loaiCau](rng, lang);
     if (!c) continue;
     // tránh ra trùng đúng câu vừa hỏi
     if (de.some((x) => x.de === c.de && x.phu === c.phu)) continue;

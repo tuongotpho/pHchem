@@ -18,18 +18,30 @@ export default function Quiz() {
   const [viTri, setViTri] = useState(0);
   const [daChon, setDaChon] = useState<number | null>(null);
   const [traLoi, setTraLoi] = useState<boolean[]>([]);
+  // Bộ sinh đề có thể trả ít câu hơn số xin, thậm chí không câu nào — dạng
+  // bài chọn quá hẹp, hoặc dữ liệu nguồn đổi. Vào thẳng màn làm bài với đề
+  // rỗng thì màn kết quả chia cho 0 và hiện "0/0 · Đúng NaN%".
+  const [khongRaDuocDe, setKhongRaDuocDe] = useState(false);
 
   const batDau = () => {
     const h = Math.floor(Math.random() * 1e9);
+    const bo = sinhDe(h, soCau, lang, chonLoai);
+    if (!bo.length) {
+      setKhongRaDuocDe(true);
+      return;
+    }
+    setKhongRaDuocDe(false);
     setHat(h);
-    setDe(sinhDe(h, soCau, lang, chonLoai));
+    setDe(bo);
     setViTri(0);
     setDaChon(null);
     setTraLoi([]);
   };
 
-  const doiLoai = (l: LoaiCau) =>
+  const doiLoai = (l: LoaiCau) => {
+    setKhongRaDuocDe(false); // đổi lựa chọn thì lời nhắc cũ hết nghĩa
     setChonLoai((cu) => (cu.includes(l) ? cu.filter((x) => x !== l) : [...cu, l]));
+  };
 
   // ---------- Màn chọn ----------
   if (!de) {
@@ -90,6 +102,14 @@ export default function Quiz() {
             <button onClick={batDau} className="btn-accent w-full mt-4 py-2.5">
               {vi ? 'Bắt đầu' : 'Start'}
             </button>
+
+            {khongRaDuocDe && (
+              <p className="text-xs text-rose-700 dark:text-rose-300 mt-2">
+                {vi
+                  ? 'Chưa ra được câu nào với dạng bài đang chọn. Thử chọn thêm dạng khác.'
+                  : 'No questions could be built from the selected topics. Try adding more.'}
+              </p>
+            )}
           </section>
         </div>
       </>
