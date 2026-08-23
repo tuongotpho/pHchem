@@ -149,36 +149,72 @@ export const REFERENCES = {
 };
 
 // ---------------------------------------------------------------------------
-// CẤU HÌNH R/S MONG ĐỢI
+// MÃ InChI CHÍNH THỨC — đối chiếu với nguồn ngoài
 //
-// Chuỗi ký tự R/S xếp theo thứ tự nguyên tử RDKit đánh số. Chữ thường (r/s) là
-// tâm giả bất đối — đúng theo quy ước, không phải lỗi.
+// InChI là mã định danh hóa chất chuẩn quốc tế (IUPAC). Mỗi chuỗi dưới đây
+// được chép về từ PubChem (Viện Y tế Quốc gia Mỹ), tra ngày 23/08/2026, trừ
+// xylitol lấy từ Wikipedia vì record PubChem bỏ trống tâm giữa.
+//
+// Đây là lớp kiểm CHẶT NHẤT: so cả phân tử — cấu tạo lẫn từng tâm lập thể —
+// với bên thứ ba, không phụ thuộc vào hiểu biết của người viết dữ liệu.
+//
+// Muốn tự kiểm lại một dòng: mở
+//   https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/<TÊN>/property/InChI/TXT
+// thay <TÊN> bằng tên ghi trong chú thích, rồi so chuỗi trả về.
+//
+// Thêm chất mới có tâm bất đối thì tra InChI rồi bổ sung vào đây.
 // ---------------------------------------------------------------------------
 
-// ĐÃ TRA CHUẨN từ tên gọi IUPAC / dạng có trong tự nhiên. Lệch là LỖI.
-export const EXPECTED_CIP = {
-  'C3H6O3': 'S',            // axit L-(+)-lactic
-  'C4H6O5': 'S',            // axit L-(-)-malic
-  'C4H6O6': 'RR',           // axit L-(+)-tartric (trong nho)
-  'C6H12O6': 'RSRSS',       // α-D-glucopyranozơ = (2S,3R,4S,5S,6R) theo tên oxan
-  'C6H12O6-gal': 'RSRSR',   // α-D-galactopyranozơ — đồng phân C4 của glucozơ
-  'C6H14O6': 'SRRR',        // D-sorbitol (D-glucitol)
-  'C6H8O6': 'SR',           // axit L-ascorbic (vitamin C)
-  'C10H14N2': 'S',          // (S)-(-)-nicotin
-  'C9H13NO3': 'R',          // (R)-(-)-adrenalin
-  'C14H18N2O5': 'SS',       // aspartam = este metyl của L-Asp-L-Phe, cả hai tâm S
-};
-
-// CHƯA TRA CHUẨN — mới chỉ chốt lại hiện trạng để chặn sửa nhầm về sau.
-// Lệch thì KHÔNG chắc là sai, nhưng phải có người soi lại.
-// >>> Đây là danh sách cần nhờ kiểm tra ngoài. <<<
-export const CIP_SNAPSHOT = {
-  'C6H12O6-fru': 'RRSS',    // fructozơ dạng vòng 5 cạnh
-  'C5H10O5': 'RSRS',        // xylozơ — lưu ý đang vẽ vòng 5 cạnh, SGK hay vẽ 6 cạnh
-  'C5H10O4': 'RSS',         // 2-đeoxyribozơ
-  'C12H22O11': 'RRSRSSRSS', // saccarozơ — 9 tâm, nhiều nhất bộ
-  'C5H12O5': 'SrR',         // xylitol (dạng meso)
-  'C27H46O': 'RRSSSRSR',    // cholesterol — 8 tâm
+export const VERIFIED_INCHI = {
+  // tên tra cứu: L-lactic acid
+  'C3H6O3':
+    'InChI=1S/C3H6O3/c1-2(4)3(5)6/h2,4H,1H3,(H,5,6)/t2-/m0/s1',
+  // L-malic acid
+  'C4H6O5':
+    'InChI=1S/C4H6O5/c5-2(4(8)9)1-3(6)7/h2,5H,1H2,(H,6,7)(H,8,9)/t2-/m0/s1',
+  // L-tartaric acid
+  'C4H6O6':
+    'InChI=1S/C4H6O6/c5-1(3(7)8)2(6)4(9)10/h1-2,5-6H,(H,7,8)(H,9,10)/t1-,2-/m1/s1',
+  // alpha-D-glucopyranose
+  'C6H12O6':
+    'InChI=1S/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1',
+  // alpha-D-galactopyranose
+  'C6H12O6-gal':
+    'InChI=1S/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3+,4+,5-,6+/m1/s1',
+  // beta-D-fructofuranose — đúng dạng nằm trong saccarozơ
+  'C6H12O6-fru':
+    'InChI=1S/C6H12O6/c7-1-3-4(9)5(10)6(11,2-8)12-3/h3-5,7-11H,1-2H2/t3-,4-,5+,6-/m1/s1',
+  // alpha-D-ribofuranose
+  'C5H10O5':
+    'InChI=1S/C5H10O5/c6-1-2-3(7)4(8)5(9)10-2/h2-9H,1H2/t2-,3-,4-,5+/m1/s1',
+  // 2-deoxy-alpha-D-ribofuranose
+  'C5H10O4':
+    'InChI=1S/C5H10O4/c6-2-4-3(7)1-5(8)9-4/h3-8H,1-2H2/t3-,4+,5-/m0/s1',
+  // sucrose
+  'C12H22O11':
+    'InChI=1S/C12H22O11/c13-1-4-6(16)8(18)9(19)11(21-4)23-12(3-15)10(20)7(17)5(2-14)22-12/h4-11,13-20H,1-3H2/t4-,5-,6-,7-,8+,9-,10+,11-,12+/m1/s1',
+  // D-sorbitol
+  'C6H14O6':
+    'InChI=1S/C6H14O6/c7-1-3(9)5(11)6(12)4(10)2-8/h3-12H,1-2H2/t3-,4+,5-,6-/m1/s1',
+  // xylitol — nguồn Wikipedia. Record PubChem để trống tâm giữa (…,5?), mà tâm
+  // đó chính là chỗ phân biệt xylitol (5+) với ribitol (5-).
+  'C5H12O5':
+    'InChI=1S/C5H12O5/c6-1-3(8)5(10)4(9)2-7/h3-10H,1-2H2/t3-,4+,5+',
+  // L-ascorbic acid
+  'C6H8O6':
+    'InChI=1S/C6H8O6/c7-1-2(8)5-3(9)4(10)6(11)12-5/h2,5,7-10H,1H2/t2-,5+/m0/s1',
+  // nicotine
+  'C10H14N2':
+    'InChI=1S/C10H14N2/c1-12-7-3-5-10(12)9-4-2-6-11-8-9/h2,4,6,8,10H,3,5,7H2,1H3/t10-/m0/s1',
+  // epinephrine (adrenalin)
+  'C9H13NO3':
+    'InChI=1S/C9H13NO3/c1-10-5-9(13)6-2-3-7(11)8(12)4-6/h2-4,9-13H,5H2,1H3/t9-/m0/s1',
+  // aspartame
+  'C14H18N2O5':
+    'InChI=1S/C14H18N2O5/c1-21-14(20)11(7-9-5-3-2-4-6-9)16-13(19)10(15)8-12(17)18/h2-6,10-11H,7-8,15H2,1H3,(H,16,19)(H,17,18)/t10-,11-/m0/s1',
+  // cholesterol
+  'C27H46O':
+    'InChI=1S/C27H46O/c1-18(2)7-6-8-19(3)23-11-12-24-22-10-9-20-17-21(28)13-15-26(20,4)25(22)14-16-27(23,24)5/h9,18-19,21-25,28H,6-8,10-17H2,1-5H3/t19-,21+,22+,23-,24+,25+,26+,27-/m1/s1',
 };
 
 // Chất mà RDKit báo "còn tâm lập thể bỏ trống" nhưng không phải lỗi.

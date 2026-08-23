@@ -10,18 +10,15 @@
 //   2. Đối chứng cấu tạo : mỗi chất có đồng phân được viết tay LẦN HAI theo cách
 //      khác trong references.mjs; hai cách phải quy về cùng một mã InChI.
 //      Đây là lớp bắt lỗi "nối dây sai" mà phép đếm nguyên tử không thấy.
-//   3. Cấu hình R/S : so với bảng đã tra chuẩn từ tên gọi IUPAC.
+//   3. Đối chiếu nguồn ngoài : chất có tâm bất đối được so mã InChI với chuỗi
+//      chép từ PubChem. Lớp này kiểm cả phân tử, không phụ thuộc hiểu biết
+//      của người viết dữ liệu.
 //   4. Luật amino axit : mọi amino axit trong protein phải là dạng L —
 //      tức tâm alpha là (S), riêng xistein là (R).
 //   5. Tâm lập thể bỏ trống : chất có tâm bất đối mà chưa khai chiều xoay.
 
 import initRDKitModule from '@rdkit/rdkit';
-import {
-  REFERENCES,
-  EXPECTED_CIP,
-  CIP_SNAPSHOT,
-  ALLOW_UNDEFINED_STEREO,
-} from './references.mjs';
+import { REFERENCES, VERIFIED_INCHI, ALLOW_UNDEFINED_STEREO } from './references.mjs';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -176,8 +173,7 @@ const orphans = [];
 const broken = [];
 const fallbacks = [];
 const constiBad = [];   // lệch bảng đối chứng cấu tạo
-const cipBad = [];      // lệch cấu hình R/S đã tra chuẩn
-const cipDrift = [];    // lệch bảng chốt hiện trạng — cần người soi
+const inchiBad = [];    // lệch mã InChI chuẩn lấy từ PubChem
 const aminoBad = [];    // vi phạm luật amino axit dạng L
 const noStereo = [];    // còn tâm lập thể bỏ trống
 
@@ -222,14 +218,22 @@ for (const [key, smiles] of entries) {
       if (ref) ref.delete();
     }
 
-    // --- Lớp 3 & 5: cấu hình R/S và tâm lập thể bỏ trống ---
+    // --- Lớp 3: đối chiếu mã InChI với nguồn ngoài ---
     const cip = cipInfo(probe);
-    if (EXPECTED_CIP[key] && cip.chain !== EXPECTED_CIP[key]) {
-      cipBad.push(`${key}: chờ ${EXPECTED_CIP[key]}, thực tế ${cip.chain || '(không có)'}`);
+    if (VERIFIED_INCHI[key]) {
+      const got = probe.get_inchi();
+      if (got !== VERIFIED_INCHI[key]) {
+        inchiBad.push(
+          `${key} (R/S đang là ${cip.chain || 'không có'}):` +
+            `
+       ta có  → ${got}` +
+            `
+       chuẩn  → ${VERIFIED_INCHI[key]}`,
+        );
+      }
     }
-    if (CIP_SNAPSHOT[key] && cip.chain !== CIP_SNAPSHOT[key]) {
-      cipDrift.push(`${key}: bảng chốt ${CIP_SNAPSHOT[key]}, thực tế ${cip.chain || '(không có)'}`);
-    }
+
+    // --- Lớp 5: tâm lập thể bỏ trống ---
     if (cip.undefinedCount && !ALLOW_UNDEFINED_STEREO.has(key)) {
       noStereo.push(`${key}: ${cip.undefinedCount} tâm chưa khai chiều xoay`);
     }
@@ -353,22 +357,21 @@ console.log(`✓ Trang duyệt: structure-review.html`);
 
 const okFormula = entries.length - mismatches.length - errors.length;
 const nRef = Object.keys(REFERENCES).length;
-const nCip = Object.keys(EXPECTED_CIP).length;
+const nInchi = Object.keys(VERIFIED_INCHI).length;
 
 console.log(`\n— TỰ KIỂM —`);
-console.log(`1. Đếm nguyên tử        : ${okFormula}/${entries.length}`);
-console.log(`2. Đối chứng cấu tạo    : ${nRef - constiBad.length}/${nRef} chất có đồng phân (kèm cis/trans)`);
-console.log(`3. Cấu hình R/S đã tra  : ${nCip - cipBad.length}/${nCip}`);
-console.log(`4. Luật amino axit L    : ${aminoBad.length ? aminoBad.length + ' chất SAI' : 'đạt'}`);
-console.log(`5. Tâm lập thể bỏ trống : ${noStereo.length ? noStereo.length + ' chất' : 'không có'}`);
+console.log(`1. Đếm nguyên tử         : ${okFormula}/${entries.length}`);
+console.log(`2. Đối chứng cấu tạo     : ${nRef - constiBad.length}/${nRef} chất có đồng phân (kèm cis/trans)`);
+console.log(`3. Khớp InChI của PubChem: ${nInchi - inchiBad.length}/${nInchi} chất có tâm bất đối`);
+console.log(`4. Luật amino axit L     : ${aminoBad.length ? aminoBad.length + ' chất SAI' : 'đạt'}`);
+console.log(`5. Tâm lập thể bỏ trống  : ${noStereo.length ? noStereo.length + ' chất' : 'không có'}`);
 
 block('✗ LỆCH CÔNG THỨC', mismatches);
 block('✗ SMILES LỖI', errors);
 block('✗ LỆCH CẤU TẠO so với bản đối chứng', constiBad);
-block('✗ SAI CẤU HÌNH R/S', cipBad);
+block('✗ LỆCH MÃ InChI CHUẨN', inchiBad);
 block('✗ SAI LUẬT AMINO AXIT DẠNG L', aminoBad);
 block('✗ TỌA ĐỘ HỎNG, đã bỏ qua', broken);
-block('⚠ LỆCH BẢNG CHỐT R/S — cần người soi lại', cipDrift);
 block('⚠ CÒN TÂM LẬP THỂ BỎ TRỐNG', noStereo);
 block('⚠ SMILES không khớp chất nào trong thư viện', orphans);
 
@@ -381,7 +384,7 @@ const unchecked = entries.filter(([k]) => !REFERENCES[k]).length;
 console.log(`\nℹ ${unchecked} chất chưa có bản đối chứng cấu tạo (phần lớn là chất chỉ có một cấu tạo duy nhất).`);
 
 const fatal =
-  mismatches.length + errors.length + constiBad.length + cipBad.length + aminoBad.length + broken.length;
+  mismatches.length + errors.length + constiBad.length + inchiBad.length + aminoBad.length + broken.length;
 if (fatal === 0 && !orphans.length) {
   console.log('\nSạch — không có lỗi.');
 } else if (fatal > 0) {
