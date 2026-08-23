@@ -35,6 +35,9 @@ export default function Formulas() {
     () => FORMULAS.find((f) => keyOf(f) === params.get('item')) ?? null,
   );
   const [page, setPage] = useState(1);
+  // Đang phóng to hình cấu tạo của chất nào. Chất nhiều nguyên tử như
+  // cholesterol hay saccarozơ nhồi vào khung nhỏ thì đọc không nổi.
+  const [phongTo, setPhongTo] = useState(false);
 
   // Đến từ trang nguyên tố: điền sẵn ô tìm kiếm theo công thức được bấm
   useEffect(() => {
@@ -176,10 +179,13 @@ export default function Formulas() {
       {sel && (
         <div
           className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm grid place-items-center p-4"
-          onClick={() => setSel(null)}
+          onClick={() => {
+            setSel(null);
+            setPhongTo(false);
+          }}
         >
           <div
-            className="card p-5 max-w-sm w-full relative"
+            className="card p-5 max-w-md w-full relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -280,13 +286,16 @@ export default function Formulas() {
             {hasStructure(keyOf(sel)) ? (
               <div className="mt-4 rounded-xl bg-base-900 border border-base-800 p-3">
                 {svgs ? (
-                  <div
-                    className="h-56 text-slate-100 mx-auto"
-                    // Hình do RDKit sinh sẵn (đầy đủ lập thể); nét dùng currentColor
+                  <button
+                    onClick={() => setPhongTo(true)}
+                    title={lang === 'vi' ? 'Bấm để phóng to' : 'Click to enlarge'}
+                    className="block w-full h-64 sm:h-72 text-slate-100 hover:opacity-80 transition-opacity cursor-zoom-in"
+                    // Hình do RDKit sinh sẵn (đầy đủ lập thể); nét dùng currentColor.
+                    // Là ảnh vector nên phóng to bao nhiêu cũng không vỡ nét.
                     dangerouslySetInnerHTML={{ __html: svgs[keyOf(sel)] }}
                   />
                 ) : (
-                  <div className="h-56 grid place-items-center text-xs text-slate-600">
+                  <div className="h-64 sm:h-72 grid place-items-center text-xs text-slate-600">
                     {lang === 'vi' ? 'Đang tải hình…' : 'Loading…'}
                   </div>
                 )}
@@ -300,6 +309,11 @@ export default function Formulas() {
                       ? 'Công thức cấu tạo'
                       : 'Structural formula'}
                 </div>
+                {svgs && (
+                  <div className="text-center text-[10px] text-slate-600 mt-0.5">
+                    {lang === 'vi' ? 'Bấm vào hình để phóng to' : 'Click the image to enlarge'}
+                  </div>
+                )}
               </div>
             ) : (
               <div className="mt-4 text-xs text-slate-600 text-center py-4 rounded-xl bg-base-900 border border-base-800">
@@ -308,6 +322,42 @@ export default function Formulas() {
                   : 'No structural formula yet.'}
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Phóng to hình cấu tạo ra toàn màn hình. Ảnh vector nên nét vẫn sắc.
+          Đặt z cao hơn khung chi tiết để nằm hẳn lên trên. */}
+      {phongTo && sel && svgs && (
+        <div
+          className="fixed inset-0 z-[70] bg-base-950/95 backdrop-blur-sm flex flex-col p-4 md:p-8"
+          onClick={() => setPhongTo(false)}
+        >
+          <div className="flex items-start justify-between gap-3 shrink-0">
+            <div className="min-w-0">
+              <FormulaText
+                value={sel.formula}
+                subscript={sel.cat !== 'physical'}
+                className="text-xl md:text-2xl font-bold text-accent font-mono"
+              />
+              <div className="text-sm text-slate-300 truncate">
+                {lang === 'vi' ? sel.vi : sel.en}
+              </div>
+            </div>
+            <button
+              onClick={() => setPhongTo(false)}
+              aria-label={lang === 'vi' ? 'Đóng' : 'Close'}
+              className="btn-ghost shrink-0 px-3 py-1.5 text-lg leading-none"
+            >
+              ✕
+            </button>
+          </div>
+          <div
+            className="flex-1 min-h-0 mt-3 text-slate-100 cursor-zoom-out"
+            dangerouslySetInnerHTML={{ __html: svgs[keyOf(sel)] }}
+          />
+          <div className="text-center text-xs text-slate-500 shrink-0 pt-2">
+            {lang === 'vi' ? 'Bấm bất cứ đâu để đóng' : 'Click anywhere to close'}
           </div>
         </div>
       )}
