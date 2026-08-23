@@ -71,7 +71,7 @@ export const STRINGS = {
     vi: 'Tìm mọi thứ trong app…',
     en: 'Search everything…',
   },
-  gsearch_open: { vi: 'Tìm kiếm', en: 'Search' },
+  gsearch_open: { vi: 'Tìm trong toàn app', en: 'Search everything' },
   gsearch_empty: { vi: 'Không tìm thấy.', en: 'No results.' },
   gsearch_hint: {
     vi: '↑↓ chọn · Enter mở · Esc đóng',

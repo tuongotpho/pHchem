@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useLang } from '../i18n/LangContext';
 import type { StringKey } from '../i18n/strings';
@@ -43,6 +43,22 @@ const BADGE_COLOR: Record<string, string> = {
 export default function Home() {
   const { t, lang, toggle } = useLang();
   const [q, setQ] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Trang chủ không có nút kính lúp (đã có sẵn ô lớn ngay đây), nhưng Ctrl+K
+  // vẫn phải ăn cho thống nhất với các trang nhánh — người dùng quen tay bấm
+  // ở trang nào cũng thấy có tác dụng.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        inputRef.current?.focus();
+        inputRef.current?.select();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   const results = useMemo(() => searchAll(q, lang), [q, lang]);
   const searching = q.trim().length > 0;
@@ -71,6 +87,7 @@ export default function Home() {
         <div className="relative max-w-xl">
           <IconSearch className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
           <input
+            ref={inputRef}
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder={
