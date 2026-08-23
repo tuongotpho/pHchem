@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useLang } from '../i18n/LangContext';
 import type { StringKey } from '../i18n/strings';
 import {
@@ -41,7 +41,6 @@ const BADGE_COLOR: Record<string, string> = {
 
 export default function Home() {
   const { t, lang, toggle } = useLang();
-  const navigate = useNavigate();
   const [q, setQ] = useState('');
 
   const results = useMemo(() => searchAll(q, lang), [q, lang]);
@@ -107,9 +106,11 @@ export default function Home() {
           ) : (
             <div className="space-y-2">
               {results.map((r, i) => (
-                <button
+                // Liên kết thật, không phải nút bấm: mở được ở tab mới, chuột
+                // phải sao chép được địa chỉ, và trỏ thẳng tới đúng mục.
+                <Link
                   key={i}
-                  onClick={() => r.to && navigate(r.to)}
+                  to={r.to}
                   className="card w-full text-left p-3.5 flex items-start gap-3 hover:border-accent/40 transition-colors"
                 >
                   <span
@@ -127,7 +128,7 @@ export default function Home() {
                       {r.sub}
                     </span>
                   </span>
-                </button>
+                </Link>
               ))}
             </div>
           )}

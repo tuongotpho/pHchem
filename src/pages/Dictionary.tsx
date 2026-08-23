@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import { useLang } from '../i18n/LangContext';
 import { TERMS } from '../data/dictionary';
@@ -19,6 +20,23 @@ export default function Dictionary() {
   const { t, lang } = useLang();
   const [q, setQ] = useState('');
   const [letter, setLetter] = useState<string | null>(null);
+
+  // Đến thẳng từ ô tìm kiếm trang chủ: ?item=<tên tiếng Anh của thuật ngữ>.
+  // Không lọc bớt danh sách — vẫn hiện đủ để người dùng thấy ngữ cảnh xung
+  // quanh, chỉ cuộn tới và tô viền mục cần tìm.
+  const [params] = useSearchParams();
+  const target = params.get('item');
+  const targetRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Cuộn TỨC THÌ, không "mượt": danh sách dài mấy nghìn pixel, cuộn mượt vừa
+    // lâu vừa hay bị hụt giữa chừng. Bấm liên kết là phải thấy mục ngay.
+    // Đợi một khung hình cho danh sách vẽ xong rồi mới đo vị trí.
+    const id = requestAnimationFrame(() => {
+      targetRef.current?.scrollIntoView({ block: 'center' });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [target]);
 
   // Sắp xếp theo bảng chữ cái của ngôn ngữ đang chọn
   const sorted = useMemo(
@@ -99,8 +117,14 @@ export default function Dictionary() {
         </div>
 
         <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 items-start">
-          {list.map((term) => (
-            <div key={term.en} className="card p-4">
+          {list.map((term) => {
+            const daChon = term.en === target;
+            return (
+            <div
+              key={term.en}
+              ref={daChon ? targetRef : undefined}
+              className={`card p-4 ${daChon ? 'border-accent ring-2 ring-accent/40' : ''}`}
+            >
               <div className="flex items-baseline gap-2 flex-wrap">
                 <h3 className="font-semibold text-slate-100">
                   {lang === 'vi' ? term.vi : term.en}
@@ -113,7 +137,8 @@ export default function Dictionary() {
                 {lang === 'vi' ? term.def_vi : term.def_en}
               </p>
             </div>
-          ))}
+            );
+          })}
         </div>
 
         {list.length === 0 && (

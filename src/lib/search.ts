@@ -1,8 +1,9 @@
 // Tìm kiếm tổng: gộp kết quả từ nguyên tố, công thức, thuật ngữ, sự thật.
 import { ELEMENTS } from '../data/elements';
-import { FORMULAS } from '../data/formulas';
+import { FORMULAS, keyOf } from '../data/formulas';
 import { TERMS } from '../data/dictionary';
 import { FACTS } from '../data/facts';
+import { itemId } from './itemId';
 import type { Lang } from '../i18n/strings';
 
 export type ResultKind = 'element' | 'formula' | 'term' | 'fact';
@@ -11,7 +12,9 @@ export interface SearchResult {
   kind: ResultKind;
   title: string; // dòng chính
   sub: string; // dòng phụ
-  to?: string; // đường dẫn nếu bấm được (nguyên tố)
+  /** Đường dẫn tới ĐÚNG mục này, không phải tới trang chung.
+   *  Trang đích đọc tham số `item` để mở sẵn / cuộn tới / tô sáng mục. */
+  to: string;
   badge: string; // nhãn nhóm
 }
 
@@ -55,7 +58,7 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
         kind: 'formula',
         title: `${f.formula} · ${lang === 'vi' ? f.vi : f.en}`,
         sub: lang === 'vi' ? f.note_vi : f.note_en,
-        to: '/formulas',
+        to: `/formulas?item=${encodeURIComponent(keyOf(f))}`,
         badge: lang === 'vi' ? 'Công thức' : 'Formula',
       });
     }
@@ -73,7 +76,7 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
         kind: 'term',
         title: lang === 'vi' ? t.vi : t.en,
         sub: lang === 'vi' ? t.def_vi : t.def_en,
-        to: '/dictionary',
+        to: `/dictionary?item=${encodeURIComponent(t.en)}`,
         badge: lang === 'vi' ? 'Thuật ngữ' : 'Term',
       });
     }
@@ -86,7 +89,7 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
         kind: 'fact',
         title: lang === 'vi' ? fact.vi : fact.en,
         sub: fact.tag,
-        to: '/facts',
+        to: `/facts?item=${itemId(fact.en)}`,
         badge: lang === 'vi' ? 'Sự thật' : 'Fact',
       });
     }

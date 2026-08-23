@@ -1,14 +1,31 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import PageHeader from '../components/PageHeader';
 import { useLang } from '../i18n/LangContext';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { FACTS } from '../data/facts';
 import { byNumber } from '../data/elements';
+import { itemId } from '../lib/itemId';
 
 export default function Facts() {
   const { t, lang } = useLang();
   const [q, setQ] = useState('');
   const [tag, setTag] = useState<string | null>(null);
+
+  // Đến thẳng từ ô tìm kiếm trang chủ: ?item=<mã sinh từ nội dung>.
+  // Xem src/lib/itemId.ts để biết vì sao không dùng số thứ tự.
+  const [params] = useSearchParams();
+  const target = params.get('item');
+  const targetRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Cuộn TỨC THÌ, không "mượt": danh sách dài mấy nghìn pixel, cuộn mượt vừa
+    // lâu vừa hay bị hụt giữa chừng. Bấm liên kết là phải thấy mục ngay.
+    // Đợi một khung hình cho danh sách vẽ xong rồi mới đo vị trí.
+    const id = requestAnimationFrame(() => {
+      targetRef.current?.scrollIntoView({ block: 'center' });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [target]);
 
   const tags = useMemo(() => [...new Set(FACTS.map((f) => f.tag))], []);
 
@@ -58,8 +75,14 @@ export default function Facts() {
         </div>
 
         <div className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 items-start">
-          {list.map((f, i) => (
-            <div key={i} className="card p-4 flex gap-3">
+          {list.map((f, i) => {
+            const daChon = itemId(f.en) === target;
+            return (
+            <div
+              key={i}
+              ref={daChon ? targetRef : undefined}
+              className={`card p-4 flex gap-3 ${daChon ? 'border-accent ring-2 ring-accent/40' : ''}`}
+            >
               <div className="text-2xl shrink-0">💡</div>
               <div>
                 <span className="text-[10px] px-1.5 py-0.5 rounded bg-base-800 text-accent">
@@ -87,7 +110,8 @@ export default function Facts() {
                 )}
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </>

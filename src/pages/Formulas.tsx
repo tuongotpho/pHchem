@@ -27,7 +27,11 @@ export default function Formulas() {
   const [q, setQ] = useState(params.get('q') ?? '');
   const [cat, setCat] = useState<FormulaCat | 'all'>('all');
   const [onlyStruct, setOnlyStruct] = useState(false);
-  const [sel, setSel] = useState<Formula | null>(null);
+  // Đến thẳng từ ô tìm kiếm trang chủ: ?item=<khóa chất> thì mở sẵn khung chi
+  // tiết của đúng chất đó, khỏi bắt người dùng dò lại trong danh sách 340 mục.
+  const [sel, setSel] = useState<Formula | null>(
+    () => FORMULAS.find((f) => keyOf(f) === params.get('item')) ?? null,
+  );
   const [page, setPage] = useState(1);
 
   // Đến từ trang nguyên tố: điền sẵn ô tìm kiếm theo công thức được bấm
