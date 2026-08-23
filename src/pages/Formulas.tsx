@@ -7,6 +7,7 @@ import { useLang } from '../i18n/LangContext';
 import { hasStructure, STRUCTURE_COUNT } from '../generated/structures';
 import { elementsOfFormula } from '../lib/compoundIndex';
 import { reactionsForFormula } from '../lib/reactionIndex';
+import { isomersOf, ctptOf } from '../lib/isomerIndex';
 import { byNumber } from '../data/elements';
 import {
   FORMULAS,
@@ -213,6 +214,29 @@ export default function Formulas() {
                   ? `Xem ${reactionsForFormula(sel.formula).length} phản ứng liên quan →`
                   : `See ${reactionsForFormula(sel.formula).length} related reactions →`}
               </Link>
+            )}
+
+            {/* Đồng phân — cùng công thức phân tử nhưng khác cấu tạo.
+                Bấm vào là chuyển thẳng sang chất đó để so sánh ngay. */}
+            {isomersOf(sel).length > 0 && (
+              <div className="mt-3">
+                <div className="text-[11px] text-slate-500 mb-1">
+                  {lang === 'vi'
+                    ? `Đồng phân — cùng công thức phân tử ${ctptOf(sel)}`
+                    : `Isomers — same molecular formula ${ctptOf(sel)}`}
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {isomersOf(sel).map((x) => (
+                    <button
+                      key={keyOf(x) + x.en}
+                      onClick={() => setSel(x)}
+                      className="text-[11px] px-1.5 py-0.5 rounded bg-base-800 text-slate-400 hover:bg-accent/15 hover:text-accent transition"
+                    >
+                      {lang === 'vi' ? x.vi : x.en}
+                    </button>
+                  ))}
+                </div>
+              </div>
             )}
 
             {elementsOfFormula(sel).length > 0 && (
