@@ -75,13 +75,17 @@ function parseSegment(s) {
   return group();
 }
 
-// Đếm nguyên tố từ molblock đã bung hết H (V2000)
+// Đếm nguyên tố từ molblock đã bung hết H (V2000).
+// BỎ QUA nguyên tử giả (R hoặc *): với polime ta chỉ vẽ MỘT MẮT XÍCH, hai đầu
+// nối để hở bằng nguyên tử giả cho thấy mạch còn kéo dài. Đầu nối không phải
+// nguyên tố nên không được tính vào công thức.
 function countFromMolblock(mb) {
   const lines = mb.split('\n');
   const nAtoms = parseInt(lines[3].slice(0, 3).trim(), 10);
   const out = {};
   for (let k = 0; k < nAtoms; k++) {
     const sym = lines[4 + k].trim().split(/\s+/)[3];
+    if (sym === 'R' || sym === '*' || sym === 'R#') continue;
     out[sym] = (out[sym] || 0) + 1;
   }
   return out;

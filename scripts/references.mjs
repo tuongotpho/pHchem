@@ -121,6 +121,11 @@ export const REFERENCES = {
   'C6H14O6': 'OCC(O)C(O)C(O)C(O)CO',
   // Saccarozơ: vòng glucozơ 6 cạnh nối qua oxi sang vòng fructozơ 5 cạnh
   'C12H22O11': 'OCC1OC(OC2(CO)OC(CO)C(O)C2O)C(O)C(O)C1O',
+  // Mantozơ và lactozơ: hai vòng 6 cạnh nối 1-4, khác nhau ở lập thể
+  'C12H22O11-mal': 'OCC1OC(O)C(O)C(O)C1OC1OC(CO)C(O)C(O)C1O',
+  'C12H22O11-lac': 'OCC1OC(O)C(O)C(O)C1OC1OC(CO)C(O)C(O)C1O',
+  // Chất béo: ba gốc axit béo gắn vào glixerol
+  'C57H110O6': 'CCCCCCCCCCCCCCCCCC(=O)OCC(COC(=O)CCCCCCCCCCCCCCCCC)OC(=O)CCCCCCCCCCCCCCCCC',
   'C5H12O5': 'OCC(O)C(O)C(O)CO',
 
   // --- Dẫn xuất halogen ---
@@ -215,11 +220,41 @@ export const VERIFIED_INCHI = {
   // levomenthol = (1R,2S,5R)-menthol, dạng có trong tinh dầu bạc hà
   'C10H20O':
     'InChI=1S/C10H20O/c1-7(2)9-5-4-8(3)6-10(9)11/h7-11H,4-6H2,1-3H3/t8-,9+,10-/m1/s1',
+  // beta-maltose
+  'C12H22O11-mal':
+    'InChI=1S/C12H22O11/c13-1-3-5(15)6(16)9(19)12(22-3)23-10-4(2-14)21-11(20)8(18)7(10)17/h3-20H,1-2H2/t3-,4-,5-,6+,7-,8-,9-,10-,11-,12-/m1/s1',
+  // beta-lactose
+  'C12H22O11-lac':
+    'InChI=1S/C12H22O11/c13-1-3-5(15)6(16)9(19)12(22-3)23-10-4(2-14)21-11(20)8(18)7(10)17/h3-20H,1-2H2/t3-,4-,5+,6+,7-,8-,9-,10-,11-,12+/m1/s1',
+  // tristearin
+  'C57H110O6':
+    'InChI=1S/C57H110O6/c1-4-7-10-13-16-19-22-25-28-31-34-37-40-43-46-49-55(58)61-52-54(63-57(60)51-48-45-42-39-36-33-30-27-24-21-18-15-12-9-6-3)53-62-56(59)50-47-44-41-38-35-32-29-26-23-20-17-14-11-8-5-2/h54H,4-53H2,1-3H3',
+  // triolein
+  'C57H104O6':
+    'InChI=1S/C57H104O6/c1-4-7-10-13-16-19-22-25-28-31-34-37-40-43-46-49-55(58)61-52-54(63-57(60)51-48-45-42-39-36-33-30-27-24-21-18-15-12-9-6-3)53-62-56(59)50-47-44-41-38-35-32-29-26-23-20-17-14-11-8-5-2/h25-30,54H,4-24,31-53H2,1-3H3/b28-25-,29-26-,30-27-',
+  // morphine
+  'C17H19NO3':
+    'InChI=1S/C17H19NO3/c1-18-7-6-17-10-3-5-13(20)16(17)21-15-12(19)4-2-9(14(15)17)8-11(10)18/h2-5,10-11,13,16,19-20H,6-8H2,1H3/t10-,11+,13-,16-,17-/m0/s1',
+  // penicillin G
+  'C16H18N2O4S':
+    'InChI=1S/C16H18N2O4S/c1-16(2)12(15(21)22)18-13(20)11(14(18)23-16)17-10(19)8-9-6-4-3-5-7-9/h3-7,11-12,14H,8H2,1-2H3,(H,17,19)(H,21,22)/t11-,12+,14-/m1/s1',
   // cholesterol
   'C27H46O':
     'InChI=1S/C27H46O/c1-18(2)7-6-8-19(3)23-11-12-24-22-10-9-20-17-21(28)13-15-26(20,4)25(22)14-16-27(23,24)5/h9,18-19,21-25,28H,6-8,10-17H2,1-5H3/t19-,21+,22+,23-,24+,25+,26+,27-/m1/s1',
 };
 
 // Chất mà RDKit báo "còn tâm lập thể bỏ trống" nhưng không phải lỗi.
+//
 // PH3: RDKit coi P hình tháp là tâm bất đối, thực tế nó đảo chóp liên tục.
-export const ALLOW_UNDEFINED_STEREO = new Set(['PH3']);
+//
+// Bốn polime vinyl: cacbon mang nhánh đúng là tâm bất đối, nhưng chiều xoay
+// của nó là ĐỘ ĐỀU MẠCH (tacticity) — tính chất của cả sợi polime, không phải
+// của một mắt xích. Nhựa thường dùng phần lớn là mạch không đều, nên để trống
+// mới đúng; khai một chiều cụ thể là vẽ sai chất.
+export const ALLOW_UNDEFINED_STEREO = new Set([
+  'PH3',
+  '(C3H6)n',
+  '(C2H3Cl)n',
+  '(C8H8)n',
+  '(C5H8O2)n',
+]);

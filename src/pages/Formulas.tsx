@@ -252,7 +252,14 @@ export default function Formulas() {
                   </div>
                 )}
                 <div className="text-center text-[11px] text-slate-500 mt-1">
-                  {lang === 'vi' ? 'Công thức cấu tạo' : 'Structural formula'}
+                  {/* Polime chỉ vẽ được MỘT mắt xích; hai đầu hở là chỗ mạch nối tiếp */}
+                  {/^\(.+\)n$/.test(sel.formula)
+                    ? lang === 'vi'
+                      ? 'Một mắt xích của polime (hai đầu nối tiếp mạch)'
+                      : 'One repeating unit (open ends continue the chain)'
+                    : lang === 'vi'
+                      ? 'Công thức cấu tạo'
+                      : 'Structural formula'}
                 </div>
               </div>
             ) : (
