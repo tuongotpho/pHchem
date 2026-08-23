@@ -117,14 +117,20 @@ qua bộ kiểm tự động.
 
 ---
 
-## Đợt D — Dọn nợ kỹ thuật
+## Đợt D — Dọn nợ kỹ thuật ✅ XONG 23/08/2026
 
-7 cảnh báo lint còn tồn, đều là lỗi tiềm ẩn chưa lộ ra:
+7 cảnh báo lint → **0**.
 
-- `ElementDetail.tsx` — 3 chỗ tạo component ngay trong lúc vẽ. Mỗi lần vẽ lại
-  là component bị dựng mới, mất sạch trạng thái bên trong.
-- `Reactions.tsx`, `Formulas.tsx` — 4 chỗ đặt trạng thái trong hiệu ứng, gây
-  vẽ lại dây chuyền.
+Hóa ra không chỉ là cảnh báo suông: bốn chỗ "đặt trạng thái trong hiệu ứng"
+đang che một LỖI THẬT. Đang ở trang Công thức mà bấm Ctrl+K chọn chất khác
+thì địa chỉ đổi nhưng khung chi tiết vẫn hiện chất cũ, vì hàm dựng trạng thái
+ban đầu chỉ chạy đúng một lần lúc trang được dựng. Trang Phản ứng y hệt.
+
+Đã đổi sang lối React khuyên dùng cho việc "chỉnh trạng thái khi đầu vào đổi":
+so với giá trị lần trước ngay trong lúc vẽ. Việc đặt lại số trang khi đổi bộ
+lọc thì chuyển vào chính sự kiện gây ra thay đổi.
+
+Ba chỗ ở `ElementDetail.tsx` gỡ hai khối con ra ngoài hàm trang.
 
 ---
 

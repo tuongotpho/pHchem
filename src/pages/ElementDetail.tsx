@@ -24,6 +24,57 @@ function block(el: Element): string {
  *  wide = chiếm trọn hàng (dành cho nội dung dài như cấu hình electron). */
 type Spec = { label: string; value: string | null; wide?: boolean };
 
+// Hai khối dưới đây đặt NGOÀI hàm trang, không lồng bên trong.
+//
+// Định nghĩa component ngay trong lúc vẽ thì mỗi lần trang vẽ lại, React coi
+// đó là một loại component MỚI: nó tháo cây cũ đi rồi dựng lại từ đầu, mất
+// sạch trạng thái bên trong và làm hỏng hiệu ứng chuyển. Ở đây chưa lộ ra vì
+// hai khối này không giữ trạng thái, nhưng thêm bất cứ thứ gì có trạng thái là
+// lỗi hiện ngay — nên đặt đúng chỗ ngay từ giờ.
+
+function SpecRow({ s, chuaXacDinh }: { s: Spec; chuaXacDinh: string }) {
+  return (
+    <div
+      className={`flex items-baseline justify-between gap-3 border-b border-base-800/70 py-1 ${
+        s.wide ? 'col-span-full' : ''
+      }`}
+    >
+      <dt className="text-xs text-slate-500 shrink-0">{s.label}</dt>
+      <dd
+        className={`text-sm text-right min-w-0 ${
+          s.value === null ? 'text-slate-600' : 'font-medium text-slate-100 font-mono'
+        }`}
+        title={s.value === null ? chuaXacDinh : undefined}
+      >
+        {s.value ?? '—'}
+      </dd>
+    </div>
+  );
+}
+
+function Group({
+  title,
+  specs,
+  chuaXacDinh,
+}: {
+  title: string;
+  specs: Spec[];
+  chuaXacDinh: string;
+}) {
+  return (
+    <div>
+      <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">
+        {title}
+      </h3>
+      <dl className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-x-6">
+        {specs.map((s) => (
+          <SpecRow key={s.label} s={s} chuaXacDinh={chuaXacDinh} />
+        ))}
+      </dl>
+    </div>
+  );
+}
+
 export default function ElementDetail() {
   const { n } = useParams();
   const navigate = useNavigate();
@@ -89,37 +140,6 @@ export default function ElementDetail() {
   const coOTrong = [...basic, ...physical, ...history].some((s) => s.value === null);
   const chuaXacDinh = lang === 'vi' ? 'Chưa xác định' : 'Not determined';
 
-  const SpecRow = ({ s }: { s: Spec }) => (
-    <div
-      className={`flex items-baseline justify-between gap-3 border-b border-base-800/70 py-1 ${
-        s.wide ? 'col-span-full' : ''
-      }`}
-    >
-      <dt className="text-xs text-slate-500 shrink-0">{s.label}</dt>
-      <dd
-        className={`text-sm text-right min-w-0 ${
-          s.value === null ? 'text-slate-600' : 'font-medium text-slate-100 font-mono'
-        }`}
-        title={s.value === null ? chuaXacDinh : undefined}
-      >
-        {s.value ?? '—'}
-      </dd>
-    </div>
-  );
-
-  const Group = ({ title, specs }: { title: string; specs: Spec[] }) => (
-    <div>
-      <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">
-        {title}
-      </h3>
-      <dl className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-x-6">
-        {specs.map((s) => (
-          <SpecRow key={s.label} s={s} />
-        ))}
-      </dl>
-    </div>
-  );
-
   return (
     <>
       <PageHeader
@@ -175,12 +195,21 @@ export default function ElementDetail() {
 
           {/* Bảng thông số — gộp cả ba nhóm vào một thẻ */}
           <div className="card p-4 space-y-3">
-            <Group title={lang === 'vi' ? 'Thông tin cơ bản' : 'Basic data'} specs={basic} />
+            <Group
+              title={lang === 'vi' ? 'Thông tin cơ bản' : 'Basic data'}
+              specs={basic}
+              chuaXacDinh={chuaXacDinh}
+            />
             <Group
               title={lang === 'vi' ? 'Tính chất vật lý' : 'Physical properties'}
               specs={physical}
+              chuaXacDinh={chuaXacDinh}
             />
-            <Group title={lang === 'vi' ? 'Lịch sử & ứng dụng' : 'History & uses'} specs={history} />
+            <Group
+              title={lang === 'vi' ? 'Lịch sử & ứng dụng' : 'History & uses'}
+              specs={history}
+              chuaXacDinh={chuaXacDinh}
+            />
             {coOTrong && (
               <p className="text-[11px] text-slate-600 pt-1">
                 {lang === 'vi'

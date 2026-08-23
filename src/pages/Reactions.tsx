@@ -46,14 +46,22 @@ export default function Reactions() {
   const [page, setPage] = useState(1);
   // Đến thẳng từ ô tìm kiếm: ?item=<mã phương trình> thì mở sẵn khung chi tiết,
   // khỏi phải lần qua từng trang trong 133 phản ứng.
-  const [sel, setSel] = useState<Reaction | null>(
-    () => REACTIONS.find((r) => itemId(r.eq) === params.get('item')) ?? null,
-  );
+  const phanUngTuDiaChi = (ma: string | null) =>
+    ma ? (REACTIONS.find((r) => itemId(r.eq) === ma) ?? null) : null;
+  const [sel, setSel] = useState<Reaction | null>(() => phanUngTuDiaChi(params.get('item')));
 
-  useEffect(() => {
-    const tuDiaChi = params.get('q');
-    if (tuDiaChi !== null) setQ(tuDiaChi);
-  }, [params]);
+  // Bám theo địa chỉ khi nó đổi mà trang KHÔNG dựng lại — ví dụ đang ở trang
+  // Phản ứng rồi bấm Ctrl+K chọn phản ứng khác. Xem chú thích cùng chỗ ở
+  // Formulas.tsx để biết vì sao không dùng useEffect.
+  const qDiaChi = params.get('q');
+  const itemDiaChi = params.get('item');
+  const [diaChiTruoc, setDiaChiTruoc] = useState({ q: qDiaChi, item: itemDiaChi });
+  if (diaChiTruoc.q !== qDiaChi || diaChiTruoc.item !== itemDiaChi) {
+    setDiaChiTruoc({ q: qDiaChi, item: itemDiaChi });
+    if (qDiaChi !== null) setQ(qDiaChi);
+    if (diaChiTruoc.item !== itemDiaChi) setSel(phanUngTuDiaChi(itemDiaChi));
+    setPage(1);
+  }
 
   // Đóng modal bằng Esc
   useEffect(() => {
@@ -85,8 +93,6 @@ export default function Reactions() {
       );
     });
   }, [q, loai, nguonList]);
-
-  useEffect(() => setPage(1), [q, loai, nguonList]);
 
   const totalPages = Math.max(1, Math.ceil(list.length / PER_PAGE));
   const current = Math.min(page, totalPages);
@@ -120,7 +126,10 @@ export default function Reactions() {
       <div className="p-4 md:p-6">
         <input
           value={q}
-          onChange={(e) => setQ(e.target.value)}
+          onChange={(e) => {
+            setQ(e.target.value);
+            setPage(1); // đổi từ khóa thì về trang 1, khỏi rơi vào trang trống
+          }}
           placeholder={
             lang === 'vi'
               ? 'Lọc theo chất, hiện tượng, điều kiện…'
@@ -131,7 +140,10 @@ export default function Reactions() {
 
         <div className="flex gap-1.5 mb-4 flex-wrap">
           <button
-            onClick={() => setLoai('all')}
+            onClick={() => {
+              setLoai('all');
+              setPage(1);
+            }}
             className={`text-xs px-3 py-1.5 rounded-lg border transition ${
               loai === 'all'
                 ? 'bg-accent/15 border-accent/40 text-accent'
@@ -143,7 +155,10 @@ export default function Reactions() {
           {TYPES.map((x) => (
             <button
               key={x}
-              onClick={() => setLoai(loai === x ? 'all' : x)}
+              onClick={() => {
+                setLoai(loai === x ? 'all' : x);
+                setPage(1);
+              }}
               className={`text-xs px-3 py-1.5 rounded-lg border transition ${
                 loai === x
                   ? 'bg-accent/15 border-accent/40 text-accent'

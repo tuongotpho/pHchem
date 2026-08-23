@@ -30,11 +30,11 @@ export default function Formulas() {
   const [q, setQ] = useState(params.get('q') ?? '');
   const [cat, setCat] = useState<FormulaCat | 'all'>('all');
   const [onlyStruct, setOnlyStruct] = useState(false);
-  // Đến thẳng từ ô tìm kiếm trang chủ: ?item=<khóa chất> thì mở sẵn khung chi
-  // tiết của đúng chất đó, khỏi bắt người dùng dò lại trong danh sách 340 mục.
-  const [sel, setSel] = useState<Formula | null>(
-    () => FORMULAS.find((f) => keyOf(f) === params.get('item')) ?? null,
-  );
+  // Đến thẳng từ ô tìm kiếm: ?item=<khóa chất> thì mở sẵn khung chi tiết của
+  // đúng chất đó, khỏi bắt người dùng dò lại trong danh sách 340 mục.
+  const chatTuDiaChi = (khoa: string | null) =>
+    khoa ? (FORMULAS.find((f) => keyOf(f) === khoa) ?? null) : null;
+  const [sel, setSel] = useState<Formula | null>(() => chatTuDiaChi(params.get('item')));
   const [page, setPage] = useState(1);
   // Đang phóng to hình cấu tạo của chất nào. Chất nhiều nguyên tử như
   // cholesterol hay saccarozơ nhồi vào khung nhỏ thì đọc không nổi.
@@ -58,11 +58,22 @@ export default function Formulas() {
   );
   const xoayHinh = manHinhDungHep && !tatXoay;
 
-  // Đến từ trang nguyên tố: điền sẵn ô tìm kiếm theo công thức được bấm
-  useEffect(() => {
-    const tuDiaChi = params.get('q');
-    if (tuDiaChi !== null) setQ(tuDiaChi);
-  }, [params]);
+  // Bám theo địa chỉ khi nó đổi mà trang KHÔNG dựng lại — ví dụ đang ở trang
+  // Công thức rồi bấm Ctrl+K chọn chất khác: cùng tuyến đường, chỉ đổi tham số.
+  // Trước đây chỗ này viết trong useEffect nên khung chi tiết không đổi theo,
+  // vẫn hiện chất cũ dù địa chỉ đã sang chất mới.
+  //
+  // Đây là lối React khuyên dùng cho việc "chỉnh trạng thái khi đầu vào đổi":
+  // so với giá trị lần trước ngay trong lúc vẽ, khác thì chỉnh rồi vẽ lại luôn.
+  const qDiaChi = params.get('q');
+  const itemDiaChi = params.get('item');
+  const [diaChiTruoc, setDiaChiTruoc] = useState({ q: qDiaChi, item: itemDiaChi });
+  if (diaChiTruoc.q !== qDiaChi || diaChiTruoc.item !== itemDiaChi) {
+    setDiaChiTruoc({ q: qDiaChi, item: itemDiaChi });
+    if (qDiaChi !== null) setQ(qDiaChi);
+    if (diaChiTruoc.item !== itemDiaChi) setSel(chatTuDiaChi(itemDiaChi));
+    setPage(1);
+  }
   // Kho hình chỉ tải khi người dùng mở xem chất đầu tiên (giữ app nhẹ lúc mở).
   const [svgs, setSvgs] = useState<Record<string, string> | null>(null);
 
@@ -93,9 +104,6 @@ export default function Formulas() {
     });
   }, [q, cat, onlyStruct]);
 
-  // Đổi bộ lọc hay từ khóa thì quay về trang 1
-  useEffect(() => setPage(1), [q, cat, onlyStruct]);
-
   const totalPages = Math.max(1, Math.ceil(list.length / PER_PAGE));
   const current = Math.min(page, totalPages);
   const start = (current - 1) * PER_PAGE;
@@ -107,7 +115,10 @@ export default function Formulas() {
       <div className="p-4 md:p-6">
         <input
           value={q}
-          onChange={(e) => setQ(e.target.value)}
+          onChange={(e) => {
+            setQ(e.target.value);
+            setPage(1); // đổi từ khóa thì về trang 1, khỏi rơi vào trang trống
+          }}
           placeholder={t('filter_placeholder')}
           className="w-full max-w-md bg-base-850 border border-base-700 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-accent mb-3"
         />
@@ -115,7 +126,10 @@ export default function Formulas() {
           {CATS.map((c) => (
             <button
               key={c}
-              onClick={() => setCat(c)}
+              onClick={() => {
+                setCat(c);
+                setPage(1);
+              }}
               className={`text-xs px-3 py-1.5 rounded-lg border transition ${
                 cat === c
                   ? 'bg-accent/15 border-accent/40 text-accent'
@@ -129,7 +143,10 @@ export default function Formulas() {
           {/* ngăn cách rồi tới nút lọc "có hình" */}
           <span className="w-px h-5 bg-base-700 mx-1" />
           <button
-            onClick={() => setOnlyStruct((v) => !v)}
+            onClick={() => {
+              setOnlyStruct((v) => !v);
+              setPage(1);
+            }}
             className={`text-xs px-3 py-1.5 rounded-lg border transition flex items-center gap-1 ${
               onlyStruct
                 ? 'bg-accent/15 border-accent/40 text-accent'
