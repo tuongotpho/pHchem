@@ -29,7 +29,12 @@ describe('liên kết sự thật với nguyên tố', () => {
 
   it('các nguyên tố quen thuộc đều có sự thật đi kèm', () => {
     // Những nguyên tố học sinh gặp nhiều nhất
-    const quenThuoc = [1, 6, 7, 8, 11, 13, 16, 17, 20, 26, 29, 30, 47, 79, 80, 82];
+    const quenThuoc = [
+      1, 6, 7, 8, 11, 13, 16, 17, 20, 26, 29, 30, 47, 79, 80, 82,
+      // bổ sung đợt 4 — chốt lại để sau này không ai xóa mất
+      4, 5, 12, 18, 21, 23, 27, 32, 33, 34, 35, 36, 40, 42, 43, 45, 49, 50, 51,
+      52, 54, 77, 81, 86,
+    ];
     const thieu = quenThuoc.filter((n) => factsForElement(n).length === 0);
     expect(thieu).toEqual([]);
   });
@@ -50,6 +55,6 @@ describe('liên kết sự thật với nguyên tố', () => {
   it('báo số nguyên tố đang có sự thật', () => {
     const coFact = ELEMENTS.filter((e) => factsForElement(e.n).length > 0);
     // chỉ ghi nhận con số, không ép ngưỡng
-    expect(coFact.length).toBeGreaterThan(40);
+    expect(coFact.length).toBeGreaterThanOrEqual(69);
   });
 });
