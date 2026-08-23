@@ -5,10 +5,23 @@
 //   - src/generated/structures.ts  → app import (cam kết vào git, CI không cần RDKit)
 //   - structure-review.html        → trang tổng để duyệt một lượt (không cam kết)
 //
-// TỰ KIỂM: script đối chiếu công thức khai báo với công thức RDKit tính được từ
-// SMILES. Gõ nhầm một ký tự là báo lỗi ngay, không cần mắt người dò.
+// TỰ KIỂM — 5 lớp, xem báo cáo in ra cuối lần chạy:
+//   1. Đếm nguyên tử : công thức khai báo phải khớp SMILES.
+//   2. Đối chứng cấu tạo : mỗi chất có đồng phân được viết tay LẦN HAI theo cách
+//      khác trong references.mjs; hai cách phải quy về cùng một mã InChI.
+//      Đây là lớp bắt lỗi "nối dây sai" mà phép đếm nguyên tử không thấy.
+//   3. Cấu hình R/S : so với bảng đã tra chuẩn từ tên gọi IUPAC.
+//   4. Luật amino axit : mọi amino axit trong protein phải là dạng L —
+//      tức tâm alpha là (S), riêng xistein là (R).
+//   5. Tâm lập thể bỏ trống : chất có tâm bất đối mà chưa khai chiều xoay.
 
 import initRDKitModule from '@rdkit/rdkit';
+import {
+  REFERENCES,
+  EXPECTED_CIP,
+  CIP_SNAPSHOT,
+  ALLOW_UNDEFINED_STEREO,
+} from './references.mjs';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -120,6 +133,31 @@ function clean(svg) {
   return svg.trim();
 }
 
+// ---------- Rút phần CẤU TẠO + HÌNH HỌC NỐI ĐÔI của mã InChI ----------
+// InChI chia thành nhiều lớp ngăn bởi dấu "/". Ta GIỮ lớp b (cis/trans quanh
+// nối đôi) vì vẽ nhầm cis thành trans là sai hẳn chất — axit oleic là ví dụ.
+// Chỉ BỎ các lớp t, m, s (chiều xoay tâm bất đối) vì phần đó đã có bảng R/S lo.
+const constitutionLayer = (inchi) =>
+  inchi
+    .split('/')
+    .filter((layer) => !/^[tms]/.test(layer))
+    .join('/');
+
+// Chuỗi R/S theo thứ tự nguyên tử, vd "RSRSS". Dấu ? = tâm chưa khai chiều xoay.
+function cipInfo(mol) {
+  let tags;
+  try {
+    tags = JSON.parse(mol.get_stereo_tags()).CIP_atoms || [];
+  } catch {
+    return { chain: '', undefinedCount: 0 };
+  }
+  const sorted = [...tags].sort((a, b) => a[0] - b[0]);
+  return {
+    chain: sorted.map((x) => x[1].replace(/[()]/g, '')).join(''),
+    undefinedCount: sorted.filter((x) => x[1].includes('?')).length,
+  };
+}
+
 // ---------- Chạy ----------
 const RDKit = await initRDKitModule({
   locateFile: () => wasmPath,
@@ -137,6 +175,18 @@ const mismatches = [];
 const orphans = [];
 const broken = [];
 const fallbacks = [];
+const constiBad = [];   // lệch bảng đối chứng cấu tạo
+const cipBad = [];      // lệch cấu hình R/S đã tra chuẩn
+const cipDrift = [];    // lệch bảng chốt hiện trạng — cần người soi
+const aminoBad = [];    // vi phạm luật amino axit dạng L
+const noStereo = [];    // còn tâm lập thể bỏ trống
+
+// Bộ nhận dạng amino axit alpha: N–C(H)(nhánh cacbon)–COOH
+const AA_QUERY = RDKit.get_qmol('[NX3;H1,H2][CX4H1]([#6])[CX3](=O)[OX2H1]');
+// Trong protein mọi amino axit đều là dạng L → tâm alpha là (S).
+// Riêng xistein là (R): nhánh CH2–S đổi thứ tự ưu tiên, chứ chiều không gian
+// vẫn y hệt các chất kia.
+const AA_EXPECT_R = new Set(['C3H7NO2S']);
 
 for (const [key, smiles] of entries) {
   if (!LIB.has(key)) orphans.push(key);
@@ -151,6 +201,60 @@ for (const [key, smiles] of entries) {
     if (!sameCounts(declared, actual)) {
       mismatches.push(`${key}: khai báo ${fmt(declared)} ≠ SMILES ${fmt(actual)}`);
     }
+
+    // Các phép kiểm chạy trên BẢN SAO. Lý do: get_stereo_tags() gán lại nhãn
+    // lập thể lên phân tử, làm bản vẽ xê dịch. Tách ra để khâu kiểm không bao
+    // giờ đụng vào hình — kiểm là kiểm, vẽ là vẽ.
+    const probe = RDKit.get_mol(smiles);
+
+    // --- Lớp 2: đối chứng cấu tạo với bản viết tay lần hai ---
+    if (REFERENCES[key]) {
+      const ref = RDKit.get_mol(REFERENCES[key]);
+      if (!ref || !ref.is_valid()) {
+        constiBad.push(`${key}: SMILES đối chứng trong references.mjs không hợp lệ`);
+      } else {
+        const a = constitutionLayer(probe.get_inchi());
+        const b = constitutionLayer(ref.get_inchi());
+        if (a !== b) constiBad.push(`${key}:
+       smiles.json → ${a}
+       đối chứng  → ${b}`);
+      }
+      if (ref) ref.delete();
+    }
+
+    // --- Lớp 3 & 5: cấu hình R/S và tâm lập thể bỏ trống ---
+    const cip = cipInfo(probe);
+    if (EXPECTED_CIP[key] && cip.chain !== EXPECTED_CIP[key]) {
+      cipBad.push(`${key}: chờ ${EXPECTED_CIP[key]}, thực tế ${cip.chain || '(không có)'}`);
+    }
+    if (CIP_SNAPSHOT[key] && cip.chain !== CIP_SNAPSHOT[key]) {
+      cipDrift.push(`${key}: bảng chốt ${CIP_SNAPSHOT[key]}, thực tế ${cip.chain || '(không có)'}`);
+    }
+    if (cip.undefinedCount && !ALLOW_UNDEFINED_STEREO.has(key)) {
+      noStereo.push(`${key}: ${cip.undefinedCount} tâm chưa khai chiều xoay`);
+    }
+
+    // --- Lớp 4: luật amino axit dạng L ---
+    const aaHit = JSON.parse(probe.get_substruct_match(AA_QUERY) || '{}');
+    if (aaHit.atoms) {
+      const alphaIdx = aaHit.atoms[1];
+      let tags = [];
+      try {
+        tags = JSON.parse(probe.get_stereo_tags()).CIP_atoms || [];
+      } catch { /* không có tâm nào */ }
+      const found = tags.find((x) => x[0] === alphaIdx);
+      if (found) {
+        const got = found[1].replace(/[()]/g, '');
+        const want = AA_EXPECT_R.has(key) ? 'R' : 'S';
+        if (got !== want) {
+          aminoBad.push(
+            `${key}: tâm alpha là (${got}) — đây là dạng D. Dạng L phải là (${want}).`,
+          );
+        }
+      }
+    }
+
+    probe.delete();
 
     // Chất nhỏ (≤2 nguyên tử nặng) bung H cho đúng kiểu SGK
     const heavy = parseInt(mol.get_molblock().split('\n')[3].slice(0, 3).trim(), 10);
@@ -238,28 +342,49 @@ writeFileSync(
 );
 
 // 3) Báo cáo
+const block = (title, list) => {
+  if (!list.length) return;
+  console.log(`\n${title} (${list.length}):`);
+  list.forEach((m) => console.log('   ' + m));
+};
+
 console.log(`\n✓ Sinh ${Object.keys(svgs).length} hình → src/generated/structures.ts`);
 console.log(`✓ Trang duyệt: structure-review.html`);
+
+const okFormula = entries.length - mismatches.length - errors.length;
+const nRef = Object.keys(REFERENCES).length;
+const nCip = Object.keys(EXPECTED_CIP).length;
+
 console.log(`\n— TỰ KIỂM —`);
-console.log(`Công thức khớp SMILES : ${entries.length - mismatches.length - errors.length}/${entries.length}`);
-if (mismatches.length) {
-  console.log(`\n✗ LỆCH CÔNG THỨC (${mismatches.length}):`);
-  mismatches.forEach((m) => console.log('   ' + m));
-}
-if (errors.length) {
-  console.log(`\n✗ SMILES LỖI (${errors.length}):`);
-  errors.forEach((m) => console.log('   ' + m));
-}
-if (broken.length) {
-  console.log(`\n✗ TỌA ĐỘ HỎNG, đã bỏ qua (${broken.length}):`);
-  broken.forEach((m) => console.log('   ' + m));
-}
-if (orphans.length) {
-  console.log(`\n⚠ SMILES không khớp chất nào trong thư viện (${orphans.length}):`);
-  orphans.forEach((m) => console.log('   ' + m));
-}
+console.log(`1. Đếm nguyên tử        : ${okFormula}/${entries.length}`);
+console.log(`2. Đối chứng cấu tạo    : ${nRef - constiBad.length}/${nRef} chất có đồng phân (kèm cis/trans)`);
+console.log(`3. Cấu hình R/S đã tra  : ${nCip - cipBad.length}/${nCip}`);
+console.log(`4. Luật amino axit L    : ${aminoBad.length ? aminoBad.length + ' chất SAI' : 'đạt'}`);
+console.log(`5. Tâm lập thể bỏ trống : ${noStereo.length ? noStereo.length + ' chất' : 'không có'}`);
+
+block('✗ LỆCH CÔNG THỨC', mismatches);
+block('✗ SMILES LỖI', errors);
+block('✗ LỆCH CẤU TẠO so với bản đối chứng', constiBad);
+block('✗ SAI CẤU HÌNH R/S', cipBad);
+block('✗ SAI LUẬT AMINO AXIT DẠNG L', aminoBad);
+block('✗ TỌA ĐỘ HỎNG, đã bỏ qua', broken);
+block('⚠ LỆCH BẢNG CHỐT R/S — cần người soi lại', cipDrift);
+block('⚠ CÒN TÂM LẬP THỂ BỎ TRỐNG', noStereo);
+block('⚠ SMILES không khớp chất nào trong thư viện', orphans);
+
 if (fallbacks.length) {
   console.log(`\nℹ Phải dùng bộ xếp tọa độ dự phòng (${fallbacks.length}): ${fallbacks.join(', ')}`);
 }
-if (!mismatches.length && !errors.length && !orphans.length && !broken.length)
-  console.log('Sạch — không có lỗi.');
+
+// Chất chưa có bản đối chứng — chưa được kiểm lớp 2. Nói rõ để khỏi tưởng đã kiểm hết.
+const unchecked = entries.filter(([k]) => !REFERENCES[k]).length;
+console.log(`\nℹ ${unchecked} chất chưa có bản đối chứng cấu tạo (phần lớn là chất chỉ có một cấu tạo duy nhất).`);
+
+const fatal =
+  mismatches.length + errors.length + constiBad.length + cipBad.length + aminoBad.length + broken.length;
+if (fatal === 0 && !orphans.length) {
+  console.log('\nSạch — không có lỗi.');
+} else if (fatal > 0) {
+  console.log(`\n✗ CÓ ${fatal} LỖI PHẢI SỬA.`);
+  process.exitCode = 1;
+}
