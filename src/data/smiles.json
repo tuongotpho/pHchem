@@ -315,5 +315,9 @@
   "(C10H8O4)n": "*OCCOC(=O)c1ccccc1C(=O)*",
 
   "C17H19NO3": "CN1CC[C@]23c4c5ccc(O)c4O[C@H]2[C@@H](O)C=C[C@H]3[C@H]1C5",
-  "C16H18N2O4S": "CC1(C)S[C@@H]2[C@H](NC(=O)Cc3ccccc3)C(=O)N2[C@H]1C(=O)O"
+  "C16H18N2O4S": "CC1(C)S[C@@H]2[C@H](NC(=O)Cc3ccccc3)C(=O)N2[C@H]1C(=O)O",
+
+  "P4O10": "O=P12OP3(=O)OP(=O)(O1)OP(=O)(O2)O3",
+  "CaOCl2": "[Ca+2].[O-]Cl.[Cl-]",
+  "K3[Fe(CN)6]": "[K+].[K+].[K+].N#C[Fe-3](C#N)(C#N)(C#N)(C#N)C#N"
 }

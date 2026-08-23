@@ -26,6 +26,11 @@ export const REFERENCES = {
   'C5H8': 'C=C(C)C=C',
   'C3H4': 'C(#C)C',
 
+  // --- Vô cơ có cấu trúc dễ viết nhầm ---
+  // P4O10: khung tứ diện 4 photpho, 6 cầu oxi, 4 oxi đầu mút
+  'P4O10': 'O=P1(OP2(=O)OP3(=O)O1)OP(=O)(O2)O3',
+  'K3[Fe(CN)6]': '[K+].[K+].[K+].[Fe-3](C#N)(C#N)(C#N)(C#N)(C#N)C#N',
+
   // --- Thơm ---
   'C7H8': 'c1ccccc1C',
   'C8H10': 'c1cc(C)c(C)cc1',

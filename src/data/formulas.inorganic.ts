@@ -76,7 +76,7 @@ export const INORGANIC: Formula[] = [
   { formula: 'N2O5', vi: 'Đinitơ pentaoxit', en: 'Dinitrogen pentoxide', cat: 'inorganic', note_vi: 'Anhydrit của axit nitric.', note_en: 'Anhydride of nitric acid.' },
   { formula: 'SO2', vi: 'Lưu huỳnh đioxit', en: 'Sulfur dioxide', cat: 'inorganic', note_vi: 'Khí mùi hắc; gây mưa axit, tẩy màu.', note_en: 'Pungent gas; causes acid rain, bleaches.' },
   { formula: 'SO3', vi: 'Lưu huỳnh trioxit', en: 'Sulfur trioxide', cat: 'inorganic', note_vi: 'Anhydrit của axit sunfuric.', note_en: 'Anhydride of sulfuric acid.' },
-  { formula: 'P2O5', vi: 'Điphotpho pentaoxit', en: 'Phosphorus pentoxide', cat: 'inorganic', note_vi: 'Chất hút nước cực mạnh.', note_en: 'Extremely powerful drying agent.' },
+  { formula: 'P2O5', id: 'P4O10', vi: 'Điphotpho pentaoxit', en: 'Phosphorus pentoxide', cat: 'inorganic', note_vi: 'Chất hút nước cực mạnh. Công thức quen dùng là P2O5, nhưng phân tử thật là P4O10 — khung tứ diện bốn nguyên tử photpho.', note_en: 'Extremely powerful drying agent. Usually written P2O5, but the real molecule is P4O10, a tetrahedron of four phosphorus atoms.' },
   { formula: 'FeO', vi: 'Sắt(II) oxit', en: 'Iron(II) oxide', cat: 'inorganic', note_vi: 'Bột đen; dễ bị oxi hóa lên Fe(III).', note_en: 'Black powder; readily oxidized to Fe(III).' },
   { formula: 'Fe2O3', vi: 'Sắt(III) oxit (gỉ sắt)', en: 'Iron(III) oxide', cat: 'inorganic', note_vi: 'Bột nâu đỏ; quặng hematit.', note_en: 'Red-brown powder; hematite ore.' },
   { formula: 'Fe3O4', vi: 'Oxit sắt từ', en: 'Iron(II,III) oxide', cat: 'inorganic', note_vi: 'Quặng manhetit; có từ tính.', note_en: 'Magnetite ore; magnetic.' },

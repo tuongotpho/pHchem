@@ -25,6 +25,22 @@ describe('tìm kiếm không dấu', () => {
   });
 });
 
+describe('tìm theo từng chữ, không đòi liền mạch', () => {
+  it('thiếu chữ đệm vẫn ra kết quả', () => {
+    // thuật ngữ là "Bậc của ancol" — người dùng hiếm khi gõ đủ chữ "của"
+    expect(co('bac ancol', 'Bậc của ancol')).toBe(true);
+    expect(searchAll('trang guong glucozo', 'vi').length).toBeGreaterThan(0);
+  });
+
+  it('gõ đảo thứ tự vẫn ra', () => {
+    expect(searchAll('ancol bac', 'vi').length).toBeGreaterThan(0);
+  });
+
+  it('gõ thừa chữ không liên quan thì KHÔNG ra bừa', () => {
+    expect(searchAll('bac ancol xyzkhongcó', 'vi')).toEqual([]);
+  });
+});
+
 describe('phạm vi tìm kiếm', () => {
   it('có tìm được phản ứng', () => {
     const kq = searchAll('dien phan', 'vi');

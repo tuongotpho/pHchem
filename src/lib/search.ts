@@ -33,14 +33,25 @@ const norm = (s: string) =>
 export function searchAll(query: string, lang: Lang): SearchResult[] {
   const q = norm(query.trim());
   if (q.length < 1) return [];
+
+  // Tách câu tìm thành từng chữ, đòi CÓ ĐỦ chứ không đòi liền mạch.
+  // Trước đây phải khớp nguyên cụm nên gõ "bac ancol" không ra "Bậc CỦA ancol",
+  // "axit stearic" không ra "Axit béo stearic" — thiếu đúng một chữ đệm là mất
+  // kết quả. Người dùng không nhớ chính xác từng chữ đệm.
+  const tu = q.split(/\s+/).filter(Boolean);
+  const khop = (kho: string): boolean => {
+    const k = norm(kho);
+    return tu.every((x) => k.includes(x));
+  };
+
   const out: SearchResult[] = [];
 
   // Nguyên tố
   for (const e of ELEMENTS) {
     if (
       norm(e.sym) === q ||
-      norm(e.vi).includes(q) ||
-      norm(e.en).includes(q) ||
+      khop(e.vi) ||
+      khop(e.en) ||
       String(e.n) === q
     ) {
       out.push({
@@ -56,9 +67,7 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
   // Công thức
   for (const f of FORMULAS) {
     if (
-      norm(f.formula).includes(q) ||
-      norm(f.vi).includes(q) ||
-      norm(f.en).includes(q)
+      khop(f.formula) || khop(f.vi) || khop(f.en)
     ) {
       out.push({
         kind: 'formula',
@@ -86,7 +95,7 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
       r.note_vi ?? '',
       r.note_en ?? '',
     ].join(' ');
-    if (norm(kho).includes(q)) {
+    if (khop(kho)) {
       const loai = r.type.map((ty) => TYPE_META[ty][lang]).join(' · ');
       out.push({
         kind: 'reaction',
@@ -104,10 +113,7 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
   // Thuật ngữ
   for (const t of TERMS) {
     if (
-      norm(t.vi).includes(q) ||
-      norm(t.en).includes(q) ||
-      norm(t.def_vi).includes(q) ||
-      norm(t.def_en).includes(q)
+      khop(t.vi) || khop(t.en) || khop(t.def_vi) || khop(t.def_en)
     ) {
       out.push({
         kind: 'term',
@@ -121,7 +127,7 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
 
   // Sự thật
   for (const fact of FACTS) {
-    if (norm(fact.vi).includes(q) || norm(fact.en).includes(q)) {
+    if (khop(fact.vi) || khop(fact.en)) {
       out.push({
         kind: 'fact',
         title: lang === 'vi' ? fact.vi : fact.en,
