@@ -6,6 +6,7 @@ import {
   type ReactNode,
 } from 'react';
 import { STRINGS, type Lang, type StringKey } from './strings';
+import { doc, ghi } from '../lib/boNho';
 
 interface LangCtx {
   lang: Lang;
@@ -19,7 +20,8 @@ const Ctx = createContext<LangCtx | null>(null);
 const STORAGE_KEY = 'chemipro.lang';
 
 function readInitial(): Lang {
-  const saved = localStorage.getItem(STORAGE_KEY);
+  // Kho lưu có thể bị chặn — xem lib/boNho.ts
+  const saved = doc(STORAGE_KEY);
   return saved === 'en' ? 'en' : 'vi'; // mặc định tiếng Việt
 }
 
@@ -28,7 +30,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
-    localStorage.setItem(STORAGE_KEY, l);
+    ghi(STORAGE_KEY, l);
     document.documentElement.lang = l;
   }, []);
 

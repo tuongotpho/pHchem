@@ -6,6 +6,7 @@ import {
   useCallback,
   type ReactNode,
 } from 'react';
+import { doc, ghi } from '../lib/boNho';
 
 type Theme = 'dark' | 'light';
 const STORAGE_KEY = 'chemipro.theme';
@@ -19,8 +20,8 @@ interface ThemeCtx {
 const Ctx = createContext<ThemeCtx | null>(null);
 
 function readInitial(): Theme {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  return saved === 'light' ? 'light' : 'dark'; // mặc định tối
+  // Kho lưu có thể bị chặn — xem lib/boNho.ts. Mặc định tối.
+  return doc(STORAGE_KEY) === 'light' ? 'light' : 'dark';
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
@@ -29,7 +30,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const root = document.documentElement;
     root.classList.toggle('dark', theme === 'dark');
-    localStorage.setItem(STORAGE_KEY, theme);
+    ghi(STORAGE_KEY, theme);
   }, [theme]);
 
   const setTheme = useCallback((t: Theme) => setThemeState(t), []);
