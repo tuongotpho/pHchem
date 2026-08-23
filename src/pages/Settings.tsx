@@ -1,6 +1,5 @@
 import PageHeader from '../components/PageHeader';
 import { useLang } from '../i18n/LangContext';
-import { useTheme } from '../theme/ThemeContext';
 import { ELEMENTS } from '../data/elements';
 import { FORMULAS } from '../data/formulas';
 import { TERMS } from '../data/dictionary';
@@ -11,34 +10,8 @@ import { STRUCTURE_COUNT } from '../generated/structures';
 
 const VERSION = '0.4';
 
-/** Nhãn nhỏ in hoa, dùng chia trang thành từng vùng rõ ràng. */
-function NhanVung({ children }: { children: string }) {
-  return (
-    <h2 className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 px-1 pt-2">
-      {children}
-    </h2>
-  );
-}
-
-/** Một hàng tùy chọn: nhãn bên trái, hai nút chọn bên phải. */
-function HangChon({
-  nhan,
-  children,
-}: {
-  nhan: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 py-3 first:pt-0 last:pb-0">
-      <div className="text-sm text-slate-300 sm:w-32 shrink-0">{nhan}</div>
-      <div className="flex gap-2 flex-1">{children}</div>
-    </div>
-  );
-}
-
 export default function Settings() {
-  const { t, lang, setLang } = useLang();
-  const { theme, setTheme } = useTheme();
+  const { t, lang } = useLang();
   const vi = lang === 'vi';
 
   // Số liệu ĐẾM TỪ DỮ LIỆU, không gõ tay — thêm bớt nội dung là tự cập nhật.
@@ -48,7 +21,7 @@ export default function Settings() {
     { nhan: vi ? 'Hình cấu tạo' : 'Structures', so: String(STRUCTURE_COUNT) },
     { nhan: vi ? 'Phản ứng' : 'Reactions', so: String(REACTIONS.length) },
     { nhan: vi ? 'Thuật ngữ' : 'Terms', so: String(TERMS.length) },
-    { nhan: vi ? 'Sự thật' : 'Facts', so: String(FACTS.length) },
+    { nhan: vi ? 'Thực tiễn' : 'Facts', so: String(FACTS.length) },
     {
       nhan: vi ? 'Ô bảng độ tan' : 'Solubility cells',
       so: String(CATIONS.length * ANIONS.length),
@@ -136,49 +109,11 @@ export default function Settings() {
   return (
     <>
       <PageHeader title={t('nav_settings')} />
-      <div className="p-4 md:p-6 max-w-3xl space-y-3">
-        {/* ---------- VÙNG 1: TÙY CHỌN ---------- */}
-        {/* Gộp ngôn ngữ và giao diện vào MỘT thẻ: cùng là lựa chọn cá nhân, để
-            riêng hai thẻ vừa tốn chỗ vừa làm phần cài đặt trông lép vế hẳn so
-            với phần giới thiệu bên dưới. */}
-        <NhanVung>{vi ? 'Tùy chọn' : 'Preferences'}</NhanVung>
-        <section className="card px-4 py-2 divide-y divide-base-800">
-          <HangChon nhan={t('settings_language')}>
-            <button
-              onClick={() => setLang('vi')}
-              className={lang === 'vi' ? 'btn-accent flex-1' : 'btn-ghost flex-1'}
-            >
-              🇻🇳 Tiếng Việt
-            </button>
-            <button
-              onClick={() => setLang('en')}
-              className={lang === 'en' ? 'btn-accent flex-1' : 'btn-ghost flex-1'}
-            >
-              🇬🇧 English
-            </button>
-          </HangChon>
-          <HangChon nhan={t('settings_theme')}>
-            <button
-              onClick={() => setTheme('dark')}
-              className={theme === 'dark' ? 'btn-accent flex-1' : 'btn-ghost flex-1'}
-            >
-              🌙 {t('settings_dark')}
-            </button>
-            <button
-              onClick={() => setTheme('light')}
-              className={theme === 'light' ? 'btn-accent flex-1' : 'btn-ghost flex-1'}
-            >
-              ☀️ {t('settings_light')}
-            </button>
-          </HangChon>
-        </section>
-
-        {/* ---------- VÙNG 2: GIỚI THIỆU ---------- */}
-        {/* Tách khối giới thiệu thành từng thẻ riêng theo chủ đề. Trước đây dồn
-            hết vào một thẻ nên phải cuộn dài mà không biết mình đang đọc mục
-            nào. */}
-        <NhanVung>{vi ? 'Giới thiệu' : 'About'}</NhanVung>
-
+      <div className="p-4 md:p-6 space-y-3">
+        {/* Tách phần giới thiệu thành từng thẻ riêng theo chủ đề. Trước đây
+            dồn hết vào một thẻ nên phải cuộn dài mà không biết đang đọc mục nào.
+            Ngôn ngữ và giao diện đã chuyển lên góc phải thanh tiêu đề — đó là
+            thứ bật tắt luôn tay, không đáng bắt người dùng vào tận đây. */}
         <section className="card p-4">
           <div className="flex items-center gap-2.5 mb-1.5">
             <span className="text-2xl">⚗️</span>

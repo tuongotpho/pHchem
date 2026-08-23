@@ -17,7 +17,7 @@ export const STRINGS = {
   nav_solubility: { vi: 'Độ tan', en: 'Solubility' },
   nav_formulas: { vi: 'Công thức', en: 'Formulas' },
   nav_dictionary: { vi: 'Từ điển', en: 'Dictionary' },
-  nav_facts: { vi: 'Sự thật', en: 'Facts' },
+  nav_facts: { vi: 'Thực tiễn', en: 'Facts' },
   nav_reactions: { vi: 'Phản ứng', en: 'Reactions' },
   nav_settings: { vi: 'Cài đặt', en: 'Settings' },
 
@@ -52,9 +52,9 @@ export const STRINGS = {
     vi: 'Điều kiện, hiện tượng, phương trình ion',
     en: 'Conditions, observations, ionic equations',
   },
-  home_title_facts: { vi: 'Bách khoa sự thật', en: 'Fact Encyclopedia' },
+  home_title_facts: { vi: 'Thực tiễn hóa học', en: 'Chemistry in Practice' },
   home_desc_facts: {
-    vi: 'Sự thật về nguyên tố & khám phá',
+    vi: 'Hóa học trong đời sống & khám phá',
     en: 'Facts on elements & discoveries',
   },
 

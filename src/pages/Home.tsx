@@ -13,6 +13,7 @@ import {
   IconReaction,
 } from '../components/icons';
 import { searchAll } from '../lib/search';
+import NutNhanh from '../components/NutNhanh';
 
 type Tile = {
   to: string;
@@ -41,7 +42,7 @@ const BADGE_COLOR: Record<string, string> = {
 };
 
 export default function Home() {
-  const { t, lang, toggle } = useLang();
+  const { t, lang } = useLang();
   const [q, setQ] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -78,9 +79,9 @@ export default function Home() {
             </div>
             <p className="text-slate-400 text-sm md:text-base">{t('tagline')}</p>
           </div>
-          <button onClick={toggle} className="btn-ghost text-xs px-2.5 py-1.5">
-            {lang === 'vi' ? '🇻🇳 VI' : '🇬🇧 EN'}
-          </button>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <NutNhanh />
+          </div>
         </div>
 
         {/* Ô tìm kiếm tổng */}

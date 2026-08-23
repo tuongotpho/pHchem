@@ -173,7 +173,7 @@ export function searchAll(query: string, lang: Lang): SearchResult[] {
         title: lang === 'vi' ? fact.vi : fact.en,
         sub: fact.tag,
         to: `/facts?item=${itemId(fact.en)}`,
-        badge: lang === 'vi' ? 'Sự thật' : 'Fact',
+        badge: lang === 'vi' ? 'Thực tiễn' : 'Fact',
       });
     }
   }
