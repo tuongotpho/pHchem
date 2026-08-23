@@ -196,3 +196,59 @@ describe('kho axit/bazơ dựng sẵn', () => {
     for (const x of p) expect(x).toBeCloseTo(p[0], 10);
   });
 });
+
+// Những phép kiểm dưới đây vốn nằm ở solution.test.ts. Chuyển về đây cho đúng
+// chỗ: bộ kiểm của module nào nằm cạnh module đó.
+describe('so với cách tính xấp xỉ trong sách', () => {
+  it('nghiệm đúng lệch nhẹ so với xấp xỉ căn bậc hai quen thuộc', () => {
+    const Ca = 0.1;
+    const Ka = 1.8e-5;
+    const xapXi = -Math.log10(Math.sqrt(Ka * Ca)); // cách tính trong sách
+    const dung = computePh({ kind: 'weakAcid', C: Ca, k: Ka }).pH;
+    expect(xapXi).toBeCloseTo(2.872, 3);
+    expect(dung).toBeGreaterThan(xapXi); // nghiệm đúng luôn cao hơn một chút
+    expect(dung - xapXi).toBeLessThan(0.01); // nhưng chênh không đáng kể
+  });
+
+  it('axit yếu rất loãng hành xử gần như axit mạnh cùng nồng độ', () => {
+    // Ka lớn hơn hẳn Ca thì coi như phân li hoàn toàn
+    const yeu = computePh({ kind: 'weakAcid', C: 1e-8, k: 1.8e-5 }).pH;
+    const manh = computePh({ kind: 'strongAcid', C: 1e-8 }).pH;
+    expect(Math.abs(yeu - manh)).toBeLessThan(0.01);
+  });
+});
+
+describe('bất biến — mọi axit đều phải chua, mọi bazơ đều phải kiềm', () => {
+  // Quét rộng: mọi chất trong kho, mười mức nồng độ trải từ đặc tới cực loãng.
+  const nongDo = [1, 0.1, 0.01, 1e-3, 1e-5, 1e-6, 1e-7, 1e-8, 1e-9, 1e-10];
+
+  it('mọi AXIT ở mọi nồng độ đều cho pH < 7', () => {
+    const sai: string[] = [];
+    for (const ab of ACIDS_BASES.filter((a) => a.kind.includes('Acid')))
+      for (const C of nongDo) {
+        const r = computePh({ kind: ab.kind, C, z: ab.z, k: ab.k });
+        if (r.pH >= 7) sai.push(`${ab.formula} ${C}M -> pH ${r.pH.toFixed(2)}`);
+      }
+    expect(sai).toEqual([]);
+  });
+
+  it('mọi BAZƠ ở mọi nồng độ đều cho pH > 7', () => {
+    const sai: string[] = [];
+    for (const ab of ACIDS_BASES.filter((a) => a.kind.includes('Base')))
+      for (const C of nongDo) {
+        const r = computePh({ kind: ab.kind, C, z: ab.z, k: ab.k });
+        if (r.pH <= 7) sai.push(`${ab.formula} ${C}M -> pH ${r.pH.toFixed(2)}`);
+      }
+    expect(sai).toEqual([]);
+  });
+
+  it('pha càng loãng thì pH càng tiến về 7, không bao giờ vượt qua', () => {
+    let truoc = computePh({ kind: 'weakAcid', C: 1, k: 1.8e-5 }).pH;
+    for (const C of [0.1, 0.01, 1e-4, 1e-6, 1e-8, 1e-10]) {
+      const nay = computePh({ kind: 'weakAcid', C, k: 1.8e-5 }).pH;
+      expect(nay).toBeGreaterThan(truoc); // loãng dần thì pH tăng dần
+      expect(nay).toBeLessThan(7); // nhưng vẫn là axit
+      truoc = nay;
+    }
+  });
+});
