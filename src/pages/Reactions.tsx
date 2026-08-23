@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import Pagination from '../components/Pagination';
+import { itemId } from '../lib/itemId';
 import FormulaText from '../components/FormulaText';
 import { useLang } from '../i18n/LangContext';
 import { REACTIONS, TYPE_META, type Reaction, type ReactionType } from '../data/reactions';
@@ -43,7 +44,11 @@ export default function Reactions() {
   const [q, setQ] = useState(params.get('q') ?? '');
   const [loai, setLoai] = useState<ReactionType | 'all'>('all');
   const [page, setPage] = useState(1);
-  const [sel, setSel] = useState<Reaction | null>(null);
+  // Đến thẳng từ ô tìm kiếm: ?item=<mã phương trình> thì mở sẵn khung chi tiết,
+  // khỏi phải lần qua từng trang trong 133 phản ứng.
+  const [sel, setSel] = useState<Reaction | null>(
+    () => REACTIONS.find((r) => itemId(r.eq) === params.get('item')) ?? null,
+  );
 
   useEffect(() => {
     const tuDiaChi = params.get('q');
@@ -117,7 +122,9 @@ export default function Reactions() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder={
-            lang === 'vi' ? 'Tìm chất, hiện tượng, điều kiện…' : 'Search substance, phenomenon…'
+            lang === 'vi'
+              ? 'Lọc theo chất, hiện tượng, điều kiện…'
+              : 'Filter by substance, phenomenon, condition…'
           }
           className="w-full max-w-md bg-base-850 border border-base-700 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-accent mb-3"
         />

@@ -18,6 +18,7 @@ const HIEN_TOI_DA = 8;
 const BADGE_COLOR: Record<string, string> = {
   element: 'bg-teal-500/20 text-teal-700 dark:text-teal-300',
   formula: 'bg-amber-500/20 text-amber-700 dark:text-amber-300',
+  reaction: 'bg-orange-500/20 text-orange-700 dark:text-orange-300',
   term: 'bg-rose-500/20 text-rose-700 dark:text-rose-300',
   fact: 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300',
 };

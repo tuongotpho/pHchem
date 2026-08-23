@@ -84,7 +84,7 @@ export default function Formulas() {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder={t('search_placeholder')}
+          placeholder={t('filter_placeholder')}
           className="w-full max-w-md bg-base-850 border border-base-700 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-accent mb-3"
         />
         <div className="flex gap-1.5 mb-4 flex-wrap items-center">

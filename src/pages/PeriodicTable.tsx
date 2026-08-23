@@ -55,7 +55,7 @@ export default function PeriodicTable() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={`${t('search_placeholder')} (H, Oxy, 26…)`}
+            placeholder={`${t('filter_placeholder')} (H, Oxy, 26…)`}
             className="w-full max-w-sm bg-base-850 border border-base-700 rounded-xl px-3 py-2 text-sm outline-none focus:border-accent"
           />
           <div className="flex flex-wrap gap-1.5">

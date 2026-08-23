@@ -9,7 +9,10 @@ export default function PageHeader({
 }) {
   const { lang, toggle } = useLang();
   return (
-    <header className="sticky top-0 z-30 bg-base-950/85 backdrop-blur border-b border-base-800 px-4 md:px-6 py-3 flex items-center justify-between gap-3">
+    // KHÔNG dính (sticky). Thanh tìm kiếm toàn app ở Layout đã dính top-0 rồi;
+    // để hai thanh cùng dính một chỗ thì chúng chồng lên nhau, thanh đứng sau
+    // che thanh đứng trước — chính là lỗi kết quả tìm kiếm bị khuất.
+    <header className="bg-base-950/85 border-b border-base-800 px-4 md:px-6 py-3 flex items-center justify-between gap-3">
       <div className="min-w-0">
         <h1 className="text-lg md:text-xl font-bold text-slate-100 truncate">
           {title}

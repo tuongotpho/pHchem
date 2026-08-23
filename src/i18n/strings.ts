@@ -59,6 +59,12 @@ export const STRINGS = {
   },
 
   search_placeholder: { vi: 'Tìm kiếm…', en: 'Search…' },
+  // Ô của TỪNG TRANG chỉ lọc danh sách đang xem, khác với ô tìm kiếm toàn app
+  // ở trên đầu (ô đó nhảy sang mục khác). Đặt tên khác nhau cho khỏi lẫn.
+  filter_placeholder: {
+    vi: 'Lọc trong danh sách này…',
+    en: 'Filter this list…',
+  },
 
   // Ô tìm kiếm toàn app (nằm trên đầu mọi trang nhánh)
   gsearch_placeholder: {

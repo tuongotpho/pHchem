@@ -91,7 +91,7 @@ export default function Layout() {
       <main className="flex-1 min-w-0 pb-20 md:pb-0">
         {/* Thanh tìm kiếm toàn app — dính trên đầu, cuộn xuống vẫn thấy */}
         {hienOTimKiem && (
-          <div className="sticky top-0 z-30 border-b border-base-800 bg-base-950/90 backdrop-blur px-4 md:px-6 py-2.5">
+          <div className="sticky top-0 z-40 border-b border-base-800 bg-base-950/90 backdrop-blur px-4 md:px-6 py-2.5">
             {/* key đổi theo địa chỉ → chuyển trang là ô tìm kiếm tự dọn sạch */}
             <GlobalSearch key={pathname + location.search} />
           </div>

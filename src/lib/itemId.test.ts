@@ -3,6 +3,7 @@ import { itemId } from './itemId';
 import { FACTS } from '../data/facts';
 import { TERMS } from '../data/dictionary';
 import { FORMULAS, keyOf } from '../data/formulas';
+import { REACTIONS } from '../data/reactions';
 
 // Ô tìm kiếm ở trang chủ dựng đường dẫn tới từng mục bằng các khóa dưới đây.
 // Hai mục trùng khóa là bấm vào cái này lại nhảy sang cái kia — nên chặn ngay.
@@ -13,6 +14,13 @@ describe('khóa định danh dùng cho đường dẫn tìm kiếm', () => {
     const trung = ids.filter((id, i) => ids.indexOf(id) !== i);
     expect(trung).toEqual([]);
     expect(ids).toHaveLength(FACTS.length);
+  });
+
+  it('mã phản ứng không trùng nhau', () => {
+    const ids = REACTIONS.map((r) => itemId(r.eq));
+    const trung = ids.filter((id, i) => ids.indexOf(id) !== i);
+    expect(trung).toEqual([]);
+    expect(ids).toHaveLength(REACTIONS.length);
   });
 
   it('khóa công thức không trùng nhau', () => {
