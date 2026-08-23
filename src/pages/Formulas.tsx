@@ -9,6 +9,7 @@ import { elementsOfFormula } from '../lib/compoundIndex';
 import { reactionsForFormula } from '../lib/reactionIndex';
 import { isomersOf, ctptOf } from '../lib/isomerIndex';
 import { iupacKhacTen } from '../data/iupac';
+import { nhomCuaChat, thuatNguCuaNhom } from '../lib/classIndex';
 import { byNumber } from '../data/elements';
 import {
   FORMULAS,
@@ -239,6 +240,33 @@ export default function Formulas() {
                 </span>
               </div>
             )}
+
+            {/* Lớp chất — bấm sang định nghĩa trong từ điển để hiểu cả nhóm,
+                không chỉ riêng chất đang xem. */}
+            {(() => {
+              const nhom = nhomCuaChat(sel);
+              const tu = sel.nhom ? thuatNguCuaNhom(sel.nhom) : undefined;
+              if (!nhom) return null;
+              return (
+                <div className="text-xs mt-1">
+                  <span className="text-slate-500">
+                    {lang === 'vi' ? 'Nhóm chất: ' : 'Class: '}
+                  </span>
+                  {tu ? (
+                    <Link
+                      to={`/dictionary?item=${encodeURIComponent(tu.en)}`}
+                      className="text-accent hover:underline"
+                    >
+                      {lang === 'vi' ? nhom.vi : nhom.en} →
+                    </Link>
+                  ) : (
+                    <span className="text-slate-300">
+                      {lang === 'vi' ? nhom.vi : nhom.en}
+                    </span>
+                  )}
+                </div>
+              );
+            })()}
 
             <div className="text-sm text-slate-400 mt-1.5">
               {lang === 'vi' ? sel.note_vi : sel.note_en}

@@ -2,7 +2,10 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import { useLang } from '../i18n/LangContext';
-import { TERMS } from '../data/dictionary';
+import { TERMS, type Term } from '../data/dictionary';
+import { Link } from 'react-router-dom';
+import { keyOf } from '../data/formulas';
+import { noiDungChoThuatNgu, coNoiDungHoc } from '../lib/classIndex';
 
 // Lấy chữ cái đầu để xếp nhóm; bỏ dấu tiếng Việt (Á → A, Đ → D)
 function firstLetter(s: string): string {
@@ -26,6 +29,9 @@ export default function Dictionary() {
   // quanh, chỉ cuộn tới và tô viền mục cần tìm.
   const [params] = useSearchParams();
   const target = params.get('item');
+  // Thuật ngữ đang mở để học: bấm vào một định nghĩa là bày ra luôn cả loạt
+  // chất và nguyên tố thuộc nhóm đó, khỏi phải tự đi tra từng cái.
+  const [mo, setMo] = useState<Term | null>(null);
   const targetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -119,11 +125,16 @@ export default function Dictionary() {
         <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 items-start">
           {list.map((term) => {
             const daChon = term.en === target;
+            const hocDuoc = coNoiDungHoc(term);
+            const n = hocDuoc ? noiDungChoThuatNgu(term) : null;
             return (
             <div
               key={term.en}
               ref={daChon ? targetRef : undefined}
-              className={`card p-4 ${daChon ? 'border-accent ring-2 ring-accent/40' : ''}`}
+              onClick={hocDuoc ? () => setMo(term) : undefined}
+              className={`card p-4 ${daChon ? 'border-accent ring-2 ring-accent/40' : ''} ${
+                hocDuoc ? 'cursor-pointer hover:border-accent/40 transition-colors' : ''
+              }`}
             >
               <div className="flex items-baseline gap-2 flex-wrap">
                 <h3 className="font-semibold text-slate-100">
@@ -136,6 +147,21 @@ export default function Dictionary() {
               <p className="text-sm text-slate-400 mt-1">
                 {lang === 'vi' ? term.def_vi : term.def_en}
               </p>
+              {n && (
+                <div className="mt-2 text-[11px] text-accent">
+                  {lang === 'vi' ? 'Xem ' : 'See '}
+                  {[
+                    n.chat.length && `${n.chat.length} ${lang === 'vi' ? 'chất' : 'compounds'}`,
+                    n.nguyenTo.length &&
+                      `${n.nguyenTo.length} ${lang === 'vi' ? 'nguyên tố' : 'elements'}`,
+                    n.thucTien.length &&
+                      `${n.thucTien.length} ${lang === 'vi' ? 'mẩu thực tiễn' : 'facts'}`,
+                  ]
+                    .filter(Boolean)
+                    .join(' · ')}{' '}
+                  →
+                </div>
+              )}
             </div>
             );
           })}
@@ -147,6 +173,105 @@ export default function Dictionary() {
           </div>
         )}
       </div>
+
+      {/* Mở một định nghĩa ra là thấy luôn cả nhóm để học: chất nào thuộc
+          nhóm này, nguyên tố nào, và những mẩu thực tiễn đi kèm. */}
+      {mo && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm grid place-items-center p-4"
+          onClick={() => setMo(null)}
+        >
+          <div
+            className="card p-5 max-w-2xl w-full max-h-[85vh] overflow-y-auto relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setMo(null)}
+              aria-label={lang === 'vi' ? 'Đóng' : 'Close'}
+              className="absolute right-3 top-3 text-slate-500 hover:text-slate-200 text-lg"
+            >
+              ✕
+            </button>
+
+            <h2 className="text-xl font-bold text-slate-100 pr-6">
+              {lang === 'vi' ? mo.vi : mo.en}
+            </h2>
+            <div className="text-xs text-slate-500">{lang === 'vi' ? mo.en : mo.vi}</div>
+            <p className="text-sm text-slate-300 mt-2">
+              {lang === 'vi' ? mo.def_vi : mo.def_en}
+            </p>
+
+            {(() => {
+              const n = noiDungChoThuatNgu(mo);
+              return (
+                <>
+                  {n.nguyenTo.length > 0 && (
+                    <section className="mt-4">
+                      <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
+                        {lang === 'vi'
+                          ? `Nguyên tố thuộc nhóm này (${n.nguyenTo.length})`
+                          : `Elements in this group (${n.nguyenTo.length})`}
+                      </h3>
+                      <div className="flex flex-wrap gap-1.5">
+                        {n.nguyenTo.map((e) => (
+                          <Link
+                            key={e.n}
+                            to={`/table/${e.n}`}
+                            className="text-xs px-2 py-1 rounded-lg bg-base-800 text-slate-300 hover:bg-accent/15 hover:text-accent transition"
+                          >
+                            <span className="font-mono font-semibold">{e.sym}</span>{' '}
+                            {lang === 'vi' ? e.vi : e.en}
+                          </Link>
+                        ))}
+                      </div>
+                    </section>
+                  )}
+
+                  {n.chat.length > 0 && (
+                    <section className="mt-4">
+                      <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
+                        {lang === 'vi'
+                          ? `Chất thuộc nhóm này (${n.chat.length})`
+                          : `Compounds in this class (${n.chat.length})`}
+                      </h3>
+                      <div className="flex flex-wrap gap-1.5">
+                        {n.chat.map((f) => (
+                          <Link
+                            key={keyOf(f) + f.en}
+                            to={`/formulas?item=${encodeURIComponent(keyOf(f))}`}
+                            className="text-xs px-2 py-1 rounded-lg bg-base-800 text-slate-300 hover:bg-accent/15 hover:text-accent transition"
+                          >
+                            <span className="font-mono font-semibold">{f.formula}</span>{' '}
+                            {lang === 'vi' ? f.vi : f.en}
+                          </Link>
+                        ))}
+                      </div>
+                    </section>
+                  )}
+
+                  {n.thucTien.length > 0 && (
+                    <section className="mt-4">
+                      <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
+                        {lang === 'vi'
+                          ? `Thực tiễn liên quan (${n.thucTien.length})`
+                          : `Related facts (${n.thucTien.length})`}
+                      </h3>
+                      <ul className="space-y-1.5">
+                        {n.thucTien.map((f, i) => (
+                          <li key={i} className="flex gap-2 text-xs text-slate-400">
+                            <span className="shrink-0">💡</span>
+                            <span>{lang === 'vi' ? f.vi : f.en}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                  )}
+                </>
+              );
+            })()}
+          </div>
+        </div>
+      )}
     </>
   );
 }

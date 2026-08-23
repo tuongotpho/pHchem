@@ -172,6 +172,7 @@ export const TERMS: Term[] = [
   { vi: 'Ankan', en: 'Alkane', def_vi: 'Hydrocacbon no mạch hở, chỉ có liên kết đơn.', def_en: 'Saturated open-chain hydrocarbon with single bonds only.' },
   { vi: 'Anken', en: 'Alkene', def_vi: 'Hydrocacbon mạch hở có một liên kết đôi C=C.', def_en: 'Open-chain hydrocarbon with a C=C double bond.' },
   { vi: 'Ankin', en: 'Alkyne', def_vi: 'Hydrocacbon mạch hở có một liên kết ba C≡C.', def_en: 'Open-chain hydrocarbon with a C≡C triple bond.' },
+  { vi: 'Ankađien', en: 'Alkadiene', def_vi: 'Hiđrocacbon mạch hở có HAI liên kết đôi. Buta-1,3-đien và isopren là nguyên liệu làm cao su tổng hợp.', def_en: 'An open-chain hydrocarbon with TWO double bonds. Buta-1,3-diene and isoprene are the feedstock for synthetic rubber.' },
   { vi: 'Aren (hydrocacbon thơm)', en: 'Arene', def_vi: 'Hydrocacbon chứa vòng benzen.', def_en: 'Hydrocarbon containing a benzene ring.' },
   { vi: 'Nhóm chức', en: 'Functional group', def_vi: 'Nhóm nguyên tử quyết định tính chất hóa học của hợp chất hữu cơ.', def_en: 'Atom group defining an organic compound chemistry.' },
   { vi: 'Ancol', en: 'Alcohol', def_vi: 'Hợp chất hữu cơ có nhóm OH gắn vào cacbon no.', def_en: 'Organic compound with OH on a saturated carbon.' },
@@ -250,4 +251,9 @@ export const TERMS: Term[] = [
   { vi: 'Liên kết peptit', en: 'Peptide bond', def_vi: 'Liên kết CO-NH nối nhóm COOH của amino axit này với nhóm NH2 của amino axit kế bên; đây là bộ khung xâu chuỗi các amino axit thành protein.', def_en: 'The CO-NH bond joining the COOH of one amino acid to the NH2 of the next; the backbone that strings amino acids into protein.' },
   { vi: 'Bậc của ancol', en: 'Alcohol class', def_vi: 'Số nguyên tử cacbon gắn trực tiếp vào cacbon mang nhóm OH. Ancol bậc một bị oxi hóa cho anđehit, bậc hai cho xeton, bậc ba rất khó bị oxi hóa.', def_en: 'The count of carbons attached to the carbon bearing the OH. Primary alcohols oxidize to aldehydes, secondary to ketones, tertiary resist oxidation.' },
   { vi: 'Sự lên men', en: 'Fermentation', def_vi: 'Vi sinh vật phân giải chất hữu cơ khi thiếu oxi. Lên men rượu biến glucozơ thành etanol, lên men giấm biến etanol thành axit axetic.', def_en: 'Microbes breaking down organic matter without oxygen: alcoholic fermentation turns glucose into ethanol, acetic fermentation turns ethanol into acetic acid.' },
+
+  // ===== Lớp chất dùng để nối bảng tuần hoàn và thư viện công thức =====
+  { vi: 'Oxit', en: 'Oxide', def_vi: 'Hợp chất của oxi với một nguyên tố khác. Oxit bazơ tác dụng với axit, oxit axit tác dụng với bazơ, oxit lưỡng tính thì tác dụng được cả hai.', def_en: 'A compound of oxygen with one other element. Basic oxides react with acids, acidic oxides with bases, amphoteric oxides with both.' },
+  { vi: 'Hiđroxit', en: 'Hydroxide', def_vi: 'Hợp chất chứa nhóm OH gắn với kim loại. Hiđroxit của kim loại kiềm tan tốt và là bazơ mạnh; phần lớn hiđroxit còn lại không tan.', def_en: 'A compound with OH groups bound to a metal. Alkali metal hydroxides dissolve well and are strong bases; most others are insoluble.' },
+  { vi: 'Kim loại sau chuyển tiếp', en: 'Post-transition metal', def_vi: 'Nhóm kim loại nằm ngay sau khối chuyển tiếp trong bảng tuần hoàn, như nhôm, thiếc, chì. Mềm hơn và nóng chảy ở nhiệt độ thấp hơn kim loại chuyển tiếp.', def_en: 'Metals sitting just after the transition block, such as aluminium, tin and lead. Softer and lower-melting than transition metals.' },
 ];

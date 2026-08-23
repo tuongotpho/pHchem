@@ -21,6 +21,10 @@ export interface Formula {
   cat: FormulaCat;
   note_vi: string;
   note_en: string;
+  /** Lớp chất, vd 'ankan', 'este', 'oxit'. Dùng để nối sang định nghĩa trong
+   *  từ điển — xem src/data/classes.ts. Bỏ trống nếu chất không thuộc lớp nào
+   *  được dạy riêng (vd các hợp chất sinh học lẻ). */
+  nhom?: string;
 }
 
 export const FORMULA_CAT_META: Record<FormulaCat, { vi: string; en: string }> = {

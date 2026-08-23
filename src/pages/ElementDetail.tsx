@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import { useLang } from '../i18n/LangContext';
 import { byNumber, CATEGORY_META, type Element } from '../data/elements';
 import { DETAILS, PHASE_META, formatDensity } from '../data/elements.details';
 import { factsForElement } from '../data/facts';
 import { compoundsForElement } from '../lib/compoundIndex';
+import { thuatNguCuaNguyenTo } from '../lib/classIndex';
 import { reactionsForElement } from '../lib/reactionIndex';
 import FormulaText from '../components/FormulaText';
 
@@ -145,7 +146,23 @@ export default function ElementDetail() {
           <div className={`card border ${meta.color} p-4 text-center`}>
             <div className="flex items-center justify-between text-[11px]">
               <span className="text-slate-400 font-mono">{el.n}</span>
-              <span className={meta.text}>{lang === 'vi' ? meta.vi : meta.en}</span>
+              {/* Nhóm nguyên tố bấm được: mở thẳng định nghĩa trong từ điển,
+                  kèm mọi nguyên tố cùng nhóm để so sánh. */}
+              {(() => {
+                const tu = thuatNguCuaNguyenTo(el.cat);
+                const nhan = lang === 'vi' ? meta.vi : meta.en;
+                return tu ? (
+                  <Link
+                    to={`/dictionary?item=${encodeURIComponent(tu.en)}`}
+                    className={`${meta.text} hover:underline`}
+                    title={lang === 'vi' ? 'Xem định nghĩa nhóm' : 'See group definition'}
+                  >
+                    {nhan} →
+                  </Link>
+                ) : (
+                  <span className={meta.text}>{nhan}</span>
+                );
+              })()}
             </div>
             <div className={`text-6xl font-bold my-2 ${meta.text}`}>{el.sym}</div>
             <div className="text-base font-bold text-slate-100 leading-tight">
