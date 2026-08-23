@@ -36,6 +36,12 @@ export default defineConfig(({ command }) => ({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        // Kho hình cấu tạo là một file ~1,84 MB. Trần mặc định của Workbox là
+        // 2 MB — thêm chừng 15-20 chất nữa là vượt, và lúc đó nó ÂM THẦM bỏ
+        // file khỏi kho đệm: build vẫn xanh, test vẫn pass, chỉ người dùng
+        // ngoại tuyến mở ra thấy hình trắng trơn. Khai tường minh để hỏng thì
+        // hỏng ở chỗ nhìn thấy được, không hỏng lặng lẽ.
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
       },
     }),
   ],

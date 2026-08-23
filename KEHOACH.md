@@ -213,6 +213,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 
 | Ngày | Đã xong tới | Đang dở | Việc kế tiếp |
 |---|---|---|---|
+| 23/08/2026 22:05 | **E1 E2 E3 E4** xong, mỗi mục một commit, đã nghiệm thu test + trình duyệt | **không có gì dở** — cây làm việc sạch | **E5** (bọc localStorage). Hết hạn mức, mở lại 12h20 ngày 24/08/2026 |
 | 23/08/2026 | **XONG NHÓM 1** (E1, E2, E3) — nghiệm thu cả test lẫn trình duyệt | không | **E4** (1 dòng, chặn bom hẹn giờ) |
 | 23/08/2026 | **E1**, **E2** — nghiệm thu cả test lẫn trình duyệt | không | **E3** |
 | 23/08/2026 | **E1** (098c45e) — đã nghiệm thu cả test lẫn trình duyệt | không | **E2** |
@@ -227,7 +228,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 | ✅ | **E1** Cân bằng PT ra `"2 2 Fe"` | 🔴 critical | `lib/balance.ts` | xong 098c45e |
 | ✅ | **E2** `2H2O` ra 36 g/mol | 🟡 warning | `lib/formula.ts` | xong |
 | ✅ | **E3** Tab Tính theo PT chối dấu phẩy | 🟡 warning | `lib/soNhap.ts` (mới) | xong |
-| ☐ | **E4** Trần cache 2 MB sắp vỡ | 🟡 warning | `vite.config.ts` | rất nhỏ |
+| ✅ | **E4** Trần cache 2 MB sắp vỡ | 🟡 warning | `vite.config.ts` | xong |
 | ☐ | **E5** localStorage không bọc → trắng màn hình | 🟡 warning | 2 context | nhỏ |
 | ☐ | **E6** Sửa PT thì lượng chất gắn nhầm | 🟡 warning | `pages/Calculator.tsx` | vừa |
 | ☐ | **E7** Lọc phản ứng chết khi dùng tiếng Anh | 🟡 warning | `pages/Reactions.tsx` | nhỏ |
