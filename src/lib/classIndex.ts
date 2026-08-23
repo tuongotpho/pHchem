@@ -66,7 +66,15 @@ export interface NoiDungHoc {
  * gom các mẩu thực tiễn đã gắn sẵn số hiệu nguyên tố. Không dò chữ trong nội
  * dung mẩu — dò chữ thì kiểu gì cũng có mẩu bị móc nhầm.
  */
+// Nhớ sẵn kết quả theo thuật ngữ. Trang Từ điển gọi hàm này cho TỪNG mục ở
+// MỌI lần vẽ lại — mỗi lần dựng mới ba mảng và quét kho thực tiễn. Khóa theo
+// tên tiếng Anh vì tên đó đã có phép kiểm chống trùng.
+const NHO = new Map<string, NoiDungHoc>();
+
 export function noiDungChoThuatNgu(term: Term): NoiDungHoc {
+  const daCoSan = NHO.get(term.en);
+  if (daCoSan) return daCoSan;
+
   const chat = CHAT_THEO_TERM.get(term.en) ?? [];
   const nguyenTo = NGUYEN_TO_THEO_TERM.get(term.en) ?? [];
 
@@ -79,7 +87,9 @@ export function noiDungChoThuatNgu(term: Term): NoiDungHoc {
         thucTien.push(f);
       }
 
-  return { chat, nguyenTo, thucTien };
+  const kq: NoiDungHoc = { chat, nguyenTo, thucTien };
+  NHO.set(term.en, kq);
+  return kq;
 }
 
 /** Thuật ngữ này có nội dung gì để học kèm không? */

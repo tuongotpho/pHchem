@@ -213,6 +213,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 
 | Ngày | Đã xong tới | Đang dở | Việc kế tiếp |
 |---|---|---|---|
+| 24/08/2026 05:29 | **E10** xong — nhớ sẵn nội dung học kèm, 3 test mới | không | **E13 + E14** |
 | 24/08/2026 05:27 | **E11 + E12** xong — chống sập và chống chia 0 ở phần Luyện tập, 4 test hợp đồng mới | không | **E10** |
 | 24/08/2026 05:25 | **E9** xong — dựng sẵn bảng đã bỏ dấu, 8,92 ms → 1,24 ms mỗi lần gõ | không | **E10** (nhóm việc lẻ) |
 | 24/08/2026 05:22 | **E7** xong — bộ lọc phản ứng dò cả hai thứ tiếng, 6 test mới | không | **E9** (E8 để dành cho lúc có người xem) |
@@ -239,7 +240,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 | ✅ | **E7** Lọc phản ứng chết khi dùng tiếng Anh | 🟡 warning | `pages/Reactions.tsx` | xong |
 | ☐ | **E8** Gói chính 596 KB, chưa tách tuyến | 🟡 warning | `App.tsx` | vừa |
 | ✅ | **E9** Tìm kiếm tính lại bỏ dấu mỗi phím gõ | 🟡 warning | `lib/search.ts` | xong, nhanh 7,2× |
-| ☐ | **E10** Từ điển làm đôi việc mỗi lần vẽ | 🔵 nitpick | `pages/Dictionary.tsx` | rất nhỏ |
+| ✅ | **E10** Từ điển làm đôi việc mỗi lần vẽ | 🔵 nitpick | `lib/classIndex.ts` | xong |
 | ✅ | **E11** Luyện tập chia 0 → `NaN%` | 🔵 nitpick | `pages/Quiz.tsx` | xong |
 | ✅ | **E12** `chon()` trên mảng rỗng → sập | 🔵 nitpick | `lib/quiz.ts` | xong |
 | ☐ | **E13** `html lang` không đặt lúc mở app | 🔵 nitpick | `i18n/LangContext.tsx` | rất nhỏ |

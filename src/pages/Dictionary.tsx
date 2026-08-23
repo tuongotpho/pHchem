@@ -5,7 +5,7 @@ import { useLang } from '../i18n/LangContext';
 import { TERMS, type Term } from '../data/dictionary';
 import { Link } from 'react-router-dom';
 import { keyOf } from '../data/formulas';
-import { noiDungChoThuatNgu, coNoiDungHoc } from '../lib/classIndex';
+import { noiDungChoThuatNgu } from '../lib/classIndex';
 
 // Lấy chữ cái đầu để xếp nhóm; bỏ dấu tiếng Việt (Á → A, Đ → D)
 function firstLetter(s: string): string {
@@ -125,8 +125,10 @@ export default function Dictionary() {
         <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 items-start">
           {list.map((term) => {
             const daChon = term.en === target;
-            const hocDuoc = coNoiDungHoc(term);
-            const n = hocDuoc ? noiDungChoThuatNgu(term) : null;
+            // Gọi MỘT lần rồi tự xét, thay vì coNoiDungHoc() gọi lại y hệt
+            // bên trong nó — trước đây mỗi mục dựng nội dung hai lượt.
+            const n = noiDungChoThuatNgu(term);
+            const hocDuoc = n.chat.length > 0 || n.nguyenTo.length > 0;
             return (
             <div
               key={term.en}
@@ -147,7 +149,7 @@ export default function Dictionary() {
               <p className="text-sm text-slate-400 mt-1">
                 {lang === 'vi' ? term.def_vi : term.def_en}
               </p>
-              {n && (
+              {hocDuoc && (
                 <div className="mt-2 text-[11px] text-accent">
                   {lang === 'vi' ? 'Xem ' : 'See '}
                   {[

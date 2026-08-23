@@ -108,3 +108,23 @@ describe('dữ liệu phân lớp không có lỗ hổng', () => {
     expect(daXep / c.length).toBeGreaterThan(0.85);
   });
 });
+
+describe('nhớ sẵn nội dung học kèm', () => {
+  it('gọi lại cùng một thuật ngữ thì trả đúng kết quả cũ, không dựng lại', () => {
+    // Trang Từ điển gọi hàm này cho từng mục ở mọi lần vẽ. So bằng === để
+    // chắc là lấy lại đồ đã nhớ chứ không phải dựng mảng mới giống hệt.
+    const t = TERMS.find((x) => coNoiDungHoc(x))!;
+    expect(noiDungChoThuatNgu(t)).toBe(noiDungChoThuatNgu(t));
+  });
+
+  it('thuật ngữ không có gì học kèm cũng nhớ, khỏi quét lại kho', () => {
+    const t = TERMS.find((x) => !coNoiDungHoc(x))!;
+    expect(noiDungChoThuatNgu(t)).toBe(noiDungChoThuatNgu(t));
+  });
+
+  it('nhớ rồi vẫn phải đúng nội dung', () => {
+    const t = TERMS.find((x) => coNoiDungHoc(x))!;
+    const n = noiDungChoThuatNgu(t);
+    expect(n.chat.length + n.nguyenTo.length).toBeGreaterThan(0);
+  });
+});
