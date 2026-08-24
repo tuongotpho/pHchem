@@ -9,6 +9,13 @@ export interface Fact {
    *  chi tiết nguyên tố. Gắn TAY, không dò tự động theo tên: câu "natri cho
    *  ngọn lửa vàng" nói về natri chứ không phải nguyên tố Vàng. */
   el?: number[];
+  /** Lớp chất mà sự thật này nói tới, khóa lấy từ NHOM_CHAT trong classes.ts —
+   *  dùng để hiện kèm khi mở định nghĩa lớp chất đó trong từ điển.
+   *
+   *  Cũng gắn TAY vì cùng một lý do: dò chữ thì "men răng" bị tính là men bia,
+   *  "viên đường" bị tính là gluxit, "đạm N" bị tính là amino axit. Chỉ gắn khi
+   *  mẩu chuyện THẬT SỰ dạy điều gì về lớp chất đó, không gắn cho có. */
+  nhom?: string[];
 }
 
 export const FACTS: Fact[] = [
@@ -53,7 +60,7 @@ export const FACTS: Fact[] = [
   { tag: 'Lịch sử', el: [7], vi: 'Fritz Haber tìm ra cách tổng hợp amoniac từ không khí, giúp nuôi sống hàng tỉ người qua phân đạm.', en: 'Haber synthesized ammonia from air, enabling fertilizer for billions.' },
   { tag: 'Lịch sử', vi: 'Alexander Fleming phát hiện penicillin năm 1928 một cách tình cờ nhờ đĩa nuôi cấy bị mốc.', en: 'Fleming discovered penicillin in 1928 from a contaminated dish.' },
   { tag: 'Lịch sử', vi: 'Friedrich Wöhler tổng hợp ure từ chất vô cơ năm 1828, xóa bỏ quan niệm chất hữu cơ cần "sinh lực".', en: 'Wohler synthesized urea in 1828, ending the vital force theory.' },
-  { tag: 'Lịch sử', el: [6], vi: 'August Kekulé kể rằng ông nghĩ ra vòng benzen sau giấc mơ thấy con rắn tự cắn đuôi.', en: 'Kekule said he conceived the benzene ring after dreaming of a snake biting its tail.' },
+  { tag: 'Lịch sử', el: [6], nhom: ['aren'], vi: 'August Kekulé kể rằng ông nghĩ ra vòng benzen sau giấc mơ thấy con rắn tự cắn đuôi.', en: 'Kekule said he conceived the benzene ring after dreaming of a snake biting its tail.' },
   { tag: 'Lịch sử', el: [8], vi: 'Joseph Priestley và Carl Scheele độc lập phát hiện ra oxy trong thập niên 1770.', en: 'Priestley and Scheele independently discovered oxygen in the 1770s.' },
   { tag: 'Lịch sử', vi: 'Robert Boyle là người đầu tiên phân biệt rõ nguyên tố với hợp chất, từ thế kỷ 17.', en: 'Robert Boyle first clearly distinguished elements from compounds.' },
   { tag: 'Lịch sử', vi: 'John Dalton đưa ra thuyết nguyên tử hiện đại đầu thế kỷ 19 dựa trên tỉ lệ khối lượng.', en: 'John Dalton proposed modern atomic theory in the early 1800s.' },
@@ -70,8 +77,8 @@ export const FACTS: Fact[] = [
   { tag: 'Đời sống', el: [24, 26], vi: 'Thép không gỉ chống gỉ nhờ lớp crom oxit siêu mỏng tự tạo trên bề mặt.', en: 'Stainless steel resists rust via a self-forming chromium oxide layer.' },
   { tag: 'Đời sống', el: [11, 17], vi: 'Muối ăn tạo từ natri phản ứng dữ dội với nước và clo là khí độc, nhưng lại ăn được.', en: 'Table salt is made from reactive sodium and toxic chlorine.' },
   { tag: 'Đời sống', el: [6], vi: 'Bọt khí trong nước ngọt là CO₂ hòa tan dưới áp suất; mở nắp làm áp suất giảm nên khí thoát ra.', en: 'Soda fizz is CO2 dissolved under pressure escaping when opened.' },
-  { tag: 'Đời sống', vi: 'Xà phòng làm sạch nhờ một đầu phân tử ưa nước và một đầu ưa dầu, kéo dầu mỡ vào nước.', en: 'Soap cleans because one end loves water and the other loves oil.' },
-  { tag: 'Đời sống', vi: 'Vị chua của giấm, chanh là do axit; vị đắng và cảm giác nhờn của xà phòng là do bazơ.', en: 'Sourness comes from acids; slipperiness from bases.' },
+  { tag: 'Đời sống', nhom: ['lipit'], vi: 'Xà phòng làm sạch nhờ một đầu phân tử ưa nước và một đầu ưa dầu, kéo dầu mỡ vào nước.', en: 'Soap cleans because one end loves water and the other loves oil.' },
+  { tag: 'Đời sống', nhom: ['axit', 'bazo'], vi: 'Vị chua của giấm, chanh là do axit; vị đắng và cảm giác nhờn của xà phòng là do bazơ.', en: 'Sourness comes from acids; slipperiness from bases.' },
   { tag: 'Đời sống', el: [29, 38, 11], vi: 'Pháo hoa có màu nhờ muối kim loại: đồng cho xanh lam, stronti cho đỏ, natri cho vàng.', en: 'Firework colors come from metal salts.' },
   { tag: 'Đời sống', el: [9], vi: 'Kem đánh răng chứa florua giúp men răng cứng hơn và chống axit từ vi khuẩn.', en: 'Fluoride toothpaste hardens enamel against bacterial acid.' },
   { tag: 'Đời sống', el: [11, 7], vi: 'Túi khí ô tô bung ra nhờ phản ứng phân hủy natri azide sinh khí nitơ trong vài phần nghìn giây.', en: 'Airbags inflate from sodium azide decomposing to nitrogen gas.' },
@@ -79,7 +86,7 @@ export const FACTS: Fact[] = [
   { tag: 'Đời sống', el: [74], vi: 'Bóng đèn sợi đốt dùng dây wolfram vì nó chịu được nhiệt độ rất cao mà không nóng chảy.', en: 'Incandescent bulbs use tungsten for its extreme melting point.' },
   { tag: 'Đời sống', vi: 'Nước hoa có mùi thay đổi theo thời gian vì các phân tử bay hơi ở tốc độ khác nhau.', en: 'Perfume changes over time as its molecules evaporate at different rates.' },
   { tag: 'Đời sống', el: [14], vi: 'Gói hút ẩm silica gel chứa silic đioxit xốp, hút ẩm mà không hòa tan.', en: 'Silica gel packets hold porous silicon dioxide that absorbs moisture.' },
-  { tag: 'Đời sống', el: [9], vi: 'Chảo chống dính phủ Teflon vì phân tử này gần như không bám dính với bất cứ thứ gì.', en: 'Non-stick pans use Teflon because almost nothing sticks to it.' },
+  { tag: 'Đời sống', el: [9], nhom: ['polime', 'dan-xuat-halogen'], vi: 'Chảo chống dính phủ Teflon vì phân tử này gần như không bám dính với bất cứ thứ gì.', en: 'Non-stick pans use Teflon because almost nothing sticks to it.' },
   { tag: 'Đời sống', el: [6], vi: 'Bình cứu hỏa CO₂ dập lửa bằng cách cách ly oxy chứ không phải làm lạnh.', en: 'CO2 extinguishers work by displacing oxygen, not by cooling.' },
   { tag: 'Đời sống', el: [20], vi: 'Vôi sống gặp nước tỏa nhiệt mạnh đến mức có thể đun sôi nước.', en: 'Quicklime with water releases enough heat to boil water.' },
   { tag: 'Đời sống', el: [20], vi: 'Xi măng đông cứng nhờ phản ứng hóa học với nước chứ không phải do khô đi.', en: 'Cement hardens by reacting with water, not by drying.' },
@@ -92,20 +99,20 @@ export const FACTS: Fact[] = [
   // ===== CƠ THỂ =====
   { tag: 'Cơ thể', el: [1, 8], vi: 'Khoảng 60-70% khối lượng cơ thể người trưởng thành là nước.', en: 'About 60 to 70 percent of an adult body is water.' },
   { tag: 'Cơ thể', el: [17], vi: 'Dịch vị dạ dày chứa axit clohydric đủ mạnh để hòa tan kim loại, nhưng lớp nhầy bảo vệ thành dạ dày.', en: 'Stomach acid could dissolve metal; mucus protects the lining.' },
-  { tag: 'Cơ thể', vi: 'ADN của bạn là một phân tử hóa học khổng lồ, một polime mang mã di truyền.', en: 'Your DNA is a giant polymer carrying genetic code.' },
+  { tag: 'Cơ thể', nhom: ['polime'], vi: 'ADN của bạn là một phân tử hóa học khổng lồ, một polime mang mã di truyền.', en: 'Your DNA is a giant polymer carrying genetic code.' },
   { tag: 'Cơ thể', el: [26], vi: 'Hemoglobin trong máu chứa sắt; chính ion sắt làm máu có màu đỏ.', en: 'Haemoglobin contains iron, which makes blood red.' },
   { tag: 'Cơ thể', el: [29, 26], vi: 'Máu của một số loài mực và cua có màu xanh vì dùng đồng thay vì sắt để vận chuyển oxy.', en: 'Some squid and crabs have blue blood using copper instead of iron.' },
   { tag: 'Cơ thể', el: [20, 15], vi: 'Xương và răng chủ yếu là canxi photphat, một khoáng chất vô cơ.', en: 'Bones and teeth are mostly calcium phosphate.' },
   { tag: 'Cơ thể', vi: 'Cơ thể sản sinh axit lactic khi vận động mạnh, gây cảm giác mỏi cơ.', en: 'Hard exercise makes lactic acid, causing muscle fatigue.' },
   { tag: 'Cơ thể', el: [20], vi: 'Men răng là mô cứng nhất trong cơ thể người, cứng hơn cả xương.', en: 'Tooth enamel is the hardest tissue in the human body.' },
   { tag: 'Cơ thể', vi: 'Cảm giác cay của ớt do capsaicin gây ra, nó kích thích thụ thể cảm nhận nhiệt chứ không thực sự đốt.', en: 'Chilli heat comes from capsaicin triggering heat receptors.' },
-  { tag: 'Cơ thể', vi: 'Rượu gây đau đầu một phần vì cơ thể chuyển hóa nó thành axetanđehit độc hơn.', en: 'Hangovers partly come from alcohol turning into toxic acetaldehyde.' },
+  { tag: 'Cơ thể', nhom: ['ancol', 'andehit'], vi: 'Rượu gây đau đầu một phần vì cơ thể chuyển hóa nó thành axetanđehit độc hơn.', en: 'Hangovers partly come from alcohol turning into toxic acetaldehyde.' },
   { tag: 'Cơ thể', vi: 'Vitamin C là chất chống oxi hóa; thiếu nó gây bệnh scorbut từng giết nhiều thủy thủ.', en: 'Vitamin C deficiency causes scurvy, once deadly for sailors.' },
   { tag: 'Cơ thể', el: [6], vi: 'Cơ thể người chứa đủ cacbon để làm khoảng 9.000 chiếc bút chì theo ước tính phổ biến.', en: 'A human body holds enough carbon for roughly 9,000 pencils.' },
   { tag: 'Cơ thể', el: [53], vi: 'Muối iot được bổ sung vào thức ăn để phòng bệnh bướu cổ do thiếu iot.', en: 'Iodized salt prevents goitre caused by iodine deficiency.' },
   { tag: 'Cơ thể', vi: 'Serotonin và dopamin là hai phân tử hóa học ảnh hưởng mạnh đến tâm trạng con người.', en: 'Serotonin and dopamine are molecules that strongly shape mood.' },
   { tag: 'Cơ thể', el: [11, 17], vi: 'Nước mắt, mồ hôi và nước bọt đều chứa muối nên có vị mặn.', en: 'Tears, sweat and saliva all contain salt.' },
-  { tag: 'Cơ thể', vi: 'Enzim trong nước bọt bắt đầu phân giải tinh bột ngay khi bạn nhai cơm.', en: 'Saliva enzymes start breaking down starch as you chew.' },
+  { tag: 'Cơ thể', nhom: ['gluxit'], vi: 'Enzim trong nước bọt bắt đầu phân giải tinh bột ngay khi bạn nhai cơm.', en: 'Saliva enzymes start breaking down starch as you chew.' },
 
   // ===== BẤT NGỜ =====
   { tag: 'Bất ngờ', el: [14], vi: 'Thủy tinh không phải chất rắn kết tinh mà là chất rắn vô định hình.', en: 'Glass is an amorphous solid, not a crystalline one.' },
@@ -117,7 +124,7 @@ export const FACTS: Fact[] = [
   { tag: 'Bất ngờ', vi: 'Một hạt nhân nguyên tử chỉ chiếm khoảng một phần nghìn tỉ thể tích nguyên tử.', en: 'A nucleus occupies about a trillionth of an atom volume.' },
   { tag: 'Bất ngờ', el: [14], vi: 'Thủy tinh trong cửa sổ nhà thờ cổ dày hơn ở phía dưới do cách chế tác xưa, không phải do nó chảy.', en: 'Old church glass is thicker at the bottom from manufacturing, not flow.' },
   { tag: 'Bất ngờ', vi: 'Nước nóng trong một số điều kiện có thể đóng băng nhanh hơn nước lạnh — hiệu ứng Mpemba.', en: 'Hot water can sometimes freeze faster than cold: the Mpemba effect.' },
-  { tag: 'Bất ngờ', vi: 'Nếu bạn đổ đầy một cốc nước và một cốc cồn rồi trộn lại, thể tích tổng sẽ nhỏ hơn tổng ban đầu.', en: 'Mixing water and alcohol gives less volume than the sum of both.' },
+  { tag: 'Bất ngờ', nhom: ['ancol'], vi: 'Nếu bạn đổ đầy một cốc nước và một cốc cồn rồi trộn lại, thể tích tổng sẽ nhỏ hơn tổng ban đầu.', en: 'Mixing water and alcohol gives less volume than the sum of both.' },
   { tag: 'Bất ngờ', el: [2], vi: 'Khí heli làm giọng nói cao lên vì âm thanh truyền trong heli nhanh hơn trong không khí.', en: 'Helium raises your voice because sound travels faster in it.' },
   { tag: 'Bất ngờ', vi: 'Không có chất nào thực sự "không màu": mọi chất đều hấp thụ ánh sáng ở dải bước sóng nào đó.', en: 'Every substance absorbs light at some wavelength.' },
   { tag: 'Bất ngờ', vi: 'Nguyên tử trong cơ thể bạn từng nằm trong lòng một ngôi sao đã nổ.', en: 'The atoms in your body were forged inside exploded stars.' },
@@ -132,13 +139,13 @@ export const FACTS: Fact[] = [
   // ===== MÔI TRƯỜNG =====
   { tag: 'Môi trường', el: [8], vi: 'Tầng ozon ở bình lưu hấp thụ phần lớn tia cực tím có hại từ Mặt Trời.', en: 'The ozone layer absorbs most harmful solar UV.' },
   { tag: 'Môi trường', el: [16, 7], vi: 'Mưa axit hình thành khi SO₂ và NO₂ từ khí thải kết hợp với hơi nước tạo axit.', en: 'Acid rain forms when SO2 and NO2 combine with water vapour.' },
-  { tag: 'Môi trường', el: [6, 8], vi: 'Cây xanh quang hợp: dùng CO₂ và nước, nhờ ánh sáng, tạo ra glucozơ và nhả oxy.', en: 'Photosynthesis turns CO2 and water into glucose, releasing oxygen.' },
+  { tag: 'Môi trường', el: [6, 8], nhom: ['gluxit'], vi: 'Cây xanh quang hợp: dùng CO₂ và nước, nhờ ánh sáng, tạo ra glucozơ và nhả oxy.', en: 'Photosynthesis turns CO2 and water into glucose, releasing oxygen.' },
   { tag: 'Môi trường', el: [8], vi: 'Khoảng 70% oxy trong khí quyển do sinh vật phù du trong đại dương tạo ra, không phải rừng.', en: 'Ocean plankton produce most atmospheric oxygen, not forests.' },
-  { tag: 'Môi trường', el: [17, 9], vi: 'Khí CFC từng dùng trong tủ lạnh đã bị cấm vì phá hủy tầng ozon.', en: 'CFC refrigerants were banned for destroying the ozone layer.' },
-  { tag: 'Môi trường', el: [6], vi: 'Metan giữ nhiệt mạnh hơn CO₂ nhiều lần nhưng tồn tại trong khí quyển ngắn hơn.', en: 'Methane traps far more heat than CO2 but breaks down sooner.' },
+  { tag: 'Môi trường', el: [17, 9], nhom: ['dan-xuat-halogen'], vi: 'Khí CFC từng dùng trong tủ lạnh đã bị cấm vì phá hủy tầng ozon.', en: 'CFC refrigerants were banned for destroying the ozone layer.' },
+  { tag: 'Môi trường', el: [6], nhom: ['ankan'], vi: 'Metan giữ nhiệt mạnh hơn CO₂ nhiều lần nhưng tồn tại trong khí quyển ngắn hơn.', en: 'Methane traps far more heat than CO2 but breaks down sooner.' },
   { tag: 'Môi trường', el: [6], vi: 'Đại dương hấp thụ một phần lớn CO₂ do con người thải ra, khiến nước biển bị axit hóa.', en: 'Oceans absorb much of our CO2, making seawater more acidic.' },
-  { tag: 'Môi trường', vi: 'Nhựa PET có thể tái chế thành sợi polyester để dệt vải.', en: 'PET plastic can be recycled into polyester fabric.' },
-  { tag: 'Môi trường', vi: 'Vi nhựa đã được tìm thấy ở cả đáy vực sâu nhất lẫn đỉnh núi cao nhất.', en: 'Microplastics are found from the deepest trench to the highest peak.' },
+  { tag: 'Môi trường', nhom: ['polime', 'este'], vi: 'Nhựa PET có thể tái chế thành sợi polyester để dệt vải.', en: 'PET plastic can be recycled into polyester fabric.' },
+  { tag: 'Môi trường', nhom: ['polime'], vi: 'Vi nhựa đã được tìm thấy ở cả đáy vực sâu nhất lẫn đỉnh núi cao nhất.', en: 'Microplastics are found from the deepest trench to the highest peak.' },
   { tag: 'Môi trường', el: [13], vi: 'Xử lý nước bằng phèn nhôm giúp keo tụ các hạt bẩn lơ lửng để lắng xuống.', en: 'Alum treatment clumps suspended dirt so it can settle.' },
   { tag: 'Môi trường', el: [48, 82], vi: 'Pin cũ vứt bừa bãi làm rò rỉ kim loại nặng vào đất và nguồn nước.', en: 'Discarded batteries leak heavy metals into soil and water.' },
   { tag: 'Môi trường', el: [13], vi: 'Nhôm tái chế chỉ tốn khoảng 5% năng lượng so với sản xuất nhôm từ quặng.', en: 'Recycling aluminium uses about 5 percent of the energy of new production.' },
@@ -149,11 +156,11 @@ export const FACTS: Fact[] = [
   { tag: 'Công nghiệp', el: [16], vi: 'Axit sunfuric được sản xuất nhiều nhất thế giới, lượng tiêu thụ của một nước phản ánh mức công nghiệp hóa.', en: 'Sulfuric acid is the most produced chemical worldwide.' },
   { tag: 'Công nghiệp', el: [26, 6], vi: 'Thép là hợp kim của sắt với một lượng nhỏ cacbon; càng nhiều cacbon thì càng cứng nhưng càng giòn.', en: 'Steel is iron with a little carbon: more carbon, harder but more brittle.' },
   { tag: 'Công nghiệp', el: [13], vi: 'Nhôm được sản xuất bằng điện phân nên rất tốn điện, thường đặt nhà máy gần thủy điện.', en: 'Aluminium smelting is so power-hungry it sits near hydro plants.' },
-  { tag: 'Công nghiệp', vi: 'Dầu mỏ được tách thành xăng, dầu hỏa, dầu diesel bằng chưng cất phân đoạn.', en: 'Crude oil is split into fuels by fractional distillation.' },
+  { tag: 'Công nghiệp', nhom: ['ankan'], vi: 'Dầu mỏ được tách thành xăng, dầu hỏa, dầu diesel bằng chưng cất phân đoạn.', en: 'Crude oil is split into fuels by fractional distillation.' },
   { tag: 'Công nghiệp', el: [14, 11, 20], vi: 'Thủy tinh làm từ cát, soda và đá vôi nung chảy ở khoảng 1.500°C.', en: 'Glass is sand, soda and limestone melted near 1,500°C.' },
-  { tag: 'Công nghiệp', vi: 'Xà phòng được làm bằng cách đun chất béo với dung dịch kiềm.', en: 'Soap is made by boiling fat with an alkali solution.' },
+  { tag: 'Công nghiệp', nhom: ['lipit'], vi: 'Xà phòng được làm bằng cách đun chất béo với dung dịch kiềm.', en: 'Soap is made by boiling fat with an alkali solution.' },
   { tag: 'Công nghiệp', el: [7], vi: 'Phân đạm ure có hàm lượng nitơ cao nhất trong các loại phân đạm thông dụng.', en: 'Urea has the highest nitrogen content of common fertilizers.' },
-  { tag: 'Công nghiệp', el: [16], vi: 'Cao su tự nhiên phải lưu hóa bằng lưu huỳnh mới đủ bền để làm lốp xe.', en: 'Natural rubber must be vulcanized with sulfur to make tyres.' },
+  { tag: 'Công nghiệp', el: [16], nhom: ['polime'], vi: 'Cao su tự nhiên phải lưu hóa bằng lưu huỳnh mới đủ bền để làm lốp xe.', en: 'Natural rubber must be vulcanized with sulfur to make tyres.' },
   { tag: 'Công nghiệp', el: [14], vi: 'Chất bán dẫn silic phải tinh khiết tới mức chỉ một nguyên tử tạp trên hàng tỉ nguyên tử.', en: 'Semiconductor silicon must be pure to about one impurity per billion atoms.' },
   { tag: 'Công nghiệp', vi: 'Giấy trắng nhờ tẩy lignin, chất làm giấy ngả vàng theo thời gian.', en: 'Paper is whitened by removing lignin, which yellows with age.' },
   { tag: 'Công nghiệp', el: [30, 26], vi: 'Xi mạ kẽm lên sắt giúp chống gỉ vì kẽm bị ăn mòn thay cho sắt.', en: 'Galvanizing protects iron because zinc corrodes in its place.' },
@@ -162,17 +169,17 @@ export const FACTS: Fact[] = [
 
   // ===== ẨM THỰC =====
   { tag: 'Ẩm thực', vi: 'Bánh mì nở nhờ khí CO₂ do men hoặc bột nở sinh ra bị giữ lại trong khối bột.', en: 'Bread rises from CO2 trapped in the dough.' },
-  { tag: 'Ẩm thực', vi: 'Thịt nướng thơm nhờ phản ứng Maillard giữa đường và amino axit ở nhiệt độ cao.', en: 'Grilled meat smells good thanks to the Maillard reaction.' },
-  { tag: 'Ẩm thực', vi: 'Caramel là kết quả của việc đường bị phân hủy khi đun nóng.', en: 'Caramel forms when sugar decomposes under heat.' },
+  { tag: 'Ẩm thực', nhom: ['gluxit', 'amino-axit'], vi: 'Thịt nướng thơm nhờ phản ứng Maillard giữa đường và amino axit ở nhiệt độ cao.', en: 'Grilled meat smells good thanks to the Maillard reaction.' },
+  { tag: 'Ẩm thực', nhom: ['gluxit'], vi: 'Caramel là kết quả của việc đường bị phân hủy khi đun nóng.', en: 'Caramel forms when sugar decomposes under heat.' },
   { tag: 'Ẩm thực', vi: 'Vắt chanh lên táo cắt giúp chậm thâm vì vitamin C là chất chống oxi hóa.', en: 'Lemon slows apple browning because vitamin C is an antioxidant.' },
-  { tag: 'Ẩm thực', vi: 'Sữa chua chua là do vi khuẩn chuyển đường lactozơ thành axit lactic.', en: 'Yoghurt is sour because bacteria turn lactose into lactic acid.' },
-  { tag: 'Ẩm thực', el: [11], vi: 'Mì chính là muối natri của axit glutamic, một amino axit có sẵn trong thực phẩm.', en: 'MSG is the sodium salt of glutamic acid, a natural amino acid.' },
-  { tag: 'Ẩm thực', vi: 'Luộc trứng làm protein biến tính, chuyển từ trong suốt sang trắng đục và rắn lại.', en: 'Boiling eggs denatures protein from clear to solid white.' },
+  { tag: 'Ẩm thực', nhom: ['gluxit', 'axit-cacboxylic'], vi: 'Sữa chua chua là do vi khuẩn chuyển đường lactozơ thành axit lactic.', en: 'Yoghurt is sour because bacteria turn lactose into lactic acid.' },
+  { tag: 'Ẩm thực', el: [11], nhom: ['amino-axit'], vi: 'Mì chính là muối natri của axit glutamic, một amino axit có sẵn trong thực phẩm.', en: 'MSG is the sodium salt of glutamic acid, a natural amino acid.' },
+  { tag: 'Ẩm thực', nhom: ['amino-axit'], vi: 'Luộc trứng làm protein biến tính, chuyển từ trong suốt sang trắng đục và rắn lại.', en: 'Boiling eggs denatures protein from clear to solid white.' },
   { tag: 'Ẩm thực', el: [11], vi: 'Muối làm nước sôi ở nhiệt độ cao hơn một chút và làm nước đá tan ở nhiệt độ thấp hơn.', en: 'Salt raises water boiling point and lowers ice melting point.' },
-  { tag: 'Ẩm thực', vi: 'Dầu ăn và nước không trộn được vì dầu không phân cực còn nước phân cực.', en: 'Oil and water do not mix because oil is nonpolar and water is polar.' },
+  { tag: 'Ẩm thực', nhom: ['lipit'], vi: 'Dầu ăn và nước không trộn được vì dầu không phân cực còn nước phân cực.', en: 'Oil and water do not mix because oil is nonpolar and water is polar.' },
   { tag: 'Ẩm thực', vi: 'Hành làm cay mắt vì giải phóng hợp chất lưu huỳnh bay hơi, gặp nước mắt tạo axit nhẹ.', en: 'Onions sting because sulfur compounds form a mild acid in tears.' },
-  { tag: 'Ẩm thực', vi: 'Rượu vang lâu năm đổi vị nhờ các phản ứng oxi hóa và este hóa chậm trong chai.', en: 'Wine ages through slow oxidation and esterification.' },
-  { tag: 'Ẩm thực', vi: 'Chuối chín nhanh hơn khi để cạnh quả khác vì nó nhả khí etilen kích thích chín.', en: 'Bananas ripen neighbours by releasing ethylene gas.' },
+  { tag: 'Ẩm thực', nhom: ['este', 'ancol'], vi: 'Rượu vang lâu năm đổi vị nhờ các phản ứng oxi hóa và este hóa chậm trong chai.', en: 'Wine ages through slow oxidation and esterification.' },
+  { tag: 'Ẩm thực', nhom: ['anken'], vi: 'Chuối chín nhanh hơn khi để cạnh quả khác vì nó nhả khí etilen kích thích chín.', en: 'Bananas ripen neighbours by releasing ethylene gas.' },
   { tag: 'Ẩm thực', vi: 'Trà đổi màu khi vắt chanh vì sắc tố trong trà nhạy với độ pH.', en: 'Tea lightens with lemon because its pigments are pH sensitive.' },
   { tag: 'Ẩm thực', vi: 'Nước đá lạnh hơn nếu thêm muối, đó là nguyên lý làm kem thủ công.', en: 'Salted ice gets colder, the principle behind hand-churned ice cream.' },
 
@@ -193,9 +200,9 @@ export const FACTS: Fact[] = [
   { tag: 'Vũ trụ', el: [1, 2], vi: 'Mặt Trời chủ yếu là hydro và heli, đốt nhiên liệu bằng phản ứng nhiệt hạch chứ không phải cháy.', en: 'The Sun is hydrogen and helium powered by fusion, not burning.' },
   { tag: 'Vũ trụ', el: [26], vi: 'Sao Hỏa có màu đỏ vì bề mặt phủ đầy oxit sắt, chính là gỉ sắt.', en: 'Mars is red because its surface is covered in iron oxide, rust.' },
   { tag: 'Vũ trụ', el: [6], vi: 'Khí quyển sao Kim chủ yếu là CO₂, gây hiệu ứng nhà kính cực đoan trên 460°C.', en: 'Venus CO2 atmosphere creates a runaway greenhouse above 460°C.' },
-  { tag: 'Vũ trụ', vi: 'Người ta đã tìm thấy phân tử hữu cơ, kể cả amino axit, trong các thiên thạch rơi xuống Trái Đất.', en: 'Organic molecules including amino acids are found in meteorites.' },
-  { tag: 'Vũ trụ', vi: 'Có những đám mây khí giữa các vì sao chứa lượng cồn etylic khổng lồ.', en: 'Interstellar clouds contain vast amounts of ethyl alcohol.' },
-  { tag: 'Vũ trụ', el: [6], vi: 'Titan, mặt trăng của sao Thổ, có hồ và sông bằng metan lỏng thay vì nước.', en: 'Saturn moon Titan has lakes of liquid methane instead of water.' },
+  { tag: 'Vũ trụ', nhom: ['amino-axit'], vi: 'Người ta đã tìm thấy phân tử hữu cơ, kể cả amino axit, trong các thiên thạch rơi xuống Trái Đất.', en: 'Organic molecules including amino acids are found in meteorites.' },
+  { tag: 'Vũ trụ', nhom: ['ancol'], vi: 'Có những đám mây khí giữa các vì sao chứa lượng cồn etylic khổng lồ.', en: 'Interstellar clouds contain vast amounts of ethyl alcohol.' },
+  { tag: 'Vũ trụ', el: [6], nhom: ['ankan'], vi: 'Titan, mặt trăng của sao Thổ, có hồ và sông bằng metan lỏng thay vì nước.', en: 'Saturn moon Titan has lakes of liquid methane instead of water.' },
   { tag: 'Vũ trụ', el: [2], vi: 'Heli trên Trái Đất chủ yếu sinh ra từ phân rã phóng xạ trong lòng đất, không phải từ không khí.', en: 'Earth helium comes mostly from underground radioactive decay.' },
   { tag: 'Vũ trụ', el: [6], vi: 'Kim cương có thể tồn tại dưới dạng mưa trong khí quyển sao Hải Vương và sao Thiên Vương.', en: 'Diamonds may rain in the atmospheres of Neptune and Uranus.' },
   { tag: 'Vũ trụ', vi: 'Nước đã được phát hiện dưới dạng băng trên Mặt Trăng, sao Hỏa và nhiều sao chổi.', en: 'Water ice has been found on the Moon, Mars and many comets.' },
@@ -204,18 +211,18 @@ export const FACTS: Fact[] = [
   { tag: 'Y học', vi: 'Aspirin bắt nguồn từ hoạt chất trong vỏ cây liễu, được dùng giảm đau từ thời cổ đại.', en: 'Aspirin originates from willow bark, used for pain since antiquity.' },
   { tag: 'Y học', el: [56], vi: 'Bari sunfat được uống trước khi chụp X-quang vì nó cản tia X mà không tan nên không gây độc.', en: 'Barium sulfate is swallowed for X-rays: it blocks rays but does not dissolve.' },
   { tag: 'Y học', el: [78], vi: 'Cisplatin, một thuốc hóa trị ung thư quan trọng, chứa kim loại platin.', en: 'Cisplatin, a key chemotherapy drug, contains platinum.' },
-  { tag: 'Y học', vi: 'Insulin là một protein, nên phải tiêm chứ không uống được vì sẽ bị dạ dày phân hủy.', en: 'Insulin is a protein, so it must be injected, not swallowed.' },
+  { tag: 'Y học', nhom: ['amino-axit'], vi: 'Insulin là một protein, nên phải tiêm chứ không uống được vì sẽ bị dạ dày phân hủy.', en: 'Insulin is a protein, so it must be injected, not swallowed.' },
   { tag: 'Y học', vi: 'Nitroglixerin vừa là thuốc nổ mạnh vừa là thuốc giãn mạch điều trị đau thắt ngực.', en: 'Nitroglycerin is both a powerful explosive and a heart medicine.' },
   { tag: 'Y học', vi: 'Paracetamol an toàn ở liều thường nhưng quá liều gây tổn thương gan không hồi phục.', en: 'Paracetamol is safe at normal doses but overdose destroys the liver.' },
-  { tag: 'Y học', vi: 'Cồn 70% sát trùng tốt hơn cồn 90% vì nước giúp cồn thấm vào tế bào vi khuẩn.', en: 'Alcohol at 70% disinfects better than 90% because water helps it penetrate.' },
-  { tag: 'Y học', vi: 'Thuốc gây mê hiện đại bắt nguồn từ việc dùng ete và clorofom giữa thế kỷ 19.', en: 'Modern anaesthesia began with ether and chloroform in the 1800s.' },
+  { tag: 'Y học', nhom: ['ancol'], vi: 'Cồn 70% sát trùng tốt hơn cồn 90% vì nước giúp cồn thấm vào tế bào vi khuẩn.', en: 'Alcohol at 70% disinfects better than 90% because water helps it penetrate.' },
+  { tag: 'Y học', nhom: ['ete', 'dan-xuat-halogen'], vi: 'Thuốc gây mê hiện đại bắt nguồn từ việc dùng ete và clorofom giữa thế kỷ 19.', en: 'Modern anaesthesia began with ether and chloroform in the 1800s.' },
   { tag: 'Y học', el: [11, 17], vi: 'Nước muối sinh lý có nồng độ 0,9% vì trùng với nồng độ muối trong máu.', en: 'Saline is 0.9% because that matches the salt level in blood.' },
   { tag: 'Y học', el: [6], vi: 'Than hoạt tính được dùng cấp cứu ngộ độc vì bề mặt xốp giữ chất độc lại trong ruột.', en: 'Activated charcoal treats poisoning by trapping toxins in the gut.' },
 
   // ===== MÀU SẮC & NHẬN BIẾT =====
   { tag: 'Nhận biết', el: [11, 19, 20, 29], vi: 'Thử màu ngọn lửa: natri cho vàng, kali cho tím, canxi cho đỏ cam, đồng cho xanh lục.', en: 'Flame tests: sodium yellow, potassium lilac, calcium orange-red, copper green.' },
   { tag: 'Nhận biết', el: [29], vi: 'Đồng sunfat khan màu trắng, gặp nước hóa xanh lam nên dùng để phát hiện nước.', en: 'Anhydrous copper sulfate turns blue with water, detecting moisture.' },
-  { tag: 'Nhận biết', el: [53], vi: 'Iot gặp hồ tinh bột cho màu xanh tím đặc trưng, dùng nhận biết tinh bột.', en: 'Iodine turns starch deep blue, a classic starch test.' },
+  { tag: 'Nhận biết', el: [53], nhom: ['gluxit'], vi: 'Iot gặp hồ tinh bột cho màu xanh tím đặc trưng, dùng nhận biết tinh bột.', en: 'Iodine turns starch deep blue, a classic starch test.' },
   { tag: 'Nhận biết', el: [20, 6], vi: 'Nước vôi trong hóa đục khi sục CO₂ vào, đó là cách nhận biết khí này.', en: 'Limewater turns cloudy with CO2, the standard test for it.' },
   { tag: 'Nhận biết', el: [47], vi: 'Bạc clorua kết tủa trắng, bạc bromua vàng nhạt, bạc iotua vàng đậm.', en: 'Silver chloride is white, bromide pale yellow, iodide deep yellow.' },
   { tag: 'Nhận biết', el: [26], vi: 'Kết tủa sắt(III) hydroxit màu nâu đỏ, còn sắt(II) hydroxit trắng xanh và hóa nâu ngoài không khí.', en: 'Iron(III) hydroxide is red-brown; iron(II) is pale green and browns in air.' },
@@ -230,7 +237,7 @@ export const FACTS: Fact[] = [
   { tag: 'Nông nghiệp', el: [7], vi: 'Cây họ đậu cộng sinh với vi khuẩn cố định đạm, tự chuyển khí nitơ thành phân bón.', en: 'Legumes host bacteria that fix atmospheric nitrogen.' },
   { tag: 'Nông nghiệp', el: [29, 20], vi: 'Dung dịch Boóc-đô chống nấm cho cây làm từ đồng sunfat và vôi.', en: 'Bordeaux mixture, a fungicide, is copper sulfate plus lime.' },
   { tag: 'Nông nghiệp', vi: 'Đất chua hay kiềm quá đều làm cây không hấp thụ được dinh dưỡng dù đất giàu.', en: 'Soil too acidic or alkaline blocks nutrient uptake even when rich.' },
-  { tag: 'Nông nghiệp', el: [6], vi: 'Khí etilen được dùng để giấm chín trái cây sau thu hoạch.', en: 'Ethylene gas is used to ripen harvested fruit.' },
+  { tag: 'Nông nghiệp', el: [6], nhom: ['anken'], vi: 'Khí etilen được dùng để giấm chín trái cây sau thu hoạch.', en: 'Ethylene gas is used to ripen harvested fruit.' },
 
   // ===== THÊM VỀ NGUYÊN TỐ & VẬT LIỆU =====
   { tag: 'Nguyên tố', el: [1], vi: 'Hydro có ba đồng vị chính: proti, đơteri và triti; chỉ triti là phóng xạ.', en: 'Hydrogen has three isotopes: protium, deuterium and radioactive tritium.' },
@@ -282,3 +289,12 @@ export const FACTS: Fact[] = [
 /** Các sự thật nói về nguyên tố có số hiệu n (dùng ở trang chi tiết nguyên tố). */
 export const factsForElement = (n: number): Fact[] =>
   FACTS.filter((f) => f.el?.includes(n));
+
+/** Các sự thật nói về lớp chất `nhomKey` (dùng khi mở định nghĩa trong từ điển). */
+export const factsForNhom = (nhomKey: string): Fact[] =>
+  FACTS.filter((f) => f.nhom?.includes(nhomKey));
+
+/** Các khóa lớp chất đang thật sự có sự thật gắn kèm — dùng để báo cáo. */
+export const nhomCoThucTien = (): string[] => [
+  ...new Set(FACTS.flatMap((f) => f.nhom ?? [])),
+];

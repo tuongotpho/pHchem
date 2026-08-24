@@ -13,7 +13,7 @@ import { FORMULAS, type Formula } from '../data/formulas';
 import { ELEMENTS, type Element, type Category } from '../data/elements';
 import { TERMS, type Term } from '../data/dictionary';
 import { NHOM_CHAT, NHOM_NGUYEN_TO, type NhomChat } from '../data/classes';
-import { factsForElement } from '../data/facts';
+import { factsForElement, factsForNhom } from '../data/facts';
 import type { Fact } from '../data/facts';
 
 /** Lớp chất của một chất, hoặc undefined nếu chất đó không thuộc lớp nào. */
@@ -59,12 +59,27 @@ export interface NoiDungHoc {
   thucTien: Fact[];
 }
 
+// Lớp chất nào ứng với thuật ngữ nào — chiều ngược của NHOM_CHAT, dựng sẵn
+// một lần để tra cho nhanh.
+const NHOM_THEO_TERM = new Map<string, string[]>();
+for (const [khoa, n] of Object.entries(NHOM_CHAT)) {
+  const arr = NHOM_THEO_TERM.get(n.term);
+  if (arr) arr.push(khoa);
+  else NHOM_THEO_TERM.set(n.term, [khoa]);
+}
+
 /**
  * Nội dung đi kèm một thuật ngữ, để mở định nghĩa ra là học được luôn.
  *
- * Mục "thực tiễn" chỉ lấy khi thuật ngữ ứng với một NHÓM NGUYÊN TỐ: lúc đó
- * gom các mẩu thực tiễn đã gắn sẵn số hiệu nguyên tố. Không dò chữ trong nội
- * dung mẩu — dò chữ thì kiểu gì cũng có mẩu bị móc nhầm.
+ * Mục "thực tiễn" gom từ HAI đường, đều đã gắn tay sẵn trong dữ liệu:
+ *   - thuật ngữ ứng với một NHÓM NGUYÊN TỐ → lấy mẩu gắn số hiệu nguyên tố
+ *   - thuật ngữ ứng với một LỚP CHẤT → lấy mẩu gắn khóa lớp chất đó
+ *
+ * Không dò chữ trong nội dung mẩu — dò chữ thì kiểu gì cũng móc nhầm: "men
+ * răng" thành men bia, "viên đường" thành gluxit, "đạm N" thành amino axit.
+ *
+ * Trước đây chỉ có đường thứ nhất, nên mở "Halogen" thấy cả loạt mẩu mà mở
+ * "Este" thì trống trơn, dù kho có mẩu về este hẳn hoi.
  */
 // Nhớ sẵn kết quả theo thuật ngữ. Trang Từ điển gọi hàm này cho TỪNG mục ở
 // MỌI lần vẽ lại — mỗi lần dựng mới ba mảng và quét kho thực tiễn. Khóa theo
@@ -80,12 +95,15 @@ export function noiDungChoThuatNgu(term: Term): NoiDungHoc {
 
   const daCo = new Set<Fact>();
   const thucTien: Fact[] = [];
-  for (const e of nguyenTo)
-    for (const f of factsForElement(e.n))
+  const gom = (ds: Fact[]) => {
+    for (const f of ds)
       if (!daCo.has(f)) {
         daCo.add(f);
         thucTien.push(f);
       }
+  };
+  for (const e of nguyenTo) gom(factsForElement(e.n));
+  for (const khoa of NHOM_THEO_TERM.get(term.en) ?? []) gom(factsForNhom(khoa));
 
   const kq: NoiDungHoc = { chat, nguyenTo, thucTien };
   NHO.set(term.en, kq);
@@ -95,5 +113,5 @@ export function noiDungChoThuatNgu(term: Term): NoiDungHoc {
 /** Thuật ngữ này có nội dung gì để học kèm không? */
 export const coNoiDungHoc = (term: Term): boolean => {
   const n = noiDungChoThuatNgu(term);
-  return n.chat.length > 0 || n.nguyenTo.length > 0;
+  return n.chat.length > 0 || n.nguyenTo.length > 0 || n.thucTien.length > 0;
 };

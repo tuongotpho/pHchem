@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { FACTS, factsForElement } from './facts';
+import { FACTS, factsForElement, factsForNhom, nhomCoThucTien } from './facts';
+import { NHOM_CHAT } from './classes';
 import { ELEMENTS, byNumber } from './elements';
 
 describe('liên kết sự thật với nguyên tố', () => {
@@ -56,5 +57,44 @@ describe('liên kết sự thật với nguyên tố', () => {
     const coFact = ELEMENTS.filter((e) => factsForElement(e.n).length > 0);
     // chỉ ghi nhận con số, không ép ngưỡng
     expect(coFact.length).toBeGreaterThanOrEqual(69);
+  });
+});
+
+describe('gắn mẩu thực tiễn với lớp chất', () => {
+  it('mọi khóa lớp chất gắn trên mẩu đều là khóa CÓ THẬT', () => {
+    // Gõ sai một chữ trong khóa thì liên kết chết lặng, không ai biết —
+    // mở "Este" vẫn trống trơn mà chẳng có lỗi nào báo.
+    const hong: string[] = [];
+    for (const f of FACTS)
+      for (const k of f.nhom ?? [])
+        if (!(k in NHOM_CHAT)) hong.push(`${k} (trong: ${f.vi.slice(0, 40)}…)`);
+    expect(hong).toEqual([]);
+  });
+
+  it('không mẩu nào gắn trùng một lớp chất hai lần', () => {
+    const trung = FACTS.filter(
+      (f) => f.nhom && new Set(f.nhom).size !== f.nhom.length,
+    ).map((f) => f.vi.slice(0, 40));
+    expect(trung).toEqual([]);
+  });
+
+  it('factsForNhom trả đúng mẩu đã gắn, không trả thừa', () => {
+    for (const k of nhomCoThucTien()) {
+      const ds = factsForNhom(k);
+      expect(ds.length, k).toBeGreaterThan(0);
+      expect(ds.every((f) => f.nhom!.includes(k)), k).toBe(true);
+    }
+  });
+
+  it('mảng nhom rỗng thì coi như chưa gắn, đừng để lửng lơ', () => {
+    const rong = FACTS.filter((f) => f.nhom && f.nhom.length === 0).map((f) =>
+      f.vi.slice(0, 40),
+    );
+    expect(rong).toEqual([]);
+  });
+
+  it('lớp chất không có mẩu nào thì trả mảng rỗng, không nổ', () => {
+    expect(factsForNhom('xeton')).toEqual([]);
+    expect(factsForNhom('khong-ton-tai')).toEqual([]);
   });
 });

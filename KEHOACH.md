@@ -155,9 +155,13 @@ Ba chỗ ở `ElementDetail.tsx` gỡ hai khối con ra ngoài hàm trang.
   nào nằm trong bảng đối chứng nên chưa ai dính, nhưng đó là bẫy chờ sẵn.
   Nay gặp mã rỗng là báo lỗi và trả mã thoát 1.
 
-- Mẩu thực tiễn mới nối được với **nhóm nguyên tố**, chưa nối với lớp chất hữu
-  cơ. Mở "Halogen" thấy 16 mẩu, mở "Este" thì không mẩu nào. Muốn nối phải gắn
-  thẻ lớp chất cho từng mẩu.
+- ✅ **ĐÃ NỐI mẩu thực tiễn với lớp chất** (24/08/2026). Thêm trường `nhom` vào
+  từng mẩu, gắn TAY 32 mẩu sau khi đọc từng cái — không dò chữ, vì dò chữ thì
+  "men răng" thành men bia, "viên đường" thành gluxit, "đạm N" thành amino axit.
+  Phủ 15/22 lớp chất. Bảy lớp còn trống (muối, oxit, đơn chất, ankin, ankađien,
+  phenol, xeton, amin) là do kho **thật sự không có mẩu nào** về chúng, không
+  phải bỏ sót — đã quét hai lượt từ khóa rộng.
+  Muốn thêm: viết mẩu mới rồi gắn `nhom`, hoặc mở rộng sang nhóm vô cơ.
 - 32 chất chưa xếp lớp: hiđrua, hợp chất nitro, nhóm dược phẩm - sinh học.
   Cố ý bỏ trống vì không thuộc lớp nào được dạy riêng.
 - 2 chất chưa có hình cấu tạo: V2O5 và SiC — mạng tinh thể, không có phân tử
@@ -225,6 +229,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 
 | Ngày | Đã xong tới | Đang dở | Việc kế tiếp |
 |---|---|---|---|
+| 24/08/2026 11:25 | Nối **mẩu thực tiễn ↔ lớp chất**, gắn tay 32 mẩu, phủ 15/22 lớp | không | Kho không còn việc treo nào ngoài 3 việc cần mắt người |
 | 24/08/2026 11:20 | Chặn **bẫy đối chứng rỗng** trong gen-structures — phát hiện lúc tách polime | không | Xem "Việc nhỏ ghi lại kẻo quên" |
 | 24/08/2026 11:15 | Tách **tinh bột / xenlulozơ**, xác định α-β bằng InChI đối chứng | không | Chặn bẫy đối chứng rỗng ở gen-structures |
 | 24/08/2026 11:05 | Xong nốt **điểm nhỏ tab Pha loãng** (ghi chú không đánh số, suýt lọt) | không | Xem "Việc nhỏ ghi lại kẻo quên" |
