@@ -49,9 +49,15 @@ export default defineConfig(({ command }) => ({
         globIgnores: ['**/hinh/**'],
         runtimeCaching: [
           {
-            // CacheFirst chứ không phải NetworkFirst: hình do build sinh ra,
-            // đổi thì đổi cả tên file, nên bản đã đệm KHÔNG bao giờ cũ. Hỏi
-            // mạng lại chỉ tổ chậm và tốn dung lượng của người dùng.
+            // CacheFirst chứ không phải NetworkFirst: tên file hình có kèm
+            // MÃ BĂM NỘI DUNG ("H2O.3f2a1b9c.svg"), nên sửa hình là đổi luôn
+            // địa chỉ — bản đã đệm KHÔNG bao giờ che mất bản mới. Hỏi lại mạng
+            // chỉ tổ chậm và tốn dung lượng của người dùng.
+            //
+            // ĐIỀU KIỆN để lối này đúng nằm ở scripts/gen-structures.mjs. Bỏ
+            // mã băm khỏi tên file mà vẫn để CacheFirst thì hôm nào sửa một
+            // hình vẽ sai, người đã xem qua sẽ không bao giờ thấy bản sửa —
+            // hóa học sai nằm lại trên máy học sinh, không cách nào gỡ.
             urlPattern: ({ url }: { url: URL }) =>
               url.pathname.includes('/hinh/') && url.pathname.endsWith('.svg'),
             handler: 'CacheFirst',

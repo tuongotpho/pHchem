@@ -135,6 +135,38 @@ export async function taiCaBoVeMay(
   return { xong, loi, khongCoKho: false };
 }
 
+/**
+ * Dọn những hình trong kho KHÔNG còn thuộc bộ hiện tại, trả về số đã dọn.
+ *
+ * VÌ SAO CẦN: tên file hình có mã băm nội dung, nên sửa một hình là ra một tên
+ * mới — bản cũ nằm lại trong kho mà không ai còn hỏi tới nữa. Workbox có luật
+ * dọn riêng, nhưng nó CHỈ dọn được những mục do chính nó cất; mấy mục do nút
+ * "tải cả bộ" ghi thẳng vào kho thì không nằm trong sổ của nó, nên sẽ nằm đó
+ * vĩnh viễn. Ai từng bấm nút tải cả bộ rồi mà app cập nhật hình là ôm nguyên
+ * một bộ chết ngốn 1,6 MB.
+ *
+ * Cùng lối với việc script sinh hình tự dọn file .svg thừa trong public/hinh.
+ */
+export async function donHinhCu(urlHienTai: string[]): Promise<number> {
+  const kho = await moKho();
+  if (!kho) return 0;
+  try {
+    const conDung = new Set(
+      urlHienTai.map((u) => new URL(u, location.href).pathname),
+    );
+    let daDon = 0;
+    for (const req of await kho.keys()) {
+      if (!conDung.has(new URL(req.url).pathname)) {
+        await kho.delete(req);
+        daDon++;
+      }
+    }
+    return daDon;
+  } catch {
+    return 0;
+  }
+}
+
 /** Xóa toàn bộ hình đã tải về, trả lại chỗ trống. */
 export async function xoaHinhDaLuu(): Promise<boolean> {
   try {

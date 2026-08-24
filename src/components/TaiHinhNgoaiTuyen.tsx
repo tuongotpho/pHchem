@@ -13,7 +13,12 @@ import {
   STRUCTURE_COUNT,
   allStructureUrls,
 } from '../generated/structures';
-import { demHinhDaLuu, taiCaBoVeMay, xoaHinhDaLuu } from '../lib/khoHinh';
+import {
+  demHinhDaLuu,
+  donHinhCu,
+  taiCaBoVeMay,
+  xoaHinhDaLuu,
+} from '../lib/khoHinh';
 
 export default function TaiHinhNgoaiTuyen() {
   const { lang } = useLang();
@@ -36,9 +41,13 @@ export default function TaiHinhNgoaiTuyen() {
   // trang trước khi đếm xong thì kết quả về muộn không được ghi đè lên gì nữa.
   useEffect(() => {
     let con = true;
-    demHinhDaLuu(urls).then((n) => {
-      if (con) setDaCo(n === null ? -1 : n);
-    });
+    // Dọn bản cũ TRƯỚC khi đếm, không thì con số hiện ra đã tính cả những hình
+    // không ai còn hỏi tới — người dùng tưởng đủ mà thật ra thiếu.
+    donHinhCu(urls)
+      .then(() => demHinhDaLuu(urls))
+      .then((n) => {
+        if (con) setDaCo(n === null ? -1 : n);
+      });
     return () => {
       con = false;
     };

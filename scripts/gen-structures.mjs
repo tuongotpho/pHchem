@@ -21,6 +21,7 @@
 import initRDKitModule from '@rdkit/rdkit';
 import { REFERENCES, VERIFIED_INCHI, ALLOW_UNDEFINED_STEREO } from './references.mjs';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 // Lõi đếm nguyên tử DÙNG CHUNG với app. Trước đây chỗ này chép lại một bản
 // riêng — mà chính phép đối chiếu công thức ↔ SMILES ở dưới dựa vào nó, nên
 // hai bản lệch nhau là phép kiểm mất hiệu lực mà không ai biết.
@@ -340,18 +341,36 @@ for (const [key, smiles] of entries) {
 const lamSachTen = (khoa) =>
   khoa.replace(/[^A-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
 
+// TÊN FILE KÈM MÃ BĂM NỘI DUNG — "H2O.3f2a1b9c.svg".
+//
+// VÌ SAO CẦN: service worker đệm hình theo lối CacheFirst, tức đã có trong máy
+// thì KHÔNG bao giờ hỏi lại mạng. Lối đó chỉ đúng khi sửa hình là đổi luôn tên
+// file. Trước đây tên là "H2O.svg" và giữ nguyên mãi mãi, nên hôm nào sửa một
+// hình vẽ sai thì người đã xem qua sẽ KHÔNG BAO GIỜ thấy bản sửa — hóa học sai
+// nằm lại trên máy học sinh, mà không có cách nào gỡ. Nay nội dung đổi một nét
+// là mã băm đổi, thành một địa chỉ khác hẳn, và bản mới về ngay.
+//
+// Tám ký tự hex là đủ: mã băm chỉ cần phân biệt các bản CỦA CÙNG MỘT CHẤT, mà
+// phần tên chất vẫn đứng nguyên ở đầu.
+const bamNoiDung = (noiDung) =>
+  createHash('sha256').update(noiDung).digest('hex').slice(0, 8);
+
 const TEN_FILE = {};
 const daDung = new Map(); // tên viết thường -> khóa đã chiếm, để bắt trùng
 for (const khoa of Object.keys(svgs).sort()) {
-  let ten = lamSachTen(khoa);
+  let goc = lamSachTen(khoa);
   // CHỐNG TRÙNG, và so bằng CHỮ THƯỜNG. Lý do: máy Windows không phân biệt
   // hoa/thường tên file, Linux thì có. Hai chất ra hai tên chỉ khác hoa/thường
   // sẽ ĐÈ NHAU trên máy người viết mà vẫn chạy, rồi chết ở CI — hoặc tệ hơn,
   // chạy được cả hai nơi mà một chất hiện nhầm hình của chất kia.
+  //
+  // So phần GỐC thôi, chưa gắn mã băm: hai chất khác nhau mà ra cùng một gốc
+  // tên thì phải tách ra, chứ không phải chờ mã băm cứu — mã băm khác nhau vẫn
+  // là hai file, nhưng lúc đó tên chất đã lẫn lộn rồi.
   let n = 2;
-  while (daDung.has(ten.toLowerCase())) ten = `${lamSachTen(khoa)}_${n++}`;
-  daDung.set(ten.toLowerCase(), khoa);
-  TEN_FILE[khoa] = ten;
+  while (daDung.has(goc.toLowerCase())) goc = `${lamSachTen(khoa)}_${n++}`;
+  daDung.set(goc.toLowerCase(), khoa);
+  TEN_FILE[khoa] = `${goc}.${bamNoiDung(svgs[khoa])}`;
 }
 
 const thuMucHinh = join(root, 'public/hinh');
@@ -382,9 +401,13 @@ writeFileSync(
 // Danh mục chất có hình cấu tạo, kèm tên file hình của từng chất. Bản thân
 // hình nằm ở public/hinh/*.svg, tải riêng từng cái khi người dùng mở xem.
 //
-// Bảng tên file ghi TƯỜNG MINH chứ không để app tự tính lại: khi hai chất làm
-// sạch tên ra trùng nhau, script thêm hậu tố cho một cái — mà quy tắc thêm hậu
-// tố ấy phụ thuộc thứ tự duyệt, app tính lại sẽ ra khác.
+// Tên file có dạng "H2O.3f2a1b9c" — phần sau dấu chấm là MÃ BĂM NỘI DUNG. Sửa
+// hình là mã băm đổi, thành một địa chỉ khác hẳn, nên bản đã đệm trong máy
+// người dùng không bao giờ che mất bản mới.
+//
+// Bảng này ghi TƯỜNG MINH chứ app KHÔNG thể tự tính lại: app không giữ nội
+// dung hình nên không băm được, và quy tắc thêm hậu tố chống trùng tên còn
+// phụ thuộc thứ tự duyệt của script.
 const TEN_FILE: Record<string, string> = ${JSON.stringify(TEN_FILE)};
 
 export const hasStructure = (key: string): boolean => key in TEN_FILE;
