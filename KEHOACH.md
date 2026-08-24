@@ -213,6 +213,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 
 | Ngày | Đã xong tới | Đang dở | Việc kế tiếp |
 |---|---|---|---|
+| 24/08/2026 08:35 | **E8** xong — tách 12 tuyến đường, gói chính 597 → 476 KB | không | **E17** (mục cuối) |
 | 24/08/2026 05:37 | **E18** xong. **HẾT NHÓM 3.** Còn đúng E8 và E17, cả hai cố ý để dành vì cần người xem | không | **E8** hoặc **E17**, khi có người ngồi cạnh |
 | 24/08/2026 05:34 | **E16** xong — lọc thẻ script khỏi SVG, sinh lại 295 hình diff rỗng | không | **E18** |
 | 24/08/2026 05:32 | **E15** xong — dọn 3 đoạn mã chết + 1 import thừa lộ theo | không | **E16** |
@@ -242,7 +243,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 | ✅ | **E5** localStorage không bọc → trắng màn hình | 🟡 warning | `lib/boNho.ts` (mới) | xong |
 | ✅ | **E6** Sửa PT thì lượng chất gắn nhầm | 🟡 warning | `pages/Calculator.tsx` | xong |
 | ✅ | **E7** Lọc phản ứng chết khi dùng tiếng Anh | 🟡 warning | `pages/Reactions.tsx` | xong |
-| ☐ | **E8** Gói chính 596 KB, chưa tách tuyến | 🟡 warning | `App.tsx` | vừa |
+| ✅ | **E8** Gói chính 596 KB, chưa tách tuyến | 🟡 warning | `App.tsx` | xong, −20,3% |
 | ✅ | **E9** Tìm kiếm tính lại bỏ dấu mỗi phím gõ | 🟡 warning | `lib/search.ts` | xong, nhanh 7,2× |
 | ✅ | **E10** Từ điển làm đôi việc mỗi lần vẽ | 🔵 nitpick | `lib/classIndex.ts` | xong |
 | ✅ | **E11** Luyện tập chia 0 → `NaN%` | 🔵 nitpick | `pages/Quiz.tsx` | xong |
