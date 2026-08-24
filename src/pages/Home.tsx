@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useLang } from '../i18n/LangContext';
 import type { StringKey } from '../i18n/strings';
@@ -12,7 +12,7 @@ import {
   IconSearch,
   IconReaction,
 } from '../components/icons';
-import { searchAll } from '../lib/search';
+import { useTimKiem } from '../hooks/useTimKiem';
 import NutNhanh from '../components/NutNhanh';
 
 type Tile = {
@@ -48,6 +48,10 @@ export default function Home() {
   const [q, setQ] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Kho tra chỉ về khi người dùng chạm vào ô — xem hooks/useTimKiem.ts. Bật
+  // từ lúc con trỏ vào ô chứ không đợi có chữ, để kho kịp về trước phím đầu.
+  const [daCham, setDaCham] = useState(false);
+
   // Trang chủ không có nút kính lúp (đã có sẵn ô lớn ngay đây), nhưng Ctrl+K
   // vẫn phải ăn cho thống nhất với các trang nhánh — người dùng quen tay bấm
   // ở trang nào cũng thấy có tác dụng.
@@ -55,6 +59,7 @@ export default function Home() {
     const onKey = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
+        setDaCham(true);
         inputRef.current?.focus();
         inputRef.current?.select();
       }
@@ -63,7 +68,7 @@ export default function Home() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  const results = useMemo(() => searchAll(q, lang), [q, lang]);
+  const { ketQua: results, dangNap } = useTimKiem(q, lang, daCham);
   const searching = q.trim().length > 0;
 
   return (
@@ -92,7 +97,11 @@ export default function Home() {
           <input
             ref={inputRef}
             value={q}
-            onChange={(e) => setQ(e.target.value)}
+            onFocus={() => setDaCham(true)}
+            onChange={(e) => {
+              setDaCham(true); // dán chuột phải vào ô thì không có onFocus
+              setQ(e.target.value);
+            }}
             placeholder={
               lang === 'vi'
                 ? 'Tìm mọi thứ: nguyên tố, công thức, thuật ngữ…'
@@ -118,9 +127,24 @@ export default function Home() {
       {searching ? (
         <div className="p-4 md:p-6 max-w-3xl">
           <div className="text-xs text-slate-500 mb-3">
-            {results.length} {lang === 'vi' ? 'kết quả' : 'results'}
+            {dangNap
+              ? '\u00A0' /* dấu cách cứng giữ chỗ: dòng đếm khỏi nhảy khi số hiện ra.
+                   Viết dạng \u chứ không gõ thẳng ký tự — gõ thẳng thì trong
+                   mã nguồn nó là khoảng trắng vô hình, người sau đọc không
+                   thấy gì mà lại không dám xóa. */
+              : `${results.length} ${lang === 'vi' ? 'kết quả' : 'results'}`}
           </div>
-          {results.length === 0 ? (
+          {dangNap ? (
+            // Kho tra đang trên đường về — xem hooks/useTimKiem.ts. Ở đây mà
+            // báo "Không tìm thấy" là nói dối: chưa tìm gì cả. Không chữ nghĩa,
+            // giống chỗ giữ nhịp trong App.tsx, để khỏi nháy một câu lạ lên
+            // màn hình những lần kho về nhanh.
+            <div className="space-y-2" aria-busy="true">
+              <div className="h-16 rounded-xl bg-base-900 animate-pulse" />
+              <div className="h-16 rounded-xl bg-base-900 animate-pulse" />
+              <div className="h-16 rounded-xl bg-base-900 animate-pulse" />
+            </div>
+          ) : results.length === 0 ? (
             <div className="text-center text-slate-500 py-10">
               {lang === 'vi' ? 'Không tìm thấy.' : 'No results.'}
             </div>

@@ -15,11 +15,11 @@
 // Dùng chung bộ tìm kiếm ở lib/search.ts với trang chủ nên kết quả y hệt, và
 // cũng trỏ thẳng tới đúng mục.
 
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n/LangContext';
 import { IconSearch } from './icons';
-import { searchAll } from '../lib/search';
+import { useTimKiem } from '../hooks/useTimKiem';
 
 // Số kết quả hiện trong khung. Nhiều hơn thì phải cuộn nhiều, rối mắt.
 const HIEN_TOI_DA = 10;
@@ -41,7 +41,9 @@ export default function GlobalSearch() {
   const [chon, setChon] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const tatCa = useMemo(() => (mo ? searchAll(q, lang) : []), [mo, q, lang]);
+  // Kho tra chỉ về khi khung này mở ra — xem hooks/useTimKiem.ts. Mở khung
+  // xong người dùng còn phải gõ, nên kho thường về kịp trước phím đầu tiên.
+  const { ketQua: tatCa, dangNap } = useTimKiem(q, lang, mo);
   const hien = tatCa.slice(0, HIEN_TOI_DA);
   // Chốt chặn: danh sách ngắn lại mà con trỏ còn trỏ ra ngoài thì kéo về đầu.
   const chonHienTai = chon < hien.length ? chon : 0;
@@ -154,7 +156,16 @@ export default function GlobalSearch() {
             </div>
 
             {dangTim &&
-              (hien.length === 0 ? (
+              (dangNap ? (
+                // Kho tra chưa về. Báo "không có kết quả" lúc này là nói dối —
+                // chưa tìm gì cả. Không chữ nghĩa, giống chỗ giữ nhịp trong
+                // App.tsx.
+                <div className="px-3 py-2 space-y-1.5" aria-busy="true">
+                  <div className="h-9 rounded bg-base-850 animate-pulse" />
+                  <div className="h-9 rounded bg-base-850 animate-pulse" />
+                  <div className="h-9 rounded bg-base-850 animate-pulse" />
+                </div>
+              ) : hien.length === 0 ? (
                 <div className="px-4 py-6 text-center text-sm text-slate-500">
                   {t('gsearch_empty')}
                 </div>
