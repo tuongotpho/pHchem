@@ -21,6 +21,12 @@
     "jsx": "react-jsx",
 
     /* Linting */
+    /* Chế độ chặt: bắt buộc khai rõ kiểu, và KHÔNG cho quên rằng một giá trị
+       có thể là null/undefined. Bật ngày 24/08/2026 — lúc bật, `tsc --strict`
+       báo 0 lỗi, tức mã vốn đã viết đúng, chỉ là chưa có ai gác.
+       Giống rơ-le bảo vệ: đấu đúng thì rơ-le nằm im, nhưng thiếu nó thì hôm
+       chạm chập mới biết. */
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
