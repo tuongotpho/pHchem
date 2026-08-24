@@ -82,9 +82,39 @@ function clean(svg) {
   svg = svg
     .replace(/<\?xml[^>]*\?>/i, '')
     .replace(/<!DOCTYPE[^>]*>/i, '')
-    .replace(/#000000/gi, 'currentColor')
+    // Ô NỀN. RDKit luôn vẽ sẵn một <rect> phủ kín khung làm nền, tô màu
+    // #00000000 — đen nhưng độ đục bằng 0, tức TRONG SUỐT HOÀN TOÀN. Nó không
+    // vẽ ra gì hết, chỉ tốn chỗ. Bỏ đi.
+    //
+    // Luật cũ ở đây viết fill="#FFFFFF" dạng thuộc tính và thẻ tự đóng "/>" —
+    // cả hai đều không đúng cách RDKit viết (nó dùng style='...' và
+    // "<rect ...> </rect>"), nên suốt thời gian qua luật đó không bắt được ô
+    // nền nào. Nay bắt theo đúng hình dạng thật, và CHỈ bỏ khi ô rỗng mà lại
+    // trong suốt hoặc trắng — để lỡ bản RDKit sau đổi sang nền đục thì nó lòi
+    // ra thành ô trắng nhìn thấy được, chứ không mất hình một cách lặng lẽ.
+    .replace(
+      /<rect\b[^>]*fill:\s*(?:#[0-9a-fA-F]{6}00|#FFFFFF)\b[^>]*>\s*<\/rect>/gi,
+      '',
+    )
+    // Đổi màu đen sang currentColor để nét vẽ đi theo nền sáng/tối của app.
+    //
+    // Chốt (?![0-9a-fA-F]) là bắt buộc: mã màu tám chữ số như #00000000 có
+    // #000000 nằm ngay ở đầu. Thiếu chốt thì nó bị cắt đôi thành
+    // "currentColor00" — một màu KHÔNG tồn tại trong CSS. Lỗi ấy đã nằm im
+    // trong kho hình ở 296 chỗ mà không ai thấy, đúng vì chỗ duy nhất dính nó
+    // lại là ô nền trong suốt vừa bỏ ở trên. Giữ chốt kể cả khi ô nền đã đi:
+    // mã màu tám chữ số có thể quay lại từ chỗ khác.
+    .replace(/#000000(?![0-9a-fA-F])/gi, 'currentColor')
     .replace(/(stroke|fill):\s*#000\b/gi, '$1:currentColor')
-    .replace(/<rect[^>]*fill=['"]#FFFFFF['"][^>]*\/>/gi, '');
+    // NHÃN TỪNG NÉT. RDKit gắn class='bond-3 atom-2 atom-5' lên mỗi nét vẽ để
+    // bên ngoài bắt được từng liên kết mà tô sáng hoặc bắt sự kiện. App này
+    // không dùng tới — nhúng hình vào rồi thôi. 6.070 chỗ, 136 KB nằm không
+    // trong kho. Ngày nào muốn tô sáng từng liên kết thì bỏ dòng này ra là
+    // nhãn quay lại đủ.
+    .replace(/\sclass='[^']*'/g, '')
+    // Chú thích RDKit chèn giữa phần đầu và phần thân hình
+    // (<!-- END OF HEADER -->). Không ai đọc, 296 bản.
+    .replace(/<!--[\s\S]*?-->/g, '');
   // RÀO CHẮN. Hình này được nhúng thẳng vào trang bằng dangerouslySetInnerHTML,
   // nên trong đó tuyệt đối không được có mã chạy được. Hiện RDKit không sinh
   // ra thứ gì như vậy, nhưng nguồn của nó là smiles.json — ai sửa file đó,
