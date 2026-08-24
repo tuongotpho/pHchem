@@ -12,7 +12,7 @@ import {
   type DonVi,
   type ONhap,
 } from '../lib/stoichiometry';
-import { doSo, doSoHoacTrong } from '../lib/soNhap';
+import { doSo, doSoHoacTrong, oHong } from '../lib/soNhap';
 
 type Tab = 'mass' | 'convert' | 'dilute' | 'ph' | 'balance' | 'stoich';
 
@@ -294,7 +294,11 @@ function DilutionTab() {
     v2: doSoHoacTrong(f.v2),
   };
   const soTrong = Object.values(vals).filter((x) => x === null).length;
-  const hopLe = Object.values(vals).every((x) => x === null || Number.isFinite(x));
+  // Ô CÓ CHỮ mà không đọc ra số thì phải gọi tên ra. Trước đây chỉ đếm ô trống,
+  // nên gõ bậy vào một ô rồi chừa một ô là app đứng im — không kết quả, cũng
+  // không một lời nào. Người dùng ngồi chờ mãi không hiểu vì sao.
+  const oGoBay = oHong(f);
+  const hopLe = oGoBay.length === 0;
 
   let out: { field: string; value: number } | null = null;
   let loi: string | null = null;
@@ -341,6 +345,16 @@ function DilutionTab() {
           </div>
         ))}
       </div>
+
+      {oGoBay.length > 0 && (
+        <p className="text-xs text-rose-700 dark:text-rose-300">
+          {lang === 'vi' ? 'Không đọc được số ở ô ' : 'Cannot read a number in '}
+          <span className="font-mono">
+            {oGoBay.map((id) => FIELDS.find((x) => x.id === id)?.label ?? id).join(', ')}
+          </span>
+          .
+        </p>
+      )}
 
       {soTrong !== 1 && (
         <p className="text-xs text-amber-700 dark:text-amber-300">

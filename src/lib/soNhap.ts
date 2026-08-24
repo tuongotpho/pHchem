@@ -28,3 +28,18 @@ export const laSoDuong = (s: string): boolean => {
   const x = doSo(s);
   return Number.isFinite(x) && x > 0;
 };
+
+/**
+ * Tên những ô CÓ CHỮ nhưng không đọc ra số.
+ *
+ * Khác hẳn ô để trống: trống là người dùng cố ý chừa cho app tính, còn gõ bậy
+ * là nhầm lẫn cần báo. Không phân biệt thì app đứng im không kết quả cũng
+ * không lời nào — người dùng ngồi chờ mãi.
+ *
+ * @param cacO khóa là tên ô, giá trị là đúng chuỗi người dùng đang gõ
+ */
+export function oHong(cacO: Record<string, string>): string[] {
+  return Object.entries(cacO)
+    .filter(([, v]) => v.trim() !== '' && !Number.isFinite(doSo(v)))
+    .map(([ten]) => ten);
+}

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { doSo, doSoHoacTrong, laSoDuong } from './soNhap';
+import { doSo, doSoHoacTrong, laSoDuong, oHong } from './soNhap';
 
 describe('đọc số người dùng gõ', () => {
   it('dấu phẩy thập phân kiểu Việt Nam', () => {
@@ -43,5 +43,25 @@ describe('đọc số người dùng gõ', () => {
     expect(laSoDuong('-3')).toBe(false);
     expect(laSoDuong('abc')).toBe(false);
     expect(laSoDuong('')).toBe(false);
+  });
+});
+
+describe('phân biệt ô để trống với ô gõ bậy', () => {
+  it('ô trống KHÔNG bị coi là hỏng — đó là ô chờ app tính', () => {
+    expect(oHong({ c1: '1', v1: '100', c2: '', v2: '500' })).toEqual([]);
+    expect(oHong({ c1: '1', v1: '  ', c2: '2', v2: '5' })).toEqual([]);
+  });
+
+  it('gọi đúng tên ô gõ bậy', () => {
+    expect(oHong({ c1: '1', v1: 'abc', c2: '', v2: '500' })).toEqual(['v1']);
+    expect(oHong({ c1: 'x', v1: 'y', c2: '', v2: '500' })).toEqual(['c1', 'v1']);
+  });
+
+  it('dấu phẩy thập phân không bị coi là hỏng', () => {
+    expect(oHong({ c1: '0,5', v1: '100', c2: '', v2: '500' })).toEqual([]);
+  });
+
+  it('mọi ô đều tốt thì trả mảng rỗng', () => {
+    expect(oHong({ c1: '1', v1: '100', c2: '0,2', v2: '500' })).toEqual([]);
   });
 });

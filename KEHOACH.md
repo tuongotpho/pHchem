@@ -213,6 +213,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 
 | Ngày | Đã xong tới | Đang dở | Việc kế tiếp |
 |---|---|---|---|
+| 24/08/2026 11:05 | Xong nốt **điểm nhỏ tab Pha loãng** (ghi chú không đánh số, suýt lọt) | không | Xem "Việc nhỏ ghi lại kẻo quên" |
 | 24/08/2026 08:45 | **E17** xong. **HẾT SẠCH 18/18 MỤC ĐỢT E.** | không | Còn 3 việc cần mắt người, xem mục dưới |
 | 24/08/2026 08:35 | **E8** xong — tách 12 tuyến đường, gói chính 597 → 476 KB | không | **E17** (mục cuối) |
 | 24/08/2026 05:37 | **E18** xong. **HẾT NHÓM 3.** Còn đúng E8 và E17, cả hai cố ý để dành vì cần người xem | không | **E8** hoặc **E17**, khi có người ngồi cạnh |
@@ -507,9 +508,13 @@ vướng gì mục khác. Đây là chỗ để làm khi chỉ còn ít hạn m�
 | **E17** | `lib/formula.ts:26-79` ↔ `scripts/gen-structures.mjs:34-76` | **Hai bản `parseFormula` viết riêng biệt**, cùng nhiệm vụ, khác cách xử lý ký tự lạ (bản app ném lỗi, bản script bỏ qua). Đây chính là bộ đối chiếu công thức ↔ SMILES — hai bản lệch nhau thì phép kiểm mất hiệu lực mà không ai biết. Tách một module dùng chung, script `import` vào |
 | **E18** | `pages/Formulas.tsx:394` | Khung phóng to hình **không đóng bằng Esc, không khóa cuộn nền** — trong khi `Reactions.tsx:67`, `Solubility.tsx:38`, `GlobalSearch.tsx:65` đều làm đủ. Chép lại `useEffect` đã có sẵn |
 
-**Thêm một điểm nhỏ ở tab Pha loãng** (`Calculator.tsx:283-284`): gõ chữ bậy
-vào một ô rồi để trống một ô → `hopLe` thành `false` → **app không hiện gì cả,
-cũng không báo lỗi**. Người dùng ngồi chờ. Nên hiện *"Ô C₂ không phải số"*.
+**✅ Điểm nhỏ ở tab Pha loãng — ĐÃ XONG.** Gõ chữ bậy vào một ô rồi để trống
+một ô thì app im lặng: không kết quả, cũng không báo lỗi. Nay gọi thẳng tên ô
+hỏng ra ("Không đọc được số ở ô V₁"), qua hàm `oHong` trong `lib/soNhap.ts`.
+
+> Mục này nằm trong kế hoạch dưới dạng ghi chú KHÔNG ĐÁNH SỐ nên suýt lọt lưới
+> khi rà lại bảng 18 mục. Lần sau ghi việc thì đánh số hết, đừng để mục nào
+> nằm ngoài bảng.
 
 ---
 
