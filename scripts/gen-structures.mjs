@@ -20,6 +20,10 @@
 import initRDKitModule from '@rdkit/rdkit';
 import { REFERENCES, VERIFIED_INCHI, ALLOW_UNDEFINED_STEREO } from './references.mjs';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
+// Lõi đếm nguyên tử DÙNG CHUNG với app. Trước đây chỗ này chép lại một bản
+// riêng — mà chính phép đối chiếu công thức ↔ SMILES ở dưới dựa vào nó, nên
+// hai bản lệch nhau là phép kiểm mất hiệu lực mà không ai biết.
+import { demNguyenTu } from '../src/lib/phanTichCongThuc.js';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -28,52 +32,6 @@ const root = join(__dirname, '..');
 const wasmPath = join(root, 'node_modules/@rdkit/rdkit/dist/RDKit_minimal.wasm');
 
 const SMILES = JSON.parse(readFileSync(join(root, 'src/data/smiles.json'), 'utf8'));
-
-// ---------- Đếm nguyên tố từ chuỗi công thức ----------
-// Hiểu ngoặc lồng, muối ngậm nước (dấu chấm + hệ số), vd Ca(OH)2, CuSO4.5H2O
-function parseFormula(str) {
-  const total = {};
-  for (const seg of str.split(/[.·*]/).filter(Boolean)) {
-    const m = seg.match(/^(\d+)(.+)$/);
-    const mult = m && /[A-Z(]/.test(m[2][0]) ? parseInt(m[1], 10) : 1;
-    const body = m && /[A-Z(]/.test(m[2][0]) ? m[2] : seg;
-    const c = parseSegment(body);
-    for (const k in c) total[k] = (total[k] || 0) + c[k] * mult;
-  }
-  return total;
-}
-
-function parseSegment(s) {
-  let i = 0;
-  function group() {
-    const out = {};
-    while (i < s.length) {
-      const ch = s[i];
-      if (ch === '(' || ch === '[') {
-        i++;
-        const inner = group();
-        i++; // bỏ dấu đóng
-        const n = num();
-        for (const k in inner) out[k] = (out[k] || 0) + inner[k] * n;
-      } else if (ch === ')' || ch === ']') {
-        break;
-      } else if (/[A-Z]/.test(ch)) {
-        let sym = s[i++];
-        while (i < s.length && /[a-z]/.test(s[i])) sym += s[i++];
-        out[sym] = (out[sym] || 0) + num();
-      } else {
-        i++; // bỏ ký tự lạ
-      }
-    }
-    return out;
-  }
-  function num() {
-    let d = '';
-    while (i < s.length && /\d/.test(s[i])) d += s[i++];
-    return d === '' ? 1 : parseInt(d, 10);
-  }
-  return group();
-}
 
 // Đếm nguyên tố từ molblock đã bung hết H (V2000).
 // BỎ QUA nguyên tử giả (R hoặc *): với polime ta chỉ vẽ MỘT MẮT XÍCH, hai đầu
@@ -208,7 +166,7 @@ for (const [key, smiles] of entries) {
     // molblock có H tường minh → đếm nguyên tố → đối chiếu công thức khai báo
     const mbH = mol.add_hs();
     const actual = countFromMolblock(typeof mbH === 'string' && mbH ? mbH : mol.get_molblock());
-    const declared = parseFormula(key.replace(/-[a-z]+$/, ''));
+    const declared = demNguyenTu(key.replace(/-[a-z]+$/, ''));
     if (!sameCounts(declared, actual)) {
       mismatches.push(`${key}: khai báo ${fmt(declared)} ≠ SMILES ${fmt(actual)}`);
     }

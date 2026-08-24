@@ -6,6 +6,9 @@
     "module": "esnext",
     "types": ["vite/client"],
     "allowArbitraryExtensions": true,
+    /* Lõi đếm nguyên tử dùng chung với script sinh hình viết bằng .js
+       thuần, vì script chạy Node trần không qua bộ dịch nào. */
+    "allowJs": true,
     "skipLibCheck": true,
 
     /* Bundler mode */

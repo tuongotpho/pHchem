@@ -213,6 +213,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 
 | Ngày | Đã xong tới | Đang dở | Việc kế tiếp |
 |---|---|---|---|
+| 24/08/2026 08:45 | **E17** xong. **HẾT SẠCH 18/18 MỤC ĐỢT E.** | không | Còn 3 việc cần mắt người, xem mục dưới |
 | 24/08/2026 08:35 | **E8** xong — tách 12 tuyến đường, gói chính 597 → 476 KB | không | **E17** (mục cuối) |
 | 24/08/2026 05:37 | **E18** xong. **HẾT NHÓM 3.** Còn đúng E8 và E17, cả hai cố ý để dành vì cần người xem | không | **E8** hoặc **E17**, khi có người ngồi cạnh |
 | 24/08/2026 05:34 | **E16** xong — lọc thẻ script khỏi SVG, sinh lại 295 hình diff rỗng | không | **E18** |
@@ -252,7 +253,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 | ✅ | **E14** Câu tiếng Việt chết cứng | 🔵 nitpick | `pages/ElementDetail.tsx` | xong |
 | ✅ | **E15** Ba đoạn mã chết | 🔵 nitpick | 3 file | xong |
 | ✅ | **E16** `clean()` chưa lọc script trong SVG | 🔵 nitpick | `scripts/gen-structures.mjs` | xong |
-| ☐ | **E17** Hai bản `parseFormula` viết riêng | 🔵 nitpick | app ↔ script | vừa |
+| ✅ | **E17** Hai bản `parseFormula` viết riêng | 🔵 nitpick | `lib/phanTichCongThuc.js` | xong |
 | ✅ | **E18** Khung phóng to thiếu Esc + khóa cuộn | 🔵 nitpick | `pages/Formulas.tsx` | xong |
 
 ---
