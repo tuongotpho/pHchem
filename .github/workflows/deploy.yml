@@ -30,6 +30,20 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # GÁC CỬA, đặt TRƯỚC bước dựng để hỏng là dừng, không kịp lên Pages.
+      #
+      # Vì sao cần: 373 test và oxlint trước đây chỉ chạy trên máy người viết.
+      # Đẩy lên đây là không còn ai gác — hôm nào quên chạy tay thì bản hỏng
+      # vẫn lên thẳng trang thật.
+      #
+      # Riêng với dự án này còn một lý do nữa: máy Windows KHÔNG phân biệt hoa
+      # thường trong tên file, Linux thì có. Đổi tên file kiểu formulas.ts →
+      # Formulas.ts chạy ngon trên máy nhưng chết ở đây — mà chỉ có bước chạy
+      # test mới lôi được lỗi đó ra sớm.
+      #
+      # `npm run build` đã gồm `tsc -b` nên phần kiểm kiểu không cần khai lại.
+      - run: npm run lint
+      - run: npm test
       - run: npm run build
       # SPA fallback: Pages trả 404.html cho các đường dẫn con → dùng chính index.html
       - run: cp dist/index.html dist/404.html
