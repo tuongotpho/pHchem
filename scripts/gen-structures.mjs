@@ -2,7 +2,8 @@
 // Đây là ĐỒ NGHỀ BUILD — không nằm trong app. Chạy khi thêm/sửa chất:
 //     npm run struct
 // Kết quả:
-//   - src/generated/structures.ts  → app import (cam kết vào git, CI không cần RDKit)
+//   - public/hinh/*.svg            → mỗi chất một file hình (cam kết vào git)
+//   - src/generated/structures.ts  → danh mục + tên file (cam kết vào git, CI không cần RDKit)
 //   - structure-review.html        → trang tổng để duyệt một lượt (không cam kết)
 //
 // TỰ KIỂM — 5 lớp, xem báo cáo in ra cuối lần chạy:
@@ -19,7 +20,7 @@
 
 import initRDKitModule from '@rdkit/rdkit';
 import { REFERENCES, VERIFIED_INCHI, ALLOW_UNDEFINED_STEREO } from './references.mjs';
-import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 // Lõi đếm nguyên tử DÙNG CHUNG với app. Trước đây chỗ này chép lại một bản
 // riêng — mà chính phép đối chiếu công thức ↔ SMILES ở dưới dựa vào nó, nên
 // hai bản lệch nhau là phép kiểm mất hiệu lực mà không ai biết.
@@ -326,25 +327,81 @@ for (const [key, smiles] of entries) {
   }
 }
 
-// 1) Hai module cho app:
-//    - structures.ts      : chỉ DANH MỤC khóa (nhẹ) — dùng để lọc & gắn nhãn "có hình"
-//    - structures-svgs.ts : kho SVG (nặng) — chỉ tải khi người dùng mở xem hình
+// 1) Hình ra FILE RỜI trong public/hinh/, kèm MỘT module danh mục nhẹ cho app.
+//
+// VÌ SAO KHÔNG NHÉT CẢ KHO VÀO MỘT FILE .ts NHƯ TRƯỚC: gói đó nặng 1,68 MB và
+// bị PWA nạp sẵn hết lúc cài — chiếm 73% toàn bộ gói cài, dù người dùng có xem
+// hình hay không. Nay mỗi chất một file, tải khi xem, xem rồi thì nhớ luôn.
+// Ai cần dùng ngoại tuyến thì bấm nút tải cả bộ trong trang Cài đặt.
+//
+// Tên file phải LÀM SẠCH: khóa chất có ngoặc, dấu chấm, ngoặc vuông —
+// "Ca(OH)2", "CuSO4.5H2O", "K3[Fe(CN)6]". Ngoặc vuông là ký tự dành riêng
+// trong địa chỉ web, có máy chủ tĩnh nuốt không trôi. Đổi hết sang gạch dưới.
+const lamSachTen = (khoa) =>
+  khoa.replace(/[^A-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+
+const TEN_FILE = {};
+const daDung = new Map(); // tên viết thường -> khóa đã chiếm, để bắt trùng
+for (const khoa of Object.keys(svgs).sort()) {
+  let ten = lamSachTen(khoa);
+  // CHỐNG TRÙNG, và so bằng CHỮ THƯỜNG. Lý do: máy Windows không phân biệt
+  // hoa/thường tên file, Linux thì có. Hai chất ra hai tên chỉ khác hoa/thường
+  // sẽ ĐÈ NHAU trên máy người viết mà vẫn chạy, rồi chết ở CI — hoặc tệ hơn,
+  // chạy được cả hai nơi mà một chất hiện nhầm hình của chất kia.
+  let n = 2;
+  while (daDung.has(ten.toLowerCase())) ten = `${lamSachTen(khoa)}_${n++}`;
+  daDung.set(ten.toLowerCase(), khoa);
+  TEN_FILE[khoa] = ten;
+}
+
+const thuMucHinh = join(root, 'public/hinh');
+mkdirSync(thuMucHinh, { recursive: true });
+
+// DỌN FILE THỪA trước khi ghi. Bỏ một chất khỏi smiles.json mà không dọn thì
+// file hình cũ nằm lại trong public/ và vẫn theo lên bản thật mãi mãi.
+const canCo = new Set(Object.values(TEN_FILE).map((t) => `${t}.svg`));
+let daXoaThua = 0;
+for (const f of readdirSync(thuMucHinh)) {
+  if (f.endsWith('.svg') && !canCo.has(f)) {
+    rmSync(join(thuMucHinh, f));
+    daXoaThua++;
+  }
+}
+
+let tongByteHinh = 0;
+for (const [khoa, ten] of Object.entries(TEN_FILE)) {
+  tongByteHinh += Buffer.byteLength(svgs[khoa], 'utf8');
+  writeFileSync(join(thuMucHinh, `${ten}.svg`), svgs[khoa]);
+}
+
 mkdirSync(join(root, 'src/generated'), { recursive: true });
 writeFileSync(
   join(root, 'src/generated/structures.ts'),
   `// TỰ ĐỘNG SINH bởi scripts/gen-structures.mjs — ĐỪNG sửa tay.
-// Danh mục chất có hình cấu tạo. Kho hình nằm ở structures-svgs.ts (tải riêng).
-const KEYS = new Set(${JSON.stringify(Object.keys(svgs))});
+//
+// Danh mục chất có hình cấu tạo, kèm tên file hình của từng chất. Bản thân
+// hình nằm ở public/hinh/*.svg, tải riêng từng cái khi người dùng mở xem.
+//
+// Bảng tên file ghi TƯỜNG MINH chứ không để app tự tính lại: khi hai chất làm
+// sạch tên ra trùng nhau, script thêm hậu tố cho một cái — mà quy tắc thêm hậu
+// tố ấy phụ thuộc thứ tự duyệt, app tính lại sẽ ra khác.
+const TEN_FILE: Record<string, string> = ${JSON.stringify(TEN_FILE)};
 
-export const hasStructure = (key: string): boolean => KEYS.has(key);
-export const STRUCTURE_COUNT = KEYS.size;
-`,
-);
-writeFileSync(
-  join(root, 'src/generated/structures-svgs.ts'),
-  `// TỰ ĐỘNG SINH bởi scripts/gen-structures.mjs — ĐỪNG sửa tay.
-// Kho hình SVG; import động để không làm nặng lần tải đầu.
-export const STRUCTURE_SVGS: Record<string, string> = ${JSON.stringify(svgs)};
+export const hasStructure = (key: string): boolean => key in TEN_FILE;
+export const STRUCTURE_COUNT = Object.keys(TEN_FILE).length;
+
+/** Tổng dung lượng cả bộ hình — để trang Cài đặt nói thật con số cho người dùng. */
+export const STRUCTURE_BYTES = ${tongByteHinh};
+
+/** Địa chỉ hình của một chất. null nếu chất đó không có hình. */
+export function structureUrl(key: string): string | null {
+  const ten = TEN_FILE[key];
+  return ten ? \`\${import.meta.env.BASE_URL}hinh/\${ten}.svg\` : null;
+}
+
+/** Địa chỉ TOÀN BỘ hình — cho nút tải cả bộ về máy trong Cài đặt. */
+export const allStructureUrls = (): string[] =>
+  Object.values(TEN_FILE).map((t) => \`\${import.meta.env.BASE_URL}hinh/\${t}.svg\`);
 `,
 );
 
@@ -373,7 +430,13 @@ const block = (title, list) => {
   list.forEach((m) => console.log('   ' + m));
 };
 
-console.log(`\n✓ Sinh ${Object.keys(svgs).length} hình → src/generated/structures.ts`);
+console.log(
+  `
+✓ Sinh ${Object.keys(svgs).length} hình → public/hinh/ ` +
+    `(${(tongByteHinh / 1024).toFixed(0)} KB)` +
+    (daXoaThua ? `, đã dọn ${daXoaThua} file thừa` : ''),
+);
+console.log(`✓ Danh mục + tên file: src/generated/structures.ts`);
 console.log(`✓ Trang duyệt: structure-review.html`);
 
 const okFormula = entries.length - mismatches.length - errors.length;

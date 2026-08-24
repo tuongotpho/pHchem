@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 300 230' width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+
+
+<path d='M 37.8,194.3 L 130.4,141.3' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 138.4,146.0 L 138.6,99.4' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 138.6,99.4 L 138.7,52.9' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 122.4,145.9 L 122.6,99.4' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 122.6,99.4 L 122.7,52.8' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 130.4,141.3 L 168.3,163.3' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 168.3,163.3 L 206.1,185.4' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 125.8,144.0 L 130.4,141.3 L 132.3,142.4' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 117.8 34.6
+Q 117.8 27.8, 121.2 24.0
+Q 124.5 20.2, 130.8 20.2
+Q 137.1 20.2, 140.4 24.0
+Q 143.8 27.8, 143.8 34.6
+Q 143.8 41.5, 140.4 45.4
+Q 137.0 49.3, 130.8 49.3
+Q 124.6 49.3, 121.2 45.4
+Q 117.8 41.6, 117.8 34.6
+M 130.8 46.1
+Q 135.1 46.1, 137.4 43.2
+Q 139.8 40.3, 139.8 34.6
+Q 139.8 29.1, 137.4 26.3
+Q 135.1 23.4, 130.8 23.4
+Q 126.5 23.4, 124.1 26.2
+Q 121.8 29.0, 121.8 34.6
+Q 121.8 40.4, 124.1 43.2
+Q 126.5 46.1, 130.8 46.1
+' fill='#FF0000'/>
+<path d='M 209.7 195.1
+Q 209.7 188.3, 213.0 184.5
+Q 216.4 180.7, 222.7 180.7
+Q 228.9 180.7, 232.3 184.5
+Q 235.7 188.3, 235.7 195.1
+Q 235.7 202.0, 232.3 205.9
+Q 228.9 209.8, 222.7 209.8
+Q 216.4 209.8, 213.0 205.9
+Q 209.7 202.0, 209.7 195.1
+M 222.7 206.6
+Q 227.0 206.6, 229.3 203.7
+Q 231.7 200.8, 231.7 195.1
+Q 231.7 189.5, 229.3 186.7
+Q 227.0 183.9, 222.7 183.9
+Q 218.3 183.9, 216.0 186.7
+Q 213.7 189.5, 213.7 195.1
+Q 213.7 200.8, 216.0 203.7
+Q 218.3 206.6, 222.7 206.6
+' fill='#FF0000'/>
+<path d='M 240.1 181.0
+L 243.9 181.0
+L 243.9 193.0
+L 258.4 193.0
+L 258.4 181.0
+L 262.2 181.0
+L 262.2 209.3
+L 258.4 209.3
+L 258.4 196.2
+L 243.9 196.2
+L 243.9 209.3
+L 240.1 209.3
+L 240.1 181.0
+' fill='#FF0000'/>
+</svg>

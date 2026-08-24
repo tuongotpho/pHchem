@@ -7,6 +7,7 @@ import { FACTS } from '../data/facts';
 import { REACTIONS } from '../data/reactions';
 import { CATIONS, ANIONS } from '../data/solubility';
 import { STRUCTURE_COUNT } from '../generated/structures';
+import TaiHinhNgoaiTuyen from '../components/TaiHinhNgoaiTuyen';
 
 const VERSION = '0.4';
 
@@ -154,6 +155,8 @@ export default function Settings() {
               : 'These numbers are counted from the live data on every load, never typed by hand.'}
           </p>
         </section>
+
+        <TaiHinhNgoaiTuyen />
 
         {/* Nguyên tắc làm app */}
         <section className="card p-4">

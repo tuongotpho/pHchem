@@ -5,6 +5,7 @@ import FormulaText from '../components/FormulaText';
 import Pagination from '../components/Pagination';
 import { useLang } from '../i18n/LangContext';
 import { hasStructure, STRUCTURE_COUNT } from '../generated/structures';
+import { useHinhCauTao } from '../hooks/useHinhCauTao';
 import { elementsOfFormula } from '../lib/compoundIndex';
 import { reactionsForFormula } from '../lib/reactionIndex';
 import { isomersOf, ctptOf } from '../lib/isomerIndex';
@@ -74,19 +75,11 @@ export default function Formulas() {
     if (diaChiTruoc.item !== itemDiaChi) setSel(chatTuDiaChi(itemDiaChi));
     setPage(1);
   }
-  // Kho hình chỉ tải khi người dùng mở xem chất đầu tiên (giữ app nhẹ lúc mở).
-  const [svgs, setSvgs] = useState<Record<string, string> | null>(null);
-
-  useEffect(() => {
-    if (!sel || svgs) return;
-    let alive = true;
-    import('../generated/structures-svgs').then((m) => {
-      if (alive) setSvgs(m.STRUCTURE_SVGS);
-    });
-    return () => {
-      alive = false;
-    };
-  }, [sel, svgs]);
+  // Hình của CHẤT ĐANG MỞ, tải riêng một file — xem hooks/useHinhCauTao.ts.
+  // Trước đây chỗ này kéo cả kho 1,68 MB về chỉ để lấy một hình.
+  const { svg: hinh, dangTai: dangTaiHinh, loi: loiHinh } = useHinhCauTao(
+    sel ? keyOf(sel) : null,
+  );
 
   // Khung phóng to hình: đóng bằng Esc và khóa cuộn nền, giống hệt các khung
   // nổi khác trong app (Reactions, Solubility, GlobalSearch). Thiếu hai thứ
@@ -365,18 +358,29 @@ export default function Formulas() {
 
             {hasStructure(keyOf(sel)) ? (
               <div className="mt-4 rounded-xl bg-base-900 border border-base-800 p-3">
-                {svgs ? (
+                {hinh ? (
                   <button
                     onClick={() => setPhongTo(true)}
                     title={lang === 'vi' ? 'Bấm để phóng to' : 'Click to enlarge'}
                     className="block w-full h-64 sm:h-72 text-slate-100 hover:opacity-80 transition-opacity cursor-zoom-in"
                     // Hình do RDKit sinh sẵn (đầy đủ lập thể); nét dùng currentColor.
                     // Là ảnh vector nên phóng to bao nhiêu cũng không vỡ nét.
-                    dangerouslySetInnerHTML={{ __html: svgs[keyOf(sel)] }}
+                    dangerouslySetInnerHTML={{ __html: hinh }}
                   />
                 ) : (
-                  <div className="h-64 sm:h-72 grid place-items-center text-xs text-slate-600">
-                    {lang === 'vi' ? 'Đang tải hình…' : 'Loading…'}
+                  <div className="h-64 sm:h-72 grid place-items-center text-center text-xs text-slate-600 px-4">
+                    {/* Nói rõ ĐANG CHỜ hay ĐÃ HỎNG. Gộp hai chuyện vào một ô
+                        trống thì người mất mạng cứ ngồi đợi mãi một thứ không
+                        bao giờ tới. */}
+                    {dangTaiHinh
+                      ? lang === 'vi'
+                        ? 'Đang tải hình…'
+                        : 'Loading…'
+                      : loiHinh
+                        ? lang === 'vi'
+                          ? 'Chưa tải được hình. Cần mạng cho lần xem đầu — hoặc vào Cài đặt tải sẵn cả bộ về máy.'
+                          : 'Could not load the image. The first view needs a network — or download the whole set in Settings.'
+                        : ''}
                   </div>
                 )}
                 <div className="text-center text-[11px] text-slate-500 mt-1">
@@ -389,7 +393,7 @@ export default function Formulas() {
                       ? 'Công thức cấu tạo'
                       : 'Structural formula'}
                 </div>
-                {svgs && (
+                {hinh && (
                   <div className="text-center text-[10px] text-slate-600 mt-0.5">
                     {lang === 'vi' ? 'Bấm vào hình để phóng to' : 'Click the image to enlarge'}
                   </div>
@@ -408,7 +412,7 @@ export default function Formulas() {
 
       {/* Phóng to hình cấu tạo ra toàn màn hình. Ảnh vector nên nét vẫn sắc.
           Đặt z cao hơn khung chi tiết để nằm hẳn lên trên. */}
-      {phongTo && sel && svgs && (
+      {phongTo && sel && hinh && (
         <div
           // Màn hình THẤP (điện thoại nằm ngang) thì thu lề và tiêu đề lại,
           // nhường hết chỗ cho hình — chiều cao mới là thứ khan hiếm.
@@ -444,7 +448,7 @@ export default function Formulas() {
                   ? 'absolute top-1/2 left-1/2 w-[calc(100vh-12rem)] h-[88vw] -translate-x-1/2 -translate-y-1/2 rotate-90 text-slate-100'
                   : 'absolute inset-0 text-slate-100'
               }
-              dangerouslySetInnerHTML={{ __html: svgs[keyOf(sel)] }}
+              dangerouslySetInnerHTML={{ __html: hinh }}
             />
           </div>
           <div className="flex items-center justify-center gap-3 shrink-0 pt-2 [@media(max-height:500px)]:pt-1 [@media(max-height:500px)]:text-[10px] text-xs text-slate-500">

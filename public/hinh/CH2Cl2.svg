@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 300 230' width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+
+
+<path d='M 62.4,131.7 L 108.6,105.3' style='fill:none;fill-rule:evenodd;stroke:#00CC00;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 108.6,105.3 L 154.7,78.8' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 154.7,78.8 L 196.2,103.0' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 196.2,103.0 L 237.6,127.1' style='fill:none;fill-rule:evenodd;stroke:#00CC00;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 152.4,80.2 L 154.7,78.8 L 156.8,80.0' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 30.3 135.9
+Q 30.3 128.8, 33.5 125.2
+Q 36.9 121.4, 43.1 121.4
+Q 49.0 121.4, 52.1 125.6
+L 49.5 127.7
+Q 47.2 124.7, 43.1 124.7
+Q 38.9 124.7, 36.6 127.6
+Q 34.3 130.4, 34.3 135.9
+Q 34.3 141.5, 36.7 144.4
+Q 39.0 147.2, 43.6 147.2
+Q 46.7 147.2, 50.3 145.4
+L 51.5 148.4
+Q 50.0 149.3, 47.7 149.9
+Q 45.5 150.4, 43.0 150.4
+Q 36.9 150.4, 33.5 146.7
+Q 30.3 142.9, 30.3 135.9
+' fill='#00CC00'/>
+<path d='M 55.0 119.7
+L 58.6 119.7
+L 58.6 150.1
+L 55.0 150.1
+L 55.0 119.7
+' fill='#00CC00'/>
+<path d='M 241.4 136.6
+Q 241.4 129.6, 244.6 125.9
+Q 248.0 122.2, 254.2 122.2
+Q 260.1 122.2, 263.2 126.3
+L 260.6 128.4
+Q 258.3 125.4, 254.2 125.4
+Q 250.0 125.4, 247.7 128.3
+Q 245.4 131.2, 245.4 136.6
+Q 245.4 142.2, 247.8 145.1
+Q 250.1 148.0, 254.7 148.0
+Q 257.8 148.0, 261.4 146.1
+L 262.6 149.1
+Q 261.1 150.0, 258.8 150.6
+Q 256.6 151.2, 254.1 151.2
+Q 248.0 151.2, 244.6 147.4
+Q 241.4 143.6, 241.4 136.6
+' fill='#00CC00'/>
+<path d='M 266.1 120.4
+L 269.7 120.4
+L 269.7 150.8
+L 266.1 150.8
+L 266.1 120.4
+' fill='#00CC00'/>
+</svg>

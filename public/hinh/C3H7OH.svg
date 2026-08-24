@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 300 230' width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+
+
+<path d='M 279.7,86.8 L 206.9,128.7' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 206.9,128.7 L 134.1,86.6' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 134.1,86.6 L 105.6,103.1' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 105.6,103.1 L 77.1,119.5' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 210.5,126.6 L 206.9,128.7 L 203.2,126.6' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 137.8,88.7 L 134.1,86.6 L 132.7,87.5' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 20.3 114.6
+L 24.2 114.6
+L 24.2 126.6
+L 38.7 126.6
+L 38.7 114.6
+L 42.5 114.6
+L 42.5 142.9
+L 38.7 142.9
+L 38.7 129.8
+L 24.2 129.8
+L 24.2 142.9
+L 20.3 142.9
+L 20.3 114.6
+' fill='#FF0000'/>
+<path d='M 48.3 128.7
+Q 48.3 121.9, 51.7 118.1
+Q 55.0 114.3, 61.3 114.3
+Q 67.6 114.3, 70.9 118.1
+Q 74.3 121.9, 74.3 128.7
+Q 74.3 135.6, 70.9 139.5
+Q 67.5 143.4, 61.3 143.4
+Q 55.1 143.4, 51.7 139.5
+Q 48.3 135.6, 48.3 128.7
+M 61.3 140.2
+Q 65.6 140.2, 67.9 137.3
+Q 70.3 134.4, 70.3 128.7
+Q 70.3 123.1, 67.9 120.3
+Q 65.6 117.5, 61.3 117.5
+Q 57.0 117.5, 54.6 120.3
+Q 52.3 123.1, 52.3 128.7
+Q 52.3 134.4, 54.6 137.3
+Q 57.0 140.2, 61.3 140.2
+' fill='#FF0000'/>
+</svg>

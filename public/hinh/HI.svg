@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 300 230' width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+
+
+<path d='M 41.8,115.0 L 140.8,115.0' style='fill:none;fill-rule:evenodd;stroke:#A01EEF;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 140.8,115.0 L 239.9,115.0' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 30.5 100.8
+L 34.3 100.8
+L 34.3 129.2
+L 30.5 129.2
+L 30.5 100.8
+' fill='#A01EEF'/>
+<path d='M 247.3 100.8
+L 251.2 100.8
+L 251.2 112.9
+L 265.6 112.9
+L 265.6 100.8
+L 269.5 100.8
+L 269.5 129.2
+L 265.6 129.2
+L 265.6 116.1
+L 251.2 116.1
+L 251.2 129.2
+L 247.3 129.2
+L 247.3 100.8
+' fill='currentColor'/>
+</svg>

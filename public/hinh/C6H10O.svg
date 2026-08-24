@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 300 230' width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+
+
+<path d='M 54.5,31.9 L 88.8,51.6' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 88.8,51.6 L 123.0,71.4' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 47.5,44.1 L 81.8,63.8' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 81.8,63.8 L 116.0,83.5' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 116.0,75.4 L 116.1,168.9' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 116.1,168.9 L 197.1,215.6' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 197.1,215.6 L 278.0,168.8' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 278.0,168.8 L 278.0,75.3' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 278.0,75.3 L 196.9,28.6' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 196.9,28.6 L 116.0,75.4' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 116.0,80.1 L 116.0,75.4 L 120.0,73.1' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 116.1,164.3 L 116.1,168.9 L 120.1,171.3' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 193.0,213.3 L 197.1,215.6 L 201.1,213.3' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 274.0,171.1 L 278.0,168.8 L 278.0,164.1' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 278.0,80.0 L 278.0,75.3 L 273.9,72.9' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 201.0,30.9 L 196.9,28.6 L 192.9,30.9' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 22.0 28.8
+Q 22.0 22.0, 25.3 18.2
+Q 28.7 14.4, 35.0 14.4
+Q 41.2 14.4, 44.6 18.2
+Q 48.0 22.0, 48.0 28.8
+Q 48.0 35.7, 44.6 39.6
+Q 41.2 43.5, 35.0 43.5
+Q 28.7 43.5, 25.3 39.6
+Q 22.0 35.7, 22.0 28.8
+M 35.0 40.3
+Q 39.3 40.3, 41.6 37.4
+Q 44.0 34.5, 44.0 28.8
+Q 44.0 23.2, 41.6 20.4
+Q 39.3 17.6, 35.0 17.6
+Q 30.6 17.6, 28.3 20.4
+Q 26.0 23.2, 26.0 28.8
+Q 26.0 34.5, 28.3 37.4
+Q 30.6 40.3, 35.0 40.3
+' fill='#FF0000'/>
+</svg>

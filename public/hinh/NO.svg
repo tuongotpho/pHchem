@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 300 230' width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+
+
+<path d='M 77.5,101.0 L 151.5,101.0' style='fill:none;fill-rule:evenodd;stroke:#0000FF;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 151.5,101.0 L 225.5,101.0' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 77.5,128.6 L 151.5,128.6' style='fill:none;fill-rule:evenodd;stroke:#0000FF;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 151.5,128.6 L 225.5,128.6' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 54.4 100.6
+L 63.7 115.6
+Q 64.6 117.1, 66.1 119.8
+Q 67.6 122.5, 67.7 122.6
+L 67.7 100.6
+L 71.4 100.6
+L 71.4 128.9
+L 67.6 128.9
+L 57.6 112.5
+Q 56.4 110.6, 55.2 108.4
+Q 54.0 106.2, 53.6 105.5
+L 53.6 128.9
+L 50.0 128.9
+L 50.0 100.6
+L 54.4 100.6
+' fill='#0000FF'/>
+<path d='M 231.5 114.9
+Q 231.5 108.1, 234.9 104.3
+Q 238.3 100.5, 244.5 100.5
+Q 250.8 100.5, 254.2 104.3
+Q 257.5 108.1, 257.5 114.9
+Q 257.5 121.7, 254.1 125.7
+Q 250.7 129.5, 244.5 129.5
+Q 238.3 129.5, 234.9 125.7
+Q 231.5 121.8, 231.5 114.9
+M 244.5 126.3
+Q 248.9 126.3, 251.2 123.5
+Q 253.5 120.5, 253.5 114.9
+Q 253.5 109.3, 251.2 106.5
+Q 248.9 103.7, 244.5 103.7
+Q 240.2 103.7, 237.9 106.5
+Q 235.5 109.3, 235.5 114.9
+Q 235.5 120.6, 237.9 123.5
+Q 240.2 126.3, 244.5 126.3
+' fill='#FF0000'/>
+<path d='M 46.0,114.8 L 45.9,115.0 L 45.9,115.1 L 45.9,115.3 L 45.8,115.5 L 45.8,115.6 L 45.7,115.8 L 45.6,115.9 L 45.5,116.1 L 45.4,116.2 L 45.3,116.3 L 45.1,116.4 L 45.0,116.5 L 44.8,116.6 L 44.7,116.6 L 44.5,116.7 L 44.3,116.7 L 44.2,116.8 L 44.0,116.8 L 43.8,116.8 L 43.7,116.8 L 43.5,116.7 L 43.3,116.7 L 43.2,116.6 L 43.0,116.5 L 42.9,116.5 L 42.7,116.4 L 42.6,116.2 L 42.5,116.1 L 42.4,116.0 L 42.3,115.8 L 42.2,115.7 L 42.1,115.5 L 42.0,115.4 L 42.0,115.2 L 42.0,115.0 L 42.0,114.9 L 42.0,114.7 L 42.0,114.5 L 42.0,114.4 L 42.0,114.2 L 42.1,114.0 L 42.2,113.9 L 42.3,113.7 L 42.4,113.6 L 42.5,113.4 L 42.6,113.3 L 42.7,113.2 L 42.9,113.1 L 43.0,113.0 L 43.2,112.9 L 43.3,112.9 L 43.5,112.8 L 43.7,112.8 L 43.8,112.8 L 44.0,112.8 L 44.2,112.8 L 44.3,112.8 L 44.5,112.9 L 44.7,112.9 L 44.8,113.0 L 45.0,113.1 L 45.1,113.2 L 45.3,113.3 L 45.4,113.4 L 45.5,113.5 L 45.6,113.6 L 45.7,113.8 L 45.8,113.9 L 45.8,114.1 L 45.9,114.3 L 45.9,114.4 L 45.9,114.6 L 46.0,114.8 L 44.0,114.8 Z' style='fill:currentColor;fill-rule:evenodd;fill-opacity:1;stroke:currentColor;stroke-width:0.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+</svg>

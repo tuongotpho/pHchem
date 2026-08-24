@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 300 230' width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+
+
+<path d='M 15.0,127.0 L 82.5,88.1' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 82.5,88.1 L 108.5,103.1' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 108.5,103.1 L 134.4,118.1' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 165.6,118.2 L 191.6,103.2' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 191.6,103.2 L 217.5,88.2' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 217.5,88.2 L 285.0,127.2' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 79.2,90.1 L 82.5,88.1 L 83.8,88.9' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 216.2,89.0 L 217.5,88.2 L 220.9,90.2' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 137.0 127.2
+Q 137.0 120.4, 140.4 116.6
+Q 143.7 112.8, 150.0 112.8
+Q 156.3 112.8, 159.6 116.6
+Q 163.0 120.4, 163.0 127.2
+Q 163.0 134.1, 159.6 138.0
+Q 156.2 141.9, 150.0 141.9
+Q 143.8 141.9, 140.4 138.0
+Q 137.0 134.1, 137.0 127.2
+M 150.0 138.7
+Q 154.3 138.7, 156.6 135.8
+Q 159.0 132.9, 159.0 127.2
+Q 159.0 121.6, 156.6 118.8
+Q 154.3 116.0, 150.0 116.0
+Q 145.7 116.0, 143.3 118.8
+Q 141.0 121.6, 141.0 127.2
+Q 141.0 132.9, 143.3 135.8
+Q 145.7 138.7, 150.0 138.7
+' fill='#FF0000'/>
+</svg>

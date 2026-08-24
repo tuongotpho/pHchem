@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 300 230' width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+
+
+<path d='M 89.2,108.7 L 127.7,130.7' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 127.7,130.7 L 166.2,152.8' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 166.2,152.8 L 204.5,130.5' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 204.5,130.5 L 242.8,108.2' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 166.1,134.1 L 196.4,116.5' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 196.4,116.5 L 234.7,94.2' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 164.3,151.7 L 166.2,152.8 L 168.1,151.7' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 31.7 85.2
+L 35.5 85.2
+L 35.5 97.3
+L 50.0 97.3
+L 50.0 85.2
+L 53.8 85.2
+L 53.8 113.5
+L 50.0 113.5
+L 50.0 100.5
+L 35.5 100.5
+L 35.5 113.5
+L 31.7 113.5
+L 31.7 85.2
+' fill='#FF0000'/>
+<path d='M 59.6 99.3
+Q 59.6 92.5, 63.0 88.7
+Q 66.4 84.9, 72.6 84.9
+Q 78.9 84.9, 82.3 88.7
+Q 85.6 92.5, 85.6 99.3
+Q 85.6 106.2, 82.2 110.1
+Q 78.8 114.0, 72.6 114.0
+Q 66.4 114.0, 63.0 110.1
+Q 59.6 106.2, 59.6 99.3
+M 72.6 110.8
+Q 77.0 110.8, 79.3 107.9
+Q 81.6 105.0, 81.6 99.3
+Q 81.6 93.7, 79.3 90.9
+Q 77.0 88.1, 72.6 88.1
+Q 68.3 88.1, 66.0 90.9
+Q 63.6 93.7, 63.6 99.3
+Q 63.6 105.0, 66.0 107.9
+Q 68.3 110.8, 72.6 110.8
+' fill='#FF0000'/>
+<path d='M 242.3 91.6
+Q 242.3 84.8, 245.7 81.0
+Q 249.1 77.2, 255.3 77.2
+Q 261.6 77.2, 265.0 81.0
+Q 268.3 84.8, 268.3 91.6
+Q 268.3 98.5, 264.9 102.4
+Q 261.5 106.3, 255.3 106.3
+Q 249.1 106.3, 245.7 102.4
+Q 242.3 98.5, 242.3 91.6
+M 255.3 103.1
+Q 259.7 103.1, 262.0 100.2
+Q 264.3 97.3, 264.3 91.6
+Q 264.3 86.1, 262.0 83.3
+Q 259.7 80.4, 255.3 80.4
+Q 251.0 80.4, 248.7 83.2
+Q 246.3 86.0, 246.3 91.6
+Q 246.3 97.3, 248.7 100.2
+Q 251.0 103.1, 255.3 103.1
+' fill='#FF0000'/>
+</svg>

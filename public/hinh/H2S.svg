@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 300 230' width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+
+
+<path d='M 163.4,90.0 L 205.7,114.4' style='fill:none;fill-rule:evenodd;stroke:#CCCC00;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 205.7,114.4 L 247.9,138.8' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 136.7,90.0 L 94.4,114.3' style='fill:none;fill-rule:evenodd;stroke:#CCCC00;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 94.4,114.3 L 52.1,138.7' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 142.1 92.0
+Q 142.4 92.1, 143.7 92.6
+Q 145.0 93.2, 146.5 93.6
+Q 147.9 93.9, 149.4 93.9
+Q 152.1 93.9, 153.6 92.6
+Q 155.2 91.3, 155.2 89.0
+Q 155.2 87.4, 154.4 86.5
+Q 153.6 85.5, 152.4 85.0
+Q 151.2 84.5, 149.2 83.9
+Q 146.7 83.1, 145.2 82.4
+Q 143.7 81.7, 142.6 80.2
+Q 141.6 78.6, 141.6 76.1
+Q 141.6 72.5, 144.0 70.3
+Q 146.4 68.1, 151.2 68.1
+Q 154.5 68.1, 158.2 69.7
+L 157.3 72.8
+Q 153.9 71.4, 151.3 71.4
+Q 148.6 71.4, 147.1 72.5
+Q 145.5 73.6, 145.6 75.6
+Q 145.6 77.1, 146.3 78.0
+Q 147.1 79.0, 148.3 79.5
+Q 149.4 80.0, 151.3 80.6
+Q 153.9 81.4, 155.4 82.2
+Q 156.9 83.0, 158.0 84.6
+Q 159.1 86.2, 159.1 89.0
+Q 159.1 92.9, 156.5 95.0
+Q 153.9 97.1, 149.5 97.1
+Q 147.0 97.1, 145.1 96.6
+Q 143.2 96.0, 141.0 95.1
+L 142.1 92.0
+' fill='#CCCC00'/>
+<path d='M 252.2 133.6
+L 256.0 133.6
+L 256.0 145.6
+L 270.5 145.6
+L 270.5 133.6
+L 274.3 133.6
+L 274.3 161.9
+L 270.5 161.9
+L 270.5 148.8
+L 256.0 148.8
+L 256.0 161.9
+L 252.2 161.9
+L 252.2 133.6
+' fill='currentColor'/>
+<path d='M 25.7 133.4
+L 29.5 133.4
+L 29.5 145.4
+L 44.0 145.4
+L 44.0 133.4
+L 47.8 133.4
+L 47.8 161.7
+L 44.0 161.7
+L 44.0 148.6
+L 29.5 148.6
+L 29.5 161.7
+L 25.7 161.7
+L 25.7 133.4
+' fill='currentColor'/>
+</svg>

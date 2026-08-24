@@ -3,6 +3,7 @@ import PageHeader from '../components/PageHeader';
 import FormulaText from '../components/FormulaText';
 import { useLang } from '../i18n/LangContext';
 import { hasStructure } from '../generated/structures';
+import { useHinhCauTao } from '../hooks/useHinhCauTao';
 import { FORMULAS, keyOf } from '../data/formulas';
 import {
   CATIONS,
@@ -16,7 +17,6 @@ import {
 export default function Solubility() {
   const { t, lang } = useLang();
   const [sel, setSel] = useState<{ c: number; a: number } | null>(null);
-  const [svgs, setSvgs] = useState<Record<string, string> | null>(null);
 
   // Tra nhanh chất trong thư viện công thức theo công thức ASCII
   const libByFormula = useMemo(() => {
@@ -32,6 +32,11 @@ export default function Solubility() {
   const inLib = formula ? libByFormula.get(formula) : undefined;
   const structKey = inLib ? keyOf(inLib) : formula;
   const showStruct = !!formula && hasStructure(structKey);
+
+  // Hình tải riêng một file, chỉ khi ô đang mở có hình — xem hooks/useHinhCauTao.ts.
+  const { svg: hinh, dangTai: dangTaiHinh } = useHinhCauTao(
+    showStruct ? structKey : null,
+  );
   // H+ + OH- không phải muối mà là phản ứng trung hòa tạo nước
   const isWater = formula === 'H2O';
 
@@ -45,17 +50,6 @@ export default function Solubility() {
     return () => window.removeEventListener('keydown', onKey);
   }, [sel]);
 
-  // Kho hình chỉ tải khi thật sự cần
-  useEffect(() => {
-    if (!showStruct || svgs) return;
-    let alive = true;
-    import('../generated/structures-svgs').then((m) => {
-      if (alive) setSvgs(m.STRUCTURE_SVGS);
-    });
-    return () => {
-      alive = false;
-    };
-  }, [showStruct, svgs]);
 
   return (
     <>
@@ -210,14 +204,20 @@ export default function Solubility() {
             {/* Hình cấu tạo nếu có */}
             {showStruct && (
               <div className="mt-3 rounded-xl bg-base-900 border border-base-800 p-2">
-                {svgs ? (
+                {hinh ? (
                   <div
                     className="h-40 text-slate-100"
-                    dangerouslySetInnerHTML={{ __html: svgs[structKey] }}
+                    dangerouslySetInnerHTML={{ __html: hinh }}
                   />
                 ) : (
-                  <div className="h-40 grid place-items-center text-xs text-slate-600">
-                    {lang === 'vi' ? 'Đang tải hình…' : 'Loading…'}
+                  <div className="h-40 grid place-items-center text-center text-xs text-slate-600 px-3">
+                    {dangTaiHinh
+                      ? lang === 'vi'
+                        ? 'Đang tải hình…'
+                        : 'Loading…'
+                      : lang === 'vi'
+                        ? 'Chưa tải được hình.'
+                        : 'Could not load the image.'}
                   </div>
                 )}
                 <div className="text-center text-[11px] text-slate-500">

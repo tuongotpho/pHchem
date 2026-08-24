@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 300 230' width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+
+
+<path d='M 136.7,57.1 L 71.1,132.2' style='fill:none;fill-rule:evenodd;stroke:#FF7F00;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 71.1,147.7 L 228.9,148.0' style='fill:none;fill-rule:evenodd;stroke:#FF7F00;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 228.9,153.9 L 163.4,182.5' style='fill:none;fill-rule:evenodd;stroke:#FF7F00;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 228.9,132.4 L 163.7,57.2' style='fill:none;fill-rule:evenodd;stroke:#FF7F00;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 149.9,169.7 L 150.2,60.3' style='fill:none;fill-rule:evenodd;stroke:#FF7F00;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 136.4,182.4 L 71.1,153.7' style='fill:none;fill-rule:evenodd;stroke:#FF7F00;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 149.5 27.5
+Q 154.4 27.5, 156.8 29.7
+Q 159.3 31.8, 159.3 35.8
+Q 159.3 39.7, 156.7 41.9
+Q 154.3 44.1, 149.5 44.1
+L 145.0 44.1
+L 145.0 55.8
+L 141.2 55.8
+L 141.2 27.5
+L 149.5 27.5
+M 149.5 40.9
+Q 152.3 40.9, 153.8 39.6
+Q 155.3 38.3, 155.3 35.8
+Q 155.3 33.3, 153.8 32.0
+Q 152.3 30.7, 149.5 30.7
+L 145.0 30.7
+L 145.0 40.9
+L 149.5 40.9
+' fill='#FF7F00'/>
+<path d='M 56.9 133.5
+Q 61.7 133.5, 64.2 135.7
+Q 66.6 137.9, 66.6 141.9
+Q 66.6 145.8, 64.1 148.0
+Q 61.6 150.2, 56.9 150.2
+L 52.4 150.2
+L 52.4 161.9
+L 48.5 161.9
+L 48.5 133.5
+L 56.9 133.5
+M 56.9 147.0
+Q 59.7 147.0, 61.1 145.7
+Q 62.6 144.4, 62.6 141.9
+Q 62.6 139.3, 61.1 138.1
+Q 59.7 136.7, 56.9 136.7
+L 52.4 136.7
+L 52.4 147.0
+L 56.9 147.0
+' fill='#FF7F00'/>
+<path d='M 241.7 133.9
+Q 246.6 133.9, 249.0 136.1
+Q 251.5 138.2, 251.5 142.2
+Q 251.5 146.1, 248.9 148.4
+Q 246.5 150.6, 241.7 150.6
+L 237.2 150.6
+L 237.2 162.2
+L 233.4 162.2
+L 233.4 133.9
+L 241.7 133.9
+M 241.7 147.4
+Q 244.5 147.4, 246.0 146.0
+Q 247.5 144.7, 247.5 142.2
+Q 247.5 139.7, 246.0 138.4
+Q 244.5 137.1, 241.7 137.1
+L 237.2 137.1
+L 237.2 147.4
+L 241.7 147.4
+' fill='#FF7F00'/>
+<path d='M 149.2 174.2
+Q 154.1 174.2, 156.5 176.4
+Q 158.9 178.6, 158.9 182.5
+Q 158.9 186.5, 156.4 188.7
+Q 153.9 190.9, 149.2 190.9
+L 144.7 190.9
+L 144.7 202.5
+L 140.9 202.5
+L 140.9 174.2
+L 149.2 174.2
+M 149.2 187.7
+Q 152.0 187.7, 153.5 186.4
+Q 154.9 185.1, 154.9 182.5
+Q 154.9 180.0, 153.5 178.7
+Q 152.0 177.4, 149.2 177.4
+L 144.7 177.4
+L 144.7 187.7
+L 149.2 187.7
+' fill='#FF7F00'/>
+</svg>

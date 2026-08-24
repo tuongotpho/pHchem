@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 300 230' width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+
+
+<path d='M 15.0,124.1 L 72.7,90.9' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 72.7,90.9 L 130.3,124.2' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 130.3,124.2 L 187.9,91.0' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 187.9,91.0 L 209.1,103.3' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 209.1,103.3 L 230.3,115.6' style='fill:none;fill-rule:evenodd;stroke:#FF0000;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 69.8,92.6 L 72.7,90.9 L 75.5,92.6' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 127.4,122.6 L 130.3,124.2 L 133.1,122.6' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 185.0,92.7 L 187.9,91.0 L 189.0,91.6' style='fill:none;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;' />
+<path d='M 232.5 124.4
+Q 232.5 117.6, 235.9 113.8
+Q 239.2 110.0, 245.5 110.0
+Q 251.8 110.0, 255.1 113.8
+Q 258.5 117.6, 258.5 124.4
+Q 258.5 131.3, 255.1 135.2
+Q 251.7 139.1, 245.5 139.1
+Q 239.3 139.1, 235.9 135.2
+Q 232.5 131.3, 232.5 124.4
+M 245.5 135.9
+Q 249.8 135.9, 252.1 133.0
+Q 254.5 130.1, 254.5 124.4
+Q 254.5 118.9, 252.1 116.1
+Q 249.8 113.2, 245.5 113.2
+Q 241.2 113.2, 238.8 116.0
+Q 236.5 118.8, 236.5 124.4
+Q 236.5 130.1, 238.8 133.0
+Q 241.2 135.9, 245.5 135.9
+' fill='#FF0000'/>
+<path d='M 262.9 110.4
+L 266.7 110.4
+L 266.7 122.4
+L 281.2 122.4
+L 281.2 110.4
+L 285.0 110.4
+L 285.0 138.6
+L 281.2 138.6
+L 281.2 125.6
+L 266.7 125.6
+L 266.7 138.6
+L 262.9 138.6
+L 262.9 110.4
+' fill='#FF0000'/>
+</svg>

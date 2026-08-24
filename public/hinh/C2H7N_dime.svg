@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 300 230' width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+
+
+<path d='M 15.0,175.9 L 74.7,141.7' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 74.7,141.7 L 134.4,107.5' style='fill:none;fill-rule:evenodd;stroke:#0000FF;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 166.2,107.7 L 225.6,142.3' style='fill:none;fill-rule:evenodd;stroke:#0000FF;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 225.6,142.3 L 285.0,176.9' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 144.0 84.3
+L 153.3 99.3
+Q 154.2 100.8, 155.7 103.4
+Q 157.2 106.1, 157.3 106.3
+L 157.3 84.3
+L 161.0 84.3
+L 161.0 112.6
+L 157.1 112.6
+L 147.2 96.2
+Q 146.0 94.3, 144.8 92.1
+Q 143.6 89.9, 143.2 89.2
+L 143.2 112.6
+L 139.5 112.6
+L 139.5 84.3
+L 144.0 84.3
+' fill='#0000FF'/>
+<path d='M 139.2 53.1
+L 143.0 53.1
+L 143.0 65.2
+L 157.5 65.2
+L 157.5 53.1
+L 161.4 53.1
+L 161.4 81.4
+L 157.5 81.4
+L 157.5 68.4
+L 143.0 68.4
+L 143.0 81.4
+L 139.2 81.4
+L 139.2 53.1
+' fill='#0000FF'/>
+</svg>

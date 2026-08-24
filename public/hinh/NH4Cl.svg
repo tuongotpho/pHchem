@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 300 230' width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+
+
+<path d='M 160.1,91.3 L 172.6,69.7' style='fill:none;fill-rule:evenodd;stroke:#0000FF;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 172.6,69.7 L 185.1,48.1' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 140.3,91.3 L 127.9,69.6' style='fill:none;fill-rule:evenodd;stroke:#0000FF;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 127.9,69.6 L 115.4,47.9' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 163.8,116.3 L 188.6,130.8' style='fill:none;fill-rule:evenodd;stroke:#0000FF;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 188.6,130.8 L 213.5,145.2' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 136.4,116.2 L 111.5,130.5' style='fill:none;fill-rule:evenodd;stroke:#0000FF;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 111.5,130.5 L 86.5,144.9' style='fill:none;fill-rule:evenodd;stroke:currentColor;stroke-width:1.4px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path d='M 143.9 94.2
+L 153.1 109.2
+Q 154.1 110.7, 155.5 113.4
+Q 157.0 116.1, 157.1 116.2
+L 157.1 94.2
+L 160.9 94.2
+L 160.9 122.5
+L 157.0 122.5
+L 147.0 106.1
+Q 145.9 104.2, 144.6 102.0
+Q 143.4 99.8, 143.1 99.1
+L 143.1 122.5
+L 139.4 122.5
+L 139.4 94.2
+L 143.9 94.2
+' fill='#0000FF'/>
+<path d='M 166.2 99.3
+L 171.2 99.3
+L 171.2 94.1
+L 173.4 94.1
+L 173.4 99.3
+L 178.5 99.3
+L 178.5 101.2
+L 173.4 101.2
+L 173.4 106.5
+L 171.2 106.5
+L 171.2 101.2
+L 166.2 101.2
+L 166.2 99.3
+' fill='#0000FF'/>
+<path d='M 123.5 198.9
+Q 123.5 191.8, 126.8 188.1
+Q 130.1 184.4, 136.4 184.4
+Q 142.2 184.4, 145.3 188.5
+L 142.7 190.7
+Q 140.4 187.7, 136.4 187.7
+Q 132.1 187.7, 129.8 190.6
+Q 127.6 193.4, 127.6 198.9
+Q 127.6 204.5, 129.9 207.3
+Q 132.3 210.2, 136.8 210.2
+Q 139.9 210.2, 143.6 208.3
+L 144.7 211.3
+Q 143.2 212.3, 141.0 212.9
+Q 138.7 213.4, 136.3 213.4
+Q 130.1 213.4, 126.8 209.7
+Q 123.5 205.9, 123.5 198.9
+' fill='#00CC00'/>
+<path d='M 148.3 182.7
+L 152.0 182.7
+L 152.0 213.1
+L 148.3 213.1
+L 148.3 182.7
+' fill='#00CC00'/>
+<path d='M 156.7 188.4
+L 166.4 188.4
+L 166.4 190.5
+L 156.7 190.5
+L 156.7 188.4
+' fill='#00CC00'/>
+<path d='M 184.0 16.8
+L 187.8 16.8
+L 187.8 28.9
+L 202.3 28.9
+L 202.3 16.8
+L 206.2 16.8
+L 206.2 45.2
+L 202.3 45.2
+L 202.3 32.1
+L 187.8 32.1
+L 187.8 45.2
+L 184.0 45.2
+L 184.0 16.8
+' fill='currentColor'/>
+<path d='M 94.5 16.6
+L 98.4 16.6
+L 98.4 28.6
+L 112.8 28.6
+L 112.8 16.6
+L 116.7 16.6
+L 116.7 44.9
+L 112.8 44.9
+L 112.8 31.8
+L 98.4 31.8
+L 98.4 44.9
+L 94.5 44.9
+L 94.5 16.6
+' fill='currentColor'/>
+<path d='M 216.4 139.2
+L 220.3 139.2
+L 220.3 151.2
+L 234.7 151.2
+L 234.7 139.2
+L 238.6 139.2
+L 238.6 167.5
+L 234.7 167.5
+L 234.7 154.4
+L 220.3 154.4
+L 220.3 167.5
+L 216.4 167.5
+L 216.4 139.2
+' fill='currentColor'/>
+<path d='M 61.4 138.8
+L 65.3 138.8
+L 65.3 150.8
+L 79.7 150.8
+L 79.7 138.8
+L 83.6 138.8
+L 83.6 167.1
+L 79.7 167.1
+L 79.7 154.0
+L 65.3 154.0
+L 65.3 167.1
+L 61.4 167.1
+L 61.4 138.8
+' fill='currentColor'/>
+</svg>
