@@ -4,8 +4,29 @@
     {
       "name": "chemipro-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--", "--port", "5183"],
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "5183"
+      ],
       "port": 5183
+    },
+    {
+      "name": "chemipro-preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "preview",
+        "--",
+        "--port",
+        "5184",
+        "--base",
+        "/pHchem/"
+      ],
+      "port": 5184,
+      "url": "http://localhost:5184"
     }
   ]
 }
