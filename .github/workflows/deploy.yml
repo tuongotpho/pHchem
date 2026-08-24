@@ -1,4 +1,4 @@
-name: Deploy lên GitHub Pages
+name: Deploy lên GitHub Pages và Firebase Hosting
 
 on:
   push:
@@ -14,6 +14,16 @@ permissions:
 concurrency:
   group: pages
   cancel-in-progress: true
+
+# HAI NƠI, HAI ĐƯỜNG DẪN GỐC KHÁC NHAU — đây là chỗ dễ sai nhất:
+#   - GitHub Pages : app nằm trong thư mục con  https://tuongotpho.github.io/pHchem/
+#   - Firebase     : app nằm ở gốc tên miền     https://ph-chem.web.app/
+# Nên phải dựng HAI lượt với hai giá trị base khác nhau, ra hai thư mục khác
+# nhau. Lấy bản này đem đẩy sang nơi kia thì trang trắng trơn: mọi đường dẫn
+# tới file js/css/hình đều trỏ sai.
+#
+# Chạy song song là cố ý, để chuyển dần: Firebase hỏng thì Pages vẫn còn đó.
+# Khi nào yên tâm hẳn thì bỏ phần Pages, và bỏ luôn lượt dựng thứ nhất.
 
 # Các action đều nâng lên bản mới nhất vào 23/08/2026. Lý do: GitHub bỏ dần
 # Node 20, bản cũ bị ép chạy trên Node 24 và sẽ hỏng hẳn khi lớp tương thích
@@ -44,12 +54,24 @@ jobs:
       # `npm run build` đã gồm `tsc -b` nên phần kiểm kiểu không cần khai lại.
       - run: npm run lint
       - run: npm test
+
+      # --- Lượt 1: bản cho GitHub Pages, base = /pHchem/ ---
       - run: npm run build
       # SPA fallback: Pages trả 404.html cho các đường dẫn con → dùng chính index.html
       - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
+
+      # --- Lượt 2: bản cho Firebase, base = / ---
+      # Không cần 404.html: Firebase Hosting tự chuyển hướng mọi đường dẫn về
+      # index.html theo luật "rewrites" khai trong firebase.json.
+      - run: npm run build:firebase
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ban-firebase
+          path: dist-firebase
 
   deploy:
     needs: build
@@ -60,3 +82,25 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v5
+
+  # Firebase đứng RIÊNG một job, không nhét chung vào job dựng. Lý do: job đẩy
+  # Pages khai `needs: build`, nên nếu bước Firebase nằm trong job build mà đỏ
+  # (hay gặp nhất: chưa cắm bí mật FIREBASE_SERVICE_ACCOUNT) thì cả job build
+  # đỏ theo, và Pages NGỪNG LUÔN không deploy nữa. Tách ra thì hai nơi hỏng
+  # độc lập với nhau — đúng mục đích chạy song song để có đường lui.
+  deploy-firebase:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # Vẫn phải checkout: action đọc luật rewrites và headers trong firebase.json.
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: ban-firebase
+          path: dist-firebase
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: ph-chem
+          channelId: live

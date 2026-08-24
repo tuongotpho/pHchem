@@ -11,7 +11,9 @@
     "test": "vitest run",
     "icons": "node scripts/gen-icons.mjs",
     "struct": "node scripts/gen-structures.mjs",
-    "audit": "tsc -b && vitest run && node scripts/gen-structures.mjs"
+    "audit": "tsc -b && vitest run && node scripts/gen-structures.mjs",
+    "build:firebase": "tsc -b && vite build --base=/ --outDir dist-firebase",
+    "preview:firebase": "vite preview --outDir dist-firebase --port 5185"
   },
   "dependencies": {
     "react": "^19.2.8",

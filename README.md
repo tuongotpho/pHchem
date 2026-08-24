@@ -71,15 +71,69 @@ Sau khi cài, mở lại vẫn chạy **kể cả khi mất mạng**.
 
 ## Triển khai
 
-- **GitHub Pages** (đang dùng): tự động qua `.github/workflows/deploy.yml` mỗi lần đẩy
-  lên nhánh `main`. Vite dùng `base = '/pHchem/'` khi build, kèm `404.html` để bấm sâu không lỗi.
-- **Firebase Hosting** (dự định sau): bỏ `base` về `/` trong `vite.config.ts` là xong.
+Mỗi lần đẩy lên nhánh `main`, `.github/workflows/deploy.yml` chạy test + lint, rồi
+dựng **hai bản** và đẩy lên **hai nơi cùng lúc**:
 
-## Firebase (để dành, chưa bật)
+| Nơi | Địa chỉ | Đường dẫn gốc | Lệnh dựng |
+|---|---|---|---|
+| GitHub Pages | https://tuongotpho.github.io/pHchem/ | `/pHchem/` | `npm run build` |
+| Firebase Hosting | https://ph-chem.web.app/ | `/` | `npm run build:firebase` |
 
-Hiện app chạy 100% offline, **không cần Firebase**. Khi nào muốn đồng bộ ghi chú hay
-mục yêu thích giữa nhiều máy, tạo `src/lib/firebase.ts` và điền cấu hình từ Firebase
-Console. Xem `.env.example` cho các biến môi trường cần thiết.
+Vì sao hai bản chứ không một: Pages đặt app trong thư mục con, Firebase đặt ở gốc tên
+miền. Lấy bản này đem đẩy sang nơi kia thì **trang trắng trơn** — mọi đường dẫn tới
+js/css/hình đều trỏ sai. Chạy song song là cố ý, để chuyển dần; Firebase hỏng thì Pages
+vẫn còn đó. Khi nào yên tâm hẳn thì bỏ phần Pages đi.
+
+Xem thử bản Firebase ngay trên máy, kèm đúng luật chuyển hướng và bộ nhớ đệm:
+
+```
+npm run build:firebase
+npx firebase emulators:start --only hosting --project ph-chem
+```
+
+### Cắm bí mật cho Firebase — VIỆC PHẢI LÀM TAY MỘT LẦN
+
+Workflow cần một bí mật tên **`FIREBASE_SERVICE_ACCOUNT`** trên GitHub. Chưa có nó thì
+job `deploy-firebase` đỏ, **nhưng Pages vẫn lên bình thường** (hai job tách rời nhau).
+
+Cách nhanh nhất — để Firebase CLI tự tạo tài khoản dịch vụ và tự cắm bí mật:
+
+```
+npx firebase login
+npx firebase init hosting:github
+```
+
+Khi nó hỏi:
+
+- *"For which GitHub repository…"* → `tuongotpho/pHchem`
+- *"Set up the workflow to run a build script before every deploy?"* → **No**
+- *"Set up automatic deployment to your site's live channel when a PR is merged?"* → **No**
+- *"Overwrite existing firebase.json / .firebaserc?"* → **No** (đã cấu hình sẵn rồi)
+
+Xong, nó tự sinh thêm hai file workflow của riêng nó trong `.github/workflows/` —
+**xóa hai file đó đi**, vì `deploy.yml` đã lo cả rồi. Bí mật thì nó đã cắm xong.
+
+Kiểm bí mật đã có chưa:
+
+```
+gh secret list
+```
+
+Nếu mã dự án không phải `ph-chem`, sửa lại ở **hai chỗ**: `.firebaserc` và dòng
+`projectId:` trong `.github/workflows/deploy.yml`. Xem mã đúng bằng:
+
+```
+npx firebase projects:list
+```
+
+## Đồng bộ dữ liệu qua Firebase (để dành, CHƯA bật)
+
+Mục này nói về **Firestore / đăng nhập**, không phải Hosting — Hosting thì đã bật rồi,
+xem phần Triển khai ở trên. App vẫn chạy 100% offline và **không cần** phần này.
+
+Khi nào muốn đồng bộ ghi chú hay mục yêu thích giữa nhiều máy thì tạo
+`src/lib/firebase.ts` và điền cấu hình từ Firebase Console. Xem `.env.example` cho các
+biến môi trường cần thiết.
 
 ## Công nghệ
 

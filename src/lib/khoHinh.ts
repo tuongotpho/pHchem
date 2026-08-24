@@ -12,6 +12,21 @@ import { TEN_KHO_HINH } from './tenKhoHinh';
 /** Tầng 1: nhớ trong phiên. Khóa là địa chỉ hình. */
 const trongPhien = new Map<string, string>();
 
+/**
+ * Nội dung lấy về có ĐÚNG là hình không.
+ *
+ * VÌ SAO PHẢI KIỂM, MÃ 200 CHƯA ĐỦ: Firebase Hosting có luật chuyển hướng SPA —
+ * mọi đường dẫn không khớp file nào đều trả về index.html với mã 200, chứ
+ * không phải 404. Nên xin một hình không tồn tại thì nhận về NGUYÊN TRANG APP,
+ * mà `res.ok` vẫn báo thành công. Không kiểm thì trang nhét cả đống HTML vào
+ * đúng chỗ đáng lẽ là hình, và service worker còn đệm luôn thứ rác đó lại.
+ *
+ * (GitHub Pages trả 404 thật nên không dính. Kiểm ở đây một lần cho cả hai nơi,
+ * và cho cả nơi nào sau này.)
+ */
+const laHinh = (noiDung: string): boolean =>
+  noiDung.trimStart().startsWith('<svg');
+
 /** Hình đã nằm sẵn trong bộ nhớ phiên chưa. Trả nội dung, hoặc null. */
 export const hinhCoSan = (url: string): string | null =>
   trongPhien.get(url) ?? null;
@@ -23,6 +38,7 @@ export async function napHinh(url: string): Promise<string> {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Không lấy được hình (${res.status})`);
   const svg = await res.text();
+  if (!laHinh(svg)) throw new Error('Trả về không phải hình');
   trongPhien.set(url, svg);
   return svg;
 }
@@ -99,6 +115,11 @@ export async function taiCaBoVeMay(
         if (!(await kho.match(url))) {
           const res = await fetch(url, { signal: dungLai });
           if (!res.ok) throw new Error(String(res.status));
+          // Đọc ra kiểm trước khi cất. Không kiểm thì nút này lẳng lặng nhồi
+          // gần ba trăm bản index.html vào kho, rồi báo "xong" — người dùng
+          // ngắt mạng ra mới biết mình có một kho rác.
+          const noiDung = await res.clone().text();
+          if (!laHinh(noiDung)) throw new Error('Trả về không phải hình');
           await kho.put(url, res.clone());
         }
         xong++;
