@@ -148,6 +148,13 @@ Ba chỗ ở `ElementDetail.tsx` gỡ hai khối con ra ngoài hàm trang.
 
 ## Việc nhỏ ghi lại kẻo quên
 
+- ✅ **Đã chặn một bẫy trong bộ tự kiểm** (24/08/2026). RDKit KHÔNG sinh được
+  mã InChI cho phân tử có nguyên tử giả `*`, tức mọi polime — nó trả chuỗi
+  RỖNG. Hai chuỗi rỗng so nhau thì bằng nhau, nên lớp "đối chứng cấu tạo"
+  và lớp "khớp InChI PubChem" sẽ GẬT ĐẦU mà chẳng kiểm gì. Hiện chưa polime
+  nào nằm trong bảng đối chứng nên chưa ai dính, nhưng đó là bẫy chờ sẵn.
+  Nay gặp mã rỗng là báo lỗi và trả mã thoát 1.
+
 - Mẩu thực tiễn mới nối được với **nhóm nguyên tố**, chưa nối với lớp chất hữu
   cơ. Mở "Halogen" thấy 16 mẩu, mở "Este" thì không mẩu nào. Muốn nối phải gắn
   thẻ lớp chất cho từng mẩu.
@@ -218,6 +225,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 
 | Ngày | Đã xong tới | Đang dở | Việc kế tiếp |
 |---|---|---|---|
+| 24/08/2026 11:20 | Chặn **bẫy đối chứng rỗng** trong gen-structures — phát hiện lúc tách polime | không | Xem "Việc nhỏ ghi lại kẻo quên" |
 | 24/08/2026 11:15 | Tách **tinh bột / xenlulozơ**, xác định α-β bằng InChI đối chứng | không | Chặn bẫy đối chứng rỗng ở gen-structures |
 | 24/08/2026 11:05 | Xong nốt **điểm nhỏ tab Pha loãng** (ghi chú không đánh số, suýt lọt) | không | Xem "Việc nhỏ ghi lại kẻo quên" |
 | 24/08/2026 08:45 | **E17** xong. **HẾT SẠCH 18/18 MỤC ĐỢT E.** | không | Còn 3 việc cần mắt người, xem mục dưới |

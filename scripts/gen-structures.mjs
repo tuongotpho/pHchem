@@ -184,9 +184,21 @@ for (const [key, smiles] of entries) {
       } else {
         const a = constitutionLayer(probe.get_inchi());
         const b = constitutionLayer(ref.get_inchi());
-        if (a !== b) constiBad.push(`${key}:
+        // BẪY: RDKit KHÔNG sinh được mã InChI cho phân tử có nguyên tử giả (*),
+        // tức mọi polime — nó trả về chuỗi RỖNG. Hai chuỗi rỗng so nhau thì
+        // bằng nhau, nên phép kiểm sẽ GẬT ĐẦU mà chẳng kiểm gì cả. Không chặn
+        // thì ai đó thêm một polime vào bảng đối chứng sẽ tưởng đã được soi.
+        if (!a || !b) {
+          constiBad.push(
+            `${key}: không so được cấu tạo — RDKit trả mã InChI rỗng ` +
+              `(thường vì phân tử có nguyên tử giả * của polime). ` +
+              `Hoặc gỡ khỏi references.mjs, hoặc viết đối chứng theo cách khác.`,
+          );
+        } else if (a !== b) {
+          constiBad.push(`${key}:
        smiles.json → ${a}
        đối chứng  → ${b}`);
+        }
       }
       if (ref) ref.delete();
     }
@@ -195,7 +207,13 @@ for (const [key, smiles] of entries) {
     const cip = cipInfo(probe);
     if (VERIFIED_INCHI[key]) {
       const got = probe.get_inchi();
-      if (got !== VERIFIED_INCHI[key]) {
+      // Cùng cái bẫy như lớp 2: mã rỗng thì không so được, phải kêu lên.
+      if (!got) {
+        inchiBad.push(
+          `${key}: RDKit trả mã InChI rỗng nên không đối chiếu được với nguồn ` +
+            `ngoài (thường vì phân tử có nguyên tử giả * của polime).`,
+        );
+      } else if (got !== VERIFIED_INCHI[key]) {
         inchiBad.push(
           `${key} (R/S đang là ${cip.chain || 'không có'}):` +
             `
