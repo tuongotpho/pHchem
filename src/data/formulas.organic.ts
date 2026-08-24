@@ -127,7 +127,12 @@ export const ORGANIC: Formula[] = [
   { formula: 'C12H22O11', vi: 'Saccarozơ (đường mía)', en: 'Sucrose', cat: 'organic', nhom: 'gluxit', note_vi: 'Đường đôi glucozơ + fructozơ; đường ăn hằng ngày.', note_en: 'Glucose + fructose; common table sugar.' },
   { formula: 'C12H22O11', id: 'C12H22O11-mal', vi: 'Mantozơ (đường mạch nha)', en: 'Maltose', cat: 'organic', nhom: 'gluxit', note_vi: 'Hai gốc glucozơ; sinh ra khi thủy phân tinh bột.', note_en: 'Two glucose units; from starch hydrolysis.' },
   { formula: 'C12H22O11', id: 'C12H22O11-lac', vi: 'Lactozơ (đường sữa)', en: 'Lactose', cat: 'organic', nhom: 'gluxit', note_vi: 'Đường trong sữa; nhiều người không dung nạp.', note_en: 'Milk sugar; many people are intolerant.' },
-  { formula: '(C6H10O5)n', vi: 'Tinh bột / Xenlulozơ', en: 'Starch / Cellulose', cat: 'organic', nhom: 'gluxit', note_vi: 'Polime của glucozơ; lương thực và chất xơ.', note_en: 'Glucose polymers; food and fiber.' },
+  // Tinh bột và xenlulozơ CÙNG công thức (C6H10O5)n nhưng khác hẳn nhau ở kiểu
+  // nối giữa các mắt xích: α-1,4 thì người tiêu hóa được, β-1,4 thì không. Gộp
+  // một mục thì không nói được điều đó, mà cũng không có tên IUPAC nào đúng cho
+  // cả hai. Hình cấu tạo vẽ MỘT mắt xích, khác nhau đúng ở tâm anomeric.
+  { formula: '(C6H10O5)n', id: '(C6H10O5)n-tinhbot', vi: 'Tinh bột', en: 'Starch', cat: 'organic', nhom: 'gluxit', note_vi: 'Polime của glucozơ nối kiểu α-1,4. Là hỗn hợp amilozơ mạch thẳng và amilopectin mạch nhánh. Có trong gạo, ngô, khoai — người tiêu hóa được.', note_en: 'Glucose polymer with α-1,4 links; a mixture of linear amylose and branched amylopectin. In rice, maize, potato — digestible by humans.' },
+  { formula: '(C6H10O5)n', id: '(C6H10O5)n-xenlulozo', vi: 'Xenlulozơ', en: 'Cellulose', cat: 'organic', nhom: 'gluxit', note_vi: 'Polime của glucozơ nối kiểu β-1,4 nên mạch thẳng và rất bền. Thành phần chính của bông, gỗ, giấy — người không tiêu hóa được, chỉ là chất xơ.', note_en: 'Glucose polymer with β-1,4 links, giving straight, tough chains. Main component of cotton, wood and paper; indigestible fibre for humans.' },
   { formula: 'C6H14O6', vi: 'Sobitol', en: 'Sorbitol', cat: 'organic', nhom: 'ancol', note_vi: 'Chất tạo ngọt không đường; kẹo cao su.', note_en: 'Sugar-free sweetener; chewing gum.' },
   { formula: 'C5H12O5', vi: 'Xylitol', en: 'Xylitol', cat: 'organic', nhom: 'ancol', note_vi: 'Đường thay thế chống sâu răng.', note_en: 'Sugar substitute that fights tooth decay.' },
 

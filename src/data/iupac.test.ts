@@ -35,15 +35,16 @@ describe('mọi chất đều tra ra được tên IUPAC', () => {
     // Phần lớn chất có tên tiếng Anh chính là tên IUPAC nên lấy luôn; bảng ghi
     // đè chỉ dùng cho chỗ tên tiếng Anh là tên thường hay tên thương mại.
     const trong = CHAT.filter((f) => !iupacOf(keyOf(f), f.en)).map(keyOf);
-    // (C6H10O5)n gộp tinh bột và xenlulozơ — hai chất khác nhau ở kiểu nối,
-    // không có một tên IUPAC chung nào đúng cho cả hai.
-    expect(trong).toEqual(['(C6H10O5)n']);
+    // Tinh bột là HỖN HỢP amilozơ và amilopectin nên không có tên hệ thống nào
+    // đúng cho cả hai thành phần — để trống là trung thực nhất. Xenlulozơ thì
+    // ngược lại, là polime xác định nên đã có tên hệ thống.
+    expect(trong).toEqual(['(C6H10O5)n-tinhbot']);
   });
 
   it('người đọc giao diện tiếng Việt luôn thấy dòng tên IUPAC', () => {
     const khongThay = CHAT.filter(
       (f) =>
-        keyOf(f) !== '(C6H10O5)n' &&
+        keyOf(f) !== '(C6H10O5)n-tinhbot' &&
         // Phenol, Propanal, Cholesterol: tên Việt trùng hệt tên Anh nên dòng
         // IUPAC không thêm được gì, ẩn đi là đúng.
         f.vi !== f.en &&
@@ -120,5 +121,28 @@ describe('tra cứu và hiển thị', () => {
   it('tên đường ghi rõ dạng vòng và cấu hình, khớp với hình đang vẽ', () => {
     expect(iupacOf('C6H12O6', 'Glucose')).toBe('alpha-D-Glucopyranose');
     expect(iupacOf('C5H10O5', 'Ribose')).toBe('beta-D-Ribofuranose');
+  });
+});
+
+describe('tinh bột và xenlulozơ — hai chất, không phải một', () => {
+  const chat = (khoa: string) => CHAT.find((f) => keyOf(f) === khoa)!;
+
+  it('là hai mục riêng, cùng công thức nhưng khác tên', () => {
+    const tb = chat('(C6H10O5)n-tinhbot');
+    const xl = chat('(C6H10O5)n-xenlulozo');
+    expect(tb.formula).toBe(xl.formula); // cùng (C6H10O5)n
+    expect(tb.vi).toBe('Tinh bột');
+    expect(xl.vi).toBe('Xenlulozơ');
+  });
+
+  it('xenlulozơ CÓ tên hệ thống — là polime xác định, nối β-1,4 đều đặn', () => {
+    const xl = chat('(C6H10O5)n-xenlulozo');
+    expect(iupacOf(keyOf(xl), xl.en)).toBe('Poly[beta-(1->4)-D-glucopyranose]');
+  });
+
+  it('tinh bột KHÔNG có tên hệ thống — là hỗn hợp amilozơ và amilopectin', () => {
+    // Cố ý để trống. Đặt bừa một cái tên cho hỗn hợp là bịa.
+    const tb = chat('(C6H10O5)n-tinhbot');
+    expect(iupacOf(keyOf(tb), tb.en)).toBeUndefined();
   });
 });

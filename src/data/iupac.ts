@@ -190,6 +190,10 @@ export const IUPAC: Record<string, string> = {
   C12H22O11: 'beta-D-Fructofuranosyl alpha-D-glucopyranoside',
   'C12H22O11-mal': '4-O-(alpha-D-Glucopyranosyl)-beta-D-glucopyranose',
   'C12H22O11-lac': '4-O-(beta-D-Galactopyranosyl)-beta-D-glucopyranose',
+  // Xenlulozơ là polime XÁC ĐỊNH: mắt xích glucozơ nối β-1,4 đều đặn, nên gọi
+  // tên hệ thống được. Tinh bột thì không — nó là hỗn hợp amilozơ và
+  // amilopectin, xem KHONG_LAY_TEN_ANH bên dưới.
+  '(C6H10O5)n-xenlulozo': 'Poly[beta-(1->4)-D-glucopyranose]',
   C6H14O6: 'D-Glucitol',
   C5H12O5: '(2R,3r,4S)-Pentane-1,2,3,4,5-pentol',
 };
@@ -198,11 +202,14 @@ export const IUPAC: Record<string, string> = {
  * Chất mà tên tiếng Anh KHÔNG phải tên IUPAC và cũng chưa có tên IUPAC gọn để
  * ghi. Phải liệt kê ra để không bị lấy nhầm tên tiếng Anh làm tên IUPAC.
  *
- * (C6H10O5)n gộp tinh bột và xenlulozơ vào một mục, mà hai chất này khác nhau
- * ở kiểu nối giữa các mắt xích nên tên IUPAC cũng khác — không có một tên
- * chung nào đúng cho cả hai.
+ * TINH BỘT: không phải một chất mà là HỖN HỢP amilozơ (mạch thẳng) và
+ * amilopectin (mạch nhánh, có thêm nối α-1,6). Hỗn hợp thì không có tên hệ
+ * thống nào đúng cho cả hai thành phần, nên để trống là trung thực nhất.
+ *
+ * Xenlulozơ thì ngược lại — một polime xác định, nối β-1,4 đều đặn — nên có
+ * tên hệ thống hẳn hoi, ghi ở bảng IUPAC bên trên.
  */
-const KHONG_LAY_TEN_ANH = new Set(['(C6H10O5)n']);
+const KHONG_LAY_TEN_ANH = new Set(['(C6H10O5)n-tinhbot']);
 
 /**
  * Tên IUPAC của một chất.

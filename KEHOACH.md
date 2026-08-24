@@ -155,8 +155,13 @@ Ba chỗ ở `ElementDetail.tsx` gỡ hai khối con ra ngoài hàm trang.
   Cố ý bỏ trống vì không thuộc lớp nào được dạy riêng.
 - 2 chất chưa có hình cấu tạo: V2O5 và SiC — mạng tinh thể, không có phân tử
   riêng lẻ để vẽ.
-- `(C6H10O5)n` gộp tinh bột và xenlulozơ vào một mục, nên không có tên IUPAC
-  chung nào đúng cho cả hai. Tách thành hai mục thì sạch hơn.
+- ✅ **ĐÃ TÁCH `(C6H10O5)n` thành tinh bột và xenlulozơ** (24/08/2026). Cách xác
+  định α hay β: quy mắt xích polime về lại glucopyranose rồi so mã InChI với
+  glucozơ trong repo — chất này đã đối chứng PubChem và ghi rõ là
+  alpha-D-glucopyranose. Hoá ra SMILES cũ vốn là **β, tức xenlulozơ**; tinh bột
+  trước nay thiếu hẳn. Hai đường suy luận độc lập cùng chỉ một hướng (InChI và
+  mã CIP). Xenlulozơ có tên hệ thống, tinh bột cố ý để trống vì là HỖN HỢP
+  amilozơ và amilopectin.
 
 ---
 
@@ -213,6 +218,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 
 | Ngày | Đã xong tới | Đang dở | Việc kế tiếp |
 |---|---|---|---|
+| 24/08/2026 11:15 | Tách **tinh bột / xenlulozơ**, xác định α-β bằng InChI đối chứng | không | Chặn bẫy đối chứng rỗng ở gen-structures |
 | 24/08/2026 11:05 | Xong nốt **điểm nhỏ tab Pha loãng** (ghi chú không đánh số, suýt lọt) | không | Xem "Việc nhỏ ghi lại kẻo quên" |
 | 24/08/2026 08:45 | **E17** xong. **HẾT SẠCH 18/18 MỤC ĐỢT E.** | không | Còn 3 việc cần mắt người, xem mục dưới |
 | 24/08/2026 08:35 | **E8** xong — tách 12 tuyến đường, gói chính 597 → 476 KB | không | **E17** (mục cuối) |

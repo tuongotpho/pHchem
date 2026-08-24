@@ -301,7 +301,8 @@
   "C57H110O6": "CCCCCCCCCCCCCCCCCC(=O)OCC(OC(=O)CCCCCCCCCCCCCCCCC)COC(=O)CCCCCCCCCCCCCCCCC",
   "C57H104O6": "CCCCCCCC/C=C\\CCCCCCCC(=O)OCC(OC(=O)CCCCCCC/C=C\\CCCCCCCC)COC(=O)CCCCCCC/C=C\\CCCCCCCC",
 
-  "(C6H10O5)n": "*O[C@@H]1O[C@H](CO)[C@@H](O)[C@H](O)[C@H]1*",
+  "(C6H10O5)n-tinhbot": "*O[C@H]1O[C@H](CO)[C@@H](O)[C@H](O)[C@H]1*",
+  "(C6H10O5)n-xenlulozo": "*O[C@@H]1O[C@H](CO)[C@@H](O)[C@H](O)[C@H]1*",
   "(C2H4)n": "*CC*",
   "(C3H6)n": "*CC(C)*",
   "(C2H3Cl)n": "*CC(Cl)*",
