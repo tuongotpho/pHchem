@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n/LangContext';
 import { IconSearch } from './icons';
 import { useTimKiem } from '../hooks/useTimKiem';
+import { useKhungNoi } from '../hooks/useKhungNoi';
 
 // Số kết quả hiện trong khung. Nhiều hơn thì phải cuộn nhiều, rối mắt.
 const HIEN_TOI_DA = 10;
@@ -62,16 +63,9 @@ export default function GlobalSearch() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  // Mở khung thì đưa con trỏ vào ô, đồng thời khóa cuộn nền cho khỏi trôi
-  // lung tung phía sau.
+  // Mở khung thì đưa con trỏ vào ô.
   useEffect(() => {
-    if (!mo) return;
-    inputRef.current?.focus();
-    const cu = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = cu;
-    };
+    if (mo) inputRef.current?.focus();
   }, [mo]);
 
   const dong = () => {
@@ -80,17 +74,18 @@ export default function GlobalSearch() {
     setChon(0);
   };
 
+  // Esc đóng khung, và khóa cuộn nền — xem hooks/useKhungNoi.ts. Trước đây Esc
+  // bắt trên chính ô nhập, nên con trỏ mà rời khỏi ô là bấm Esc không ăn nữa.
+  // Nghe ở cấp cửa sổ thì giống hệt ba khung nổi còn lại trong app.
+  useKhungNoi(mo, dong);
+
   const diToi = (to: string) => {
     dong();
     navigate(to);
   };
 
   const onKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      e.preventDefault();
-      dong();
-      return;
-    }
+    // Esc không xử lý ở đây nữa — useKhungNoi lo, ở cấp cửa sổ.
     if (!hien.length) return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();

@@ -1,10 +1,12 @@
-import { useState, useMemo, useEffect, useSyncExternalStore } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useState, useMemo, useSyncExternalStore } from 'react';
+import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import FormulaText from '../components/FormulaText';
 import Pagination from '../components/Pagination';
 import { useLang } from '../i18n/LangContext';
 import { hasStructure, STRUCTURE_COUNT } from '../generated/structures';
+import { useMucTheoDiaChi } from '../hooks/useMucTheoDiaChi';
+import { useKhungNoi } from '../hooks/useKhungNoi';
 import { useHinhCauTao } from '../hooks/useHinhCauTao';
 import { elementsOfFormula } from '../lib/compoundIndex';
 import { reactionsForFormula } from '../lib/reactionIndex';
@@ -27,16 +29,21 @@ const PER_PAGE = 24;
 
 export default function Formulas() {
   const { t, lang } = useLang();
-  const [params] = useSearchParams();
-  const [q, setQ] = useState(params.get('q') ?? '');
   const [cat, setCat] = useState<FormulaCat | 'all'>('all');
   const [onlyStruct, setOnlyStruct] = useState(false);
   // Đến thẳng từ ô tìm kiếm: ?item=<khóa chất> thì mở sẵn khung chi tiết của
-  // đúng chất đó, khỏi bắt người dùng dò lại trong danh sách 340 mục.
-  const chatTuDiaChi = (khoa: string | null) =>
-    khoa ? (FORMULAS.find((f) => keyOf(f) === khoa) ?? null) : null;
-  const [sel, setSel] = useState<Formula | null>(() => chatTuDiaChi(params.get('item')));
-  const [page, setPage] = useState(1);
+  // đúng chất đó, khỏi bắt người dùng dò lại trong danh sách 341 mục.
+  // Toàn bộ việc bám theo địa chỉ nằm ở hooks/useMucTheoDiaChi.ts.
+  const {
+    q,
+    setQ,
+    muc: sel,
+    setMuc: setSel,
+    trang: page,
+    setTrang: setPage,
+  } = useMucTheoDiaChi<Formula>((khoa) =>
+    khoa ? (FORMULAS.find((f) => keyOf(f) === khoa) ?? null) : null,
+  );
   // Đang phóng to hình cấu tạo của chất nào. Chất nhiều nguyên tử như
   // cholesterol hay saccarozơ nhồi vào khung nhỏ thì đọc không nổi.
   const [phongTo, setPhongTo] = useState(false);
@@ -59,22 +66,6 @@ export default function Formulas() {
   );
   const xoayHinh = manHinhDungHep && !tatXoay;
 
-  // Bám theo địa chỉ khi nó đổi mà trang KHÔNG dựng lại — ví dụ đang ở trang
-  // Công thức rồi bấm Ctrl+K chọn chất khác: cùng tuyến đường, chỉ đổi tham số.
-  // Trước đây chỗ này viết trong useEffect nên khung chi tiết không đổi theo,
-  // vẫn hiện chất cũ dù địa chỉ đã sang chất mới.
-  //
-  // Đây là lối React khuyên dùng cho việc "chỉnh trạng thái khi đầu vào đổi":
-  // so với giá trị lần trước ngay trong lúc vẽ, khác thì chỉnh rồi vẽ lại luôn.
-  const qDiaChi = params.get('q');
-  const itemDiaChi = params.get('item');
-  const [diaChiTruoc, setDiaChiTruoc] = useState({ q: qDiaChi, item: itemDiaChi });
-  if (diaChiTruoc.q !== qDiaChi || diaChiTruoc.item !== itemDiaChi) {
-    setDiaChiTruoc({ q: qDiaChi, item: itemDiaChi });
-    if (qDiaChi !== null) setQ(qDiaChi);
-    if (diaChiTruoc.item !== itemDiaChi) setSel(chatTuDiaChi(itemDiaChi));
-    setPage(1);
-  }
   // Hình của CHẤT ĐANG MỞ, tải riêng một file — xem hooks/useHinhCauTao.ts.
   // Trước đây chỗ này kéo cả kho 1,68 MB về chỉ để lấy một hình.
   const { svg: hinh, dangTai: dangTaiHinh, loi: loiHinh } = useHinhCauTao(
@@ -85,19 +76,11 @@ export default function Formulas() {
   // nổi khác trong app (Reactions, Solubility, GlobalSearch). Thiếu hai thứ
   // này thì trên điện thoại bấm phóng to xong nền vẫn trôi phía sau, còn trên
   // máy tính thì gõ Esc không ăn — trái thói quen mà chính app đã tạo ra.
-  useEffect(() => {
-    if (!phongTo) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setPhongTo(false);
-    };
-    window.addEventListener('keydown', onKey);
-    const cuonCu = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      window.removeEventListener('keydown', onKey);
-      document.body.style.overflow = cuonCu;
-    };
-  }, [phongTo]);
+  // Hai khung chồng nhau: khung chi tiết chất, và khung phóng to hình mở ĐÈ
+  // lên nó. Bấm Esc phải đóng cái TRÊN CÙNG thôi — nên khi đang phóng to thì
+  // tắt Esc của khung dưới, không thì một phát đóng sạch cả hai.
+  useKhungNoi(phongTo, () => setPhongTo(false));
+  useKhungNoi(sel !== null && !phongTo, () => setSel(null));
 
 
   const list = useMemo(() => {

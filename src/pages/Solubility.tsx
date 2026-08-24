@@ -1,8 +1,9 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import PageHeader from '../components/PageHeader';
 import FormulaText from '../components/FormulaText';
 import { useLang } from '../i18n/LangContext';
 import { hasStructure } from '../generated/structures';
+import { useKhungNoi } from '../hooks/useKhungNoi';
 import { useHinhCauTao } from '../hooks/useHinhCauTao';
 import { FORMULAS, keyOf } from '../data/formulas';
 import {
@@ -40,15 +41,7 @@ export default function Solubility() {
   // H+ + OH- không phải muối mà là phản ứng trung hòa tạo nước
   const isWater = formula === 'H2O';
 
-  // Đóng modal bằng phím Esc
-  useEffect(() => {
-    if (!sel) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSel(null);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [sel]);
+  useKhungNoi(sel !== null, () => setSel(null));
 
 
   return (

@@ -1,8 +1,9 @@
-import { useState, useMemo, useEffect, useRef } from 'react';
+import { useState, useMemo } from 'react';
 import PageHeader from '../components/PageHeader';
 import { useLang } from '../i18n/LangContext';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FACTS } from '../data/facts';
+import { useCuonToiMuc } from '../hooks/useCuonToiMuc';
 import { byNumber } from '../data/elements';
 import { itemId } from '../lib/itemId';
 
@@ -12,20 +13,10 @@ export default function Facts() {
   const [tag, setTag] = useState<string | null>(null);
 
   // Đến thẳng từ ô tìm kiếm trang chủ: ?item=<mã sinh từ nội dung>.
-  // Xem src/lib/itemId.ts để biết vì sao không dùng số thứ tự.
-  const [params] = useSearchParams();
-  const target = params.get('item');
-  const targetRef = useRef<HTMLDivElement>(null);
+  // Xem src/lib/itemId.ts để biết vì sao không dùng số thứ tự, và
+  // hooks/useCuonToiMuc.ts để biết cách cuộn tới.
+  const { maMuc: target, refMuc: targetRef } = useCuonToiMuc();
 
-  useEffect(() => {
-    // Cuộn TỨC THÌ, không "mượt": danh sách dài mấy nghìn pixel, cuộn mượt vừa
-    // lâu vừa hay bị hụt giữa chừng. Bấm liên kết là phải thấy mục ngay.
-    // Đợi một khung hình cho danh sách vẽ xong rồi mới đo vị trí.
-    const id = requestAnimationFrame(() => {
-      targetRef.current?.scrollIntoView({ block: 'center' });
-    });
-    return () => cancelAnimationFrame(id);
-  }, [target]);
 
   const tags = useMemo(() => [...new Set(FACTS.map((f) => f.tag))], []);
 

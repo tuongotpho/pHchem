@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import Pagination from '../components/Pagination';
@@ -6,6 +6,8 @@ import { itemId } from '../lib/itemId';
 import FormulaText from '../components/FormulaText';
 import { useLang } from '../i18n/LangContext';
 import { REACTIONS, TYPE_META, type Reaction, type ReactionType } from '../data/reactions';
+import { useMucTheoDiaChi } from '../hooks/useMucTheoDiaChi';
+import { useKhungNoi } from '../hooks/useKhungNoi';
 import { speciesOf } from '../lib/reaction';
 import { elementsOf } from '../lib/compoundIndex';
 import { reactionsForElement, khopTuKhoa } from '../lib/reactionIndex';
@@ -41,37 +43,22 @@ function EquationText({ eq, className = '' }: { eq: string; className?: string }
 export default function Reactions() {
   const { t, lang } = useLang();
   const [params] = useSearchParams();
-  const [q, setQ] = useState(params.get('q') ?? '');
   const [loai, setLoai] = useState<ReactionType | 'all'>('all');
-  const [page, setPage] = useState(1);
   // Đến thẳng từ ô tìm kiếm: ?item=<mã phương trình> thì mở sẵn khung chi tiết,
-  // khỏi phải lần qua từng trang trong 133 phản ứng.
-  const phanUngTuDiaChi = (ma: string | null) =>
-    ma ? (REACTIONS.find((r) => itemId(r.eq) === ma) ?? null) : null;
-  const [sel, setSel] = useState<Reaction | null>(() => phanUngTuDiaChi(params.get('item')));
+  // khỏi phải lần qua từng trang trong 224 phản ứng.
+  // Toàn bộ việc bám theo địa chỉ nằm ở hooks/useMucTheoDiaChi.ts.
+  const {
+    q,
+    setQ,
+    muc: sel,
+    setMuc: setSel,
+    trang: page,
+    setTrang: setPage,
+  } = useMucTheoDiaChi<Reaction>((ma) =>
+    ma ? (REACTIONS.find((r) => itemId(r.eq) === ma) ?? null) : null,
+  );
 
-  // Bám theo địa chỉ khi nó đổi mà trang KHÔNG dựng lại — ví dụ đang ở trang
-  // Phản ứng rồi bấm Ctrl+K chọn phản ứng khác. Xem chú thích cùng chỗ ở
-  // Formulas.tsx để biết vì sao không dùng useEffect.
-  const qDiaChi = params.get('q');
-  const itemDiaChi = params.get('item');
-  const [diaChiTruoc, setDiaChiTruoc] = useState({ q: qDiaChi, item: itemDiaChi });
-  if (diaChiTruoc.q !== qDiaChi || diaChiTruoc.item !== itemDiaChi) {
-    setDiaChiTruoc({ q: qDiaChi, item: itemDiaChi });
-    if (qDiaChi !== null) setQ(qDiaChi);
-    if (diaChiTruoc.item !== itemDiaChi) setSel(phanUngTuDiaChi(itemDiaChi));
-    setPage(1);
-  }
-
-  // Đóng modal bằng Esc
-  useEffect(() => {
-    if (!sel) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSel(null);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [sel]);
+  useKhungNoi(sel !== null, () => setSel(null));
 
   // Lọc theo nguyên tố khi đi từ trang nguyên tố sang (?el=26)
   const elParam = params.get('el');

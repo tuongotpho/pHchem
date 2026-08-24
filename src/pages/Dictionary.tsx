@@ -1,8 +1,8 @@
-import { useState, useMemo, useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useState, useMemo } from 'react';
 import PageHeader from '../components/PageHeader';
 import { useLang } from '../i18n/LangContext';
 import { TERMS, type Term } from '../data/dictionary';
+import { useCuonToiMuc } from '../hooks/useCuonToiMuc';
 import { Link } from 'react-router-dom';
 import { keyOf } from '../data/formulas';
 import { noiDungChoThuatNgu } from '../lib/classIndex';
@@ -26,23 +26,11 @@ export default function Dictionary() {
 
   // Đến thẳng từ ô tìm kiếm trang chủ: ?item=<tên tiếng Anh của thuật ngữ>.
   // Không lọc bớt danh sách — vẫn hiện đủ để người dùng thấy ngữ cảnh xung
-  // quanh, chỉ cuộn tới và tô viền mục cần tìm.
-  const [params] = useSearchParams();
-  const target = params.get('item');
+  // quanh, chỉ cuộn tới và tô viền mục cần tìm. Xem hooks/useCuonToiMuc.ts.
+  const { maMuc: target, refMuc: targetRef } = useCuonToiMuc();
   // Thuật ngữ đang mở để học: bấm vào một định nghĩa là bày ra luôn cả loạt
   // chất và nguyên tố thuộc nhóm đó, khỏi phải tự đi tra từng cái.
   const [mo, setMo] = useState<Term | null>(null);
-  const targetRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Cuộn TỨC THÌ, không "mượt": danh sách dài mấy nghìn pixel, cuộn mượt vừa
-    // lâu vừa hay bị hụt giữa chừng. Bấm liên kết là phải thấy mục ngay.
-    // Đợi một khung hình cho danh sách vẽ xong rồi mới đo vị trí.
-    const id = requestAnimationFrame(() => {
-      targetRef.current?.scrollIntoView({ block: 'center' });
-    });
-    return () => cancelAnimationFrame(id);
-  }, [target]);
 
   // Sắp xếp theo bảng chữ cái của ngôn ngữ đang chọn
   const sorted = useMemo(
