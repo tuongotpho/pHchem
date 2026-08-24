@@ -54,7 +54,12 @@ const RAW: Row[] = [
   [15, 'P', 'Phosphorus', 'Photpho', 30.974, 'nonmetal', 15, 3, '[Ne] 3s2 3p3'],
   [16, 'S', 'Sulfur', 'Lưu huỳnh', 32.06, 'nonmetal', 16, 3, '[Ne] 3s2 3p4'],
   [17, 'Cl', 'Chlorine', 'Clo', 35.45, 'halogen', 17, 3, '[Ne] 3s2 3p5'],
-  [18, 'Ar', 'Argon', 'Argon', 39.948, 'noble', 18, 3, '[Ne] 3s2 3p6'],
+  // Argon: 39,95 chứ KHÔNG phải 39,948. Từ 2017 IUPAC không còn cho argon một
+  // con số nữa mà cho hẳn một KHOẢNG [39,792 ; 39,963] — thành phần đồng vị
+  // của argon thay đổi theo nguồn gốc mẫu vật (kali-40 phân rã thành argon-40).
+  // 39,95 là giá trị quy ước dùng cho dạy học và thương mại. Số 39,948 là
+  // khuyến nghị từ năm 1979, đã lạc hậu gần nửa thế kỷ.
+  [18, 'Ar', 'Argon', 'Argon', 39.95, 'noble', 18, 3, '[Ne] 3s2 3p6'],
   [19, 'K', 'Potassium', 'Kali', 39.098, 'alkali', 1, 4, '[Ar] 4s1'],
   [20, 'Ca', 'Calcium', 'Canxi', 40.078, 'alkaline', 2, 4, '[Ar] 4s2'],
   [21, 'Sc', 'Scandium', 'Scandi', 44.956, 'transition', 3, 4, '[Ar] 3d1 4s2'],
@@ -76,7 +81,10 @@ const RAW: Row[] = [
   [37, 'Rb', 'Rubidium', 'Rubidi', 85.468, 'alkali', 1, 5, '[Kr] 5s1'],
   [38, 'Sr', 'Strontium', 'Stronti', 87.62, 'alkaline', 2, 5, '[Kr] 5s2'],
   [39, 'Y', 'Yttrium', 'Ytri', 88.906, 'transition', 3, 5, '[Kr] 4d1 5s2'],
-  [40, 'Zr', 'Zirconium', 'Ziriconi', 91.224, 'transition', 4, 5, '[Kr] 4d2 5s2'],
+  // Ziriconi: IUPAC sửa thành 91,222 ± 0,003 vào năm 2024 (trước đó là 91,22
+  // suốt từ 1931). Đây đúng loại lỗi mà chỉ đối chiếu nguồn ngoài mới bắt được:
+  // con số cũ không sai về logic, chỉ là đã bị thay.
+  [40, 'Zr', 'Zirconium', 'Ziriconi', 91.222, 'transition', 4, 5, '[Kr] 4d2 5s2'],
   [41, 'Nb', 'Niobium', 'Niobi', 92.906, 'transition', 5, 5, '[Kr] 4d4 5s1'],
   [42, 'Mo', 'Molybdenum', 'Molypden', 95.95, 'transition', 6, 5, '[Kr] 4d5 5s1'],
   [43, 'Tc', 'Technetium', 'Techneti', 98, 'transition', 7, 5, '[Kr] 4d5 5s2'],
