@@ -101,11 +101,6 @@ export const STRINGS = {
   settings_theme: { vi: 'Giao diện', en: 'Theme' },
   settings_dark: { vi: 'Tối', en: 'Dark' },
   settings_light: { vi: 'Sáng', en: 'Light' },
-  settings_about: { vi: 'Giới thiệu', en: 'About' },
-  settings_about_text: {
-    vi: 'Chạy hoàn toàn offline. Không quảng cáo, không theo dõi.',
-    en: 'Runs fully offline. No ads, no tracking.',
-  },
 } as const;
 
 export type StringKey = keyof typeof STRINGS;

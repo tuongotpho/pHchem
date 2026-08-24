@@ -9,7 +9,11 @@ import { CATIONS, ANIONS } from '../data/solubility';
 import { STRUCTURE_COUNT } from '../generated/structures';
 import TaiHinhNgoaiTuyen from '../components/TaiHinhNgoaiTuyen';
 
-const VERSION = '0.4';
+const VERSION = '1.1';
+
+// Năm bản quyền lấy theo đồng hồ máy chứ không gõ cứng — gõ cứng thì sang năm
+// là lạc hậu mà chẳng ai để ý.
+const NAM = new Date().getFullYear();
 
 export default function Settings() {
   const { t, lang } = useLang();
@@ -32,14 +36,14 @@ export default function Settings() {
   const nguyenTac: { tieuDe: string; noiDung: string }[] = vi
     ? [
         {
-          tieuDe: 'Chạy offline, không cần mạng',
+          tieuDe: 'Chạy offline sau khi cài',
           noiDung:
-            'Toàn bộ dữ liệu nằm sẵn trong ứng dụng. Cài về máy rồi thì mất mạng vẫn tra cứu và tính toán bình thường.',
+            'Số liệu — nguyên tố, công thức, phản ứng, thuật ngữ, mẩu thực tiễn — nằm sẵn trong ứng dụng, mất mạng vẫn tra và tính bình thường. Riêng hình cấu tạo tải khi bạn mở xem, để lần cài đầu khỏi nặng; muốn có sẵn đủ thì bấm nút tải cả bộ ở mục phía trên.',
         },
         {
           tieuDe: 'Không quảng cáo, không theo dõi',
           noiDung:
-            'Ứng dụng không gửi bất cứ thông tin gì ra ngoài. Lựa chọn ngôn ngữ và giao diện chỉ lưu trong máy bạn.',
+            'Không có quảng cáo, không có bộ đếm hay công cụ theo dõi nào. Lựa chọn ngôn ngữ và giao diện chỉ lưu trong máy bạn. Ứng dụng chỉ nối mạng để lấy hình cấu tạo lần đầu bạn xem chất đó, ngoài ra không gửi gì đi.',
         },
         {
           tieuDe: 'Máy tự kiểm số liệu, không tin vào mắt người',
@@ -64,12 +68,14 @@ export default function Settings() {
       ]
     : [
         {
-          tieuDe: 'Works offline',
-          noiDung: 'All data ships inside the app. Once installed it works with no network.',
+          tieuDe: 'Works offline once installed',
+          noiDung:
+            'The data — elements, formulas, reactions, terms, real-world notes — ships inside the app and keeps working with no network. Structure images load when you open them, to keep the install small; the section above downloads the whole set in advance if you want it.',
         },
         {
           tieuDe: 'No ads, no tracking',
-          noiDung: 'Nothing leaves your device. Language and theme are stored locally.',
+          noiDung:
+            'No ads, no analytics, no trackers. Language and theme stay on your device. The only network request is fetching a structure image the first time you view that compound.',
         },
         {
           tieuDe: 'Data checked by machine, not by eye',
@@ -204,14 +210,7 @@ export default function Settings() {
             <span className="mx-2 text-base-700">·</span>
             {vi ? 'Miễn phí, không quảng cáo' : 'Free, no ads'}
           </span>
-          <a
-            href="https://github.com/tuongotpho/pHchem"
-            target="_blank"
-            rel="noreferrer"
-            className="text-accent hover:underline"
-          >
-            {vi ? 'Mã nguồn trên GitHub' : 'Source on GitHub'}
-          </a>
+          <span className="text-slate-500">© {NAM} August87</span>
         </div>
       </div>
     </>
