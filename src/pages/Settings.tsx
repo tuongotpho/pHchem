@@ -53,7 +53,7 @@ export default function Settings() {
         {
           tieuDe: 'Đối chiếu với cơ sở dữ liệu quốc tế',
           noiDung:
-            'Chất có tâm bất đối được so mã InChI với PubChem của Viện Y tế Quốc gia Mỹ — vẽ nhầm chiều xoay một tâm là bộ kiểm báo ngay. Khối lượng nguyên tử của cả 118 nguyên tố so với bảng chính thức của IUPAC; lần đầu bật phép kiểm này đã lòi ra hai số lạc hậu (argon và ziriconi) và đã sửa.',
+            'Chất có tâm bất đối được so mã InChI với PubChem của Viện Y tế Quốc gia Mỹ — vẽ nhầm chiều xoay một tâm là bộ kiểm báo ngay. Khối lượng nguyên tử so với bảng chính thức của IUPAC, nhiệt độ nóng chảy và sôi so với PubChem. Bật hai phép kiểm này đã lòi ra năm con số lạc hậu — argon, ziriconi, nhôm sôi, bari sôi, iridi nóng chảy — và đã sửa cả năm.',
         },
         {
           tieuDe: 'Không có số liệu là để trống, không đoán',
@@ -85,7 +85,7 @@ export default function Settings() {
         {
           tieuDe: 'Checked against international databases',
           noiDung:
-            'Every compound with a stereocentre has its InChI matched against PubChem. Every atomic weight is matched against the official IUPAC table — switching that check on found two outdated values (argon and zirconium), now fixed.',
+            'Every compound with a stereocentre has its InChI matched against PubChem. Atomic weights are matched against the official IUPAC table and melting/boiling points against PubChem — switching these checks on found five outdated values (argon, zirconium, aluminium and barium boiling points, iridium melting point), all now fixed.',
         },
         {
           tieuDe: 'Missing data is left blank, never guessed',
@@ -101,13 +101,13 @@ export default function Settings() {
 
   const canBiet: string[] = vi
     ? [
-        'Khối lượng nguyên tử được đối chiếu tự động với bảng chính thức của IUPAC (CIAAW, bản 2021 kèm hiệu chỉnh 2024) mỗi lần dựng ứng dụng. Các số còn lại — nhiệt độ nóng chảy, nhiệt độ sôi, khối lượng riêng, độ âm điện — vẫn lấy từ bảng tra chuẩn phổ thông, chưa nhập từ một bộ dữ liệu có tên, nên không ghi nguồn cho từng giá trị.',
+        'Khối lượng nguyên tử đối chiếu với bảng chính thức của IUPAC; nhiệt độ nóng chảy và nhiệt độ sôi đối chiếu với PubChem của Viện Y tế Quốc gia Mỹ — cả hai chạy tự động mỗi lần dựng ứng dụng. Riêng nhiệt độ thì các sổ tay uy tín vốn đã chênh nhau, nên phép kiểm đặt ngưỡng 5 °C và có tám chỗ ghi rõ lý do khác biệt. Khối lượng riêng và độ âm điện thì vẫn lấy từ bảng tra phổ thông, chưa có nguồn có tên.',
         'Hình cấu tạo vẽ theo khung phẳng chuẩn quốc tế. Nhóm đường như glucozơ chưa vẽ theo kiểu Haworth quen thuộc trong sách giáo khoa Việt Nam.',
         'Polime chỉ vẽ được một mắt xích, hai đầu để hở cho thấy mạch còn nối tiếp, không phải công thức của cả phân tử.',
         'Tính pH mới xét axit và bazơ đơn thuần, chưa tính dung dịch đệm hay muối thủy phân.',
       ]
     : [
-        'Atomic weights are checked automatically against the official IUPAC table (CIAAW, 2021 edition with 2024 revisions) on every build. The remaining numbers — melting and boiling points, density, electronegativity — still come from standard reference tables with no named dataset behind them, so those values carry no citation.',
+        'Atomic weights are checked against the official IUPAC table and melting/boiling points against PubChem (US National Institutes of Health), both on every build. Reputable handbooks genuinely disagree on temperatures, so that check uses a 5 °C threshold with eight documented exceptions. Density and electronegativity still come from general reference tables with no named source.',
         'Structures use the international flat layout. Sugars such as glucose are not drawn in the Haworth projection.',
         'Polymers show one repeating unit with open ends, not a whole-molecule formula.',
         'The pH tool covers plain acids and bases only, not buffers or salt hydrolysis.',

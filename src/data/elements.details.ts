@@ -47,7 +47,9 @@ const ROWS: Row[] = [
   [10, -248.59, -246.05, 0.0008999, null, 1898, 'g', 'Đèn quảng cáo neon', 'Neon signs'],
   [11, 97.79, 883, 0.968, 0.93, 1807, 's', 'Muối ăn, đèn hơi natri', 'Table salt, sodium lamps'],
   [12, 650, 1090, 1.738, 1.31, 1755, 's', 'Hợp kim nhẹ, pháo sáng', 'Light alloys, flares'],
-  [13, 660.32, 2470, 2.7, 1.61, 1825, 's', 'Vỏ lon, khung cửa, máy bay', 'Cans, window frames, aircraft'],
+  // Nhôm sôi ở 2519 °C, không phải 2470. 2470 là con số cũ; PubChem và bảng
+  // của CRC (qua Wikipedia) đều cho 2792 K = 2518,85 °C.
+  [13, 660.32, 2519, 2.7, 1.61, 1825, 's', 'Vỏ lon, khung cửa, máy bay', 'Cans, window frames, aircraft'],
   [14, 1414, 3265, 2.3296, 1.9, 1824, 's', 'Chip máy tính, pin mặt trời, thủy tinh', 'Computer chips, solar cells, glass'],
   [15, 44.15, 280.5, 1.823, 2.19, 1669, 's', 'Phân lân, diêm, chất tẩy rửa', 'Fertilizer, matches, detergents'],
   [16, 115.21, 444.6, 2.07, 2.58, 0, 's', 'Axit sunfuric, lưu hóa cao su', 'Sulfuric acid, rubber vulcanization'],
@@ -90,7 +92,8 @@ const ROWS: Row[] = [
   [53, 113.7, 184.3, 4.933, 2.66, 1811, 's', 'Sát trùng, muối iot, thuốc cản quang', 'Antiseptic, iodized salt, contrast media'],
   [54, -111.75, -108.12, 0.005887, 2.6, 1898, 'g', 'Đèn pha xenon, thuốc gây mê', 'Xenon lamps, anaesthesia'],
   [55, 28.44, 671, 1.93, 0.79, 1860, 's', 'Đồng hồ nguyên tử định nghĩa giây', 'Atomic clocks defining the second'],
-  [56, 727, 1845, 3.51, 0.89, 1808, 's', 'Thuốc cản quang X-quang, pháo hoa lục', 'X-ray contrast media, green fireworks'],
+  // Bari sôi ở 1897 °C, không phải 1845. Hai nguồn độc lập cùng cho 2170 K.
+  [56, 727, 1897, 3.51, 0.89, 1808, 's', 'Thuốc cản quang X-quang, pháo hoa lục', 'X-ray contrast media, green fireworks'],
   [57, 920, 3464, 6.162, 1.1, 1839, 's', 'Thấu kính máy ảnh, pin NiMH', 'Camera lenses, NiMH batteries'],
   [58, 795, 3443, 6.77, 1.12, 1803, 's', 'Đá lửa bật lửa, chất xúc tác', 'Lighter flints, catalysts'],
   [59, 935, 3520, 6.77, 1.13, 1885, 's', 'Nam châm mạnh, kính bảo hộ thợ hàn', 'Strong magnets, welding goggles'],
@@ -111,7 +114,8 @@ const ROWS: Row[] = [
   [74, 3422, 5555, 19.25, 2.36, 1783, 's', 'Dây tóc bóng đèn, mũi khoan cứng', 'Lamp filaments, hard drill bits'],
   [75, 3186, 5596, 21.02, 1.9, 1925, 's', 'Động cơ phản lực, xúc tác lọc dầu', 'Jet engines, refinery catalysts'],
   [76, 3033, 5012, 22.59, 2.2, 1803, 's', 'Đầu bút máy, tiếp điểm chịu mài mòn', 'Pen nibs, wear-resistant contacts'],
-  [77, 2466, 4428, 22.56, 2.2, 1803, 's', 'Bugi đánh lửa, nồi nấu nhiệt độ cao', 'Spark plugs, high-temperature crucibles'],
+  // Iridi nóng chảy ở 2446 °C, không phải 2466 — hai nguồn cùng cho 2719 K.
+  [77, 2446, 4428, 22.56, 2.2, 1803, 's', 'Bugi đánh lửa, nồi nấu nhiệt độ cao', 'Spark plugs, high-temperature crucibles'],
   [78, 1768.3, 3825, 21.45, 2.28, 1735, 's', 'Chất xúc tác, trang sức, điện cực', 'Catalysts, jewellery, electrodes'],
   [79, 1064.18, 2856, 19.3, 2.54, 0, 's', 'Trang sức, tiếp điểm điện tử, dự trữ quốc gia', 'Jewellery, electronics, national reserves'],
   [80, -38.83, 356.73, 13.534, 2.0, 0, 'l', 'Nhiệt kế cũ, đèn huỳnh quang', 'Old thermometers, fluorescent lamps'],
