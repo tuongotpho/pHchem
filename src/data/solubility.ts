@@ -116,9 +116,13 @@ export const SOLUB_META: Record<
 export interface MauKetTua {
   vi: string;
   en: string;
-  /** Mã màu để vẽ chấm mẫu. Dùng mã tuyệt đối chứ KHÔNG dùng biến giao diện:
+  /** Mã màu để vẽ ô mẫu. Dùng mã tuyệt đối chứ KHÔNG dùng biến giao diện:
    *  đây là màu THẬT của chất, không được đổi theo nền sáng/tối. */
   css: string;
+  /** Màu này SUY RA từ tính chất ion, chưa tra được nguồn mô tả chất đó.
+   *  Giao diện phải ghi rõ "(suy luận)" — người dùng có quyền biết con số nào
+   *  là đọc được ở đâu đó, con số nào là mình luận ra. */
+  suyLuan?: true;
 }
 
 const TRANG = '#eef2f6';
@@ -194,6 +198,33 @@ export const MAU_KET_TUA: Record<string, MauKetTua> = {
   // dark blue… with oxidation". Kết tủa mới tạo thì gần như không màu; để ngoài
   // không khí mới chuyển xanh đậm rồi đen. Ghi màu lúc mới tạo.
   'Fe3(PO4)2': { vi: 'trắng lục nhạt', en: 'white to pale green', css: '#dcecdd' },
+
+  // --- SUY LUẬN, không tra được nguồn mô tả trực tiếp ---
+  //
+  // CĂN CỨ: cả cation lẫn anion ở đây đều KHÔNG MÀU — Mg²⁺, Ba²⁺, Zn²⁺, Al³⁺,
+  // Pb²⁺ đều không có electron d chưa bão hòa nên không hấp thụ ánh sáng nhìn
+  // thấy; gốc SO₃²⁻ và SiO₃²⁻ cũng vậy. Hợp chất của chúng gần như chắc chắn
+  // trắng. Đây cũng là điều tài liệu phân tích định tính nói chung: chỉ Fe²⁺,
+  // Fe³⁺, Cu²⁺ cho kết tủa có màu, còn lại đều trắng.
+  //
+  // CỐ Ý KHÔNG SUY CHO NĂM CHẤT mang ion Cu²⁺ hoặc Fe²⁺/Fe³⁺ — CuSO3, CuSiO3,
+  // FeSO3, FeSiO3, Fe2(SiO3)3. Chính mấy ion ấy là ngoại lệ của quy tắc trên,
+  // đoán trắng là gần như chắc sai. Chúng vẫn hiện "màu: chưa tra".
+  //
+  // VÀ KHÔNG SUY CHO Ag2SiO3, dù Ag⁺ không màu: ngay trong bảng này Ag2CO3 đã
+  // vàng nhạt và Ag3PO4 đã vàng. Bạc có nếp cho muối ngả vàng với gốc axit
+  // lớn, nên suy nó trắng là lặp lại đúng cái sai vừa mắc.
+  H2SiO3: { vi: 'keo trắng', en: 'gelatinous white', css: TRANG, suyLuan: true },
+  'Mg3(PO4)2': { vi: 'trắng', en: 'white', css: TRANG, suyLuan: true },
+  MgSO3: { vi: 'trắng', en: 'white', css: TRANG, suyLuan: true },
+  MgSiO3: { vi: 'trắng', en: 'white', css: TRANG, suyLuan: true },
+  'Ba3(PO4)2': { vi: 'trắng', en: 'white', css: TRANG, suyLuan: true },
+  BaSiO3: { vi: 'trắng', en: 'white', css: TRANG, suyLuan: true },
+  ZnSO3: { vi: 'trắng', en: 'white', css: TRANG, suyLuan: true },
+  ZnSiO3: { vi: 'trắng', en: 'white', css: TRANG, suyLuan: true },
+  'Al2(SiO3)3': { vi: 'trắng', en: 'white', css: TRANG, suyLuan: true },
+  PbSO3: { vi: 'trắng', en: 'white', css: TRANG, suyLuan: true },
+  PbSiO3: { vi: 'trắng', en: 'white', css: TRANG, suyLuan: true },
 
   // --- Chất màu nổi bật khác ---
   PbI2: { vi: 'vàng', en: 'bright yellow', css: VANG }, // ✓ "bright yellow powder"

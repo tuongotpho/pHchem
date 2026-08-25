@@ -162,3 +162,43 @@ describe('màu chữ đặt trên ô màu kết tủa', () => {
     expect(chuTrenNen('')).toBe('#0f172a');
   });
 });
+
+describe('màu SUY LUẬN — ranh giới với màu tra được', () => {
+  it('KHÔNG được suy luận cho chất mang ion có màu', () => {
+    // Đây là chốt quan trọng nhất của cả bộ dữ liệu màu. Quy tắc "cation không
+    // màu thì kết tủa trắng" chỉ đúng khi cation THẬT SỰ không màu. Cu²⁺,
+    // Fe²⁺, Fe³⁺ là ngoại lệ kinh điển — suy trắng cho chúng là chắc sai.
+    const pham: string[] = [];
+    for (const [ct, m] of Object.entries(MAU_KET_TUA)) {
+      if (!m.suyLuan) continue;
+      if (/^(Cu|Fe)\d*[A-Z(]/.test(ct) || ct.startsWith('Cu') || ct.startsWith('Fe')) {
+        pham.push(`${ct}: mang ion có màu mà lại suy luận — phải tra nguồn thật`);
+      }
+      // Bạc cũng cấm: Ag2CO3 vàng nhạt và Ag3PO4 vàng đã chứng minh Ag⁺ không
+      // đi kèm "kết tủa trắng" một cách đáng tin.
+      if (ct.startsWith('Ag')) {
+        pham.push(`${ct}: muối bạc hay ngả vàng, không được suy luận`);
+      }
+    }
+    expect(pham).toEqual([]);
+  });
+
+  it('màu suy luận phải là trắng — suy ra một màu cụ thể là quá tay', () => {
+    // Luận "ion không màu thì hợp chất trắng" thì chỉ tới được màu trắng.
+    // Suy ra vàng hay xanh nghĩa là đang đoán, không phải đang luận.
+    const qua: string[] = [];
+    for (const [ct, m] of Object.entries(MAU_KET_TUA)) {
+      if (m.suyLuan && !/trắng/.test(m.vi)) qua.push(`${ct}: ${m.vi}`);
+    }
+    expect(qua).toEqual([]);
+  });
+
+  it('đếm được rõ ràng: bao nhiêu tra được, bao nhiêu suy luận', () => {
+    const tong = Object.keys(MAU_KET_TUA).length;
+    const suyLuan = Object.values(MAU_KET_TUA).filter((m) => m.suyLuan).length;
+    // Con số này đổi thì phải đổi có ý thức, không trôi dần theo thời gian.
+    expect(tong).toBe(55);
+    expect(suyLuan).toBe(11);
+    expect(tong - suyLuan).toBe(44);
+  });
+});

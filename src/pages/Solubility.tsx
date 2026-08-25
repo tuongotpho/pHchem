@@ -180,15 +180,25 @@ export default function Solubility() {
                 // nên đọc liền một mạch "không tan — màu nâu đỏ".
                 // Màu chữ TÍNH theo độ sáng nền, xem chuTrenNen(): nền đen mà
                 // chữ đen thì mất hút. Viền mờ để ô trắng không lẫn vào nền.
-                <span
-                  className="inline-block px-3 py-1 rounded-lg text-sm font-medium border border-slate-400/40"
-                  style={{
-                    backgroundColor: mau.css,
-                    color: chuTrenNen(mau.css),
-                  }}
-                >
-                  {lang === 'vi' ? mau.vi : mau.en}
-                </span>
+                <>
+                  <span
+                    className="inline-block px-3 py-1 rounded-lg text-sm font-medium border border-slate-400/40"
+                    style={{
+                      backgroundColor: mau.css,
+                      color: chuTrenNen(mau.css),
+                    }}
+                  >
+                    {lang === 'vi' ? mau.vi : mau.en}
+                  </span>
+                  {/* Nói rõ màu nào là ĐỌC ĐƯỢC ở đâu đó, màu nào là mình
+                      LUẬN RA từ tính chất ion. Người học có quyền biết mức tin
+                      cậy khác nhau, nhất là khi đem đi dạy. */}
+                  {mau.suyLuan && (
+                    <span className="text-xs text-slate-500 italic">
+                      {lang === 'vi' ? '(suy luận)' : '(inferred)'}
+                    </span>
+                  )}
+                </>
               ) : (
                 // KHÔNG ĐƯỢC IM LẶNG. Mọi kết tủa đều có màu — chất rắn không
                 // thể "không màu". Bỏ trống mà không nói gì thì người dùng hiểu
