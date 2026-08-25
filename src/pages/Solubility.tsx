@@ -14,6 +14,7 @@ import {
   buildFormula,
   type Solub,
   mauKetTua,
+  chuTrenNen,
 } from '../data/solubility';
 
 export default function Solubility() {
@@ -35,8 +36,8 @@ export default function Solubility() {
   const structKey = inLib ? keyOf(inLib) : formula;
   // Màu chỉ có nghĩa khi chất thật sự tách ra khỏi dung dịch. Ô "ít tan" cũng
   // cho kết tủa nên vẫn hiện màu; ô "tan" hay "không tồn tại" thì không.
-  const mau =
-    cell === 'I' || cell === 'IT' ? mauKetTua(formula) : null;
+  const laKetTua = cell === 'I' || cell === 'IT';
+  const mau = laKetTua ? mauKetTua(formula) : null;
   const showStruct = !!formula && hasStructure(structKey);
 
   // Hình tải riêng một file, chỉ khi ô đang mở có hình — xem hooks/useHinhCauTao.ts.
@@ -172,18 +173,31 @@ export default function Solubility() {
                   ? SOLUB_META[cell].vi
                   : SOLUB_META[cell].en}
             </div>
-            {mau && (
-              <span className="inline-flex items-center gap-1.5 text-sm text-slate-300">
+            {laKetTua &&
+              (mau ? (
+                // Ô MÀU BAO QUANH CHỮ, không phải chấm nhỏ bên cạnh: nhìn phát
+                // thấy ngay màu kết tủa, và nằm cùng hàng với nhãn "Không tan"
+                // nên đọc liền một mạch "không tan — màu nâu đỏ".
+                // Màu chữ TÍNH theo độ sáng nền, xem chuTrenNen(): nền đen mà
+                // chữ đen thì mất hút. Viền mờ để ô trắng không lẫn vào nền.
                 <span
-                  // Viền là bắt buộc: kết tủa trắng trên nền sáng mà không có
-                  // viền thì mất hút, người dùng tưởng thiếu chấm màu.
-                  className="w-3.5 h-3.5 rounded-full border border-slate-400/60"
-                  style={{ backgroundColor: mau.css }}
-                  aria-hidden
-                />
-                {lang === 'vi' ? mau.vi : mau.en}
-              </span>
-            )}
+                  className="inline-block px-3 py-1 rounded-lg text-sm font-medium border border-slate-400/40"
+                  style={{
+                    backgroundColor: mau.css,
+                    color: chuTrenNen(mau.css),
+                  }}
+                >
+                  {lang === 'vi' ? mau.vi : mau.en}
+                </span>
+              ) : (
+                // KHÔNG ĐƯỢC IM LẶNG. Mọi kết tủa đều có màu — chất rắn không
+                // thể "không màu". Bỏ trống mà không nói gì thì người dùng hiểu
+                // thành "chất này không màu", tức app nói sai. Nói thẳng là
+                // chưa tra.
+                <span className="text-xs text-slate-500 italic">
+                  {lang === 'vi' ? 'màu: chưa tra' : 'colour: not yet checked'}
+                </span>
+              ))}
             </div>
 
             {cell === 'I' && (

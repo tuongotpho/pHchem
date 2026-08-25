@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { CATIONS, ANIONS, MATRIX, buildFormula, MAU_KET_TUA, mauKetTua } from './solubility';
+import {
+  CATIONS,
+  ANIONS,
+  MATRIX,
+  buildFormula,
+  MAU_KET_TUA,
+  mauKetTua,
+  chuTrenNen,
+} from './solubility';
 
 const cat = (a: string) => CATIONS.find((c) => c.ascii === a)!;
 const an = (a: string) => ANIONS.find((c) => c.ascii === a)!;
@@ -115,5 +123,42 @@ describe('màu kết tủa', () => {
     for (const ct of ['NaCl', 'KNO3', 'Na2CO3', 'NH4Cl']) {
       expect(mauKetTua(ct)).toBeNull();
     }
+  });
+});
+
+describe('màu chữ đặt trên ô màu kết tủa', () => {
+  it('nền tối thì chữ sáng, nền sáng thì chữ tối', () => {
+    expect(chuTrenNen('#1c1917')).toBe('#f8fafc'); // đen  -> chữ sáng
+    expect(chuTrenNen('#eef2f6')).toBe('#0f172a'); // trắng -> chữ tối
+    expect(chuTrenNen('#facc15')).toBe('#0f172a'); // vàng  -> chữ tối
+    expect(chuTrenNen('#a3541f')).toBe('#f8fafc'); // nâu đỏ -> chữ sáng
+  });
+
+  it('MỌI màu trong bảng đều đọc được, không ô nào chữ lẫn nền', () => {
+    // Đây là phép kiểm thật sự có ích: thêm một màu mới mà quên nghĩ tới độ
+    // tương phản thì ô đó thành không đọc nổi, mà chạy mắt thường khó thấy.
+    const kho: string[] = [];
+    for (const [ct, m] of Object.entries(MAU_KET_TUA)) {
+      const chu = chuTrenNen(m.css);
+      const sang = (hex: string) => {
+        const n = parseInt(hex.slice(1), 16);
+        return (
+          (0.299 * ((n >> 16) & 255) +
+            0.587 * ((n >> 8) & 255) +
+            0.114 * (n & 255)) /
+          255
+        );
+      };
+      // Chênh lệch độ sáng giữa chữ và nền phải đủ lớn để đọc được.
+      if (Math.abs(sang(m.css) - sang(chu)) < 0.4) {
+        kho.push(`${ct}: nền ${m.css} với chữ ${chu} — tương phản quá thấp`);
+      }
+    }
+    expect(kho).toEqual([]);
+  });
+
+  it('mã màu hỏng thì trả về chữ tối chứ không nổ', () => {
+    expect(chuTrenNen('linh tinh')).toBe('#0f172a');
+    expect(chuTrenNen('')).toBe('#0f172a');
   });
 });

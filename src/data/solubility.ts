@@ -93,14 +93,19 @@ export const SOLUB_META: Record<
 // người ta thật sự nhìn thấy là MÀU của kết tủa — đó mới là cái để nhận biết
 // chất. Thêm màu vào đây là biến bảng tra thành công cụ nhận biết.
 //
-// CHỈ ĐIỀN NHỮNG CHẤT CHẮC CHẮN. Trong 61 ô kết tủa/ít tan của bảng, phần lớn
-// silicat và sunfit của kim loại ít gặp thì các nguồn không thống nhất màu,
-// mà cũng chẳng phải chất dùng để nhận biết. Chỗ nào chưa chắc thì BỎ TRỐNG —
-// giao diện tự ẩn dòng màu đi, chứ không đoán bừa. Cùng nguyên tắc với dữ liệu
-// nguyên tố: không đo được thì để trống.
+// MỌI KẾT TỦA ĐỀU CÓ MÀU — chất rắn không thể "không màu". Phần lớn kết tủa là
+// màu TRẮNG, và trắng cũng là một màu. Nên ô trống trong bảng dưới đây nghĩa là
+// "TÔI CHƯA XÁC MINH", KHÔNG phải "chất này không có màu". Giao diện phải nói
+// rõ điều đó ra, không được lặng lẽ bỏ qua — người dùng sẽ hiểu thành nghĩa
+// thứ hai. (Đúng chỗ này người dùng đã bắt lỗi: "kết tủa mà không có màu à?")
 //
-// ĐỐI CHỨNG (tra ngày 25/08/2026): mười chất đánh dấu ✓ đã so với nguồn ngoài
-// — Wikipedia "Qualitative inorganic analysis" và ô thông tin từng hợp chất.
+// VÀ KHÔNG ĐƯỢC ĐIỀN BỪA "TRẮNG" CHO HẾT. Đã suýt làm vậy, rồi tra ra bốn chất
+// hoàn toàn không trắng: Ag2CO3 vàng nhạt, FePO4 vàng nâu, CuCO3 xanh lục,
+// Cu3(PO4)2 xanh lam lục. Đoán theo lối "muối của ion không màu thì trắng" là
+// sai với đúng những chất đáng chú ý nhất.
+//
+// ĐỐI CHỨNG (tra ngày 25/08/2026): chất đánh dấu ✓ đã so với nguồn ngoài —
+// Wikipedia "Qualitative inorganic analysis" và ô thông tin từng hợp chất.
 // Số còn lại là kiến thức nhận biết chuẩn của SGK Hóa học phổ thông.
 
 // CHỈ MÀU, KHÔNG KÈM CÂU CHỮ. Ban đầu tôi có thêm trường ghi chú kiểu "để
@@ -159,6 +164,25 @@ export const MAU_KET_TUA: Record<string, MauKetTua> = {
   PbBr2: { vi: 'trắng', en: 'white', css: TRANG },
   'Ca3(PO4)2': { vi: 'trắng', en: 'white', css: TRANG },
 
+  // --- Cacbonat: bổ sung sau khi người dùng hỏi "kết tủa mà không có màu à?" ---
+  FeCO3: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "white powder or crystals"
+  MgCO3: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "Colourless crystals or white solid"
+  ZnCO3: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "white solid"
+  PbCO3: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "White powder"
+  Ag2CO3: { vi: 'vàng nhạt', en: 'pale yellow', css: VANG_NHAT }, // ✓ "Pale yellow crystals"
+  // CuCO3 — ✓ "Green or blue powder". Lưu ý cho người dạy: Wikipedia ghi rõ
+  // đồng(II) cacbonat TINH KHIẾT rất khó điều chế; trộn dung dịch trong phòng
+  // thí nghiệm thường ra cacbonat bazơ (malachit) chứ không phải CuCO3 thuần.
+  // Màu xanh lục thì cả hai đều thế nên vẫn để, nhưng đừng dạy như chất dễ có.
+  CuCO3: { vi: 'xanh lục', en: 'green', css: '#22a06b' },
+
+  // --- Bazơ, photphat, sunfit tra bổ sung ---
+  'Ca(OH)2': { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "White powder"
+  FePO4: { vi: 'vàng nâu', en: 'yellow-brown', css: '#b08a2e' }, // ✓ "yellow-brown solid"
+  'Cu3(PO4)2': { vi: 'xanh lam lục', en: 'blue-green', css: '#2a9d8f' }, // ✓ "blue-green"
+  AlPO4: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "White, crystalline powder"
+  CaSO3: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "White solid"
+
   // --- Chất màu nổi bật khác ---
   PbI2: { vi: 'vàng', en: 'bright yellow', css: VANG }, // ✓ "bright yellow powder"
 };
@@ -166,6 +190,29 @@ export const MAU_KET_TUA: Record<string, MauKetTua> = {
 /** Màu kết tủa của một chất, hoặc null nếu chưa có căn cứ chắc chắn. */
 export const mauKetTua = (congThuc: string): MauKetTua | null =>
   MAU_KET_TUA[congThuc] ?? null;
+
+/**
+ * Chọn màu CHỮ cho vừa với nền màu kết tủa: nền tối thì chữ sáng, nền sáng thì
+ * chữ tối.
+ *
+ * VÌ SAO PHẢI TÍNH chứ không đặt cứng: màu kết tủa trải từ trắng (#eef2f6) tới
+ * đen (#1c1917). Đặt cứng một màu chữ thì một nửa số ô không đọc được — ô kết
+ * tủa đen chữ đen là mất hút hoàn toàn.
+ *
+ * Công thức độ sáng tương đối theo trọng số mắt người: mắt nhạy với lục nhất,
+ * lam kém nhất. Nên nền lục sáng cần chữ tối, còn nền lam đậm thì cần chữ sáng,
+ * dù hai màu có cùng độ đậm về mặt số học.
+ */
+export function chuTrenNen(hex: string): string {
+  const m = /^#([0-9a-f]{6})$/i.exec(hex);
+  if (!m) return '#0f172a';
+  const n = parseInt(m[1], 16);
+  const r = (n >> 16) & 255;
+  const g = (n >> 8) & 255;
+  const b = n & 255;
+  const doSang = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return doSang > 0.55 ? '#0f172a' : '#f8fafc';
+}
 
 // ---- Ghép công thức hợp chất từ cation + anion ----
 // Dùng quy tắc hóa trị: nhân chéo điện tích rồi rút gọn.
