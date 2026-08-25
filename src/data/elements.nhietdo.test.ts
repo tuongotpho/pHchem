@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { DETAILS, cacKhoaUocTinh, laUocTinh } from './elements.details';
+import { DETAILS, cacKhoaGhiChu, ghiChuSo } from './elements.details';
 import { ELEMENTS } from './elements';
 
 // ĐỐI CHIẾU NHIỆT ĐỘ NÓNG CHẢY / SÔI VỚI PUBCHEM (Viện Y tế Quốc gia Mỹ).
@@ -216,7 +216,7 @@ describe('nhiệt độ nóng chảy / sôi đối chiếu PubChem', () => {
   // quên gỡ dấu thì dấu treo lơ lửng, không ai biết nó nói về cái gì.
   it('mỗi dấu "ước tính" trỏ tới một giá trị đang có', () => {
     const treo: string[] = [];
-    for (const khoa of cacKhoaUocTinh()) {
+    for (const khoa of cacKhoaGhiChu()) {
       const [z, truong] = khoa.split(':') as [string, 'melt' | 'boil'];
       if (DETAILS[+z]?.[truong] == null) {
         treo.push(`${khoa}: đã đánh dấu ước tính nhưng giá trị đang để trống`);
@@ -227,16 +227,25 @@ describe('nhiệt độ nóng chảy / sôi đối chiếu PubChem', () => {
 
   // Chốt ngược lại: chỗ nào ĐANG để trống thì đừng đánh dấu, và chỗ nào có số
   // thì hoặc là đo được, hoặc phải đánh dấu — không có ô thứ ba lặng lẽ.
-  it('chỉ đánh dấu đúng ba điểm sôi ngoại suy đã tra được nguồn', () => {
-    expect(cacKhoaUocTinh().sort()).toEqual(['89:boil', '91:boil', '93:boil']);
-    // actini, protactini, neptuni — cả ba đều có số, và cả ba đều mang dấu
+  it('chỉ ghi chú đúng những chỗ đã tra được nguồn, và đúng LOẠI', () => {
+    expect(cacKhoaGhiChu().sort()).toEqual([
+      '88:melt',
+      '89:boil',
+      '91:boil',
+      '93:boil',
+    ]);
+    // Ba điểm sôi ngoại suy: actini, protactini, neptuni
     for (const z of [89, 91, 93]) {
       expect(DETAILS[z]?.boil).not.toBeNull();
-      expect(laUocTinh(z, 'boil')).toBe(true);
+      expect(ghiChuSo(z, 'boil')).toBe('uocTinh');
     }
-    // hàng xóm gần nhất KHÔNG mang dấu: radi và curi đều là số đo được
-    expect(laUocTinh(88, 'boil')).toBe(false);
-    expect(laUocTinh(96, 'boil')).toBe(false);
+    // Radi nóng chảy là TRANH CÃI, không phải ước tính — hai chuyện khác nhau,
+    // dán nhầm nhãn là nói sai bản chất với người đọc.
+    expect(DETAILS[88]?.melt).not.toBeNull();
+    expect(ghiChuSo(88, 'melt')).toBe('tranhCai');
+    // Hàng xóm gần nhất phải TRỐNG: radi sôi và curi sôi đều chưa có căn cứ
+    expect(ghiChuSo(88, 'boil')).toBeNull();
+    expect(ghiChuSo(96, 'boil')).toBeNull();
   });
 
   it('chỗ chỉ có giá trị dự đoán thì app để trống, không điền cho đẹp bảng', () => {

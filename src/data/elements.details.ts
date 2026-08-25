@@ -194,21 +194,44 @@ export const DETAILS: Record<number, ElementDetails> = Object.fromEntries(
 //   (Danh sách trên bị phép kiểm khóa đúng ba khóa — xem
 //   elements.nhietdo.test.ts — nên không ai lỡ tay thêm americi vào.)
 //
+// HAI LOẠI GHI CHÚ, cố ý tách bạch — chúng nói hai chuyện khác nhau:
+//   'uocTinh'  — CHƯA AI ĐO ĐƯỢC, con số là ngoại suy. Giới khoa học không
+//                cãi nhau, chỉ là chưa ai làm được phép đo.
+//   'tranhCai' — ĐÃ CÓ NGƯỜI ĐO, nhưng ra hai kết quả khác hẳn nhau và chưa
+//                ngã ngũ. Gộp hai loại này vào một chữ là nói sai bản chất.
+export type LoaiGhiChu = 'uocTinh' | 'tranhCai';
+
+const GHI_CHU_SO: Record<string, LoaiGhiChu> = {
+  '89:boil': 'uocTinh', // actini — Wikipedia: 3500±300 K (extrapolated)
+  '91:boil': 'uocTinh', // protactini — Wikipedia: 4300 K (?)
+  '93:boil': 'uocTinh', // neptuni — Wikipedia: 4447 K (extrapolated)
+
+  // RADI NÓNG CHẢY — Wikipedia ghi "(disputed)" và nói thẳng trong bài:
+  // "Its melting point is either 700 °C or 960 °C", kèm chú thích "there is no
+  // agreement among scientists as to the true value". Hai con số cách nhau
+  // 260 °C, không phải chuyện làm tròn. Bốn nơi tra ngày 25/08/2026:
+  //   app 700 °C · PubChem 973 K = 700 °C · RSC 969 K = 696 °C
+  //   Wikipedia 973 K = 700 °C "(disputed)"
+  // Ba nơi cùng ~700 nên GIỮ 700, nhưng phải nói rõ là còn tranh cãi — thầy
+  // giáo đọc con số trơn sẽ tưởng đó là chuyện đã xong, rồi đem ra ra đề.
+  '88:melt': 'tranhCai',
+};
+
+/** Con số này có ghi chú gì không, và là loại nào? */
+export const ghiChuSo = (
+  n: number,
+  truong: 'melt' | 'boil',
+): LoaiGhiChu | null => GHI_CHU_SO[`${n}:${truong}`] ?? null;
+
+/** Dùng cho phép kiểm: danh sách khóa đã ghi chú. */
+export const cacKhoaGhiChu = (): string[] => Object.keys(GHI_CHU_SO);
+
 // CÒN NGỜ, CỐ Ý CHƯA ĐÁNH DẤU:
-//   - Radi nóng chảy: Wikipedia ghi "(disputed)" — đó là "đang tranh cãi",
-//     khác với "chưa đo được", nên không gộp vào đây.
-const UOC_TINH: ReadonlySet<string> = new Set([
-  '89:boil', // actini — Wikipedia: 3500±300 K (extrapolated)
-  '91:boil', // protactini — Wikipedia: 4300 K (?)
-  '93:boil', // neptuni — Wikipedia: 4447 K (extrapolated)
-]);
-
-/** Giá trị này là ước tính chứ chưa ai đo được? */
-export const laUocTinh = (n: number, truong: 'melt' | 'boil'): boolean =>
-  UOC_TINH.has(`${n}:${truong}`);
-
-/** Dùng cho phép kiểm: danh sách khóa đã đánh dấu. */
-export const cacKhoaUocTinh = (): string[] => [...UOC_TINH];
+//   - Radi SÔI: ba nguồn cho ba số khác hẳn — PubChem 1140 °C, RSC 1500 °C,
+//     Wikipedia 1737 °C (app đang theo Wikipedia). Trải 600 °C, trên thực tế
+//     cũng chẳng khác gì tranh cãi. NHƯNG Wikipedia — nguồn duy nhất có đánh
+//     dấu tranh cãi — lại KHÔNG đánh dấu chỗ này. Không tự dựng ra một cuộc
+//     tranh cãi mà chưa nguồn nào tuyên bố; chờ căn cứ rồi mới đánh dấu.
 
 export const PHASE_META: Record<Phase, { vi: string; en: string; icon: string }> = {
   s: { vi: 'Rắn', en: 'Solid', icon: '🧱' },

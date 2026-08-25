@@ -58,7 +58,7 @@ export default function Settings() {
         {
           tieuDe: 'Không có số liệu là để trống, không đoán',
           noiDung:
-            'Nguyên tố siêu nặng chưa ai đo được thì để dấu gạch ngang, không điền số dự đoán cho đẹp bảng. Vài chỗ mọi bảng tra đều in một con số mà con số ấy thật ra là ngoại suy — nhiệt độ sôi của actini, protactini, neptuni — thì giữ số nhưng ghi kèm chữ "ước tính", để vừa không giấu vừa không mất thông tin.',
+            'Nguyên tố siêu nặng chưa ai đo được thì để dấu gạch ngang, không điền số dự đoán cho đẹp bảng. Chỗ nào có số nhưng chưa chắc thì giữ số và ghi rõ lý do ngay cạnh: "ước tính" cho nhiệt độ sôi của actini, protactini, neptuni (chưa ai đo được, con số là ngoại suy); "đang tranh cãi" cho nhiệt độ nóng chảy của radi (đã đo rồi nhưng ra hai kết quả 700 và 960 °C, giới khoa học chưa ngã ngũ). Hai chuyện khác nhau nên không gộp một chữ.',
         },
         {
           tieuDe: 'Phép tính do thuật toán làm, không phải AI đoán',
@@ -90,7 +90,7 @@ export default function Settings() {
         {
           tieuDe: 'Missing data is left blank, never guessed',
           noiDung:
-            'Superheavy elements with nothing measured show a dash, not a predicted number. Where every reference table prints a figure that is really an extrapolation — the boiling points of actinium, protactinium and neptunium — the figure is kept but labelled "estimated", so nothing is hidden and nothing is lost.',
+            'Superheavy elements with nothing measured show a dash, not a predicted number. Where a figure exists but is not settled, it is kept and labelled on the spot: "estimated" for the boiling points of actinium, protactinium and neptunium (never measured, the number is an extrapolation), and "disputed" for the melting point of radium (measured, but two results 700 and 960 °C with no scientific consensus). Two different things, so two different labels.',
         },
         {
           tieuDe: 'Calculations are deterministic, not AI guesses',

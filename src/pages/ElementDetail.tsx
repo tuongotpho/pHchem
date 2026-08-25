@@ -7,7 +7,7 @@ import {
   DETAILS,
   PHASE_META,
   formatDensity,
-  laUocTinh,
+  ghiChuSo,
 } from '../data/elements.details';
 import { factsForElement } from '../data/facts';
 import { compoundsForElement } from '../lib/compoundIndex';
@@ -108,15 +108,22 @@ export default function ElementDetail() {
   const prev = byNumber(el.n - 1);
   const next = byNumber(el.n + 1);
 
-  // Vài nhiệt độ sôi của actini phóng xạ là NGOẠI SUY chứ chưa ai đo được —
-  // xem elements.details.ts. Ghi kèm chữ "ước tính" chứ không giấu, mà cũng
-  // không bỏ trống: bảng tra nào cũng in số, để dấu gạch ngang lại trông như
-  // app thiếu dữ liệu.
+  // Vài nhiệt độ có chuyện phải nói kèm — xem elements.details.ts. Ghi rõ chứ
+  // không giấu, mà cũng không bỏ trống: bảng tra nào cũng in số, để dấu gạch
+  // ngang lại trông như app thiếu dữ liệu.
+  //
+  // Hai loại nói hai chuyện khác nhau, đừng gộp: "ước tính" là chưa ai đo
+  // được; "đang tranh cãi" là đã đo rồi nhưng ra hai kết quả khác hẳn.
+  const NHAN: Record<string, { vi: string; en: string }> = {
+    uocTinh: { vi: 'ước tính', en: 'estimated' },
+    tranhCai: { vi: 'đang tranh cãi', en: 'disputed' },
+  };
   const temp = (v: number | null, truong: 'melt' | 'boil') => {
     if (v === null) return null;
     const so = `${v} °C`;
-    if (!laUocTinh(el.n, truong)) return so;
-    return `${so} (${lang === 'vi' ? 'ước tính' : 'estimated'})`;
+    const loai = ghiChuSo(el.n, truong);
+    if (!loai) return so;
+    return `${so} (${lang === 'vi' ? NHAN[loai].vi : NHAN[loai].en})`;
   };
 
   const basic: Spec[] = [
