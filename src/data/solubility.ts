@@ -87,6 +87,86 @@ export const SOLUB_META: Record<
   '-': { vi: 'Không tồn tại / phân hủy', en: 'Does not exist / decomposes', color: 'bg-base-800', text: 'text-slate-500' },
 };
 
+// ---- MÀU KẾT TỦA ----
+//
+// Bảng tính tan mới chỉ nói TAN hay KHÔNG. Nhưng trong phòng thí nghiệm, thứ
+// người ta thật sự nhìn thấy là MÀU của kết tủa — đó mới là cái để nhận biết
+// chất. Thêm màu vào đây là biến bảng tra thành công cụ nhận biết.
+//
+// CHỈ ĐIỀN NHỮNG CHẤT CHẮC CHẮN. Trong 61 ô kết tủa/ít tan của bảng, phần lớn
+// silicat và sunfit của kim loại ít gặp thì các nguồn không thống nhất màu,
+// mà cũng chẳng phải chất dùng để nhận biết. Chỗ nào chưa chắc thì BỎ TRỐNG —
+// giao diện tự ẩn dòng màu đi, chứ không đoán bừa. Cùng nguyên tắc với dữ liệu
+// nguyên tố: không đo được thì để trống.
+//
+// ĐỐI CHỨNG (tra ngày 25/08/2026): mười chất đánh dấu ✓ đã so với nguồn ngoài
+// — Wikipedia "Qualitative inorganic analysis" và ô thông tin từng hợp chất.
+// Số còn lại là kiến thức nhận biết chuẩn của SGK Hóa học phổ thông.
+
+// CHỈ MÀU, KHÔNG KÈM CÂU CHỮ. Ban đầu tôi có thêm trường ghi chú kiểu "để
+// ngoài ánh sáng thì hóa đen dần" — rồi mở khung ra thấy nó lặp nguyên ý với
+// ghi chú sẵn có của thư viện công thức ("Kết tủa trắng, hóa đen ngoài ánh
+// sáng."). Khung nói trùng hai lần đọc rất cẩu thả. Phần chữ để thư viện lo;
+// ở đây chỉ đóng góp thứ thư viện không có: CHẤM MÀU nhìn thấy được.
+export interface MauKetTua {
+  vi: string;
+  en: string;
+  /** Mã màu để vẽ chấm mẫu. Dùng mã tuyệt đối chứ KHÔNG dùng biến giao diện:
+   *  đây là màu THẬT của chất, không được đổi theo nền sáng/tối. */
+  css: string;
+}
+
+const TRANG = '#eef2f6';
+const DEN = '#1c1917';
+const VANG = '#facc15';
+const VANG_NHAT = '#fde68a';
+
+export const MAU_KET_TUA: Record<string, MauKetTua> = {
+  // --- Bạc: nhóm quan trọng nhất để nhận biết gốc halogenua ---
+  AgCl: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "white solid"
+  AgBr: { vi: 'vàng nhạt', en: 'pale yellow', css: VANG_NHAT }, // ✓ "pale yellow"
+  AgI: { vi: 'vàng', en: 'yellow', css: VANG }, // ✓ "yellow"
+  Ag3PO4: { vi: 'vàng', en: 'yellow', css: VANG }, // ✓ "yellow crystalline"
+  Ag2S: { vi: 'đen', en: 'black', css: DEN },
+  Ag2SO4: { vi: 'trắng', en: 'white', css: TRANG },
+
+  // --- Hidroxit: bộ ba màu kinh điển của bài nhận biết ---
+  'Cu(OH)2': { vi: 'xanh lam', en: 'blue', css: '#3b82f6' }, // ✓ "Blue solid"
+  'Fe(OH)3': { vi: 'nâu đỏ', en: 'reddish-brown', css: '#a3541f' }, // ✓ "reddish-brown"
+  'Fe(OH)2': { vi: 'trắng xanh', en: 'pale green', css: '#b9dfc4' }, // ✓ "green"
+  'Al(OH)3': {
+    vi: 'keo trắng',
+    en: 'gelatinous white',
+    css: TRANG, // ✓ "gelatinous white precipitate"
+  },
+  'Mg(OH)2': { vi: 'trắng', en: 'white', css: TRANG },
+  'Zn(OH)2': { vi: 'trắng', en: 'white', css: TRANG },
+  'Pb(OH)2': { vi: 'trắng', en: 'white', css: TRANG },
+
+  // --- Sunfua: gần như đều đen, riêng kẽm thì trắng ---
+  CuS: { vi: 'đen', en: 'black', css: DEN },
+  FeS: { vi: 'đen', en: 'black', css: DEN },
+  PbS: { vi: 'đen', en: 'black', css: DEN },
+  ZnS: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "white precipitate"
+
+  // --- Muối trắng hay gặp ---
+  BaSO4: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "white precipitate"
+  PbSO4: { vi: 'trắng', en: 'white', css: TRANG },
+  CaSO4: { vi: 'trắng', en: 'white', css: TRANG },
+  CaCO3: { vi: 'trắng', en: 'white', css: TRANG },
+  BaCO3: { vi: 'trắng', en: 'white', css: TRANG },
+  PbCl2: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "white precipitate"
+  PbBr2: { vi: 'trắng', en: 'white', css: TRANG },
+  'Ca3(PO4)2': { vi: 'trắng', en: 'white', css: TRANG },
+
+  // --- Chất màu nổi bật khác ---
+  PbI2: { vi: 'vàng', en: 'bright yellow', css: VANG }, // ✓ "bright yellow powder"
+};
+
+/** Màu kết tủa của một chất, hoặc null nếu chưa có căn cứ chắc chắn. */
+export const mauKetTua = (congThuc: string): MauKetTua | null =>
+  MAU_KET_TUA[congThuc] ?? null;
+
 // ---- Ghép công thức hợp chất từ cation + anion ----
 // Dùng quy tắc hóa trị: nhân chéo điện tích rồi rút gọn.
 // vd Ca²⁺ + OH⁻ → Ca(OH)2 ; Al³⁺ + SO₄²⁻ → Al2(SO4)3 ; Fe³⁺ + PO₄³⁻ → FePO4

@@ -13,6 +13,7 @@ import {
   SOLUB_META,
   buildFormula,
   type Solub,
+  mauKetTua,
 } from '../data/solubility';
 
 export default function Solubility() {
@@ -32,6 +33,10 @@ export default function Solubility() {
   const formula = cation && anion ? buildFormula(cation, anion) : '';
   const inLib = formula ? libByFormula.get(formula) : undefined;
   const structKey = inLib ? keyOf(inLib) : formula;
+  // Màu chỉ có nghĩa khi chất thật sự tách ra khỏi dung dịch. Ô "ít tan" cũng
+  // cho kết tủa nên vẫn hiện màu; ô "tan" hay "không tồn tại" thì không.
+  const mau =
+    cell === 'I' || cell === 'IT' ? mauKetTua(formula) : null;
   const showStruct = !!formula && hasStructure(structKey);
 
   // Hình tải riêng một file, chỉ khi ô đang mở có hình — xem hooks/useHinhCauTao.ts.
@@ -148,9 +153,12 @@ export default function Solubility() {
               )}
             </div>
 
-            {/* Trạng thái tan */}
+            {/* Trạng thái tan, kèm CHẤM MÀU kết tủa ngay bên cạnh — màu là thứ
+                người ta thật sự nhìn thấy trong ống nghiệm, nên để sát nhãn
+                "không tan" chứ không tách thành một khối riêng. */}
+            <div className="mt-3 flex flex-wrap items-center gap-2">
             <div
-              className={`mt-3 inline-block px-3 py-1 rounded-lg text-sm font-medium ${
+              className={`inline-block px-3 py-1 rounded-lg text-sm font-medium ${
                 isWater
                   ? 'bg-sky-500/25 text-sky-700 dark:text-sky-200'
                   : `${SOLUB_META[cell].color} ${SOLUB_META[cell].text}`
@@ -164,6 +172,19 @@ export default function Solubility() {
                   ? SOLUB_META[cell].vi
                   : SOLUB_META[cell].en}
             </div>
+            {mau && (
+              <span className="inline-flex items-center gap-1.5 text-sm text-slate-300">
+                <span
+                  // Viền là bắt buộc: kết tủa trắng trên nền sáng mà không có
+                  // viền thì mất hút, người dùng tưởng thiếu chấm màu.
+                  className="w-3.5 h-3.5 rounded-full border border-slate-400/60"
+                  style={{ backgroundColor: mau.css }}
+                  aria-hidden
+                />
+                {lang === 'vi' ? mau.vi : mau.en}
+              </span>
+            )}
+            </div>
 
             {cell === 'I' && (
               <p className="text-xs text-slate-400 mt-2">
@@ -172,6 +193,7 @@ export default function Solubility() {
                   : '→ Mixing solutions of these ions gives a precipitate.'}
               </p>
             )}
+
             {isWater && (
               <p className="text-xs text-slate-400 mt-2">
                 {lang === 'vi'

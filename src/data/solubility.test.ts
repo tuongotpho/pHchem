@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { CATIONS, ANIONS, MATRIX, buildFormula } from './solubility';
+import { CATIONS, ANIONS, MATRIX, buildFormula, MAU_KET_TUA, mauKetTua } from './solubility';
 
 const cat = (a: string) => CATIONS.find((c) => c.ascii === a)!;
 const an = (a: string) => ANIONS.find((c) => c.ascii === a)!;
@@ -70,5 +70,50 @@ describe('ma trận độ tan', () => {
     const so4 = ANIONS.findIndex((a) => a.ascii === 'SO4');
     expect(MATRIX[ag][cl]).toBe('I');
     expect(MATRIX[ba][so4]).toBe('I');
+  });
+});
+
+describe('màu kết tủa', () => {
+  it('mỗi màu phải trỏ tới một ô KẾT TỦA có thật trong bảng', () => {
+    // Ghép hết công thức của những ô không tan / ít tan.
+    const coKetTua = new Set<string>();
+    CATIONS.forEach((c, i) =>
+      ANIONS.forEach((a, j) => {
+        const o = MATRIX[i][j];
+        if (o === 'I' || o === 'IT') coKetTua.add(buildFormula(c, a));
+      }),
+    );
+    // Khóa nào không khớp ô nào là rác: hoặc gõ sai công thức, hoặc ô đã đổi
+    // sang "tan" mà quên gỡ màu. Cả hai đều làm app nói sai.
+    const treo = Object.keys(MAU_KET_TUA).filter((ct) => !coKetTua.has(ct));
+    expect(treo).toEqual([]);
+  });
+
+  it('không chất nào bị bỏ trống nửa vời: có tên màu thì phải có mã màu', () => {
+    const thieu: string[] = [];
+    for (const [ct, m] of Object.entries(MAU_KET_TUA)) {
+      if (!m.vi.trim() || !m.en.trim()) thieu.push(`${ct}: thiếu tên màu`);
+      if (!/^#[0-9a-f]{6}$/i.test(m.css)) thieu.push(`${ct}: mã màu sai dạng`);
+    }
+    expect(thieu).toEqual([]);
+  });
+
+  it('bộ ba màu kinh điển của bài nhận biết phải đúng', () => {
+    // Ba chất này là xương sống của mọi bài nhận biết ở phổ thông. Sai một
+    // trong ba là app dạy sai điều cơ bản nhất.
+    expect(mauKetTua('Cu(OH)2')?.vi).toBe('xanh lam');
+    expect(mauKetTua('Fe(OH)3')?.vi).toBe('nâu đỏ');
+    expect(mauKetTua('Fe(OH)2')?.vi).toBe('trắng xanh');
+    // Và ba halogenua bạc, cũng kinh điển không kém
+    expect(mauKetTua('AgCl')?.vi).toBe('trắng');
+    expect(mauKetTua('AgBr')?.vi).toBe('vàng nhạt');
+    expect(mauKetTua('AgI')?.vi).toBe('vàng');
+  });
+
+  it('chất TAN thì không được gán màu kết tủa', () => {
+    // NaCl, KNO3… tan hết, không có kết tủa nào để mà nói màu.
+    for (const ct of ['NaCl', 'KNO3', 'Na2CO3', 'NH4Cl']) {
+      expect(mauKetTua(ct)).toBeNull();
+    }
   });
 });
