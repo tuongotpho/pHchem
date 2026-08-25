@@ -166,6 +166,40 @@ export const DETAILS: Record<number, ElementDetails> = Object.fromEntries(
   ]),
 );
 
+// ---- Giá trị CHƯA ĐO ĐƯỢC ----
+//
+// Nguyên tắc của app là chỉ ghi giá trị đo được. Nhưng có vài chỗ mọi bảng tra
+// đều in một con số, mà con số ấy thật ra là NGOẠI SUY từ áp suất hơi chứ chưa
+// ai đun chất đó lên tới nơi để đo — actini, protactini, neptuni đều phóng xạ
+// mạnh và cực hiếm.
+//
+// Bỏ trống thì mất thông tin: bảng tuần hoàn nào cũng in số, app để dấu gạch
+// ngang lại trông như thiếu dữ liệu. Nên GIỮ số nhưng NÓI RÕ nó là ước tính —
+// vừa không giấu, vừa không mất.
+//
+// Nguồn xác định: bảng thông tin trên Wikipedia bản tiếng Anh, tra ngày
+// 25/08/2026 — chỗ nào ghi "(extrapolated)", "(calculated)" hay dấu "(?)" thì
+// tính là chưa đo được.
+//
+// HAI CHỖ CÒN NGỜ, CỐ Ý CHƯA ĐÁNH DẤU vì chưa đủ căn cứ:
+//   - Americi sôi: app và PubChem cùng cho 2011 °C, còn Wikipedia cho
+//     2880 K = 2607 °C và ghi "(calculated)". Hai nguồn lệch nhau ở CHÍNH CON
+//     SỐ, chưa rõ số nào là số đo. Cần tra thêm rồi mới quyết.
+//   - Radi nóng chảy: Wikipedia ghi "(disputed)" — đó là "đang tranh cãi",
+//     khác với "chưa đo được", nên không gộp vào đây.
+const UOC_TINH: ReadonlySet<string> = new Set([
+  '89:boil', // actini — Wikipedia: 3500±300 K (extrapolated)
+  '91:boil', // protactini — Wikipedia: 4300 K (?)
+  '93:boil', // neptuni — Wikipedia: 4447 K (extrapolated)
+]);
+
+/** Giá trị này là ước tính chứ chưa ai đo được? */
+export const laUocTinh = (n: number, truong: 'melt' | 'boil'): boolean =>
+  UOC_TINH.has(`${n}:${truong}`);
+
+/** Dùng cho phép kiểm: danh sách khóa đã đánh dấu. */
+export const cacKhoaUocTinh = (): string[] => [...UOC_TINH];
+
 export const PHASE_META: Record<Phase, { vi: string; en: string; icon: string }> = {
   s: { vi: 'Rắn', en: 'Solid', icon: '🧱' },
   l: { vi: 'Lỏng', en: 'Liquid', icon: '💧' },

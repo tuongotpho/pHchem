@@ -58,7 +58,7 @@ export default function Settings() {
         {
           tieuDe: 'Không có số liệu là để trống, không đoán',
           noiDung:
-            'Những nguyên tố siêu nặng chưa ai đo được nhiệt độ nóng chảy hay khối lượng riêng thì ứng dụng để dấu gạch ngang, không điền số dự đoán cho đẹp bảng.',
+            'Nguyên tố siêu nặng chưa ai đo được thì để dấu gạch ngang, không điền số dự đoán cho đẹp bảng. Vài chỗ mọi bảng tra đều in một con số mà con số ấy thật ra là ngoại suy — nhiệt độ sôi của actini, protactini, neptuni — thì giữ số nhưng ghi kèm chữ "ước tính", để vừa không giấu vừa không mất thông tin.',
         },
         {
           tieuDe: 'Phép tính do thuật toán làm, không phải AI đoán',
@@ -90,7 +90,7 @@ export default function Settings() {
         {
           tieuDe: 'Missing data is left blank, never guessed',
           noiDung:
-            'Superheavy elements with no measured melting point or density show a dash instead of a predicted number.',
+            'Superheavy elements with nothing measured show a dash, not a predicted number. Where every reference table prints a figure that is really an extrapolation — the boiling points of actinium, protactinium and neptunium — the figure is kept but labelled "estimated", so nothing is hidden and nothing is lost.',
         },
         {
           tieuDe: 'Calculations are deterministic, not AI guesses',

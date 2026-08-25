@@ -3,7 +3,12 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import { useLang } from '../i18n/LangContext';
 import { byNumber, CATEGORY_META, type Element } from '../data/elements';
-import { DETAILS, PHASE_META, formatDensity } from '../data/elements.details';
+import {
+  DETAILS,
+  PHASE_META,
+  formatDensity,
+  laUocTinh,
+} from '../data/elements.details';
 import { factsForElement } from '../data/facts';
 import { compoundsForElement } from '../lib/compoundIndex';
 import { thuatNguCuaNguyenTo } from '../lib/classIndex';
@@ -103,7 +108,16 @@ export default function ElementDetail() {
   const prev = byNumber(el.n - 1);
   const next = byNumber(el.n + 1);
 
-  const temp = (v: number | null) => (v === null ? null : `${v} °C`);
+  // Vài nhiệt độ sôi của actini phóng xạ là NGOẠI SUY chứ chưa ai đo được —
+  // xem elements.details.ts. Ghi kèm chữ "ước tính" chứ không giấu, mà cũng
+  // không bỏ trống: bảng tra nào cũng in số, để dấu gạch ngang lại trông như
+  // app thiếu dữ liệu.
+  const temp = (v: number | null, truong: 'melt' | 'boil') => {
+    if (v === null) return null;
+    const so = `${v} °C`;
+    if (!laUocTinh(el.n, truong)) return so;
+    return `${so} (${lang === 'vi' ? 'ước tính' : 'estimated'})`;
+  };
 
   const basic: Spec[] = [
     { label: lang === 'vi' ? 'Số hiệu' : 'Number', value: String(el.n) },
@@ -116,8 +130,8 @@ export default function ElementDetail() {
   ];
 
   const physical: Spec[] = [
-    { label: lang === 'vi' ? 'Nóng chảy' : 'Melting', value: temp(d.melt) },
-    { label: lang === 'vi' ? 'Sôi' : 'Boiling', value: temp(d.boil) },
+    { label: lang === 'vi' ? 'Nóng chảy' : 'Melting', value: temp(d.melt, 'melt') },
+    { label: lang === 'vi' ? 'Sôi' : 'Boiling', value: temp(d.boil, 'boil') },
     { label: lang === 'vi' ? 'Khối lượng riêng' : 'Density', value: formatDensity(d.density, d.state) },
     { label: lang === 'vi' ? 'Độ âm điện' : 'Electronegativity', value: d.en === null ? null : String(d.en) },
   ];
