@@ -183,6 +183,18 @@ export const MAU_KET_TUA: Record<string, MauKetTua> = {
   AlPO4: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "White, crystalline powder"
   CaSO3: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "White solid"
 
+  // --- Đợt tra thêm để phủ kín bảng (25/08/2026) ---
+  CH3COOAg: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "white to slightly grayish powder"
+  Ag2SO3: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "White crystals"
+  BaSO3: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "white monoclinic crystals"
+  CaSiO3: { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "White crystals"
+  'Zn3(PO4)2': { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "white monoclinic crystals"
+  'Pb3(PO4)2': { vi: 'trắng', en: 'white', css: TRANG }, // ✓ "white powder"
+  // Fe3(PO4)2 — ✓ Wikipedia (vivianit): "Colorless, very pale green, becoming
+  // dark blue… with oxidation". Kết tủa mới tạo thì gần như không màu; để ngoài
+  // không khí mới chuyển xanh đậm rồi đen. Ghi màu lúc mới tạo.
+  'Fe3(PO4)2': { vi: 'trắng lục nhạt', en: 'white to pale green', css: '#dcecdd' },
+
   // --- Chất màu nổi bật khác ---
   PbI2: { vi: 'vàng', en: 'bright yellow', css: VANG }, // ✓ "bright yellow powder"
 };
