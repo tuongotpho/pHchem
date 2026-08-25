@@ -181,10 +181,20 @@ export const DETAILS: Record<number, ElementDetails> = Object.fromEntries(
 // 25/08/2026 — chỗ nào ghi "(extrapolated)", "(calculated)" hay dấu "(?)" thì
 // tính là chưa đo được.
 //
-// HAI CHỖ CÒN NGỜ, CỐ Ý CHƯA ĐÁNH DẤU vì chưa đủ căn cứ:
-//   - Americi sôi: app và PubChem cùng cho 2011 °C, còn Wikipedia cho
-//     2880 K = 2607 °C và ghi "(calculated)". Hai nguồn lệch nhau ở CHÍNH CON
-//     SỐ, chưa rõ số nào là số đo. Cần tra thêm rồi mới quyết.
+// AMERICI SÔI — ĐÃ TRA XONG, KẾT LUẬN GIỮ 2011 °C VÀ KHÔNG ĐÁNH DẤU.
+//   Hỏi bốn nơi (25/08/2026):
+//     app        2011 °C          PubChem   2284 K = 2011 °C
+//     RSC        2011 °C, 2284 K  Wikipedia 2880 K = 2607 °C "(calculated)"
+//   Ba nguồn cùng cho 2011 °C và KHÔNG chú thích gì; chỉ Wikipedia cho số
+//   khác, mà chính Wikipedia ghi rõ số ấy là TÍNH TOÁN. Điểm nóng chảy thì cả
+//   bốn nơi khớp (1449 K), nên không phải chuyện lẫn nguyên tố hay lẫn đơn vị.
+//   Hiểu là hai lối khác nhau: 2011 °C là con số của các sổ tay, 2607 °C là
+//   một phép tính nhiệt hóa. Không có căn cứ gọi 2011 là ước tính, nên để
+//   nguyên. Đừng mở lại chuyện này nếu không có nguồn mới.
+//   (Danh sách trên bị phép kiểm khóa đúng ba khóa — xem
+//   elements.nhietdo.test.ts — nên không ai lỡ tay thêm americi vào.)
+//
+// CÒN NGỜ, CỐ Ý CHƯA ĐÁNH DẤU:
 //   - Radi nóng chảy: Wikipedia ghi "(disputed)" — đó là "đang tranh cãi",
 //     khác với "chưa đo được", nên không gộp vào đây.
 const UOC_TINH: ReadonlySet<string> = new Set([
