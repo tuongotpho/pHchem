@@ -14,6 +14,7 @@ import { isomersOf, ctptOf } from '../lib/isomerIndex';
 import { iupacKhacTen } from '../data/iupac';
 import { nhomCuaChat, thuatNguCuaNhom } from '../lib/classIndex';
 import { byNumber } from '../data/elements';
+import { factsForChat } from '../data/facts';
 import {
   FORMULAS,
   FORMULA_CAT_META,
@@ -338,6 +339,33 @@ export default function Formulas() {
                 </div>
               </div>
             )}
+
+            {/* MẨU THỰC TIỄN CỦA CHÍNH CHẤT NÀY.
+                Trước đây mẩu thực tiễn chỉ nối được tới NGUYÊN TỐ và tới LỚP
+                CHẤT, không nối tới một chất cụ thể. Nên mở SiO2 ra không thấy
+                chuyện gói hút ẩm, dù mẩu ấy nói đúng về nó. Nay nối được. */}
+            {(() => {
+              const mau = factsForChat(keyOf(sel));
+              if (!mau.length) return null;
+              return (
+                <div className="mt-4">
+                  <div className="text-xs text-slate-500 mb-1.5">
+                    {lang === 'vi' ? 'Chất này trong đời sống' : 'In everyday life'}
+                  </div>
+                  <ul className="space-y-1.5">
+                    {mau.map((f) => (
+                      <li
+                        key={f.en}
+                        className="flex gap-2 text-xs text-slate-400 leading-relaxed"
+                      >
+                        <span className="text-accent/70 shrink-0">💡</span>
+                        <span className="min-w-0">{lang === 'vi' ? f.vi : f.en}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })()}
 
             {hasStructure(keyOf(sel)) ? (
               <div className="mt-4 rounded-xl bg-base-900 border border-base-800 p-3">

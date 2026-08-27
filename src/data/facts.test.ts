@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { FACTS, factsForElement, factsForNhom, nhomCoThucTien } from './facts';
+import {
+  FACTS,
+  factsForElement,
+  factsForNhom,
+  nhomCoThucTien,
+  factsForChat,
+  chatCoThucTien,
+} from './facts';
+import { FORMULAS, keyOf } from './formulas';
 import { NHOM_CHAT } from './classes';
 import { ELEMENTS, byNumber } from './elements';
 
@@ -96,5 +104,33 @@ describe('gắn mẩu thực tiễn với lớp chất', () => {
   it('lớp chất không có mẩu nào thì trả mảng rỗng, không nổ', () => {
     expect(factsForNhom('xeton')).toEqual([]);
     expect(factsForNhom('khong-ton-tai')).toEqual([]);
+  });
+});
+
+describe('mẩu thực tiễn nối tới hợp chất cụ thể', () => {
+  it('mọi khóa chất đều CÓ THẬT trong thư viện công thức', () => {
+    // Khóa gõ tay nên dễ sai một dấu ngoặc là chết lặng: mẩu không bao giờ
+    // hiện ra ở đâu, mà cũng chẳng ai báo. Đây là phép kiểm quan trọng nhất
+    // của tính năng này.
+    const co = new Set(FORMULAS.map((f) => keyOf(f)));
+    const treo = chatCoThucTien().filter((k) => !co.has(k));
+    expect(treo).toEqual([]);
+  });
+
+  it('tra ngược được: chất nào đã gắn thì phải tìm ra mẩu của nó', () => {
+    const hong: string[] = [];
+    for (const k of chatCoThucTien()) {
+      if (factsForChat(k).length === 0) hong.push(k);
+    }
+    expect(hong).toEqual([]);
+  });
+
+  it('không mẩu nào gắn trùng một chất hai lần', () => {
+    const trung: string[] = [];
+    for (const f of FACTS) {
+      if (!f.ct) continue;
+      if (new Set(f.ct).size !== f.ct.length) trung.push(f.vi.slice(0, 40));
+    }
+    expect(trung).toEqual([]);
   });
 });
