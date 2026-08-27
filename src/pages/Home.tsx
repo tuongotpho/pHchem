@@ -2,38 +2,40 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useLang } from '../i18n/LangContext';
 import type { StringKey } from '../i18n/strings';
+import { IconSearch } from '../components/icons';
 import {
-  IconTable,
-  IconCalc,
-  IconGrid,
-  IconFlask,
-  IconBook,
-  IconBulb,
-  IconSearch,
-  IconReaction,
-} from '../components/icons';
+  ICON_TRANG,
+  type DuongDanCoIcon,
+} from '../components/iconTrang';
 import { useTimKiem } from '../hooks/useTimKiem';
 import NutNhanh from '../components/NutNhanh';
 
 type Tile = {
-  to: string;
+  // Khai chặt là DuongDanCoIcon chứ không phải string: gõ sai một đường dẫn ở
+  // dưới thì trình dịch báo ngay, thay vì lặng lẽ ra một thẻ không có icon.
+  to: DuongDanCoIcon;
   title: StringKey;
   desc: StringKey;
   Icon: (p: { className?: string }) => React.JSX.Element;
   color: string;
 };
 
-const TILES: Tile[] = [
-  { to: '/quiz', title: 'home_title_quiz', desc: 'home_desc_quiz', Icon: IconBulb, color: 'from-fuchsia-500/20 to-fuchsia-500/5 text-fuchsia-700 dark:text-fuchsia-300' },
-  { to: '/table', title: 'home_title_table', desc: 'home_desc_table', Icon: IconTable, color: 'from-teal-500/20 to-teal-500/5 text-teal-700 dark:text-teal-300' },
-  { to: '/calculator', title: 'home_title_calc', desc: 'home_desc_calc', Icon: IconCalc, color: 'from-sky-500/20 to-sky-500/5 text-sky-700 dark:text-sky-300' },
-  { to: '/solubility', title: 'home_title_solubility', desc: 'home_desc_solubility', Icon: IconGrid, color: 'from-violet-500/20 to-violet-500/5 text-violet-700 dark:text-violet-300' },
-  { to: '/reactions', title: 'home_title_reactions', desc: 'home_desc_reactions', Icon: IconReaction, color: 'from-orange-500/20 to-orange-500/5 text-orange-700 dark:text-orange-300' },
-  { to: '/electro', title: 'home_title_electro', desc: 'home_desc_electro', Icon: IconGrid, color: 'from-cyan-500/20 to-cyan-500/5 text-cyan-700 dark:text-cyan-300' },
-  { to: '/formulas', title: 'home_title_formulas', desc: 'home_desc_formulas', Icon: IconFlask, color: 'from-amber-500/20 to-amber-500/5 text-amber-700 dark:text-amber-300' },
-  { to: '/dictionary', title: 'home_title_dictionary', desc: 'home_desc_dictionary', Icon: IconBook, color: 'from-rose-500/20 to-rose-500/5 text-rose-700 dark:text-rose-300' },
-  { to: '/facts', title: 'home_title_facts', desc: 'home_desc_facts', Icon: IconBulb, color: 'from-emerald-500/20 to-emerald-500/5 text-emerald-700 dark:text-emerald-300' },
+// Icon KHÔNG khai ở đây nữa mà tra từ ICON_TRANG — cùng bảng với thanh điều
+// hướng, nên hai nơi không thể lệch nhau. Ở đây chỉ còn khai MÀU của thẻ,
+// thứ riêng của trang chủ.
+const THE: Omit<Tile, 'Icon'>[] = [
+  { to: '/quiz', title: 'home_title_quiz', desc: 'home_desc_quiz', color: 'from-fuchsia-500/20 to-fuchsia-500/5 text-fuchsia-700 dark:text-fuchsia-300' },
+  { to: '/table', title: 'home_title_table', desc: 'home_desc_table', color: 'from-teal-500/20 to-teal-500/5 text-teal-700 dark:text-teal-300' },
+  { to: '/calculator', title: 'home_title_calc', desc: 'home_desc_calc', color: 'from-sky-500/20 to-sky-500/5 text-sky-700 dark:text-sky-300' },
+  { to: '/solubility', title: 'home_title_solubility', desc: 'home_desc_solubility', color: 'from-violet-500/20 to-violet-500/5 text-violet-700 dark:text-violet-300' },
+  { to: '/reactions', title: 'home_title_reactions', desc: 'home_desc_reactions', color: 'from-orange-500/20 to-orange-500/5 text-orange-700 dark:text-orange-300' },
+  { to: '/electro', title: 'home_title_electro', desc: 'home_desc_electro', color: 'from-cyan-500/20 to-cyan-500/5 text-cyan-700 dark:text-cyan-300' },
+  { to: '/formulas', title: 'home_title_formulas', desc: 'home_desc_formulas', color: 'from-amber-500/20 to-amber-500/5 text-amber-700 dark:text-amber-300' },
+  { to: '/dictionary', title: 'home_title_dictionary', desc: 'home_desc_dictionary', color: 'from-rose-500/20 to-rose-500/5 text-rose-700 dark:text-rose-300' },
+  { to: '/facts', title: 'home_title_facts', desc: 'home_desc_facts', color: 'from-emerald-500/20 to-emerald-500/5 text-emerald-700 dark:text-emerald-300' },
 ];
+
+const TILES: Tile[] = THE.map((x) => ({ ...x, Icon: ICON_TRANG[x.to] }));
 
 const BADGE_COLOR: Record<string, string> = {
   element: 'bg-teal-500/20 text-teal-700 dark:text-teal-300',

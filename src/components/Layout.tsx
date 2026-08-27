@@ -1,36 +1,33 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { useLang } from '../i18n/LangContext';
 import type { StringKey } from '../i18n/strings';
-import {
-  IconHome,
-  IconTable,
-  IconCalc,
-  IconFlask,
-  IconBook,
-  IconBulb,
-  IconGrid,
-  IconSettings,
-  IconReaction,
-} from './icons';
+import { IconSettings } from './icons';
+import { ICON_TRANG, type DuongDanCoIcon } from './iconTrang';
 
 type Item = {
-  to: string;
+  to: DuongDanCoIcon;
   label: StringKey;
   Icon: (p: { className?: string }) => React.JSX.Element;
 };
 
-const ITEMS: Item[] = [
-  { to: '/', label: 'nav_home', Icon: IconHome },
-  { to: '/table', label: 'nav_table', Icon: IconTable },
-  { to: '/calculator', label: 'nav_calc', Icon: IconCalc },
-  { to: '/solubility', label: 'nav_solubility', Icon: IconGrid },
-  { to: '/electro', label: 'nav_electro', Icon: IconReaction },
-  { to: '/reactions', label: 'nav_reactions', Icon: IconReaction },
-  { to: '/formulas', label: 'nav_formulas', Icon: IconFlask },
-  { to: '/dictionary', label: 'nav_dictionary', Icon: IconBook },
-  { to: '/facts', label: 'nav_facts', Icon: IconBulb },
-  { to: '/quiz', label: 'nav_quiz', Icon: IconCalc },
+// Icon KHÔNG khai ở đây nữa mà tra từ ICON_TRANG — xem chú thích ở icons.tsx.
+// Trước đây danh sách này và lưới ở trang chủ mỗi nơi tự khai icon, rồi lệch
+// nhau: Dãy điện hóa đội chung icon với Phản ứng ở đây, còn ở trang chủ lại
+// đội icon của Độ tan.
+const TRANG: { to: DuongDanCoIcon; label: StringKey }[] = [
+  { to: '/', label: 'nav_home' },
+  { to: '/table', label: 'nav_table' },
+  { to: '/calculator', label: 'nav_calc' },
+  { to: '/solubility', label: 'nav_solubility' },
+  { to: '/electro', label: 'nav_electro' },
+  { to: '/reactions', label: 'nav_reactions' },
+  { to: '/formulas', label: 'nav_formulas' },
+  { to: '/dictionary', label: 'nav_dictionary' },
+  { to: '/facts', label: 'nav_facts' },
+  { to: '/quiz', label: 'nav_quiz' },
 ];
+
+const ITEMS: Item[] = TRANG.map((x) => ({ ...x, Icon: ICON_TRANG[x.to] }));
 
 export default function Layout() {
   const { t } = useLang();

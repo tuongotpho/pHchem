@@ -72,3 +72,24 @@ export const IconReaction = ({ className }: P) => (
     <path d="M4 8h13l-2.5-2.5M20 16H7l2.5 2.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
+
+export const IconElectro = ({ className }: P) => (
+  // Ký hiệu pin (nguồn điện hóa học): hai cặp bản cực dài–ngắn nối dây hai
+  // đầu. Dãy điện hóa nói về khả năng cho–nhận electron của kim loại, mà pin
+  // chính là chỗ điều đó thành dòng điện. Cũng là ký hiệu ai học điện cũng
+  // đọc ra ngay, không phải đoán.
+  <svg viewBox="0 0 24 24" fill="none" className={className} stroke="currentColor" strokeWidth="1.8">
+    <path d="M2 12h4M18 12h4" strokeLinecap="round" />
+    <path d="M6 6.5v11M9.5 9.5v5M14 6.5v11M17.5 9.5v5" strokeLinecap="round" />
+  </svg>
+);
+
+export const IconQuiz = ({ className }: P) => (
+  // Dấu hỏi trong vòng tròn. Cố ý KHÔNG dùng hình bóng đèn (đã là icon của
+  // Thực tiễn) và KHÔNG dùng hình máy tính bỏ túi (đã là icon của Máy tính).
+  <svg viewBox="0 0 24 24" fill="none" className={className} stroke="currentColor" strokeWidth="1.8">
+    <circle cx="12" cy="12" r="9" />
+    <path d="M9.4 9.6a2.6 2.6 0 1 1 3.5 2.4c-.6.3-.9.8-.9 1.4v.6" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M12 17.2h.01" strokeLinecap="round" />
+  </svg>
+);
