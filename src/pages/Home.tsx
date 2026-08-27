@@ -9,6 +9,7 @@ import {
 } from '../components/iconTrang';
 import { useTimKiem } from '../hooks/useTimKiem';
 import NutNhanh from '../components/NutNhanh';
+import DemTruyCap from '../components/DemTruyCap';
 
 type Tile = {
   // Khai chặt là DuongDanCoIcon chứ không phải string: gõ sai một đường dẫn ở
@@ -181,6 +182,7 @@ export default function Home() {
           )}
         </div>
       ) : (
+        <>
         <div className="p-4 md:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           {TILES.map(({ to, title, desc, Icon, color }) => (
             <Link
@@ -200,6 +202,10 @@ export default function Home() {
             </Link>
           ))}
         </div>
+        {/* Chỉ hiện dưới 768px: từ 768px trở lên đã có ô đếm ở cuối cột trái,
+            bày hai lần cùng một con số trên một màn hình nhìn như lỗi. */}
+        <DemTruyCap kieu="hang" className="md:hidden" />
+        </>
       )}
     </div>
   );

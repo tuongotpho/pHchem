@@ -3,6 +3,8 @@ import { useLang } from '../i18n/LangContext';
 import type { StringKey } from '../i18n/strings';
 import { IconSettings } from './icons';
 import { ICON_TRANG, type DuongDanCoIcon } from './iconTrang';
+import DemTruyCap from './DemTruyCap';
+import { useDemLuot } from '../hooks/useDemLuot';
 
 type Item = {
   to: DuongDanCoIcon;
@@ -31,6 +33,11 @@ const ITEMS: Item[] = TRANG.map((x) => ({ ...x, Icon: ICON_TRANG[x.to] }));
 
 export default function Layout() {
   const { t } = useLang();
+  // Đếm lượt đặt ở ĐÂY chứ không đặt trong ô hiển thị DemTruyCap bên dưới.
+  // Ô hiển thị nằm trong cột trái, mà cột trái bị ẩn trên điện thoại — gộp
+  // hai việc vào một chỗ thì hôm nào đó gỡ ô hiển thị đi là mất luôn số liệu
+  // mà không ai hay. Đo và hiện là hai việc khác nhau, để rời nhau.
+  useDemLuot();
 
   return (
     <div className="min-h-full flex flex-col md:flex-row bg-base-950">
@@ -65,6 +72,7 @@ export default function Layout() {
           </NavLink>
         ))}
         <div className="mt-auto">
+          <DemTruyCap />
           <NavLink
             to="/settings"
             className={({ isActive }) =>
