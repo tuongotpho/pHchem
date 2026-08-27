@@ -36,7 +36,7 @@ export default function Solubility() {
   const structKey = inLib ? keyOf(inLib) : formula;
   // Màu chỉ có nghĩa khi chất thật sự tách ra khỏi dung dịch. Ô "ít tan" cũng
   // cho kết tủa nên vẫn hiện màu; ô "tan" hay "không tồn tại" thì không.
-  const laKetTua = cell === 'I' || cell === 'IT';
+  const laKetTua = cell === 'K' || cell === 'IT';
   const mau = laKetTua ? mauKetTua(formula) : null;
   const showStruct = !!formula && hasStructure(structKey);
 
@@ -56,7 +56,12 @@ export default function Solubility() {
       <div className="p-3 md:p-5">
         {/* Chú giải */}
         <div className="flex flex-wrap gap-2 mb-3 text-xs">
-          {(['T', 'I', 'IT', '-'] as Solub[]).map((s) => (
+          {/* Lấy thẳng từ SOLUB_META chứ KHÔNG gõ lại danh sách mã. Bản cũ gõ
+              tay ['T','I','IT','-'] rồi ép kiểu `as Solub[]` — cái ép kiểu ấy
+              che mất lỗi khi đổi mã I thành K: TypeScript im lặng, mà chạy
+              thật thì SOLUB_META['I'] là undefined. Đọc từ nguồn thì thêm bớt
+              mã trạng thái là chú giải tự theo. */}
+          {(Object.keys(SOLUB_META) as Solub[]).map((s) => (
             <div key={s} className="flex items-center gap-1.5">
               <span className={`inline-block w-4 h-4 rounded ${SOLUB_META[s].color}`} />
               <span className="text-slate-400">
@@ -210,7 +215,7 @@ export default function Solubility() {
               ))}
             </div>
 
-            {cell === 'I' && (
+            {cell === 'K' && (
               <p className="text-xs text-slate-400 mt-2">
                 {lang === 'vi'
                   ? '→ Trộn hai dung dịch chứa các ion này sẽ tạo kết tủa.'

@@ -182,7 +182,7 @@ function cauDoTan(rng: Rng, lang: Lang): CauHoi | null {
     const ma = MATRIX[hang][cot];
     if (ma === '-') continue; // ô không tồn tại thì không hỏi
     const dung = lang === 'vi' ? SOLUB_META[ma].vi : SOLUB_META[ma].en;
-    const khoNhieu = (['T', 'I', 'IT'] as const).map((k) =>
+    const khoNhieu = (['T', 'K', 'IT'] as const).map((k) =>
       lang === 'vi' ? SOLUB_META[k].vi : SOLUB_META[k].en,
     );
     const lc = dungLuaChon(rng, dung, khoNhieu, 3);

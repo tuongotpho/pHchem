@@ -1,12 +1,16 @@
 // Bảng tính tan của muối/bazơ trong nước (điều kiện thường).
 // Mã trạng thái:
 //   T  = tan tốt (soluble)
-//   I  = không tan / kết tủa (insoluble)
+//   K  = không tan / kết tủa (insoluble)
 //   IT = ít tan (slightly soluble)
 //   -  = không tồn tại / bị phân hủy hoặc bay hơi trong nước
+//
+// Chữ K cho "không tan" là theo đúng quy ước bảng tính tan trong SGK Hóa học
+// Việt Nam. Trước đây dùng chữ I (từ "insoluble") — đúng với sách tiếng Anh
+// nhưng lệch với thứ học sinh nhìn thấy hằng ngày trên lớp.
 // Dữ liệu theo bảng tính tan phổ thông (SGK Hóa học VN / IUPAC).
 
-export type Solub = 'T' | 'I' | 'IT' | '-';
+export type Solub = 'T' | 'K' | 'IT' | '-';
 
 export interface Ion {
   formula: string; // hiển thị kèm điện tích, vd "SO₄²⁻"
@@ -61,20 +65,20 @@ export const ANIONS: Ion[] = [
 //
 // Cột:      OH   Cl   NO3  SO4  CO3  PO4  S    Br   I    CH3COO SO3  SiO3
 export const MATRIX: Solub[][] = [
-  /* H⁺   */ ['-', 'T', 'T', 'T', '-', 'T', 'T', 'T', 'T', 'T', 'T', 'I'],
+  /* H⁺   */ ['-', 'T', 'T', 'T', '-', 'T', 'T', 'T', 'T', 'T', 'T', 'K'],
   /* Na⁺  */ ['T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T'],
   /* K⁺   */ ['T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T'],
   /* NH₄⁺ */ ['T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', '-'],
-  /* Ag⁺  */ ['-', 'I', 'T', 'IT', 'I', 'I', 'I', 'I', 'I', 'IT', 'I', 'I'],
-  /* Mg²⁺ */ ['I', 'T', 'T', 'T', 'I', 'I', '-', 'T', 'T', 'T', 'IT', 'I'],
-  /* Ca²⁺ */ ['IT', 'T', 'T', 'IT', 'I', 'I', '-', 'T', 'T', 'T', 'I', 'I'],
-  /* Ba²⁺ */ ['T', 'T', 'T', 'I', 'I', 'I', '-', 'T', 'T', 'T', 'I', 'I'],
-  /* Zn²⁺ */ ['I', 'T', 'T', 'T', 'I', 'I', 'I', 'T', 'T', 'T', 'I', 'I'],
-  /* Cu²⁺ */ ['I', 'T', 'T', 'T', 'I', 'I', 'I', 'T', '-', 'T', 'I', 'I'],
-  /* Fe²⁺ */ ['I', 'T', 'T', 'T', 'I', 'I', 'I', 'T', 'T', 'T', 'I', 'I'],
-  /* Fe³⁺ */ ['I', 'T', 'T', 'T', '-', 'I', '-', 'T', '-', 'T', '-', 'I'],
-  /* Al³⁺ */ ['I', 'T', 'T', 'T', '-', 'I', '-', 'T', 'T', 'T', '-', 'I'],
-  /* Pb²⁺ */ ['I', 'IT', 'T', 'I', 'I', 'I', 'I', 'IT', 'I', 'T', 'I', 'I'],
+  /* Ag⁺  */ ['-', 'K', 'T', 'IT', 'K', 'K', 'K', 'K', 'K', 'IT', 'K', 'K'],
+  /* Mg²⁺ */ ['K', 'T', 'T', 'T', 'K', 'K', '-', 'T', 'T', 'T', 'IT', 'K'],
+  /* Ca²⁺ */ ['IT', 'T', 'T', 'IT', 'K', 'K', '-', 'T', 'T', 'T', 'K', 'K'],
+  /* Ba²⁺ */ ['T', 'T', 'T', 'K', 'K', 'K', '-', 'T', 'T', 'T', 'K', 'K'],
+  /* Zn²⁺ */ ['K', 'T', 'T', 'T', 'K', 'K', 'K', 'T', 'T', 'T', 'K', 'K'],
+  /* Cu²⁺ */ ['K', 'T', 'T', 'T', 'K', 'K', 'K', 'T', '-', 'T', 'K', 'K'],
+  /* Fe²⁺ */ ['K', 'T', 'T', 'T', 'K', 'K', 'K', 'T', 'T', 'T', 'K', 'K'],
+  /* Fe³⁺ */ ['K', 'T', 'T', 'T', '-', 'K', '-', 'T', '-', 'T', '-', 'K'],
+  /* Al³⁺ */ ['K', 'T', 'T', 'T', '-', 'K', '-', 'T', 'T', 'T', '-', 'K'],
+  /* Pb²⁺ */ ['K', 'IT', 'T', 'K', 'K', 'K', 'K', 'IT', 'K', 'T', 'K', 'K'],
 ];
 
 export const SOLUB_META: Record<
@@ -82,7 +86,7 @@ export const SOLUB_META: Record<
   { vi: string; en: string; color: string; text: string }
 > = {
   T: { vi: 'Tan', en: 'Soluble', color: 'bg-emerald-500/25', text: 'text-emerald-700 dark:text-emerald-200' },
-  I: { vi: 'Không tan (kết tủa)', en: 'Insoluble', color: 'bg-rose-500/30', text: 'text-rose-700 dark:text-rose-200' },
+  K: { vi: 'Không tan (kết tủa)', en: 'Insoluble', color: 'bg-rose-500/30', text: 'text-rose-700 dark:text-rose-200' },
   IT: { vi: 'Ít tan', en: 'Slightly soluble', color: 'bg-amber-500/25', text: 'text-amber-700 dark:text-amber-200' },
   '-': { vi: 'Không tồn tại / phân hủy', en: 'Does not exist / decomposes', color: 'bg-base-800', text: 'text-slate-500' },
 };

@@ -7,6 +7,7 @@ import {
   MAU_KET_TUA,
   mauKetTua,
   chuTrenNen,
+  SOLUB_META,
 } from './solubility';
 
 const cat = (a: string) => CATIONS.find((c) => c.ascii === a)!;
@@ -76,8 +77,8 @@ describe('ma trận độ tan', () => {
     const cl = ANIONS.findIndex((a) => a.ascii === 'Cl');
     const ba = CATIONS.findIndex((c) => c.ascii === 'Ba');
     const so4 = ANIONS.findIndex((a) => a.ascii === 'SO4');
-    expect(MATRIX[ag][cl]).toBe('I');
-    expect(MATRIX[ba][so4]).toBe('I');
+    expect(MATRIX[ag][cl]).toBe('K');
+    expect(MATRIX[ba][so4]).toBe('K');
   });
 });
 
@@ -88,7 +89,7 @@ describe('màu kết tủa', () => {
     CATIONS.forEach((c, i) =>
       ANIONS.forEach((a, j) => {
         const o = MATRIX[i][j];
-        if (o === 'I' || o === 'IT') coKetTua.add(buildFormula(c, a));
+        if (o === 'K' || o === 'IT') coKetTua.add(buildFormula(c, a));
       }),
     );
     // Khóa nào không khớp ô nào là rác: hoặc gõ sai công thức, hoặc ô đã đổi
@@ -200,5 +201,30 @@ describe('màu SUY LUẬN — ranh giới với màu tra được', () => {
     expect(tong).toBe(55);
     expect(suyLuan).toBe(11);
     expect(tong - suyLuan).toBe(44);
+  });
+});
+
+describe('ký hiệu trong bảng theo đúng quy ước SGK Việt Nam', () => {
+  it('kết tủa là chữ K, không phải chữ I', () => {
+    // SGK Hóa học Việt Nam dùng T / K / I. Trước đây app dùng chữ I cho
+    // "insoluble" theo lối sách tiếng Anh — đúng về nghĩa nhưng lệch với thứ
+    // học sinh nhìn thấy hằng ngày trên lớp. Khóa lại để không ai đổi ngược.
+    expect(Object.keys(SOLUB_META).sort()).toEqual(['-', 'IT', 'K', 'T']);
+    expect(SOLUB_META.K.vi).toContain('Không tan');
+    // Chữ I trần KHÔNG được là một mã trạng thái nữa — nó chỉ còn là ký hiệu
+    // của ion iotua trong cột anion.
+    expect('I' in SOLUB_META).toBe(false);
+    expect(ANIONS.some((a) => a.ascii === 'I')).toBe(true);
+  });
+
+  it('mọi ô trong ma trận đều mang một mã hợp lệ', () => {
+    const la = new Set(['T', 'K', 'IT', '-']);
+    const sai: string[] = [];
+    MATRIX.forEach((r, i) =>
+      r.forEach((v, j) => {
+        if (!la.has(v)) sai.push(`${CATIONS[i].ascii} x ${ANIONS[j].ascii}: "${v}"`);
+      }),
+    );
+    expect(sai).toEqual([]);
   });
 });
