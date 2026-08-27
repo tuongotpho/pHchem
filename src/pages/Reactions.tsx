@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import Pagination from '../components/Pagination';
 import { itemId } from '../lib/itemId';
-import FormulaText from '../components/FormulaText';
+import FormulaText, { EquationText } from '../components/FormulaText';
 import { useLang } from '../i18n/LangContext';
 import { REACTIONS, TYPE_META, type Reaction, type ReactionType } from '../data/reactions';
 import { useMucTheoDiaChi } from '../hooks/useMucTheoDiaChi';
@@ -17,28 +17,6 @@ const PER_PAGE = 20;
 
 const TYPES = Object.keys(TYPE_META) as ReactionType[];
 
-/** Vẽ phương trình: hệ số giữ cỡ thường, công thức hạ chỉ số dưới. */
-function EquationText({ eq, className = '' }: { eq: string; className?: string }) {
-  // tách theo dấu + và mũi tên nhưng giữ lại dấu phân cách
-  const parts = eq.split(/(\s\+\s|→)/);
-  return (
-    <span className={className}>
-      {parts.map((p, i) => {
-        if (p === '→') return <span key={i} className="text-accent px-1">→</span>;
-        if (/^\s\+\s$/.test(p)) return <span key={i}> + </span>;
-        const m = p.match(/^(\d+\s+)(.+)$/);
-        return m ? (
-          <span key={i}>
-            <span className="text-slate-400">{m[1]}</span>
-            <FormulaText value={m[2]} />
-          </span>
-        ) : (
-          <FormulaText key={i} value={p} />
-        );
-      })}
-    </span>
-  );
-}
 
 export default function Reactions() {
   const { t, lang } = useLang();

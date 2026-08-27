@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import FormulaText, { EquationText } from '../components/FormulaText';
 import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import { useLang } from '../i18n/LangContext';
@@ -6,6 +7,25 @@ import { sinhDe, TEN_LOAI, type CauHoi, type LoaiCau } from '../lib/quiz';
 
 const CAC_LOAI = Object.keys(TEN_LOAI) as LoaiCau[];
 const SO_CAU = [5, 10, 20];
+
+/**
+ * Vẽ dòng phụ của câu hỏi cho đúng kiểu.
+ *
+ * VÌ SAO PHẢI CÓ: trước đây trang này in thẳng chuỗi ra, nên công thức hiện
+ * thô — "H2 + O2 → H2O" thay vì "H₂ + O₂ → H₂O". Bốn trang khác trong app đã
+ * hạ chỉ số từ lâu, riêng Luyện tập thì không, nhìn rất lệch.
+ *
+ * Kiểu do chính câu hỏi khai (xem lib/quiz.ts), không đoán theo loại câu —
+ * dòng phụ "Fe · Z = 26" mà hạ chỉ số thì thành "Z = ₂₆".
+ */
+function DongPhu({ c, className }: { c: CauHoi; className?: string }) {
+  if (!c.phu) return null;
+  if (c.kieuPhu === 'phuongTrinh')
+    return <EquationText eq={c.phu} className={className} />;
+  if (c.kieuPhu === 'congThuc')
+    return <FormulaText value={c.phu} className={className} />;
+  return <span className={className}>{c.phu}</span>;
+}
 
 export default function Quiz() {
   const { lang } = useLang();
@@ -147,7 +167,11 @@ export default function Quiz() {
                   traLoi[i] ? null : (
                     <li key={i} className="text-xs">
                       <div className="text-slate-300">{c.de}</div>
-                      {c.phu && <div className="font-mono text-slate-400">{c.phu}</div>}
+                      {c.phu && (
+                        <div className="font-mono text-slate-400">
+                          <DongPhu c={c} />
+                        </div>
+                      )}
                       <div className="text-emerald-600 dark:text-emerald-300 mt-0.5">
                         {vi ? 'Đáp án: ' : 'Answer: '}
                         {c.luaChon[c.dapAn]}
@@ -204,7 +228,9 @@ export default function Quiz() {
         <section className="card p-4">
           <div className="text-sm text-slate-200">{c.de}</div>
           {c.phu && (
-            <div className="font-mono text-lg text-accent mt-2 break-words">{c.phu}</div>
+            <div className="font-mono text-lg text-accent mt-2 break-words">
+              <DongPhu c={c} />
+            </div>
           )}
         </section>
 

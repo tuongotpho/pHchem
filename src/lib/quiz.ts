@@ -27,6 +27,19 @@ export interface CauHoi {
   de: string;
   /** Dòng phụ, thường là phương trình hoặc công thức — hiện bằng phông chữ máy. */
   phu?: string;
+  /**
+   * Dòng phụ phải vẽ theo kiểu nào. Khai ở ĐÂY chứ không để giao diện tự đoán
+   * theo `loai`: thêm dạng câu hỏi mới thì người viết phải nghĩ luôn xem dòng
+   * phụ của nó là gì, không lỡ rơi vào nhánh mặc định rồi hiện sai.
+   *
+   *   'phuongTrinh' — cả phương trình, hệ số giữ cỡ thường, chất hạ chỉ số
+   *   'congThuc'    — một công thức, hạ chỉ số toàn bộ
+   *   'chu'         — chữ thường, TUYỆT ĐỐI không hạ chỉ số
+   *
+   * Chữ 'chu' có việc thật: câu về nhóm nguyên tố có dòng phụ "Fe · Z = 26".
+   * Hạ chỉ số bừa thì thành "Z = ₂₆" — số hiệu nguyên tử biến thành chỉ số.
+   */
+  kieuPhu?: 'phuongTrinh' | 'congThuc' | 'chu';
   luaChon: string[];
   /** Chỉ số của đáp án đúng trong mảng luaChon. */
   dapAn: number;
@@ -121,6 +134,7 @@ function cauCanBang(rng: Rng, lang: Lang): CauHoi | null {
   if (!lc) return null;
   return {
     loai: 'canBang',
+      kieuPhu: 'phuongTrinh',
     de:
       lang === 'vi'
         ? 'Cân bằng phương trình sau. Tổng các hệ số bằng bao nhiêu?'
@@ -143,6 +157,7 @@ function cauHienTuong(rng: Rng, lang: Lang): CauHoi | null {
   if (!lc) return null;
   return {
     loai: 'hienTuong',
+      kieuPhu: 'phuongTrinh',
     de:
       lang === 'vi'
         ? 'Hiện tượng quan sát được của phản ứng sau là gì?'
@@ -163,6 +178,7 @@ function cauLopChat(rng: Rng, lang: Lang): CauHoi | null {
   if (!lc) return null;
   return {
     loai: 'lopChat',
+      kieuPhu: 'congThuc',
     de:
       lang === 'vi'
         ? `"${f.vi}" thuộc lớp chất nào?`
@@ -190,6 +206,7 @@ function cauDoTan(rng: Rng, lang: Lang): CauHoi | null {
     const ct = buildFormula(CATIONS[hang], ANIONS[cot]);
     return {
       loai: 'doTan',
+      kieuPhu: 'congThuc',
       de: lang === 'vi' ? 'Chất sau tan hay không tan trong nước?' : 'Is this soluble in water?',
       phu: ct,
       ...lc,
@@ -214,6 +231,7 @@ function cauIupac(rng: Rng, lang: Lang): CauHoi | null {
   if (!lc) return null;
   return {
     loai: 'iupac',
+      kieuPhu: 'congThuc',
     de:
       lang === 'vi'
         ? `Tên theo danh pháp IUPAC của "${f.vi}" là gì?`
@@ -239,6 +257,7 @@ function cauNhomNguyenTo(rng: Rng, lang: Lang): CauHoi | null {
   if (!lc) return null;
   return {
     loai: 'nhomNguyenTo',
+      kieuPhu: 'chu',
     de:
       lang === 'vi'
         ? `Nguyên tố ${e.vi} thuộc nhóm nào?`

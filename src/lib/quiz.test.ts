@@ -191,3 +191,42 @@ describe('bộ sinh đề không bao giờ được ném lỗi hay trả câu h�
     expect(sinhDe(1, 0, 'vi')).toEqual([]);
   });
 });
+
+describe('dòng phụ của câu hỏi phải khai rõ kiểu hiển thị', () => {
+  it('câu nào có dòng phụ thì phải có kieuPhu — không rơi vào mặc định', () => {
+    // Sinh nhiều đề cho phủ hết các dạng câu.
+    const thieu = new Set<string>();
+    for (let hat = 0; hat < 40; hat++) {
+      for (const c of sinhDe(hat, 12, 'vi')) {
+        if (c.phu && !c.kieuPhu) thieu.add(c.loai);
+      }
+    }
+    expect([...thieu]).toEqual([]);
+  });
+
+  it('dòng phụ có "Z =" phải là kiểu chữ, không được hạ chỉ số', () => {
+    // Bẫy thật: câu về nhóm nguyên tố có dòng phụ "Fe · Z = 26". Hạ chỉ số
+    // thì số hiệu nguyên tử biến thành "Z = ₂₆".
+    const pham: string[] = [];
+    for (let hat = 0; hat < 40; hat++) {
+      for (const c of sinhDe(hat, 12, 'vi')) {
+        if (c.phu?.includes('Z =') && c.kieuPhu !== 'chu') {
+          pham.push(`${c.loai}: "${c.phu}" khai kiểu ${c.kieuPhu}`);
+        }
+      }
+    }
+    expect(pham).toEqual([]);
+  });
+
+  it('dòng phụ có mũi tên phải là kiểu phương trình', () => {
+    const pham: string[] = [];
+    for (let hat = 0; hat < 40; hat++) {
+      for (const c of sinhDe(hat, 12, 'vi')) {
+        if (c.phu?.includes('→') && c.kieuPhu !== 'phuongTrinh') {
+          pham.push(`${c.loai}: "${c.phu}" khai kiểu ${c.kieuPhu}`);
+        }
+      }
+    }
+    expect(pham).toEqual([]);
+  });
+});
