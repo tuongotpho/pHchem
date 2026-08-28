@@ -1,0 +1,493 @@
+{
+ "id": "nitrogen-2026",
+ "ten": "Nitrogen và một số hợp chất quan trọng của nitrogen",
+ "chuyenDe": "Nitrogen và một số hợp chất quan trọng của nitrogen",
+ "nguon": "1. Nitrogen_TN_ĐA_2026.docx",
+ "soCau": 42,
+ "cau": [
+  {
+   "so": 1,
+   "de": "Trong tự nhiên, đơn chất nitrogen có nhiều trong",
+   "luaChon": [
+    "nước biển.",
+    "không khí.",
+    "cơ thể người.",
+    "mỏ khoáng."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 2,
+   "de": "Khí nào phổ biến nhất trong khí quyển Trái Đất?",
+   "luaChon": [
+    "Oxygen.",
+    "Nitrogen.",
+    "Ozone.",
+    "Argon."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 3,
+   "de": "Ở trạng thái tự nhiên, nitrogen:",
+   "luaChon": [
+    "tồn tại ở dạng đơn chất và hợp chất.",
+    "Chỉ tồn tại ở dạng đơn chất.",
+    "Chỉ tồn tại ở dạng hợp chất.",
+    "tự do chiếm khoảng 20% thể tích không khí."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 4,
+   "de": "Cấu hình electron nguyên tử của nitrogen là:",
+   "luaChon": [
+    "1s^{2}2s^{2}2p^{1}",
+    "1s^{2}2s^{2}2p^{5}",
+    "1s^{2}2s^{2}2p^{4}",
+    "1s^{2}2s^{2}2p^{3}"
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 5,
+   "de": "Vị trí (chu kì, nhóm) của nguyên tố nitrogen trong bảng tuần hoàn là",
+   "luaChon": [
+    "Chu kì 2, nhóm VA.",
+    "chu kì 3, nhóm VA.",
+    "chu kì 2, nhóm VIA.",
+    "chu kì 3, nhóm IVA."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 6,
+   "de": "Phân tử nitrogen có cấu tạo là",
+   "luaChon": [
+    "N = N",
+    "N ≡ N",
+    "N - N",
+    "N → N"
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 7,
+   "de": "Đặc điểm cấu tạo của phân tử N_{2} là",
+   "luaChon": [
+    "có 1 liên kết ba.",
+    "có 1 liên kết đôi.",
+    "Có 2 liên kết đôi.",
+    "có 2 liên kết ba."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 8,
+   "de": "Số liên kết sigma (σ) và số liên kết pi (π) trong phân tử nitrogen lần lượt là",
+   "luaChon": [
+    "2 và 1.",
+    "0 và 3.",
+    "3 và 0.",
+    "1 và 2."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 9,
+   "de": "Trong hợp chất nitrogen có các mức oxi hóa nào sau đây?",
+   "luaChon": [
+    "-3, +3, +5.",
+    "-3, 0, +3, +5.",
+    "-3, +1, +2, +3, +4, +5.",
+    "-3, 0, +1, +2, +3, +4, +5."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 10,
+   "de": "Tính chất nào sau đây không phải tính chất vật lí của N_{2} ở điều kiện thường?",
+   "luaChon": [
+    "Chất khí.",
+    "Không màu.",
+    "Nặng hơn không khí.",
+    "Tan ít trong nước."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 11,
+   "de": "Trong phản ứng: N2(g) + 3H2(g) <=>[xt, t°, p] 2NH3(g). N2 thể hiện",
+   "luaChon": [
+    "tính khử.",
+    "tính oxi hóa.",
+    "tính base.",
+    "tính acid."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 12,
+   "de": "Trong phản ứng: N2(g) + O2(g) <=>[3000°C] 2NO(g). N2 thể hiện",
+   "luaChon": [
+    "tính khử.",
+    "tính oxi hóa.",
+    "tính base.",
+    "tính acid."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 13,
+   "de": "N_{2} thể hiện tính khử trong phản ứng với",
+   "luaChon": [
+    "H_{2}.",
+    "O_{2}.",
+    "Li.",
+    "Mg."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 14,
+   "de": "Nitrogen thể hiện tính khử trong phản ứng nào sau đây?",
+   "luaChon": [
+    "N2 + O2 <=>[t°] 2NO.",
+    "N2 + 3H2 <=>[xt, t°] 2NH3.",
+    "3Ca + N2 ->[t°] Ca3N2.",
+    "3Mg + N2 ->[t°] Mg3N2."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 15,
+   "de": "Trong những cơn mưa dông kèm sấm sét, nitrogen kết hợp trực tiếp với oxygen tạo thành sản phẩm là",
+   "luaChon": [
+    "NO.",
+    "N_{2}O.",
+    "NH_{3}.",
+    "NO_{2}."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 16,
+   "de": "Ứng dụng nào sau đây không phải của N_{2}?",
+   "luaChon": [
+    "Tổng hợp NH_{3}.",
+    "Bảo quản máu.",
+    "Diệt khuẩn, khử trùng.",
+    "Bảo quản thực phẩm."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 17,
+   "de": "Ở nhiệt độ thường, nitrogen khá trơ về mặt hoạt động hóa học là do",
+   "luaChon": [
+    "nitrogen có bán kính nguyên tử nhỏ.",
+    "nitrogen có độ âm điện lớn.",
+    "phân tử nitrogen có liên kết ba bền vững.",
+    "phân tử nitrogen không phân cực."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 18,
+   "de": "Quá trình tạo đạm nitrate từ nitrogen trong tự nhiên được mô tả theo sơ đồ sau: N2 ->[+X][(1)] NO ->[+X][(2)] NO2 ->[+X+H2O][(3)] HNO3 -> H+ + NO3-. Công thức của X là",
+   "luaChon": [
+    "Cl_{2}.",
+    "O_{2}.",
+    "H_{2}.",
+    "CO_{2}."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 19,
+   "de": "Trong tự nhiên, nguyên tố nitrogen có hai đồng vị bền là ^{14}N (99,63%) và ^{15}N (0,37%). Nguyên tử khối trung bình của nitrogen là",
+   "luaChon": [
+    "14,000.",
+    "14,004.",
+    "14,037.",
+    "14,063."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 20,
+   "de": "Cho cân bằng hóa học: N2(g) + 3H2(g) <=> 2NH3(g); Δ_{r}H^{°}_{298} < 0. Cân bằng trên chuyển dịch theo chiều thuận khi",
+   "luaChon": [
+    "tăng nhiệt độ của hệ phản ứng.",
+    "giảm áp suất của hệ phản ứng.",
+    "tăng áp suất của hệ phản ứng.",
+    "thêm chất xúc tác vào hệ phản ứng."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 21,
+   "de": "Cho cân bằng hoá học: N2(g) + 3H2(g) <=>[t°, xt] 2NH3(g). Phản ứng thuận là phản ứng toả nhiệt. Cân bằng hoá học không bị chuyển dịch khi",
+   "luaChon": [
+    "thay đổi áp suất của hệ.",
+    "thay đổi nồng độ N_{2}.",
+    "thay đổi nhiệt độ.",
+    "thêm chất xúc tác Fe."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 22,
+   "de": "Cho phản ứng: N_{2} + O_{2} ⇌ 2NO\nBiết năng lượng liên kết được cho trong bảng sau:\n\n{{bang}}\nTính giá trị biến thiên enthalpy của phản ứng trên theo năng lượng liên kết.",
+   "luaChon": [
+    "+181 kJ.",
+    "-181 kJ.",
+    "+90,5 kJ.",
+    "-90,5 kJ."
+   ],
+   "dapAn": 0,
+   "bang": {
+    "cot": [
+     "Liên kết",
+     "Năng lượng liên kết (kJ/mol)"
+    ],
+    "dong": [
+     [
+      "N≡N",
+      "945"
+     ],
+     [
+      "O=O",
+      "498"
+     ],
+     [
+      "N=O",
+      "631"
+     ]
+    ]
+   }
+  },
+  {
+   "so": 23,
+   "de": "Công thức phân tử của ammonia là",
+   "luaChon": [
+    "NH_{2}.",
+    "NH_{5}.",
+    "NH_{3}.",
+    "NH_{4}."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 24,
+   "de": "Trong ammonia (NH_{3}), nitrogen (N) có số oxi hoá là",
+   "luaChon": [
+    "+3.",
+    "-3.",
+    "+4.",
+    "+5."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 25,
+   "de": "Ammonia (NH_{3}) là một nguyên liệu hóa học quan trọng. Phát biểu nào sau đây về tính chất của khí ammonia là sai?",
+   "luaChon": [
+    "Không màu.",
+    "Nhẹ hơn không khí.",
+    "Tan nhiều trong nước.",
+    "Không mùi."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 26,
+   "de": "Phát biểu nào sau đây không đúng?",
+   "luaChon": [
+    "Trong điều kiện thường, NH_{3} là khí không màu, mùi khai.",
+    "Khí NH_{3} nhẹ hơn không khí.",
+    "Phân tử NH_{3} chứa các liên kết cộng hóa trị không phân cực.",
+    "Khí NH_{3} tan nhiều trong nước."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 27,
+   "de": "Khí ammonia (NH_{3}) làm giấy quỳ tím ẩm",
+   "luaChon": [
+    "chuyển thành màu đỏ.",
+    "chuyển thành màu xanh.",
+    "không đổi màu.",
+    "mất màu."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 28,
+   "de": "Ammonia (NH_{3}) tan nhiều trong nước do",
+   "luaChon": [
+    "NH_{3} nhẹ hơn không khí.",
+    "NH_{3} là phân tử không phân cực.",
+    "Phân tử NH_{3} phân cực, có khả năng tạo liên kết hydrogen với nước.",
+    "NH_{3} tồn tại ở trạng thái khí."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 29,
+   "de": "Cho thí nghiệm như hình vẽ, bên trong bình có chứa khí NH_{3}, trong chậu thủy tinh chứa nước có nhỏ vài giọt phenolphthalein.\n\n{{hinh}}\nHiện tượng xảy ra trong thí nghiệm là:",
+   "luaChon": [
+    "Nước phun vào bình và chuyển thành màu hồng.",
+    "Nước phun vào bình và chuyển thành màu tím.",
+    "Nước phun vào bình và không có màu.",
+    "Nước phun vào bình và chuyển thành màu xanh."
+   ],
+   "dapAn": 0,
+   "hinh": "225a1dee00b2.png"
+  },
+  {
+   "so": 30,
+   "de": "Khí NH_{3} có thể thu theo cách nào dưới đây\n\n{{hinh}}",
+   "luaChon": [
+    "Hình 2.",
+    "Hình 1.",
+    "Hình 2 hoặc 3.",
+    "Hình 3."
+   ],
+   "dapAn": 0,
+   "hinh": "0d4a8bad1f25.png"
+  },
+  {
+   "so": 31,
+   "de": "Trong phương trình: NH3 + H2O <=> NH4+ + OH-, NH3 đóng vai trò là",
+   "luaChon": [
+    "chất khử.",
+    "chất oxi hóa.",
+    "acid.",
+    "base."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 32,
+   "de": "Trong dung dịch NH_{3} có những phần tử nào?",
+   "luaChon": [
+    "NH_{4}^{+}, OH^{-}.",
+    "NH_{4}^{+}, OH^{-}, H_{2}O.",
+    "NH_{4}^{+}, OH^{-}, NH_{3}.",
+    "NH_{4}^{+}, OH^{-}, NH_{3}, H_{2}O."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 33,
+   "de": "Trong phản ứng 4NH3 + 5O2 ->[t°, Pt] 4NO + 6H2O; NH3 đóng vai trò là",
+   "luaChon": [
+    "chất khử.",
+    "acid.",
+    "chất oxi hóa.",
+    "base."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 34,
+   "de": "Tính chất hóa học của NH_{3} là",
+   "luaChon": [
+    "tính base mạnh, tính khử.",
+    "tính base yếu, tính oxi hóa.",
+    "tính khử, tính base yếu.",
+    "tính base mạnh, tính oxi hóa."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 35,
+   "de": "Cho từ từ dung dịch NH_{3} đến dư vào dung dịch chứa chất nào sau đây thu được kết tủa?",
+   "luaChon": [
+    "MgCl_{2}.",
+    "H_{2}SO_{4}.",
+    "HCl.",
+    "NaCl."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 36,
+   "de": "Xét cân bằng trong ống nghiệm kín: 2NO2(g) (nâu đỏ) <=> N2O4(g) (không màu). Khi ngâm ống nghiệm vào nước đá thì màu nâu đỏ trong ống nghiệm nhạt dần. Hiện tượng thí nghiệm đó đã chứng tỏ",
+   "luaChon": [
+    "ΔH^{°}_{r} < 0 kJ.",
+    "ΔH^{°}_{r} = 0 kJ.",
+    "ΔH^{°}_{r} > 0 kJ.",
+    "ΔH^{°}_{r} = 55,1 kJ."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 37,
+   "de": "Cho phản ứng: N2(g) + 3H2(g) <=>[t°, xt, p] 2NH3(g). Nếu ở trạng thái cân bằng nồng độ của NH3 là 0,30 mol/L, nồng độ của N2 là 0,5 mol/L và nồng độ của H2 là 0,25 mol/L thì hằng số cân bằng của phản ứng là bao nhiêu?",
+   "luaChon": [
+    "2,400.",
+    "0,416.",
+    "11,520.",
+    "0,086."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 38,
+   "de": "Chất nào dưới đây là muối ammonium?",
+   "luaChon": [
+    "NaNO_{3}.",
+    "NH_{4}Cl.",
+    "NH_{3}.",
+    "NO."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 39,
+   "de": "Chất nào dưới đây nhiệt phân không thu được khí NH_{3}?",
+   "luaChon": [
+    "NH_{4}Cl.",
+    "NH_{4}HCO_{3}.",
+    "(NH_{4})_{2}CO_{3}.",
+    "NH_{4}NO_{3}."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 40,
+   "de": "Cho từ từ dung dịch NH_{4}Cl vào dung dịch NaOH, đun nóng nhẹ. Hiện tượng xảy ra là",
+   "luaChon": [
+    "có kết tủa trắng.",
+    "không có hiện tượng.",
+    "có khí mùi khai bay lên và kết tủa trắng.",
+    "có khí mùi khai bay lên."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 41,
+   "de": "Dung dịch A tác dụng với dung dịch NaOH xuất hiện khí mùi khai bay lên. Mặt khác, dung dịch A tác dụng với dung dịch AgNO_{3} xuất hiện kết tủa màu trắng. Dung dịch A có thể chứa ion nào sau đây?",
+   "luaChon": [
+    "NH_{4}^{+} và Br^{-}.",
+    "NH_{4}^{+} và Cl^{-}.",
+    "Na^{+} và Br^{-}.",
+    "Na^{+} và Cl^{-}."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 42,
+   "de": "Cho sơ đồ sau: Khí X ->[+H2O][(1)] Dung dịch X ->[+HCl][(2)] Y ->[+NaOH][(3)] Khí X ->[+HNO3][(4)] Z ->[t°][(5)] T + H2O. Biết X là hợp chất của nitrogen.",
+   "luaChon": [
+    "Chất X là N_{2}.",
+    "Chất Y là HNO_{3}.",
+    "Chất Z là NH_{4}NO_{3}.",
+    "Chất T là NO_{2}."
+   ],
+   "dapAn": 2
+  }
+ ]
+}

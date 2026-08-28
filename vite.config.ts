@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 // Tên kho đệm hình dùng chung với mã chạy trong app — xem src/lib/tenKhoHinh.ts.
 // Kéo từ đó sang chứ KHÔNG gõ lại chuỗi, để hai bên không bao giờ lệch nhau.
-import { TEN_KHO_HINH } from './src/lib/tenKhoHinh.ts';
+import { TEN_KHO_HINH, TEN_KHO_ANH_DE } from './src/lib/tenKhoHinh.ts';
 
 // https://vite.dev/config/
 // Khi build để deploy lên GitHub Pages, app nằm dưới /pHchem/.
@@ -46,7 +46,13 @@ export default defineConfig(({ command }) => ({
         // ấy, còn ai cần dùng ngoại tuyến thì bấm nút tải cả bộ trong Cài đặt.
         //
         // Dòng này phải đứng đây vì globPatterns ở trên có bắt cả *.svg.
-        globIgnores: ['**/hinh/**'],
+        //
+        // Thư mục de/ vào đây cùng lý do, và phải vào NGAY TỪ ĐẦU: globPatterns
+        // ở trên bắt cả *.png, nên ảnh đề thi rơi thẳng vào gói cài nếu không
+        // chặn. Một bộ đề chỉ vài KB nên chẳng ai để ý, nhưng thêm dần 50 bộ
+        // thì lại đúng cái cảnh 296 hình cấu tạo chiếm 73% gói cài hồi trước.
+        // Chặn từ lúc chưa đau thì không bao giờ phải đi gỡ.
+        globIgnores: ['**/hinh/**', '**/de/**'],
         runtimeCaching: [
           {
             // CacheFirst chứ không phải NetworkFirst: tên file hình có kèm
@@ -66,6 +72,25 @@ export default defineConfig(({ command }) => ({
               // Nới hơn 296 để nút "tải cả bộ" không bị chính luật dọn của
               // Workbox ăn mất mấy hình cuối ngay sau khi tải xong.
               expiration: { maxEntries: 400, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            // Đề thi: cả dữ liệu câu hỏi (.json) lẫn ảnh minh họa (.png) trong
+            // public/de/. Không nạp sẵn (xem globIgnores ở trên), làm đề nào
+            // thì đệm đề ấy — nên học sinh đã làm một lần thì lần sau mất mạng
+            // vẫn mở lại được.
+            //
+            // CacheFirst an toàn vì ẢNH có tên là mã băm nội dung, sửa ảnh là
+            // đổi luôn địa chỉ. Riêng file .json thì tên KHÔNG đổi khi sửa nội
+            // dung, nên phải để hạn 30 ngày — sửa sai một đáp án thì chậm nhất
+            // một tháng là máy học sinh nhận bản mới, chứ không kẹt vĩnh viễn.
+            urlPattern: ({ url }: { url: URL }) =>
+              url.pathname.includes('/de/') && /\.(png|json)$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: TEN_KHO_ANH_DE,
+              expiration: { maxEntries: 600, maxAgeSeconds: 60 * 60 * 24 * 30 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },

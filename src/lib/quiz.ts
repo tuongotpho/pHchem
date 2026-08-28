@@ -19,6 +19,11 @@ import { iupacOf } from '../data/iupac';
 import { balance, formatBalanced } from './balance';
 import { speciesOf } from './reaction';
 import type { Lang } from '../i18n/strings';
+// Bộ ngẫu nhiên có hạt giống nằm ở lib/ngauNhien.ts — DÙNG CHUNG với phần đề
+// của thầy. Trước đây ba hàm này nằm kẹt ở đây, không xuất ra, nên bên kia
+// phải chép lại một bản; hai bản trộn khác nhau thì cùng một mã đề lại ra hai
+// kết quả mà không ai thấy.
+import { taoRng, tron, chon, type Rng } from './ngauNhien';
 
 export type LoaiCau = 'canBang' | 'hienTuong' | 'lopChat' | 'doTan' | 'iupac' | 'nhomNguyenTo';
 
@@ -56,40 +61,6 @@ export const TEN_LOAI: Record<LoaiCau, { vi: string; en: string }> = {
   iupac: { vi: 'Danh pháp IUPAC', en: 'IUPAC naming' },
   nhomNguyenTo: { vi: 'Nhóm nguyên tố', en: 'Element groups' },
 };
-
-// ---------- Bộ sinh số ngẫu nhiên có hạt giống ----------
-// Thuật toán mulberry32: ngắn, không cần thư viện, đủ đều cho việc ra đề.
-function taoRng(hat: number) {
-  let a = hat >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-type Rng = () => number;
-/**
- * Rút ngẫu nhiên một phần tử. Mảng RỖNG thì trả undefined chứ không trả bừa.
- *
- * Trước đây `ds[Math.floor(rng() * 0)]` cho undefined rồi câu lệnh ngay sau
- * đó đọc thuộc tính của undefined và làm SẬP cả trang. Các mảng nguồn bên
- * dưới đều lọc từ dữ liệu, nên chỉ cần dữ liệu đổi là chúng rỗng lúc nào
- * không hay. Trả undefined thì nơi gọi bỏ câu đó đi, đề vẫn ra bình thường.
- */
-const chon = <T>(rng: Rng, ds: readonly T[]): T | undefined =>
-  ds.length ? ds[Math.floor(rng() * ds.length)] : undefined;
-
-/** Trộn mảng, không đụng vào mảng gốc. */
-function tron<T>(rng: Rng, ds: T[]): T[] {
-  const a = [...ds];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
 
 /**
  * Dựng bộ lựa chọn: đáp án đúng cộng thêm các đáp án nhiễu, bỏ trùng rồi trộn.

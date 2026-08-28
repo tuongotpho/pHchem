@@ -60,6 +60,41 @@ src/data/smiles.json  →  npm run struct  →  src/generated/structures.ts (dan
   báo SMILES sai / mồ côi / tọa độ hỏng. Hiện **274/274 khớp**.
 - Mở `structure-review.html` để soi toàn bộ hình một lượt (dành cho giáo viên duyệt).
 
+## Đề trắc nghiệm của giáo viên
+
+Ngoài đề máy tự sinh từ dữ liệu app, trang Luyện tập còn có mục **"Đề của thầy"** —
+đề thật do giáo viên soạn, giữ nguyên thứ tự câu và đáp án của thầy.
+
+**Ai làm gì.** Giáo viên chỉ làm hai việc, đều là việc vốn đã quen:
+
+1. Gửi **file Word** đề trắc nghiệm, soạn y như xưa nay vẫn soạn.
+2. Xem **trang duyệt** rồi gật đầu hoặc chỉ chỗ sai.
+
+Toàn bộ phần chuyển đổi và đưa vào mã nguồn là việc của người làm app. Không bắt thầy
+cô điền mẫu Excel, bỏ MathType hay học cú pháp nào.
+
+```text
+de-nguon/*.docx        →  npm run de  →  public/de/<mã>.json     (dữ liệu câu hỏi)
+de-nguon/*.va.json                    →  public/de/hinh/*.png    (ảnh đã nén)
+(bản vá do người làm app viết)        →  de-review-<mã>.html     (trang duyệt)
+```
+
+- **Đáp án lấy từ dấu gạch chân** thầy đánh trên chữ A/B/C/D — Word lưu thành dữ liệu
+  nên máy đọc thẳng, không phải đoán. *Vì vậy đừng xuất đề sang PDF rồi mới đưa vào:
+  sang PDF thì gạch chân chỉ còn là nét vẽ, mất sạch thông tin đáp án.*
+- **Chỉ số dưới / số mũ** cũng đọc từ định dạng của thầy (đề Nitrogen có 93 + 32 chỗ),
+  nên `¹⁴N` không bị nhầm thành hệ số 14.
+- **Công thức chèn bằng MathType** máy không đọc được — script bắt buộc phải có người
+  soi rồi khai `daSoi` trong bản vá mới cho qua.
+- **Ảnh KHÔNG nằm trong gói cài** (`globIgnores` trong `vite.config.ts`), nén về 4 mức
+  xám và đặt tên theo mã băm nội dung nên tự khử trùng lặp giữa các bộ đề. Thêm 100 bộ
+  đề thì gói cài vẫn nguyên kích thước.
+- Ký hiệu hóa học viết theo **cú pháp mhchem** (`H2O`, `NH4+`, `^14N`, `A ->[t°] B`),
+  vẽ bằng bộ nhẹ tự viết ở `src/lib/kyHieuHoa.js` — không kéo KaTeX (~320 KB mã + 254 KB
+  phông). Cần toán thật thì cắm KaTeX vào là chạy, không phải sửa dữ liệu.
+- Mở `de-review-<mã>.html` để soi cả bộ đề một lượt. Trang này vẽ bằng **đúng bộ vẽ của
+  app**, nên thầy cô duyệt ở đó thì học sinh nhìn thấy y như vậy.
+
 ## Cài lên điện thoại / máy tính
 
 Mở app trên trình duyệt (Chrome/Edge/Safari), chọn **"Cài đặt ứng dụng" / "Add to Home Screen"**.

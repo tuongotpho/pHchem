@@ -1,0 +1,117 @@
+{
+ "_doc": [
+  "Bản vá tay cho đề Nitrogen. NGƯỜI LÀM APP viết file này, KHÔNG phải giáo",
+  "viên — thầy cô chỉ gửi file Word và xem trang duyệt, không phải học cú pháp",
+  "nào ở đây. Xem phần AI LÀM GÌ ở đầu scripts/gen-de.mjs.",
+  "",
+  "Máy đọc được 30/42 câu trọn vẹn; 12 câu còn lại",
+  "có công thức chèn bằng MathType nên bóc ra bị THIẾU CHỮ giữa câu — thiếu mũi",
+  "tên, thiếu điều kiện phản ứng, thiếu dấu ba nối. Phần dưới là chữ ĐỌC BẰNG MẮT",
+  "từ bản vẽ trang, phóng to từng chỗ.",
+  "",
+  "CÚ PHÁP: mượn của mhchem, bộ ký hiệu hóa học chuẩn trên web. Xem",
+  "src/lib/kyHieuHoa.js. Mượn cú pháp chứ không kéo thư viện — hôm nào cần",
+  "toán thật thì cắm KaTeX vào là chạy, không phải sửa lại dữ liệu.",
+  "   H2O          -> H₂O          chữ số sau nguyên tố là chỉ số dưới",
+  "   2NO2         -> 2NO₂         chữ số đứng đầu là HỆ SỐ, không hạ",
+  "   NH4+  NO3-   -> NH₄⁺ NO₃⁻    dấu cuối là điện tích",
+  "   CrO4^2-      -> CrO₄²⁻       độ lớn điện tích phải khai bằng ^",
+  "   ^14N         -> ¹⁴N          số khối đồng vị",
+  "   1s22s22p3    -> 1s²2s²2p³    cấu hình electron, số là SỐ MŨ",
+  "   N2(g)        -> N₂(g)        trạng thái chất, in nghiêng",
+  "   A ->[t°] B                   điều kiện nằm TRÊN mũi tên",
+  "   A ->[+X][(1)] B              điều kiện trên, chú thích dưới",
+  "   A <=> B                      mũi tên thuận nghịch",
+  "   Δ_{r}H^{°}_{298}             khai tường minh, cho ký hiệu ngoài ASCII",
+  "",
+  "daSoi = true nghĩa là NGƯỜI ĐÃ SOI câu đó và xác nhận chữ ở đây đủ. Bỏ cờ này",
+  "ra thì script lại báo lỗi — cố ý, để không câu MathType nào lọt mà chưa ai nhìn."
+ ],
+
+ "id": "nitrogen-2026",
+ "ten": "Nitrogen và một số hợp chất quan trọng của nitrogen",
+
+ "cau": {
+  "6": {
+   "daSoi": true,
+   "luaChon": ["N = N", "N ≡ N", "N - N", "N → N"]
+  },
+
+  "11": {
+   "daSoi": true,
+   "de": "Trong phản ứng: N2(g) + 3H2(g) <=>[xt, t°, p] 2NH3(g). N2 thể hiện"
+  },
+
+  "12": {
+   "daSoi": true,
+   "de": "Trong phản ứng: N2(g) + O2(g) <=>[3000°C] 2NO(g). N2 thể hiện"
+  },
+
+  "14": {
+   "daSoi": true,
+   "luaChon": [
+    "N2 + O2 <=>[t°] 2NO.",
+    "N2 + 3H2 <=>[xt, t°] 2NH3.",
+    "3Ca + N2 ->[t°] Ca3N2.",
+    "3Mg + N2 ->[t°] Mg3N2."
+   ]
+  },
+
+  "18": {
+   "daSoi": true,
+   "de": "Quá trình tạo đạm nitrate từ nitrogen trong tự nhiên được mô tả theo sơ đồ sau: N2 ->[+X][(1)] NO ->[+X][(2)] NO2 ->[+X+H2O][(3)] HNO3 -> H+ + NO3-. Công thức của X là"
+  },
+
+  "20": {
+   "daSoi": true,
+   "de": "Cho cân bằng hóa học: N2(g) + 3H2(g) <=> 2NH3(g); Δ_{r}H^{°}_{298} < 0. Cân bằng trên chuyển dịch theo chiều thuận khi"
+  },
+
+  "21": {
+   "daSoi": true,
+   "de": "Cho cân bằng hoá học: N2(g) + 3H2(g) <=>[t°, xt] 2NH3(g). Phản ứng thuận là phản ứng toả nhiệt. Cân bằng hoá học không bị chuyển dịch khi"
+  },
+
+  "22": {
+   "_ghiChu": "Bảng năng lượng liên kết trong đề vốn là ẢNH CHỤP một cái bảng. Gõ lại thành bảng thật: nét trên mọi màn hình, đọc được trên điện thoại hẹp, đổi màu theo giao diện sáng/tối, và trình đọc màn hình đọc được. Bỏ ảnh đi, nhẹ thêm 8,3 KB.",
+   "boHinh": true,
+   "bang": {
+    "cot": ["Liên kết", "Năng lượng liên kết (kJ/mol)"],
+    "dong": [["N≡N", "945"], ["O=O", "498"], ["N=O", "631"]]
+   }
+  },
+
+  "30": {
+   "_ghiChu": "Ảnh gốc là ảnh chụp màn hình từ tài liệu khác: bên trong có sẵn dòng 'Câu 15: Người ta có thể thu khí NH3...' (SỐ CÂU SAI, đề này là câu 30) và cả bốn đáp án A-D. Chèn thẳng thì học sinh thấy câu hỏi hai lần, đáp án hai bộ. Cắt chỉ giữ ba hình vẽ và nhãn Hình 1/2/3.",
+   "catHinh": { "left": 0, "top": 22, "width": 485, "height": 112 }
+  },
+
+  "31": {
+   "daSoi": true,
+   "de": "Trong phương trình: NH3 + H2O <=> NH4+ + OH-, NH3 đóng vai trò là"
+  },
+
+  "33": {
+   "daSoi": true,
+   "de": "Trong phản ứng 4NH3 + 5O2 ->[t°, Pt] 4NO + 6H2O; NH3 đóng vai trò là"
+  },
+
+  "36": {
+   "_ghiChu": "Bản gốc KHÔNG đánh dấu đáp án câu này — cả bốn lựa chọn đều là công thức MathType, không chữ cái nào được gạch chân. Đáp án A suy ra từ hóa học: ngâm nước đá là làm lạnh, cân bằng chuyển theo chiều toả nhiệt; màu nâu đỏ của NO2 nhạt dần nghĩa là chuyển sang N2O4, vậy chiều thuận toả nhiệt, ΔrH° < 0. ĐÃ ĐƯỢC XÁC NHẬN ngày 28/08/2026 nên bỏ cờ dapAnSuyRa. Giữ ghi chú này lại để sau còn biết con số này từng không có trong bản gốc.",
+   "daSoi": true,
+   "de": "Xét cân bằng trong ống nghiệm kín: 2NO2(g) (nâu đỏ) <=> N2O4(g) (không màu). Khi ngâm ống nghiệm vào nước đá thì màu nâu đỏ trong ống nghiệm nhạt dần. Hiện tượng thí nghiệm đó đã chứng tỏ",
+   "luaChon": ["ΔH^{°}_{r} < 0 kJ.", "ΔH^{°}_{r} = 0 kJ.", "ΔH^{°}_{r} > 0 kJ.", "ΔH^{°}_{r} = 55,1 kJ."],
+   "dapAn": 0
+  },
+
+  "37": {
+   "daSoi": true,
+   "de": "Cho phản ứng: N2(g) + 3H2(g) <=>[t°, xt, p] 2NH3(g). Nếu ở trạng thái cân bằng nồng độ của NH3 là 0,30 mol/L, nồng độ của N2 là 0,5 mol/L và nồng độ của H2 là 0,25 mol/L thì hằng số cân bằng của phản ứng là bao nhiêu?"
+  },
+
+  "42": {
+   "daSoi": true,
+   "de": "Cho sơ đồ sau: Khí X ->[+H2O][(1)] Dung dịch X ->[+HCl][(2)] Y ->[+NaOH][(3)] Khí X ->[+HNO3][(4)] Z ->[t°][(5)] T + H2O. Biết X là hợp chất của nitrogen."
+  }
+ }
+}

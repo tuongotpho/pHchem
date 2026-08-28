@@ -60,8 +60,8 @@ export const STRINGS = {
   },
   home_title_quiz: { vi: 'Luyện tập', en: 'Practice' },
   home_desc_quiz: {
-    vi: 'Đề tự sinh từ dữ liệu, không bao giờ cạn',
-    en: 'Questions generated from the data, never repeats',
+    vi: 'Đề máy tự sinh, và đề thật của giáo viên',
+    en: 'Generated sets, and real teacher papers',
   },
   home_title_electro: { vi: 'Dãy điện hóa', en: 'Electrochemical series' },
   home_desc_electro: {

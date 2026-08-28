@@ -11,6 +11,7 @@
     "test": "vitest run",
     "icons": "node scripts/gen-icons.mjs",
     "struct": "node scripts/gen-structures.mjs",
+    "de": "node scripts/gen-de.mjs",
     "audit": "tsc -b && vitest run && node scripts/gen-structures.mjs",
     "build:firebase": "tsc -b && vite build --base=/ --outDir dist-firebase",
     "preview:firebase": "vite preview --outDir dist-firebase --port 5185"
@@ -27,6 +28,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.4",
     "autoprefixer": "^10.5.4",
+    "jszip": "^3.10.1",
     "oxlint": "^1.75.0",
     "postcss": "^8.5.26",
     "sharp": "^0.35.3",

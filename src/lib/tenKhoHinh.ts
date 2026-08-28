@@ -13,3 +13,9 @@
 // File này KHÔNG được dùng gì của trình duyệt (fetch, caches, window): nó bị
 // vite.config.ts kéo vào, mà chỗ đó chạy bằng Node và không có mấy thứ ấy.
 export const TEN_KHO_HINH = 'ph-chem-hinh-cau-tao';
+
+// Kho đệm ẢNH ĐỀ THI. Để riêng khỏi kho hình cấu tạo vì hai thứ có vòng đời
+// khác hẳn: hình cấu tạo là dữ liệu cố định của app, người dùng bấm một nút là
+// tải cả bộ 296 hình; còn ảnh đề đến rồi đi theo từng bộ đề, xóa cả kho đề
+// không được phép đụng tới hình cấu tạo đã tải công phu.
+export const TEN_KHO_ANH_DE = 'ph-chem-anh-de';

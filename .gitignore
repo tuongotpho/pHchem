@@ -29,3 +29,6 @@ structure-review.html
 *.njsproj
 *.sln
 *.sw?
+
+# Trang duyet de cho thay co - in ra soi roi bo, khong can luu
+de-review-*.html
