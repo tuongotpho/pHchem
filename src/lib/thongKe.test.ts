@@ -3,10 +3,8 @@ import {
   docSo,
   dinhDang,
   docDaLuu,
-  canHoiLai,
   diaChiDem,
   diaChiTong,
-  HAN_HOI_LAI,
 } from './thongKe';
 
 describe('docSo — bóc con số khỏi phần trả lời của GoatCounter', () => {
@@ -79,34 +77,26 @@ describe('docDaLuu — đọc con số lần trước trong kho lưu', () => {
   });
 });
 
-describe('canHoiLai — bao lâu mới phiền máy chủ một lần', () => {
-  const gio = 60 * 60 * 1000;
-
-  it('chưa có gì trong kho thì hỏi ngay', () => {
-    expect(canHoiLai(null, 0)).toBe(true);
-  });
-
-  it('mới lấy cách đây một tiếng thì thôi', () => {
-    // GoatCounter tự đệm tới bốn tiếng, hỏi lại lúc này chỉ nhận số cũ.
-    expect(canHoiLai({ so: 10, luc: 0 }, gio)).toBe(false);
-  });
-
-  it('quá sáu tiếng thì hỏi lại', () => {
-    expect(canHoiLai({ so: 10, luc: 0 }, HAN_HOI_LAI)).toBe(true);
-    expect(canHoiLai({ so: 10, luc: 0 }, 7 * gio)).toBe(true);
-  });
-
-  it('đồng hồ máy lệch về tương lai thì hỏi lại chứ không kẹt cứng', () => {
-    // Mốc lưu "sau" hiện tại: phép trừ ra số âm, nếu chỉ so với hạn thì con
-    // số đứng im mãi cho tới khi người dùng chỉnh lại giờ máy.
-    expect(canHoiLai({ so: 10, luc: 100 * gio }, gio)).toBe(true);
-  });
-});
-
 describe('địa chỉ gọi tới GoatCounter', () => {
   it('dựng đúng dạng máy chủ quy định', () => {
     expect(diaChiDem('abc')).toBe('https://abc.goatcounter.com/count');
     // TOTAL viết hoa, không gạch chéo đứng trước — sai một chữ là hỏng.
     expect(diaChiTong('abc')).toBe('https://abc.goatcounter.com/counter/TOTAL.json');
+  });
+});
+
+describe('KHÔNG được nhớ số 0 rồi tin nó — lỗi thật ngày 28/08/2026', () => {
+  it('số 0 vẫn đọc lại được, nhưng chỉ để hiện tạm', () => {
+    // Sáng 28/08 máy chủ còn trả 0, app cất lại rồi tin suốt sáu tiếng; tới
+    // trưa bảng điều khiển đã 21 lượt mà trang vẫn trơ số 0. Nay không còn hạn
+    // chờ nào: mỗi lần mở app là hỏi lại, số cất chỉ để hiện lúc chờ.
+    expect(docDaLuu('{"so":0,"luc":1787883591541}')).toEqual({ so: 0, luc: 1787883591541 });
+  });
+
+  it('không còn hàm nào chặn việc hỏi lại', async () => {
+    // Chốt bằng mã: thêm lại một hạn chờ mà quên ca số 0 là lỗi cũ quay lại.
+    const m = await import('./thongKe');
+    expect(Object.keys(m)).not.toContain('canHoiLai');
+    expect(Object.keys(m)).not.toContain('HAN_HOI_LAI');
   });
 });

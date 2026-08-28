@@ -7,7 +7,6 @@ import {
   docSo,
   dinhDang,
   docDaLuu,
-  canHoiLai,
   KHOA_LUU,
 } from '../lib/thongKe';
 
@@ -46,9 +45,11 @@ export default function DemTruyCap({
   useEffect(() => {
     if (!MA_GOATCOUNTER) return;
 
-    const daLuu = docDaLuu(doc(KHOA_LUU));
-    if (!canHoiLai(daLuu, Date.now())) return;
-
+    // HỎI LẠI MỖI LẦN MỞ APP, không giữ hạn chờ nào — xem lý do ở
+    // lib/thongKe.ts. Số đã cất chỉ để hiện ngay lúc chờ và làm bản dự phòng
+    // khi mất mạng. Component này gắn một lần theo khung app nên cả phiên chỉ
+    // gọi đúng một lượt, không phải mỗi lần chuyển trang.
+    //
     // Bỏ dở lượt gọi nếu người dùng rời đi trước khi mạng trả lời.
     const dungLai = new AbortController();
     fetch(diaChiTong(MA_GOATCOUNTER), { signal: dungLai.signal })

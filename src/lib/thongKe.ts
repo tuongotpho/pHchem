@@ -69,20 +69,24 @@ export function dinhDang(n: number, lang: 'vi' | 'en'): string {
 
 export const KHOA_LUU = 'chemipro.luotTruyCap';
 
-/**
- * Sáu tiếng mới hỏi lại máy chủ một lần.
- *
- * Chính GoatCounter đã đệm phần trả lời TỚI BỐN TIẾNG, nên hỏi dày hơn thế
- * chỉ nhận lại đúng con số cũ mà vẫn tốn một lượt gọi mạng của người dùng.
- * Sáu tiếng là để nằm hẳn ngoài khoảng đệm đó.
- */
-export const HAN_HOI_LAI = 6 * 60 * 60 * 1000;
-
 export interface SoDaLuu {
   so: number;
   /** Mốc thời gian lấy được, tính bằng mili giây. */
   luc: number;
 }
+
+// KHÔNG CÓ HẠN CHỜ GIỮA HAI LẦN HỎI — bản đầu có, và nó đẻ ra lỗi thật:
+//
+// Sáng 28/08/2026 máy chủ còn trả 0 (chưa có lượt nào ghi nhận). App cất số 0
+// đó lại rồi TIN NÓ trong sáu tiếng. Tới trưa bảng điều khiển đã đếm 21 lượt
+// mà trang vẫn trơ ra số 0 — nhìn như hỏng, và không có cách nào bảo nó hỏi lại.
+//
+// Sai từ gốc: số 0 không phải một phép đo, nó là "chưa có gì". Cất lại rồi tin
+// suốt sáu tiếng là tin vào chỗ trống.
+//
+// Nay mỗi lần mở app hỏi lại một lần. Một lượt gọi khoảng 200 byte, một lần
+// cho cả phiên — không đáng gì. Số đã cất giờ chỉ còn một việc: hiện ngay lúc
+// chờ, và làm bản dự phòng khi mất mạng.
 
 /** Đọc con số lần trước. Hỏng hay chưa có thì coi như chưa biết gì. */
 export function docDaLuu(chuoi: string | null): SoDaLuu | null {
@@ -96,13 +100,4 @@ export function docDaLuu(chuoi: string | null): SoDaLuu | null {
     // Kho lưu bị ai sửa tay hoặc bản cũ lưu kiểu khác — bỏ qua, hỏi lại máy chủ.
   }
   return null;
-}
-
-/** Đã tới lúc hỏi lại máy chủ chưa. Chưa có gì trong kho thì hỏi ngay. */
-export function canHoiLai(daLuu: SoDaLuu | null, bayGio: number): boolean {
-  if (!daLuu) return true;
-  // Máy để lệch giờ về tương lai thì mốc cũ hóa ra "sau" hiện tại. Hỏi lại
-  // luôn, đừng để con số kẹt cứng cho tới khi người dùng chỉnh lại đồng hồ.
-  if (daLuu.luc > bayGio) return true;
-  return bayGio - daLuu.luc >= HAN_HOI_LAI;
 }
