@@ -162,7 +162,8 @@ export default function Quiz() {
   const { lang } = useLang();
   const vi = lang === 'vi';
 
-  const [chonLoai, setChonLoai] = useState<LoaiCau[]>([]);
+  /** Dạng bài đang chọn; chuỗi rỗng nghĩa là lấy tất cả. */
+  const [chonLoai, setChonLoai] = useState<LoaiCau | ''>('');
   const [soCau, setSoCau] = useState(10);
   const [de, setDe] = useState<CauChoi[] | null>(null);
   const [hat, setHat] = useState(0);
@@ -176,7 +177,14 @@ export default function Quiz() {
 
   // Ngân hàng đề
   const [danhMuc, setDanhMuc] = useState<MucDanhMuc[]>([]);
-  const [chonChuyenDe, setChonChuyenDe] = useState<string[]>([]);
+  /** Chuyên đề đang chọn; chuỗi rỗng nghĩa là lấy tất cả. */
+  const [chonChuyenDe, setChonChuyenDe] = useState('');
+  /**
+   * Đang ở màn ghi tên, và ghi cho nguồn nào. null nghĩa là còn ở màn chọn đề.
+   * Hỏi tên ở một màn riêng chứ không nhét ô nhập vào thẻ chọn đề: hai thẻ nhờ
+   * vậy ngắn lại và CAO BẰNG NHAU, mà tên vẫn hỏi đúng một lần.
+   */
+  const [chuanBi, setChuanBi] = useState<'thay' | 'ai' | null>(null);
   const [soCauThay, setSoCauThay] = useState(20);
   /** Chuyên đề của lượt đang làm — null nghĩa là đang làm đề do AI tự tạo. */
   const [dangLamThay, setDangLamThay] = useState<string | null>(null);
@@ -252,12 +260,12 @@ export default function Quiz() {
 
   // Tổng số câu của các chuyên đề đang chọn — để ước thời gian cho nút "Tất cả".
   const soCauToiDa = nhomChuyenDe
-    .filter((n) => !chonChuyenDe.length || chonChuyenDe.includes(n.ten))
+    .filter((n) => !chonChuyenDe || n.ten === chonChuyenDe)
     .reduce((t, n) => t + n.soCau, 0);
 
   const batDau = () => {
     const h = hatMoi();
-    const bo = sinhDe(h, soCau, lang, chonLoai);
+    const bo = sinhDe(h, soCau, lang, chonLoai ? [chonLoai] : []);
     if (!bo.length) {
       setKhongRaDuocDe(true);
       return;
@@ -286,7 +294,7 @@ export default function Quiz() {
    * thì không ai bảo đảm.
    */
   const moDeThay = async (hatCho?: number) => {
-    const chon = chonChuyenDe.length ? chonChuyenDe : nhomChuyenDe.map((n) => n.ten);
+    const chon = chonChuyenDe ? [chonChuyenDe] : nhomChuyenDe.map((n) => n.ten);
     const canLay = nhomChuyenDe.filter((n) => chon.includes(n.ten)).flatMap((n) => n.muc);
     if (!canLay.length) return;
 
@@ -310,6 +318,11 @@ export default function Quiz() {
   };
 
   const datDe = (bo: CauChoi[]) => {
+    // Rời màn ghi tên NGAY TẠI ĐÂY chứ không ở chỗ bấm nút: dựng đề có thể
+    // hỏng giữa chừng (không ra được câu nào, tải đề thất bại), lúc ấy phải
+    // còn nguyên màn ghi tên để hiện lời báo lỗi. Chỉ khi đề đã dựng xong mới
+    // được đi tiếp.
+    setChuanBi(null);
     setDe(bo);
     setViTri(0);
     setDaChon(null);
@@ -344,23 +357,131 @@ export default function Quiz() {
   // tập chứ không phải học thuộc thứ tự câu.
   const lamLai = () => (dangLamThay ? moDeThay() : batDau());
 
-  const doiLoai = (l: LoaiCau) => {
-    setKhongRaDuocDe(false); // đổi lựa chọn thì lời nhắc cũ hết nghĩa
-    setChonLoai((cu) => (cu.includes(l) ? cu.filter((x) => x !== l) : [...cu, l]));
+  /** Tổng số câu của TẤT CẢ chuyên đề, cho mục "Tất cả" trong danh sách. */
+  const soCauToanBo = nhomChuyenDe.reduce((t, n) => t + n.soCau, 0);
+
+  /** Chọn đề xong thì sang màn ghi tên, chưa dựng đề vội. */
+  const moChuanBi = (nguon: 'thay' | 'ai') => {
+    setKhongRaDuocDe(false);
+    setLoiTaiDe(false);
+    setChuanBi(nguon);
   };
 
-  const doiChuyenDe = (t: string) => {
-    setLoiTaiDe(false);
-    setChonChuyenDe((cu) => (cu.includes(t) ? cu.filter((x) => x !== t) : [...cu, t]));
+  /** Ghi tên xong mới thật sự dựng đề và bấm giờ. */
+  const vaoLamBai = () => {
+    if (chuanBi === 'thay') moDeThay();
+    else batDau();
   };
 
   const veManChon = () => {
     setDe(null);
+    setChuanBi(null);
     setDangLamThay(null);
   };
 
+  // ---------- Màn ghi tên ----------
+  //
+  // Hỏi tên SAU khi chọn xong đề, ngay trước khi vào làm — đúng thói quen
+  // phòng thi: nhận đề rồi mới ghi tên lên bài. Tách hẳn một màn thay vì nhét
+  // ô nhập vào thẻ chọn đề, nhờ vậy hai thẻ kia ngắn lại và cao bằng nhau, mà
+  // tên vẫn chỉ hỏi một lần cho cả hai nguồn.
+  if (chuanBi) {
+    const laThay = chuanBi === 'thay';
+    const soCauSe = laThay ? soCauThay || soCauToiDa : soCau;
+    const nguon = laThay
+      ? chonChuyenDe || (vi ? 'Tất cả chuyên đề' : 'All topics')
+      : chonLoai
+        ? vi
+          ? TEN_LOAI[chonLoai].vi
+          : TEN_LOAI[chonLoai].en
+        : vi
+          ? 'Tất cả dạng bài'
+          : 'All topics';
+
+    return (
+      <>
+        <PageHeader
+          title={laThay ? (vi ? 'Ngân hàng đề' : 'Question bank') : vi ? 'Đề do AI tự tạo' : 'AI-generated set'}
+          subtitle={vi ? 'Ghi tên rồi vào làm bài' : 'Write your name, then start'}
+        />
+        <div className="p-4 md:p-6">
+          <section className="card p-5 max-w-md mx-auto space-y-4">
+            {/* Nhắc lại lựa chọn ngay trên đầu: học sinh xác nhận được mình
+                sắp làm đúng đề mình định, và bước ghi tên có việc thật chứ
+                không phải một cửa chắn vô cớ. */}
+            <div className="rounded-lg bg-accent/10 px-4 py-3 text-center">
+              <div className="font-semibold text-accent">{nguon}</div>
+              <div className="text-xs text-slate-500 mt-0.5">
+                {soCauSe} {vi ? 'câu' : 'questions'} · {dinhDangDongHo(soCauSe * GIAY_MOI_CAU)}
+              </div>
+            </div>
+
+            <label className="block">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                {vi ? 'Họ tên học sinh' : 'Student name'}
+              </span>
+              <input
+                value={tenHS}
+                onChange={(e) => doiTen(e.target.value)}
+                maxLength={60}
+                autoFocus
+                placeholder={vi ? 'Nguyễn Văn A' : 'Your name'}
+                className="mt-1.5 w-full bg-base-900 border border-base-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:border-accent/60 focus:outline-none"
+              />
+              <span className="block text-xs text-slate-500 mt-1.5">
+                {vi
+                  ? 'Ghi vào phiếu kết quả. Để trống cũng làm bài được. Tên chỉ nằm trong máy bạn, ứng dụng không gửi đi đâu.'
+                  : 'Printed on the result slip. You can leave it blank. It stays on your device — nothing is sent anywhere.'}
+              </span>
+            </label>
+
+            <button
+              onClick={vaoLamBai}
+              disabled={dangTai}
+              className="btn-accent w-full py-2.5 disabled:opacity-50"
+            >
+              {dangTai ? (vi ? 'Đang tải…' : 'Loading…') : vi ? 'Vào làm bài' : 'Start now'}
+            </button>
+
+            {khongRaDuocDe && (
+              <p className="text-xs text-rose-700 dark:text-rose-300">
+                {vi
+                  ? 'Chưa ra được câu nào với dạng bài đang chọn. Quay lại chọn dạng khác.'
+                  : 'No questions could be built from that topic. Go back and pick another.'}
+              </p>
+            )}
+            {loiTaiDe && (
+              <p className="text-xs text-rose-700 dark:text-rose-300">
+                {vi
+                  ? 'Không tải được bộ đề. Kiểm tra mạng rồi thử lại.'
+                  : 'Could not load the paper. Check your connection and try again.'}
+              </p>
+            )}
+
+            <button onClick={() => setChuanBi(null)} className="btn-ghost w-full text-xs">
+              {vi ? 'Quay lại chọn đề' : 'Back to picking'}
+            </button>
+          </section>
+        </div>
+      </>
+    );
+  }
+
   // ---------- Màn chọn ----------
   if (!de) {
+    // Hai thẻ dùng CHUNG một khuôn: ô chọn → số câu → nút. Nhờ vậy chúng cao
+    // bằng nhau mà không phải chỉnh tay. Trước đây bên AI có sáu chip dạng bài
+    // xếp hai hàng còn bên ngân hàng chỉ một chip, hai thẻ lệch hẳn nhau.
+    const lopChon =
+      'mt-1.5 w-full bg-base-900 border border-base-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:border-accent/60 focus:outline-none';
+    const lopNhan = 'text-[11px] font-semibold uppercase tracking-wider text-slate-500';
+    const lopSo = (chon: boolean) =>
+      `text-xs px-4 py-1.5 rounded-lg border transition ${
+        chon
+          ? 'bg-accent/15 border-accent/40 text-accent'
+          : 'border-base-700 text-slate-400 hover:text-slate-200'
+      }`;
+
     return (
       <>
         <PageHeader
@@ -371,18 +492,12 @@ export default function Quiz() {
               : 'The teacher question bank, and AI-generated sets'
           }
         />
-        <div className="p-4 md:p-6 space-y-4">
-          <div className="grid gap-4 lg:grid-cols-2 lg:items-start">
-            {/* ----- Cột TRÁI: ngân hàng đề của giáo viên -----
+        <div className="p-4 md:p-6">
+          <div className="grid gap-4 lg:grid-cols-2">
+            {/* ----- Cột trái: ngân hàng đề của giáo viên -----
                 Đứng trước vì đây mới là đề thật, sát chương trình. Đề AI tự
-                tạo là phần ôn thêm khi đã làm hết ngân hàng. ----- */}
-            <section className="card p-4 space-y-4">
-              {/* Tiêu đề nằm trên nền màu, căn giữa — hai cột nhìn ra ngay là
-                  hai nguồn đề khác nhau chứ không phải một danh sách dài.
-                  Chỉ giữ MỘT dòng mô tả: câu nói thật về mức tin cậy (máy chỉ
-                  kiểm được hình thức, không kiểm được nội dung) đã chuyển sang
-                  trang Cài đặt, mục "Hai nguồn đề, hai mức tin cậy" — vẫn còn
-                  nguyên, chỉ là không chắn đường vào bài. */}
+                tạo là phần ôn thêm khi đã làm hết ngân hàng. */}
+            <section className="card p-4 flex flex-col gap-4">
               <div className="rounded-lg bg-accent/10 px-4 py-3 text-center">
                 <h2 className="font-semibold text-accent">
                   {vi ? 'Ngân hàng đề' : 'Question bank'}
@@ -397,105 +512,59 @@ export default function Quiz() {
               {nhomChuyenDe.length === 0 ? (
                 <p className="text-xs text-slate-500">
                   {vi
-                    ? 'Chưa có chuyên đề nào. Ngân hàng đề tải về khi có mạng, lần sau mở lại vẫn dùng được.'
+                    ? 'Chưa có chuyên đề nào. Đề tải về khi có mạng, lần sau mở lại vẫn dùng được.'
                     : 'No topics yet. Papers download when online, and stay available afterwards.'}
                 </p>
               ) : (
                 <>
-                  <div>
-                    <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-2">
-                      {vi
-                        ? 'Chọn chuyên đề — để trống là lấy tất cả'
-                        : 'Pick topics — none means all'}
-                    </h3>
-                    <div className="flex flex-wrap gap-1.5">
+                  <label className="block">
+                    <span className={lopNhan}>{vi ? 'Chuyên đề' : 'Topic'}</span>
+                    <select
+                      value={chonChuyenDe}
+                      onChange={(e) => setChonChuyenDe(e.target.value)}
+                      className={lopChon}
+                    >
+                      <option value="">
+                        {vi ? `Tất cả — ${soCauToanBo} câu` : `All — ${soCauToanBo} questions`}
+                      </option>
                       {nhomChuyenDe.map((n) => (
-                        <button
-                          key={n.ten}
-                          onClick={() => doiChuyenDe(n.ten)}
-                          className={`text-xs px-3 py-1.5 rounded-lg border transition text-left ${
-                            chonChuyenDe.includes(n.ten)
-                              ? 'bg-accent/15 border-accent/40 text-accent'
-                              : 'border-base-700 text-slate-400 hover:text-slate-200'
-                          }`}
-                        >
-                          {n.ten}
-                          <span className="text-slate-500 ml-1.5">{n.soCau}</span>
-                        </button>
+                        <option key={n.ten} value={n.ten}>
+                          {n.ten} — {n.soCau} {vi ? 'câu' : 'q.'}
+                        </option>
                       ))}
-                    </div>
-                  </div>
+                    </select>
+                  </label>
 
                   <div>
-                    <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-2">
-                      {vi ? 'Số câu' : 'How many'}
-                    </h3>
-                    <div className="flex flex-wrap gap-1.5">
+                    <span className={lopNhan}>{vi ? 'Số câu' : 'How many'}</span>
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
                       {SO_CAU_THAY.map((n) => (
                         <button
                           key={n}
                           onClick={() => setSoCauThay(n)}
-                          className={`text-xs px-4 py-1.5 rounded-lg border transition ${
-                            soCauThay === n
-                              ? 'bg-accent/15 border-accent/40 text-accent'
-                              : 'border-base-700 text-slate-400 hover:text-slate-200'
-                          }`}
+                          className={lopSo(soCauThay === n)}
                         >
-                          {/* 0 nghĩa là lấy hết — để người dùng vẫn làm được trọn
-                              bộ đề như bản in của thầy khi cần. */}
+                          {/* 0 nghĩa là lấy hết — để vẫn làm được trọn bộ đề
+                              như bản in của thầy khi cần. */}
                           {n === 0 ? (vi ? 'Tất cả' : 'All') : n}
                         </button>
                       ))}
                     </div>
                   </div>
 
-                  {/* Ô tên đặt SAU phần chọn chuyên đề và số câu, ngay trước
-                      nút bắt đầu — đúng thứ tự một buổi làm bài: chọn đề xong
-                      mới ghi tên rồi vào làm. Tên chỉ nằm trong máy học sinh. */}
-                  <label className="block">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                      {vi ? 'Họ tên học sinh' : 'Student name'}
-                    </span>
-                    <input
-                      value={tenHS}
-                      onChange={(e) => doiTen(e.target.value)}
-                      maxLength={60}
-                      placeholder={vi ? 'Nguyễn Văn A' : 'Your name'}
-                      className="mt-1.5 w-full bg-base-900 border border-base-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:border-accent/60 focus:outline-none"
-                    />
-                    <span className="block text-xs text-slate-500 mt-1.5">
-                      {vi
-                        ? 'Ghi vào phiếu kết quả. Tên chỉ nằm trong máy bạn, ứng dụng không gửi đi đâu.'
-                        : 'Printed on the result slip. It stays on your device — nothing is sent anywhere.'}
-                    </span>
-                  </label>
-
                   <button
-                    onClick={() => moDeThay()}
-                    disabled={dangTai}
-                    className="btn-accent w-full py-2.5 disabled:opacity-50"
+                    onClick={() => moChuanBi('thay')}
+                    className="btn-accent w-full py-2.5 mt-auto"
                   >
-                    {dangTai
-                      ? vi
-                        ? 'Đang tải…'
-                        : 'Loading…'
-                      : `${vi ? 'Bắt đầu' : 'Start'} · ${dinhDangDongHo(
-                          (soCauThay || soCauToiDa) * GIAY_MOI_CAU,
-                        )}`}
+                    {vi ? 'Bắt đầu' : 'Start'} ·{' '}
+                    {dinhDangDongHo((soCauThay || soCauToiDa) * GIAY_MOI_CAU)}
                   </button>
                 </>
               )}
-
-              {loiTaiDe && (
-                <p className="text-xs text-rose-700 dark:text-rose-300">
-                  {vi
-                    ? 'Không tải được bộ đề. Kiểm tra mạng rồi thử lại.'
-                    : 'Could not load that paper. Check your connection and try again.'}
-                </p>
-              )}
             </section>
-            {/* ----- Cột PHẢI: đề do AI tự tạo ----- */}
-            <section className="card p-4 space-y-4">
+
+            {/* ----- Cột phải: đề do AI tự tạo ----- */}
+            <section className="card p-4 flex flex-col gap-4">
               <div className="rounded-lg bg-accent/10 px-4 py-3 text-center">
                 <h2 className="font-semibold text-accent">
                   {vi ? 'Đề do AI tự tạo' : 'AI-generated set'}
@@ -507,61 +576,43 @@ export default function Quiz() {
                 </p>
               </div>
 
-              <div>
-                <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-2">
-                  {vi ? 'Chọn dạng bài — để trống là lấy tất cả' : 'Pick topics — none means all'}
-                </h3>
-                <div className="flex flex-wrap gap-1.5">
+              <label className="block">
+                <span className={lopNhan}>{vi ? 'Dạng bài' : 'Question type'}</span>
+                <select
+                  value={chonLoai}
+                  onChange={(e) => {
+                    setKhongRaDuocDe(false); // đổi lựa chọn thì lời nhắc cũ hết nghĩa
+                    setChonLoai(e.target.value as LoaiCau | '');
+                  }}
+                  className={lopChon}
+                >
+                  <option value="">{vi ? 'Tất cả dạng bài' : 'All types'}</option>
                   {CAC_LOAI.map((l) => (
-                    <button
-                      key={l}
-                      onClick={() => doiLoai(l)}
-                      className={`text-xs px-3 py-1.5 rounded-lg border transition ${
-                        chonLoai.includes(l)
-                          ? 'bg-accent/15 border-accent/40 text-accent'
-                          : 'border-base-700 text-slate-400 hover:text-slate-200'
-                      }`}
-                    >
+                    <option key={l} value={l}>
                       {vi ? TEN_LOAI[l].vi : TEN_LOAI[l].en}
-                    </button>
+                    </option>
                   ))}
-                </div>
-              </div>
+                </select>
+              </label>
 
               <div>
-                <h3 className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-2">
-                  {vi ? 'Số câu' : 'How many'}
-                </h3>
-                <div className="flex gap-1.5">
+                <span className={lopNhan}>{vi ? 'Số câu' : 'How many'}</span>
+                <div className="flex flex-wrap gap-1.5 mt-1.5">
                   {SO_CAU.map((n) => (
-                    <button
-                      key={n}
-                      onClick={() => setSoCau(n)}
-                      className={`text-xs px-4 py-1.5 rounded-lg border transition ${
-                        soCau === n
-                          ? 'bg-accent/15 border-accent/40 text-accent'
-                          : 'border-base-700 text-slate-400 hover:text-slate-200'
-                      }`}
-                    >
+                    <button key={n} onClick={() => setSoCau(n)} className={lopSo(soCau === n)}>
                       {n}
                     </button>
                   ))}
                 </div>
               </div>
 
-              <button onClick={batDau} className="btn-accent w-full py-2.5">
+              <button
+                onClick={() => moChuanBi('ai')}
+                className="btn-accent w-full py-2.5 mt-auto"
+              >
                 {vi ? 'Bắt đầu' : 'Start'} · {dinhDangDongHo(soCau * GIAY_MOI_CAU)}
               </button>
-
-              {khongRaDuocDe && (
-                <p className="text-xs text-rose-700 dark:text-rose-300">
-                  {vi
-                    ? 'Chưa ra được câu nào với dạng bài đang chọn. Thử chọn thêm dạng khác.'
-                    : 'No questions could be built from the selected topics. Try adding more.'}
-                </p>
-              )}
             </section>
-
           </div>
         </div>
       </>
