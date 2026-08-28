@@ -7,7 +7,7 @@ import { phanTich, type Manh } from '../lib/kyHieuHoa.js';
 // KHÁC FormulaText Ở CHỖ NÀO: FormulaText nhận vào MỘT công thức đã biết chắc
 // là công thức, rồi hạ mọi chữ số xuống. Component này nhận vào CẢ CÂU tiếng
 // Việt lẫn lộn công thức, nên phải tự tìm đâu là công thức — và phải phân biệt
-// hệ số với chỉ số, số mũ với chỉ số. Đem FormulaText áp vào câu đề của thầy
+// hệ số với chỉ số, số mũ với chỉ số. Đem FormulaText áp vào câu ngân hàng đề
 // thì "2NO2(g)" thành "₂NO₂(g)": hệ số 2 tụt xuống thành chỉ số, sai hóa học.
 
 function VeManh({ m }: { m: Manh }) {

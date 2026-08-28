@@ -165,7 +165,7 @@ export function catThanhCau(doan) {
   const chotCau = () => {
     // Đoạn nào có ảnh thì cắm một CÁI MỐC vào đúng chỗ đó trong đề bài.
     //
-    // Vì sao cần: đề của thầy hay xen ảnh vào GIỮA đề bài — câu 22 là "Biết
+    // Vì sao cần: ngân hàng đề hay xen ảnh vào GIỮA đề bài — câu 22 là "Biết
     // năng lượng liên kết cho trong bảng sau:" rồi mới tới bảng, rồi mới tới
     // "Tính giá trị biến thiên enthalpy...". Không có mốc thì ảnh bị dồn hết
     // xuống cuối, đề đọc lên thành "cho trong bảng sau: ... tính giá trị ...

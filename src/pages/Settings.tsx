@@ -46,6 +46,11 @@ export default function Settings() {
             'Không có quảng cáo. Có một bộ đếm lượt truy cập (GoatCounter) để biết ứng dụng được dùng nhiều hay ít: nó gửi đi đường dẫn trang bạn mở, không đặt cookie, không dựng hồ sơ, không bán số liệu, và không có cách nào lần ra bạn là ai — mã nhận diện khách của nó tự đổi mới mỗi ngày. Con số đó hiện công khai ở cuối cột trái, bạn thấy đúng những gì chúng tôi thấy. Lựa chọn ngôn ngữ và giao diện chỉ lưu trong máy bạn. Ngoài bộ đếm này, ứng dụng chỉ nối mạng để lấy hình cấu tạo lần đầu bạn xem chất đó.',
         },
         {
+          tieuDe: 'Hai nguồn đề, hai mức tin cậy khác nhau',
+          noiDung:
+            'Trang Luyện tập có hai nguồn. Đề do AI tự tạo dựng từ chính dữ liệu của ứng dụng — dữ liệu đã qua bộ kiểm tự động, nên đáp án không thể sai. Ngân hàng đề là đề thật do giáo viên soạn, đáp án là đáp án thầy cô đánh dấu; ở đây máy chỉ kiểm được hình thức (đủ bốn lựa chọn, có đúng một đáp án) chứ không kiểm được nội dung hóa học. Mỗi bộ đề đều được thầy cô soi lại một lượt trên trang duyệt trước khi đưa vào.',
+        },
+        {
           tieuDe: 'Máy tự kiểm số liệu, không tin vào mắt người',
           noiDung:
             'Mỗi lần sửa mã, bộ phép kiểm tự động chạy lại toàn bộ: cân bằng từng phương trình, đối chiếu công thức với cấu trúc phân tử, kiểm nhiệt độ nóng chảy có khớp trạng thái chất hay không.',
@@ -76,6 +81,11 @@ export default function Settings() {
           tieuDe: 'No ads, nobody identified',
           noiDung:
             'No ads. There is one visitor counter (GoatCounter) so we know whether the app gets used: it sends the path of the page you open, sets no cookies, builds no profile, sells nothing, and cannot trace you — its visitor hash is rotated daily. That number is shown openly at the bottom of the sidebar, so you see exactly what we see. Language and theme stay on your device. Apart from the counter, the only network request is fetching a structure image the first time you view that compound.',
+        },
+        {
+          tieuDe: 'Two question sources, two levels of trust',
+          noiDung:
+            'Practice has two sources. AI-generated sets are built from the app’s own data, which passes the automated checks — so those answers cannot be wrong. The question bank holds real papers written by a teacher, with the teacher’s own answer key; there the app only checks the shape (four options, exactly one answer), not the chemistry. Every paper is reviewed once by the teacher before it goes in.',
         },
         {
           tieuDe: 'Data checked by machine, not by eye',

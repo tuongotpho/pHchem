@@ -60,9 +60,9 @@ src/data/smiles.json  →  npm run struct  →  src/generated/structures.ts (dan
   báo SMILES sai / mồ côi / tọa độ hỏng. Hiện **274/274 khớp**.
 - Mở `structure-review.html` để soi toàn bộ hình một lượt (dành cho giáo viên duyệt).
 
-## Đề trắc nghiệm của giáo viên
+## Ngân hàng đề của giáo viên
 
-Ngoài đề máy tự sinh từ dữ liệu app, trang Luyện tập còn có mục **"Đề của thầy"** —
+Ngoài đề do AI tự tạo từ dữ liệu app, trang Luyện tập còn có mục **"Ngân hàng đề"** —
 đề thật do giáo viên soạn, giữ nguyên thứ tự câu và đáp án của thầy.
 
 **Ai làm gì.** Giáo viên chỉ làm hai việc, đều là việc vốn đã quen:

@@ -14,7 +14,7 @@
 /**
  * Mốc đánh dấu chỗ đặt ảnh / bảng NGAY TRONG đề bài.
  *
- * Đề của thầy hay xen ảnh vào giữa đề — câu 22 là "...cho trong bảng sau:" rồi
+ * Ngân hàng đề hay xen ảnh vào giữa đề — câu 22 là "...cho trong bảng sau:" rồi
  * mới tới bảng, rồi mới tới "Tính giá trị...". Không có mốc thì ảnh bị dồn
  * xuống cuối và đề đọc lên ngược thứ tự. Chuỗi mốc do scripts/deParse.mjs cắm
  * vào, hai bên phải khai giống hệt nhau.
@@ -98,8 +98,8 @@ export const anhCua = (ten: string) => duongDanHinh(goc(), ten);
 
 /**
  * Lấy danh sách bộ đề. Không có file hay mất mạng thì trả mảng RỖNG chứ không
- * ném lỗi — app này chạy ngoại tuyến là chính, thiếu đề của thầy thì vẫn còn
- * nguyên phần đề máy tự sinh, không có cớ gì để hỏng cả trang.
+ * ném lỗi — app này chạy ngoại tuyến là chính, thiếu ngân hàng đề thì vẫn còn
+ * nguyên phần đề do AI tự tạo, không có cớ gì để hỏng cả trang.
  */
 export async function layDanhMuc(): Promise<MucDanhMuc[]> {
   try {

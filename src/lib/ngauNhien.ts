@@ -7,7 +7,7 @@
 //   - Phép kiểm tự động chạy được: cùng hạt thì kết quả lặp lại, so sánh được.
 //
 // TÁCH RA KHỎI lib/quiz.ts (28/08/2026): trước đây ba hàm này nằm kẹt trong
-// đó, không xuất ra, nên phần đề của thầy muốn trộn câu thì phải chép lại một
+// đó, không xuất ra, nên phần ngân hàng đề muốn trộn câu thì phải chép lại một
 // bản. Hai bản trộn khác nhau nghĩa là cùng một mã đề mà hai nguồn ra hai kết
 // quả — mã đề mất hết ý nghĩa mà không ai thấy.
 
