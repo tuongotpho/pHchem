@@ -71,6 +71,56 @@ export function tenTepPhieu(du: DuLieuPhieu): string {
   return `pH-Chem_${ten}_${ngay}_made-${du.maDe}.png`;
 }
 
+/**
+ * Lưu phiếu thành file ảnh.
+ *
+ * VÌ SAO KHÔNG DÙNG THẲNG THẺ TẢI FILE: bản đầu tạo một thẻ <a download> với
+ * dữ liệu ảnh nhúng trong địa chỉ. Trên máy tính chạy tốt, nhưng ĐIỆN THOẠI
+ * xử lý khác hẳn:
+ *   - Android đẩy file vào thư mục Tải xuống, KHÔNG vào thư viện ảnh, nên học
+ *     sinh mở Ảnh ra không thấy đâu; có bản Chrome còn chặn hẳn kiểu địa chỉ
+ *     nhúng dữ liệu vì file quá dài.
+ *   - iOS Safari phần lớn bỏ qua thuộc tính download, nó mở ảnh ra tab mới.
+ *
+ * Cách đúng trên điện thoại là gọi BẢNG CHIA SẺ của hệ điều hành: ở đó có sẵn
+ * mục "Lưu ảnh" / "Save to Photos" đưa thẳng vào thư viện, và tiện thể gửi
+ * luôn cho thầy cô qua Zalo.
+ *
+ * Máy tính không có bảng chia sẻ thì mới rơi về cách tải file như cũ — nhưng
+ * dùng địa chỉ blob thay cho dữ liệu nhúng, không còn giới hạn độ dài.
+ *
+ * @returns cách đã dùng, để giao diện nói cho đúng
+ */
+export async function luuAnh(
+  cv: HTMLCanvasElement,
+  tenTep: string,
+): Promise<'chiaSe' | 'taiVe' | 'hong'> {
+  const blob = await new Promise<Blob | null>((tra) => cv.toBlob(tra, 'image/png'));
+  if (!blob) return 'hong';
+
+  const tep = new File([blob], tenTep, { type: 'image/png' });
+  if (navigator.canShare?.({ files: [tep] })) {
+    try {
+      await navigator.share({ files: [tep] });
+      return 'chiaSe';
+    } catch (e) {
+      // Người dùng bấm huỷ bảng chia sẻ — đó là ý họ, KHÔNG được lặng lẽ tải
+      // file về thay thế. Chỉ khi bảng chia sẻ hỏng thật mới rơi xuống dưới.
+      if ((e as Error)?.name === 'AbortError') return 'chiaSe';
+    }
+  }
+
+  const diaChi = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = diaChi;
+  a.download = tenTep;
+  a.click();
+  // Trả bộ nhớ lại cho trình duyệt, nhưng đợi đã: thu hồi ngay thì có máy huỷ
+  // luôn lượt tải vừa bắt đầu.
+  setTimeout(() => URL.revokeObjectURL(diaChi), 10_000);
+  return 'taiVe';
+}
+
 // ---------- Phần vẽ ----------
 
 // Khổ phiếu cố ý NHỎ. Bản đầu là 760×440 với con điểm cỡ 74 — nhìn như tấm

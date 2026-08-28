@@ -18,7 +18,7 @@ import {
   type BangSoLieu,
 } from '../lib/deThay';
 import { taoRng, tron, hatMoi } from '../lib/ngauNhien';
-import { vePhieu, tenTepPhieu, dinhDangDongHo } from '../lib/phieuKetQua';
+import { vePhieu, tenTepPhieu, luuAnh, dinhDangDongHo } from '../lib/phieuKetQua';
 import { doc, ghi } from '../lib/boNho';
 
 const CAC_LOAI = Object.keys(TEN_LOAI) as LoaiCau[];
@@ -198,6 +198,8 @@ export default function Quiz() {
   /** Mốc bắt đầu lượt làm, dùng để tính ra giờ nộp mà không phải đóng băng gì. */
   const [batDauLuc, setBatDauLuc] = useState(0);
   const khungPhieu = useRef<HTMLCanvasElement>(null);
+  const [dangLuu, setDangLuu] = useState(false);
+  const [loiLuu, setLoiLuu] = useState(false);
 
   useEffect(() => {
     let con = true;
@@ -340,17 +342,18 @@ export default function Quiz() {
   /**
    * Lưu phiếu kết quả thành file ảnh.
    *
-   * Dùng thẻ <a download> với dữ liệu ảnh nhúng thẳng trong địa chỉ, không gọi
-   * ra máy chủ nào — app chạy ngoại tuyến vẫn lưu được, và tên học sinh không
-   * rời khỏi máy.
+   * Điện thoại thì mở bảng chia sẻ của hệ điều hành (ở đó mới có mục lưu vào
+   * thư viện ảnh), máy tính thì tải file về — xem lib/phieuKetQua.ts. Cả hai
+   * đường đều làm ngay trong máy, không gọi ra máy chủ nào: app chạy ngoại
+   * tuyến vẫn lưu được và tên học sinh không rời khỏi máy.
    */
-  const luuPhieu = (du: Parameters<typeof tenTepPhieu>[0]) => {
+  const luuPhieu = async (du: Parameters<typeof tenTepPhieu>[0]) => {
     const cv = khungPhieu.current;
     if (!cv) return;
-    const a = document.createElement('a');
-    a.href = cv.toDataURL('image/png');
-    a.download = tenTepPhieu(du);
-    a.click();
+    setDangLuu(true);
+    const cach = await luuAnh(cv, tenTepPhieu(du));
+    setDangLuu(false);
+    if (cach === 'hong') setLoiLuu(true);
   };
 
   // Làm lại thì XÁO BỘ KHÁC, không lặp lại đúng bộ vừa làm — mục đích là ôn
@@ -650,9 +653,27 @@ export default function Quiz() {
               ref={khungPhieu}
               className="w-full max-w-md h-auto rounded-lg border border-base-800"
             />
-            <button onClick={() => luuPhieu(duLieuPhieu)} className="btn-accent px-5 py-2">
-              {vi ? 'Lưu ảnh' : 'Save image'}
+            <button
+              onClick={() => luuPhieu(duLieuPhieu)}
+              disabled={dangLuu}
+              className="btn-accent px-5 py-2 disabled:opacity-50"
+            >
+              {dangLuu ? (vi ? 'Đang lưu…' : 'Saving…') : vi ? 'Lưu ảnh' : 'Save image'}
             </button>
+            {/* Nói trước cho người dùng điện thoại: bấm xong hiện bảng chia sẻ
+                chứ không lưu ngay. Không nói thì họ tưởng nút hỏng. */}
+            <p className="text-xs text-slate-500 text-center max-w-md">
+              {vi
+                ? 'Trên điện thoại, nút này mở bảng chia sẻ — chọn "Lưu ảnh" để đưa vào thư viện, hoặc gửi thẳng cho thầy cô. Trên máy tính thì tải file về.'
+                : 'On a phone this opens the share sheet — pick “Save image” to put it in your gallery, or send it straight to your teacher. On a computer it downloads the file.'}
+            </p>
+            {loiLuu && (
+              <p className="text-xs text-rose-700 dark:text-rose-300">
+                {vi
+                  ? 'Không dựng được ảnh. Thử lại, hoặc chụp màn hình tấm phiếu ở trên.'
+                  : 'Could not build the image. Try again, or screenshot the slip above.'}
+              </p>
+            )}
             {!tenHS.trim() && (
               <p className="text-xs text-amber-600 dark:text-amber-300">
                 {vi
@@ -729,7 +750,13 @@ export default function Quiz() {
         title={vi ? 'Luyện tập' : 'Practice'}
         subtitle={`${viTri + 1}/${de.length} · ${c.nhan}`}
       />
-      <div className="p-4 md:p-6 space-y-4">
+      {/* BÓ GỌN BỀ NGANG ở màn làm bài. Trải hết màn 1920 thì một dòng đề dài
+          tới hơn 200 chữ cái — mắt phải quét ngang quá xa, đọc xong đầu dòng
+          sau đã quên đầu dòng trước. Khoảng 900 điểm ảnh giữ dòng đề trong tầm
+          đọc thoải mái mà vẫn đủ chỗ xếp bốn lựa chọn thành hai cột.
+          Riêng màn chọn đề và màn kết quả vẫn trải rộng: chúng là lưới thẻ, càng
+          rộng càng đỡ phải cuộn. */}
+      <div className="p-4 md:p-6 space-y-4 max-w-4xl mx-auto">
         {/* Thanh tiến độ + đồng hồ đếm ngược */}
         <div className="flex items-center gap-3">
           <div className="h-1 flex-1 rounded-full bg-base-800 overflow-hidden">
