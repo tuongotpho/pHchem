@@ -11,6 +11,8 @@
 //   - public/de/danh-muc.json→ danh sách các bộ đề để app biết có những gì
 //   - de-review-<mã>.html    → TRANG DUYỆT cho thầy cô soi một lượt trước khi
 //                              cho học sinh dùng (không cam kết vào git)
+//   - src/generated/deTongKet.ts → ba con số tổng kết cho trang Cài đặt
+//                              (cam kết vào git)
 //
 // ═══ AI LÀM GÌ — chốt ngày 28/08/2026 ═══
 //
@@ -310,8 +312,31 @@ for (const f of readdirSync(THU_MUC_RA)) {
 
 writeFileSync(join(THU_MUC_RA, 'danh-muc.json'), JSON.stringify(danhMuc, null, 1) + '\n');
 
+// Ba con số tổng kết cho thẻ "Kho dữ liệu" ở trang Cài đặt.
+//
+// VÌ SAO SINH RA FILE chứ không để app đọc danh-muc.json lúc chạy: mọi con số
+// khác trong thẻ đó đếm từ dữ liệu nạp sẵn nên LÚC NÀO CŨNG CÓ, kể cả lần đầu
+// mở khi mất mạng. Đọc qua mạng thì riêng mấy ô này lúc có lúc không, nhìn như
+// hỏng. File chỉ chứa ba con số — câu hỏi và ảnh vẫn nằm ngoài gói cài.
+const soChuyenDe = new Set(danhMuc.map((d) => d.chuyenDe)).size;
+const tongCau = danhMuc.reduce((t, d) => t + d.soCau, 0);
+writeFileSync(
+  'src/generated/deTongKet.ts',
+  [
+    '// SINH TỰ ĐỘNG bởi scripts/gen-de.mjs — ĐỪNG SỬA TAY, chạy `npm run de`.',
+    '// Chỉ là con số tổng kết cho trang Cài đặt; câu hỏi nằm ở public/de/.',
+    'export const DE_TONG_KET = {',
+    `  soBoDe: ${danhMuc.length},`,
+    `  soChuyenDe: ${soChuyenDe},`,
+    `  soCau: ${tongCau},`,
+    '};',
+    '',
+  ].join('\n'),
+);
+
 console.log(`\n${'─'.repeat(50)}`);
 console.log(`✓ ${danhMuc.length} bộ đề → ${THU_MUC_RA}/`);
+console.log('✓ Tổng kết cho trang Cài đặt → src/generated/deTongKet.ts');
 console.log(`✓ ${hinhDaGhi.size} ảnh dùng chung → ${THU_MUC_HINH}/`);
 if (daDon) console.log(`✓ Dọn ${daDon} file mồ côi`);
 trangDaSinh.forEach((t) => console.log(`✓ Trang duyệt cho thầy cô: ${t}`));

@@ -6,6 +6,7 @@ import { TERMS } from '../data/dictionary';
 import { FACTS } from '../data/facts';
 import { REACTIONS } from '../data/reactions';
 import { CATIONS, ANIONS } from '../data/solubility';
+import { DE_TONG_KET } from '../generated/deTongKet';
 import { STRUCTURE_COUNT } from '../generated/structures';
 import TaiHinhNgoaiTuyen from '../components/TaiHinhNgoaiTuyen';
 
@@ -31,6 +32,11 @@ export default function Settings() {
       nhan: vi ? 'Ô bảng độ tan' : 'Solubility cells',
       so: String(CATIONS.length * ANIONS.length),
     },
+    // Ngân hàng đề: câu hỏi nằm NGOÀI gói cài, nhưng con số tổng kết thì sinh
+    // sẵn lúc build (src/generated/deTongKet.ts). Nhờ vậy hai ô này luôn có,
+    // kể cả lần đầu mở khi mất mạng — giống mọi ô khác trong thẻ này.
+    { nhan: vi ? 'Câu hỏi ngân hàng' : 'Bank questions', so: String(DE_TONG_KET.soCau) },
+    { nhan: vi ? 'Chuyên đề' : 'Topics', so: String(DE_TONG_KET.soChuyenDe) },
   ];
 
   const nguyenTac: { tieuDe: string; noiDung: string }[] = vi
@@ -150,7 +156,10 @@ export default function Settings() {
           <h3 className="font-semibold text-slate-100 mb-3">
             {vi ? 'Kho dữ liệu' : 'Data included'}
           </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          {/* Ba cột chứ không phải bốn: chín ô chia hết cho ba, không còn ô
+              nào đứng lẻ ở hàng cuối. Ô cũng rộng hơn nên nhãn dài như "Câu
+              hỏi ngân hàng" không phải xuống dòng. */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {soLieu.map((x) => (
               <div
                 key={x.nhan}
@@ -167,8 +176,8 @@ export default function Settings() {
           </div>
           <p className="text-[11px] text-slate-600 mt-2.5">
             {vi
-              ? 'Các con số này do ứng dụng tự đếm từ dữ liệu thật mỗi lần mở, không phải ghi tay nên không bao giờ lạc hậu.'
-              : 'These numbers are counted from the live data on every load, never typed by hand.'}
+              ? 'Các con số này do máy đếm từ chính dữ liệu thật, không phải ghi tay nên không bao giờ lạc hậu.'
+              : 'These numbers are counted from the real data, never typed by hand.'}
           </p>
         </section>
 

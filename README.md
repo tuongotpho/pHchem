@@ -15,8 +15,9 @@ Không quảng cáo, không theo dõi. Giao diện tối, song ngữ Việt / An
 | Thư viện công thức | **340 chất** vô cơ / hữu cơ / hóa lý, **274 chất có hình công thức cấu tạo** | Hình sinh bằng RDKit, chuẩn IUPAC |
 | Từ điển | **211 thuật ngữ**, lọc theo chữ cái | Song ngữ |
 | Sự thật | **208 sự thật**, 141 câu gắn với nguyên tố liên quan | Hiện kèm ở trang chi tiết nguyên tố |
+| Luyện tập | Hai nguồn đề: **ngân hàng đề** của giáo viên (xáo thứ tự theo chuyên đề) và **đề do AI tự tạo**. Đồng hồ 30 giây/câu, phiếu kết quả lưu thành ảnh | Ngân hàng đề chuyển từ file Word; xem mục riêng bên dưới |
 
-Tổng: **59 test tự động** kiểm tính toán và tính nhất quán của dữ liệu.
+Tổng: **502 test tự động** kiểm tính toán, bộ đọc đề và tính nhất quán của dữ liệu.
 
 ## Chạy thử (máy đã cài Node)
 
