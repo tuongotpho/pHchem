@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PageHeader from '../components/PageHeader';
 import { useLang } from '../i18n/LangContext';
+import FormulaText, { EquationText } from '../components/FormulaText';
 import { parseFormula, percentComposition } from '../lib/formula';
 import { balance, formatBalanced } from '../lib/balance';
 import { convert, dilution, VM_STP, type KnownQuantity } from '../lib/solution';
@@ -16,6 +17,11 @@ import { doSo, doSoHoacTrong, oHong } from '../lib/soNhap';
 
 type Tab = 'mass' | 'convert' | 'dilute' | 'ph' | 'balance' | 'stoich';
 
+// Nút ví dụ ghi phương trình theo lối GÕ ĐƯỢC ("->"), vì bấm vào là nó điền
+// thẳng chuỗi đó vào ô nhập. Nhưng khi VẼ RA thì đổi sang mũi tên thật, để chữ
+// số trong công thức được hạ chỉ số như mọi chỗ khác trong app.
+const VE_MUI_TEN = '→';
+
 const QUICK = ['H2O', 'H2SO4', 'NaCl', 'Ca(OH)2', 'C6H12O6', 'CuSO4.5H2O'];
 
 /** Hiển thị số gọn: số rất nhỏ/rất lớn dùng dạng mũ, còn lại bỏ số 0 thừa. */
@@ -25,6 +31,21 @@ function fmt(x: number, digits = 4): string {
     return x.toExponential(3).replace('e', ' × 10^').replace('^+', '^');
   }
   return String(Number(x.toFixed(digits)));
+}
+
+/**
+ * Vẽ chuỗi số đã qua fmt(), nâng phần số mũ lên đúng chỗ: "6,017 × 10^23" hiện
+ * ra 10²³ chứ không phải "10^23".
+ *
+ * Dấu mũ ^ là cách GÕ, không phải cách ĐỌC. Để nguyên thì học sinh nhìn thấy
+ * một ký tự không có trong sách giáo khoa nào, ngay giữa một trang toàn số.
+ */
+function SoMu({ t }: { t: string }) {
+  return (
+    <>
+      {t.split(/\^(-?\d+)/).map((x, i) => (i % 2 ? <sup key={i}>{x}</sup> : <span key={i}>{x}</span>))}
+    </>
+  );
 }
 
 const inputCls =
@@ -100,7 +121,7 @@ function MassTab() {
             onClick={() => setInput(q)}
             className="text-xs font-mono px-2 py-1 rounded-lg bg-base-800 hover:bg-base-700 text-slate-300"
           >
-            {q}
+            <FormulaText value={q} />
           </button>
         ))}
       </div>
@@ -117,6 +138,13 @@ function MassTab() {
             <div className="text-xs text-slate-400 mb-1">
               {lang === 'vi' ? 'Khối lượng mol' : 'Molar mass'}
             </div>
+            {/* Nhắc lại đang tính cho chất nào. Ô nhập chỉ chứa được chữ trần
+                ("C6H12O6") vì thẻ input của HTML không nhận thẻ con, nên đây là
+                chỗ DUY NHẤT trên tab này công thức hiện ra đúng chuẩn hóa học. */}
+            <FormulaText
+              value={input.trim()}
+              className="block font-mono text-slate-200 mb-1 break-words"
+            />
             <div className="text-4xl font-bold text-accent font-mono">{res.mass}</div>
             <div className="text-sm text-slate-400 mt-1">g/mol</div>
           </div>
@@ -245,6 +273,12 @@ function ConvertTab() {
 
       {res && (
         <div className="card divide-y divide-base-800">
+          {/* Nhắc lại đang tính cho chất nào — bảng dưới toàn con số, rời khỏi
+              ô nhập một quãng thì không còn gì cho biết chúng là của chất gì. */}
+          <div className="px-4 py-2 text-xs text-slate-500 flex flex-wrap items-center gap-x-2">
+            <span>{lang === 'vi' ? 'Đang tính cho' : 'Calculating for'}</span>
+            <FormulaText value={formula.trim()} className="font-mono text-slate-300" />
+          </div>
           {[
             { l: lang === 'vi' ? 'Số mol' : 'Moles', v: `${fmt(res.moles)} mol` },
             { l: lang === 'vi' ? 'Khối lượng' : 'Mass', v: `${fmt(res.mass)} g` },
@@ -267,7 +301,9 @@ function ConvertTab() {
           ].map((r) => (
             <div key={r.l} className="flex justify-between gap-3 px-4 py-2.5">
               <span className="text-sm text-slate-400">{r.l}</span>
-              <span className="text-sm font-mono font-medium text-slate-100">{r.v}</span>
+              <span className="text-sm font-mono font-medium text-slate-100">
+                  <SoMu t={r.v} />
+                </span>
             </div>
           ))}
         </div>
@@ -371,7 +407,7 @@ function DilutionTab() {
             {lang === 'vi' ? 'Kết quả' : 'Result'}
           </div>
           <div className="text-3xl font-bold text-accent font-mono">
-            {FIELDS.find((x) => x.id === out.field)!.label} = {fmt(out.value)}
+            {FIELDS.find((x) => x.id === out.field)!.label} = <SoMu t={fmt(out.value)} />
           </div>
         </div>
       )}
@@ -438,7 +474,7 @@ function PhTab() {
                           : 'border-base-700 text-slate-400 hover:text-slate-200'
                       }`}
                     >
-                      {ab.formula}
+                      <FormulaText value={ab.formula} />
                     </button>
                   ),
                 )}
@@ -475,7 +511,7 @@ function PhTab() {
         <span className="text-slate-500 text-xs">
           {lang === 'vi' ? 'Đang tính cho: ' : 'Calculating for: '}
         </span>
-        <span className="font-mono text-slate-200">{chat.formula}</span>
+        <FormulaText value={chat.formula} className="font-mono text-slate-200" />
         <span className="text-slate-400"> — {lang === 'vi' ? chat.vi : chat.en}</span>
         <span className="text-slate-500 text-xs">
           {' '}
@@ -511,7 +547,9 @@ function PhTab() {
             ].map((r) => (
               <div key={r.l} className="flex justify-between gap-3 px-4 py-2.5">
                 <span className="text-sm text-slate-400 font-mono">{r.l}</span>
-                <span className="text-sm font-mono font-medium text-slate-100">{r.v}</span>
+                <span className="text-sm font-mono font-medium text-slate-100">
+                  <SoMu t={r.v} />
+                </span>
               </div>
             ))}
           </div>
@@ -564,7 +602,7 @@ function BalanceTab() {
             onClick={() => setInput(q)}
             className="text-xs font-mono px-2 py-1 rounded-lg bg-base-800 hover:bg-base-700 text-slate-300"
           >
-            {q}
+            <EquationText eq={q.replace('->', VE_MUI_TEN)} />
           </button>
         ))}
       </div>
@@ -580,9 +618,10 @@ function BalanceTab() {
           <div className="text-xs text-slate-400 mb-2">
             {lang === 'vi' ? 'Đã cân bằng' : 'Balanced'}
           </div>
-          <div className="text-lg md:text-xl font-mono font-semibold text-accent break-words">
-            {formatBalanced(res)}
-          </div>
+          <EquationText
+            eq={formatBalanced(res)}
+            className="text-lg md:text-xl font-mono font-semibold text-accent break-words"
+          />
         </div>
       )}
     </div>
@@ -670,7 +709,7 @@ function StoichTab() {
             }}
             className="text-xs font-mono px-2 py-1 rounded-lg bg-base-800 hover:bg-base-700 text-slate-300"
           >
-            {q}
+            <EquationText eq={q.replace('->', VE_MUI_TEN)} />
           </button>
         ))}
       </div>
@@ -687,9 +726,10 @@ function StoichTab() {
             <div className="text-[11px] text-slate-500 mb-1">
               {vi ? 'Phương trình đã cân bằng' : 'Balanced equation'}
             </div>
-            <div className="font-mono font-semibold text-accent break-words">
-              {kq.phuongTrinhCanBang}
-            </div>
+            <EquationText
+              eq={kq.phuongTrinhCanBang ?? ''}
+              className="font-mono font-semibold text-accent break-words"
+            />
           </div>
 
           {kq.chatHetTruoc && (
@@ -697,9 +737,10 @@ function StoichTab() {
               <span className="text-slate-400">
                 {vi ? 'Chất phản ứng hết trước: ' : 'Limiting reagent: '}
               </span>
-              <span className="font-mono font-semibold text-amber-600 dark:text-amber-300">
-                {kq.chatHetTruoc}
-              </span>
+              <FormulaText
+                value={kq.chatHetTruoc}
+                className="font-mono font-semibold text-amber-600 dark:text-amber-300"
+              />
               <div className="text-xs text-slate-500 mt-1">
                 {vi
                   ? 'Mọi lượng dưới đây tính theo chất này, không theo chất còn dư.'
@@ -730,12 +771,12 @@ function StoichTab() {
                     <td className="py-2 pr-2">
                       <span className="font-mono font-semibold text-slate-100">
                         {c.heSo > 1 ? `${c.heSo} ` : ''}
-                        {c.congThuc}
+                        <FormulaText value={c.congThuc} />
                       </span>
                       <div className="text-[10px] text-slate-500">
                         {c.veTrai ? (vi ? 'tham gia' : 'reactant') : vi ? 'sản phẩm' : 'product'}
                         {' · M = '}
-                        {fmt(c.M, 2)}
+                        <SoMu t={fmt(c.M, 2)} />
                       </div>
                     </td>
                     <td className="py-2 px-2">
@@ -764,16 +805,16 @@ function StoichTab() {
                       {c.molDu > 1e-9 && (
                         <div className="text-[10px] text-amber-600 dark:text-amber-300 mt-0.5">
                           {vi ? 'còn dư ' : 'excess '}
-                          {fmt(c.molDu)} mol
+                          <SoMu t={fmt(c.molDu)} /> mol
                         </div>
                       )}
                     </td>
-                    <td className="py-2 px-2 text-right font-mono text-slate-100">{fmt(c.mol)}</td>
+                    <td className="py-2 px-2 text-right font-mono text-slate-100"><SoMu t={fmt(c.mol)} /></td>
                     <td className="py-2 px-2 text-right font-mono text-slate-300">
-                      {fmt(c.khoiLuong)}
+                      <SoMu t={fmt(c.khoiLuong)} />
                     </td>
                     <td className="py-2 pl-2 text-right font-mono text-slate-500">
-                      {fmt(c.theTichKhi)}
+                      <SoMu t={fmt(c.theTichKhi)} />
                     </td>
                   </tr>
                 ))}
