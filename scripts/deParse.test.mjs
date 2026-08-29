@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { timMocLuaChon, catThanhCau, bocDoan, tachDoan } from './deParse.mjs';
 
 // Dựng nhanh một đoạn Word giả để khỏi phải có file .docx thật trong test.
-const doan = (mau, { hinh = [], congThuc = false } = {}) => {
+const doan = (mau, { hinh = [], congThuc = false, ole } = {}) => {
   const runs = mau
     .map(([chu, gach]) => {
       const rPr = gach ? '<w:rPr><w:u w:val="single"/></w:rPr>' : '<w:rPr/>';
@@ -10,9 +10,15 @@ const doan = (mau, { hinh = [], congThuc = false } = {}) => {
     })
     .join('');
   const anh = hinh.map((r) => `<w:drawing><a:blip r:embed="${r}"/></w:drawing>`).join('');
+  // Không có r:id: đúng cảnh công thức KHÔNG bóc ra chữ được.
   const ct = congThuc ? '<w:object><o:OLEObject ProgID="Equation.DSMT4"/></w:object>' : '';
-  return bocDoan(`<w:p>${runs}${anh}${ct}</w:p>`);
+  return bocDoan(`<w:p>${runs}${anh}${ct}</w:p>`, ole ?? {});
 };
+
+/** Một run chứa công thức MathType có mã tra cứu, kèm bản vẽ xem trước WMF. */
+const runCongThuc = (rid) =>
+  `<w:r><w:object><v:shape><v:imagedata r:id="rId90"/></v:shape>` +
+  `<o:OLEObject Type="Embed" ProgID="Equation.DSMT4" r:id="${rid}"/></w:object></w:r>`;
 
 describe('timMocLuaChon — tìm bốn mốc A. B. C. D.', () => {
   it('tìm được bộ mốc thường gặp', () => {
@@ -90,7 +96,7 @@ describe('catThanhCau — cắt tài liệu thành từng câu', () => {
     expect(cau).toHaveLength(3);
     expect(cau.map((c) => c.soGhi)).toEqual([1, 2, 3]);
     expect(cau[1].luaChon).toEqual(['', '', '', '']);
-    expect(cau[1].coCongThuc).toBe(true);
+    expect(cau[1].thieuCongThuc).toBe(true);
   });
 
   it('đề bài trải qua nhiều đoạn thì gom đủ', () => {
@@ -131,9 +137,29 @@ describe('bocDoan — đọc mẩu chữ và cờ định dạng', () => {
     expect(d.mau[0].gachChan).toBe(false);
   });
 
-  it('nhận ra đoạn có công thức MathType', () => {
-    expect(doan([['x', false]], { congThuc: true }).coCongThuc).toBe(true);
-    expect(doan([['x', false]]).coCongThuc).toBe(false);
+  it('công thức MathType KHÔNG bóc được chữ thì khai là thiếu', () => {
+    expect(doan([['x', false]], { congThuc: true }).thieuCongThuc).toBe(true);
+    expect(doan([['x', false]]).thieuCongThuc).toBe(false);
+  });
+
+  it('công thức đã bóc được chữ thì cắm vào ĐÚNG CHỖ nó đứng giữa đoạn', () => {
+    // Đây là cả lý do bocDoan phải đi theo từng run: cắm sai chỗ thì câu đọc
+    // lên ngược — "Cho phương trình: . Phát biểu nào đúng?" mà công thức bị
+    // dồn xuống cuối.
+    const xml =
+      '<w:p><w:r><w:rPr/><w:t xml:space="preserve">Cho phương trình: </w:t></w:r>' +
+      runCongThuc('rId7') +
+      '<w:r><w:rPr/><w:t>. Phát biểu nào đúng?</w:t></w:r></w:p>';
+    const d = bocDoan(xml, { rId7: { chu: 'NH_{4}^{+} + H_{2}O <=> NH_{3}', hieu: true } });
+    expect(d.chu).toBe('Cho phương trình: NH_{4}^{+} + H_{2}O <=> NH_{3}. Phát biểu nào đúng?');
+    expect(d.thieuCongThuc).toBe(false);
+  });
+
+  it('bản vẽ xem trước của công thức KHÔNG bị tính là ảnh của đề', () => {
+    // Bên trong <w:object> có một <v:imagedata> — đó là ảnh WMF vẽ lại công
+    // thức, không phải hình minh họa. Tính nhầm là đề mọc thêm mốc "{{hinh}}".
+    const d = bocDoan(`<w:p>${runCongThuc('rId7')}</w:p>`, { rId7: { chu: '->', hieu: true } });
+    expect(d.hinh).toEqual([]);
   });
 
   it('đọc chỉ số dưới và số mũ thầy đánh dấu bằng định dạng Word', () => {

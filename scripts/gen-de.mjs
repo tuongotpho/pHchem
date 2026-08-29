@@ -42,30 +42,36 @@
 // có, đánh số vọt tới 50 (sót lại từ bộ đề thầy chép về), và có câu thiếu
 // dấu. Tin vào nó là hỏng lặng lẽ.
 //
-// VÌ SAO CẦN BẢN VÁ: hai thứ trong file Word máy không đọc nổi.
+// CÔNG THỨC MATHTYPE — ĐÃ ĐỌC ĐƯỢC, sửa lại kết luận cũ ngày 29/08/2026.
 //
-//   1. Công thức chèn bằng MathType nằm trong đối tượng OLE nhị phân, KHÔNG
-//      đọc ra chữ được. Đã thử hai đường và cả hai đều tắc: vẽ ảnh vector WMF
-//      kèm theo thì ra mấy vạch đen (thiếu phông MT Extra), moi thẳng nhị
-//      phân MTEF thì mã hóa.
+//   Kết luận cũ ghi ở đây là "moi thẳng nhị phân MTEF thì mã hóa" nên cả đường
+//   ống né, và 15 câu của đề Nitrogen phải soi bằng mắt rồi gõ tay vào bản vá.
+//   KẾT LUẬN ĐÓ SAI: MTEF chỉ là nhị phân chứ không mã hóa. scripts/deMathType.mjs
+//   đọc thẳng ra chữ, kể cả chỉ số dưới và số mũ. Đo được: đề Sự điện li 46/46,
+//   đề Nitrogen 23/25 — và 23 chuỗi đó khớp với thứ người đã gõ tay.
 //
-//      CHỖ NGUY HIỂM: phần lớn trường hợp MathType chỉ nuốt MỘT MẨU giữa câu
-//      chứ không nuốt cả câu. Đề Nitrogen câu 11 bóc ra thành "Trong phản
-//      ứng: N2(g) + 3H2(g) 2NH3(g). N2 thể hiện" — mất nguyên cái mũi tên
-//      thuận nghịch và điều kiện "xt, t°, p" trên nó, mà câu vẫn đọc xuôi
-//      tai. Câu 6 mất dấu ≡ và → nên hai lựa chọn hóa ra y hệt nhau.
-//      Vì vậy KHÔNG được lấy "đề bài rỗng" làm dấu hiệu. Cứ đoạn nào có
-//      MathType là đoạn đó thiếu chữ, phải có người soi rồi khai
-//      "daSoi": true trong bản vá mới cho qua.
+//   CHỖ NGUY HIỂM VẪN CÒN NGUYÊN với phần chưa đọc được: MathType thường chỉ
+//   nuốt MỘT MẨU giữa câu chứ không nuốt cả câu, nên câu thiếu chữ vẫn đọc
+//   xuôi tai. Đề Nitrogen câu 6 mất dấu ≡ và → là hai lựa chọn hóa ra y hệt
+//   nhau. Vì vậy KHÔNG được lấy "đề bài rỗng" làm dấu hiệu: bộ đọc phải TỰ KHAI
+//   chỗ nào nó không hiểu, và chỗ đó vẫn bắt người soi rồi khai "daSoi": true.
+//
+// VÌ SAO VẪN CẦN BẢN VÁ:
+//
+//   1. Công thức nào bộ đọc khai là không hiểu (khuôn phân số, căn... chưa gặp
+//      bao giờ) thì vẫn phải có người soi và gõ lại.
 //
 //   2. Ảnh chụp màn hình dán từ tài liệu khác, bên trong có sẵn số câu và bốn
 //      đáp án của tài liệu gốc — chèn thẳng thì học sinh thấy câu hỏi hai lần.
 //
-// Cả hai đều cần MẮT NGƯỜI. Bản vá là chỗ ghi lại phần người đọc, tách khỏi
-// phần máy đọc, để chạy lại script bao nhiêu lần cũng không mất.
+//   3. Đáp án thầy quên gạch chân, tên bộ đề, cách gom chuyên đề.
+//
+// Bản vá là chỗ ghi lại phần người đọc, tách khỏi phần máy đọc, để chạy lại
+// script bao nhiêu lần cũng không mất.
 
 import JSZip from 'jszip';
-import { tachDoan, catThanhCau, MOC_HINH, MOC_BANG } from './deParse.mjs';
+import { tachDoan, catThanhCau, DAU_CAU, MOC_HINH, MOC_BANG } from './deParse.mjs';
+import { bocCongThuc } from './deMathType.mjs';
 import { trangDuyet } from './trangDuyet.mjs';
 import sharp from 'sharp';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync } from 'node:fs';
@@ -94,7 +100,22 @@ async function docDocx(duongDan) {
   const rels = {};
   for (const m of relsXml.matchAll(/Id="(rId\d+)"[^>]*Target="([^"]+)"/g)) rels[m[1]] = m[2];
 
-  return { doan: tachDoan(doc), rels, zip };
+  // Bóc chữ trong công thức MathType TRƯỚC, rồi mới cắt đoạn — xem
+  // scripts/deMathType.mjs. Đo trên hai đề đang có: 46/46 và 23/25 công thức
+  // đọc được. Chỗ nào không đọc được thì bỏ trống rồi để lớp tự kiểm bắt.
+  const congThuc = {};
+  let soDoc = 0;
+  let tong = 0;
+  for (const m of doc.matchAll(/<o:OLEObject[^>]*r:id="(rId\d+)"/g)) {
+    const dich = rels[m[1]];
+    if (!dich || congThuc[m[1]]) continue;
+    tong++;
+    const tep = zip.file('word/' + dich.replace(/^\.\//, ''));
+    congThuc[m[1]] = tep ? bocCongThuc(await tep.async('nodebuffer')) : { chu: '', hieu: false };
+    if (congThuc[m[1]].hieu) soDoc++;
+  }
+
+  return { doan: tachDoan(doc, congThuc), rels, zip, congThuc: { doc: soDoc, tong } };
 }
 
 // ---------- Ảnh ----------
@@ -138,7 +159,7 @@ const hinhDaGhi = new Set();
 const trangDaSinh = [];
 
 for (const tep of nguon) {
-  const { doan, rels, zip } = await docDocx(join(THU_MUC_NGUON, tep));
+  const { doan, rels, zip, congThuc } = await docDocx(join(THU_MUC_NGUON, tep));
   const cauTho = catThanhCau(doan);
 
   // Bản vá: cùng tên với file Word, đuôi .va.json
@@ -224,7 +245,7 @@ for (const tep of nguon) {
 
     // Câu có MathType là câu THIẾU CHỮ, dù phần đọc được nhìn vẫn xuôi. Chỉ
     // hết cảnh báo khi người soi xong và khai "daSoi": true trong bản vá.
-    if (c.coCongThuc && !vaCau.daSoi) canNguoiDoc.push(so);
+    if (c.thieuCongThuc && !vaCau.daSoi) canNguoiDoc.push(so);
     cau.push(banGhi);
   }
 
@@ -233,15 +254,22 @@ for (const tep of nguon) {
   const thieuLuaChon = cau.filter((c) => c.luaChon.length !== 4 || c.luaChon.some((x) => !x));
   const thieuDapAn = cau.filter((c) => c.dapAn < 0);
   const trungLuaChon = cau.filter((c) => new Set(c.luaChon).size !== c.luaChon.length);
-  // Số câu ghi trong file phải khớp thứ tự đếm được. Lệch nghĩa là cắt sai chỗ.
-  const lechSo = cauTho
-    .map((c, i) => ({ dem: i + 1, ghi: c.soGhi }))
-    .filter((x) => x.ghi !== null && x.ghi !== x.dem);
+  // ĐẾM MỐC "Câu N." rồi so với số câu cắt ra được. Lệch nghĩa là có câu bị
+  // nuốt hoặc bị cắt làm đôi — kiểu hỏng âm thầm nguy hiểm nhất, vì đề vẫn đủ
+  // bốn lựa chọn, vẫn có đáp án, chỉ là nội dung của câu khác.
+  //
+  // TRƯỚC ĐÂY so số câu THẦY GHI với thứ tự đếm được, và sai. Ngân hàng đề của
+  // thầy hay là bản trích: đề "Cân bằng hóa học" nhảy 1, 4, 7, 20, 21...; đề
+  // "Sự điện li" gộp năm dạng nên số câu đánh lại từ đầu năm lần. Kiểu so cũ
+  // báo 52 chỗ "lệch" trên một file KHÔNG hề hỏng — báo động giả nhiều tới mức
+  // che mất lỗi thật. Đếm mốc thì không dính vào cách thầy đánh số.
+  const soMocCau = doan.filter((d) => DAU_CAU.test(d.chu)).length;
+  const lechSoCau = soMocCau === cau.length ? 0 : Math.abs(soMocCau - cau.length);
 
   if (thieuLuaChon.length) loi.push(`${thieuLuaChon.length} câu không đủ 4 lựa chọn: ${thieuLuaChon.map((c) => c.so).join(', ')}`);
   if (thieuDapAn.length) loi.push(`${thieuDapAn.length} câu không tìm ra đáp án gạch chân: ${thieuDapAn.map((c) => c.so).join(', ')}`);
   if (trungLuaChon.length) loi.push(`${trungLuaChon.length} câu có lựa chọn trùng nhau: ${trungLuaChon.map((c) => c.so).join(', ')}`);
-  if (lechSo.length) loi.push(`${lechSo.length} chỗ lệch số câu (đếm/ghi): ${lechSo.map((x) => x.dem + '/' + x.ghi).join(', ')}`);
+  if (lechSoCau) loi.push(`bản Word có ${soMocCau} mốc "Câu N." nhưng cắt ra ${cau.length} câu — có câu bị nuốt hoặc bị cắt đôi`);
   if (canNguoiDoc.length) loi.push(`${canNguoiDoc.length} câu có công thức MathType nên THIẾU CHỮ, người phải soi rồi khai daSoi: ${canNguoiDoc.join(', ')}`);
 
   const raJson = { id: ma, ten: tieuDe, chuyenDe, nguon: tep, soCau: cau.length, cau };
@@ -254,7 +282,7 @@ for (const tep of nguon) {
     `Đủ 4 lựa chọn: ${cau.length - thieuLuaChon.length}/${cau.length}`,
     `Có đúng một đáp án: ${cau.length - thieuDapAn.length}/${cau.length}`,
     `Không có lựa chọn trùng nhau: ${cau.length - trungLuaChon.length}/${cau.length}`,
-    `Số câu khớp với bản Word: ${lechSo.length ? lechSo.length + ' chỗ LỆCH' : 'đạt'}`,
+    `Số câu cắt ra khớp số câu trong bản Word: ${lechSoCau ? 'LỆCH' : soMocCau + '/' + soMocCau}`,
     `Đáp án lấy đúng từ dấu gạch chân của thầy: ${cau.length - dapAnSuyRa.length}/${cau.length}`,
   ];
   const tenTrang = `de-review-${ma}.html`;
@@ -266,12 +294,13 @@ for (const tep of nguon) {
   console.log(`Mã bộ đề     : ${ma}`);
   console.log(`Số câu       : ${cau.length}` + (va.soCau && va.soCau !== cau.length ? `  ✗ bản vá khai ${va.soCau}` : ''));
   console.log(`Ảnh giữ lại  : ${cau.filter((c) => c.hinh).length} câu, ${(byteHinh / 1024).toFixed(1)} KB sau nén`);
+  if (congThuc.tong) console.log(`Công thức    : đọc được ${congThuc.doc}/${congThuc.tong} công thức MathType`);
   console.log(`Chữ (JSON)   : ${(cvJson / 1024).toFixed(1)} KB`);
   console.log(`\n— TỰ KIỂM —`);
   console.log(`1. Đủ 4 lựa chọn   : ${cau.length - thieuLuaChon.length}/${cau.length}`);
   console.log(`2. Có đáp án       : ${cau.length - thieuDapAn.length}/${cau.length}`);
   console.log(`3. Lựa chọn không trùng: ${cau.length - trungLuaChon.length}/${cau.length}`);
-  console.log(`4. Số câu khớp file: ${lechSo.length ? lechSo.length + ' chỗ LỆCH' : 'đạt'}`);
+  console.log(`4. Số câu khớp file: ${lechSoCau ? 'LỆCH ' + soMocCau + ' mốc / ' + cau.length + ' câu' : soMocCau + '/' + soMocCau}`);
   console.log(`5. Không dính MathType: ${cau.length - canNguoiDoc.length}/${cau.length}`);
   console.log(`6. Đáp án lấy từ bản gốc: ${cau.length - dapAnSuyRa.length}/${cau.length}`);
 

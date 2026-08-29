@@ -1,0 +1,14 @@
+{
+ "_doc": [
+  "Bản vá tay cho đề Cân bằng hóa học. Chỉ để đặt tên bộ đề — phần còn lại máy",
+  "đọc sạch: 16/16 câu đủ bốn lựa chọn, có đáp án gạch chân, và 31/31 công thức",
+  "MathType bóc ra được chữ, kể cả bốn biểu thức hằng số cân bằng Kc vốn là",
+  "phân số (scripts/deMathType.mjs viết thành một dòng '(tử)/(mẫu)').",
+  "",
+  "Mã bộ đề phải khai ở đây vì tên file có dấu tiếng Việt; để máy tự đặt thì ra",
+  "'3-c-n-b-ng-h-a-h-c-tn-a'."
+ ],
+
+ "id": "can-bang-hoa-hoc",
+ "ten": "Cân bằng hóa học"
+}

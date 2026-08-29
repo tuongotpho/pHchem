@@ -84,10 +84,15 @@ const tuThayRa = (bo: BoDe): CauChoi[] =>
     hinh: c.hinh,
     bang: c.bang,
     dapAnSuyRa: c.dapAnSuyRa,
-    // Giữ SỐ CÂU GỐC trong bản in của thầy. Trộn xong thì câu 30 có thể ra ở
-    // lượt thứ 3, nhưng nhãn vẫn ghi 30 — để học sinh và thầy đối chiếu lại
-    // với tờ đề giấy được.
-    nhan: `${bo.chuyenDe} · câu ${c.so}`,
+    // KHÔNG hiện số câu gốc nữa — bỏ ngày 29/08/2026.
+    //
+    // Ý ban đầu là để học sinh đối chiếu lại với tờ đề giấy của thầy. Nhưng số
+    // đó là số ĐẾM ĐƯỢC chứ không phải số thầy ghi, và hai con số ấy thường
+    // không khớp: ngân hàng đề của thầy hay là bản trích (đề Cân bằng hóa học
+    // nhảy 1, 4, 7, 20...) hoặc gồm nhiều tập nhỏ đánh số lại từ đầu (đề Cân
+    // bằng trong dung dịch nước có năm tập). Nên "câu 25" trỏ vào chỗ không có
+    // thật trên tờ giấy — chỉ dẫn sai còn tệ hơn không chỉ dẫn gì.
+    nhan: bo.chuyenDe,
   }));
 
 /**

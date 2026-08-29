@@ -1,0 +1,69 @@
+{
+ "_doc": [
+  "Bản vá tay cho đề Sự điện li. NGƯỜI LÀM APP viết file này, KHÔNG phải giáo",
+  "viên. Xem phần AI LÀM GÌ ở đầu scripts/gen-de.mjs.",
+  "",
+  "Đề này máy đọc gần như trọn vẹn: 69/69 câu đủ bốn lựa chọn, 46/46 công thức",
+  "MathType bóc ra được chữ (scripts/deMathType.mjs). Nên bản vá chỉ còn phải",
+  "gánh đúng hai việc: đặt tên bộ đề, và điền năm đáp án thầy quên gạch chân.",
+  "",
+  "NĂM ĐÁP ÁN Ở CÂU 33-37 LÀ DO NGƯỜI TÍNH RA, bản gốc của thầy KHÔNG gạch chân",
+  "chữ cái nào. ĐÃ ĐƯỢC XÁC NHẬN NGÀY 29/08/2026 nên bỏ cờ dapAnSuyRa — app",
+  "không còn hiện cảnh báo ở năm câu này nữa.",
+  "",
+  "GIỮ NGUYÊN GHI CHÚ Ở TỪNG CÂU, đừng dọn đi. Đó là chỗ duy nhất còn ghi lại",
+  "rằng năm con số này KHÔNG có trong bản gốc, và ghi lại đường tính ra chúng.",
+  "Hôm nào thầy sửa đề hay có người thấy chỏi, mở ra là dò lại được ngay.",
+  "Cả năm đều là bài bảo toàn điện tích: ra một con số duy nhất, khớp đúng một",
+  "lựa chọn, nên phép tính không có chỗ để phân vân.",
+  "",
+  "Cú pháp ký hiệu hóa học: xem src/lib/kyHieuHoa.js, hoặc phần _doc trong",
+  "de-nguon/1. Nitrogen_TN_ĐA_2026.va.json."
+ ],
+
+ "_ghiChuTen": [
+  "GỘP TRỌN 69 CÂU LÀM MỘT BỘ — chốt ngày 29/08/2026, anh chọn.",
+  "File Word này thật ra là năm tập nhỏ ghép lại, mỗi tập đánh số 'Câu 1' lại",
+  "từ đầu: chất điện li 17 câu, thuyết Brønsted–Lowry 15, bảo toàn điện tích 6,",
+  "phản ứng trao đổi ion 8, pH 23. Đã cân nhắc tách thành năm bộ rồi quyết định",
+  "để nguyên. Ghi lại đây để sau khỏi tưởng là bỏ sót.",
+  "",
+  "Tên đặt theo tên bài trong SGK chứ không lấy dòng tiêu đề của file Word:",
+  "'Sự điện li' là cách gọi cũ, bài học bây giờ tên là 'Cân bằng trong dung dịch",
+  "nước'. Học sinh tra theo tên bài thì thấy ngay.",
+  "",
+  "MÃ BỘ ĐỀ vẫn để là su-dien-li. Mã đi vào tên file public/de/<mã>.json nên đổi",
+  "là đổi luôn đường dẫn dữ liệu; giữ nguyên thì không phá thứ gì đang trỏ tới."
+ ],
+
+ "id": "su-dien-li",
+ "ten": "Cân bằng trong dung dịch nước",
+
+ "cau": {
+  "33": {
+   "_ghiChu": "Bảo toàn điện tích: 0,2·1 + 0,1·2 + 0,05·2 = 0,5 mol điện tích dương; âm là 0,15 + x. Vậy x = 0,35 → A.",
+   "dapAn": 0
+  },
+
+  "34": {
+   "_ghiChu": "Bảo toàn điện tích: x·1 + y·2 = z·1 + t·1, tức x + 2y = z + t → D.",
+   "dapAn": 3
+  },
+
+  "35": {
+   "_ghiChu": "Bảo toàn điện tích: 3x + 0,1·2 = 0,2·2 + 0,1 → x = 0,1. Khối lượng muối khan = 0,1·27 + 0,1·64 + 0,2·96 + 0,1·35,5 = 31,85 g → B.",
+   "dapAn": 1
+  },
+
+  "36": {
+   "_ghiChu": "Bản gốc dính hai câu vào nhau: '...a mol SO42-Cô cạn dung dịch X'. Chép lại cho có dấu chấm. Bảo toàn điện tích: 0,3 + 0,6·2 + 0,3 = 1,8; âm là 0,6 + 2a → a = 0,6. m = 0,3·39 + 0,6·24 + 0,3·23 + 0,6·35,5 + 0,6·96 = 111,9 g → C.",
+   "de": "Dung dịch X gồm 0,3 mol K^{+}; 0,6 mol Mg^{2+}; 0,3 mol Na^{+}; 0,6 mol Cl^{-} và a mol SO_{4}^{2-}. Cô cạn dung dịch X, thu được m gam muối khan. Giá trị của m là",
+   "dapAn": 2
+  },
+
+  "37": {
+   "_ghiChu": "Hai phương trình: điện tích a + 2b = 0,25·2 + 0,2 = 0,7; khối lượng 0,25·64 + 0,2·39 + 35,5a + 96b = 52,4. Giải ra b = 0,15 và a = 0,4 → A.",
+   "dapAn": 0
+  }
+ }
+}

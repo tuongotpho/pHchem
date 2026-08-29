@@ -4,5 +4,17 @@
   "ten": "Nitrogen và một số hợp chất quan trọng của nitrogen",
   "chuyenDe": "Nitrogen và một số hợp chất quan trọng của nitrogen",
   "soCau": 42
+ },
+ {
+  "id": "su-dien-li",
+  "ten": "Cân bằng trong dung dịch nước",
+  "chuyenDe": "Cân bằng trong dung dịch nước",
+  "soCau": 69
+ },
+ {
+  "id": "can-bang-hoa-hoc",
+  "ten": "Cân bằng hóa học",
+  "chuyenDe": "Cân bằng hóa học",
+  "soCau": 16
  }
 ]

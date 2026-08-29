@@ -1,0 +1,186 @@
+{
+ "id": "can-bang-hoa-hoc",
+ "ten": "Cân bằng hóa học",
+ "chuyenDe": "Cân bằng hóa học",
+ "nguon": "3. CÂN BẰNG HÓA HỌC_TN_ĐA.docx",
+ "soCau": 16,
+ "cau": [
+  {
+   "so": 1,
+   "de": "Phản ứng nào sau đây là phản ứng thuận nghịch?",
+   "luaChon": [
+    "Mg + 2HCl ->MgCl_{2} + H_{2}.",
+    "2SO_{2} + O_{2} <=>2SO_{3}.",
+    "C_{2}H_{5}OH + 3O_{2} ->2CO_{2} + 3H_{2}O.",
+    "2KClO_{3} ->2KCl + 3O_{2}."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 2,
+   "de": "Quan sát hình dưới đây và chọn đáp án đúng.\n\n{{hinh}}",
+   "luaChon": [
+    "Cả hai đồ thị đều mô tả phản ứng đã đạt đến trạng thái cân bằng.",
+    "Cả hai đồ thị đều không mô tả phản ứng đã đạt đến trạng thái cân bằng.",
+    "Chỉ đồ thị (a) mô tả phản ứng đã đạt đến trạng thái cân bằng.",
+    "Chỉ đồ thị (b) mô tả phản ứng đã đạt đến trạng thái cân bằng."
+   ],
+   "dapAn": 0,
+   "hinh": "f3fc16e0b609.png"
+  },
+  {
+   "so": 3,
+   "de": "Phát biểu nào sau đây về phản ứng ở trạng thái cân bằng là sai?",
+   "luaChon": [
+    "Các phản ứng thuận và phản ứng nghịch diễn ra với tốc độ như nhau.",
+    "Nồng độ của chất phản ứng và chất sản phẩm không thay đổi.",
+    "Nồng độ của chất phản ứng bằng nồng độ của các chất sản phẩm.",
+    "Các phản ứng thuận và nghịch vẫn tiếp tục xảy ra."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 4,
+   "de": "Hằng số cân bằng K_{C} của một phản ứng thuận nghịch phụ thuộc vào yếu tố nào sau đây?",
+   "luaChon": [
+    "Nồng độ.",
+    "Nhiệt độ.",
+    "Áp suất.",
+    "Chất xúc tác."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 5,
+   "de": "Cho phản ứng thuận nghịch:aA+bB<=>cC+dD. Hằng số cân bằng của phản ứng trên là.",
+   "luaChon": [
+    "K_{C}=([A].[B])/([C].[D]).",
+    "K_{C}=([A]^{a}.[B]^{b})/([C]^{c}.[D]^{d}).",
+    "K_{C}=([C].[D])/([A].[B]).",
+    "K_{C}=([C]^{c}.[D]^{d})/([A]^{a}.[B]^{b})."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 6,
+   "de": "Cho phản ứng: N_{2} (g) + 3H_{2} (g) <=>2NH_{3} (g). Nếu ở trạng thái cân bằng nồng độ NH_{3} là 0,30 mol/L, N_{2} là 0,05 mol/L và của H_{2} là 0,10 mol/L thì hằng số cân bằng của phản ứng là bao nhiêu?",
+   "luaChon": [
+    "18.",
+    "60.",
+    "3600.",
+    "1800."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 7,
+   "de": "Xét cân bằng: N_{2}O_{4}(g) <=> 2 NO_{2} (g) ở 25^{0}C. Khi chuyển dịch sang một trạng thái cân bằng mới nếu nồng độ của N_{2}O_{4} tăng lên 9 lần thì nồng độ của NO_{2}. Biết Kc không đổi.",
+   "luaChon": [
+    "tăng 9 lần.",
+    "tăng 3 lần.",
+    "tăng 4,5 lần.",
+    "giảm 3 lần."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 8,
+   "de": "Cho cân bằng hoá học: H_{2} (g) + I_{2} (g) <=> 2HI (g); ∆H > 0. Cân bằng không bị chuyển dịch khi",
+   "luaChon": [
+    "tăng nhiệt độ của hệ.",
+    "giảm nồng độ HI.",
+    "giảm áp suất chung của hệ.",
+    "tăng nồng độ H_{2}."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 9,
+   "de": "Cho phản ứng:2SO_{2} (g) + O_{2} (g) <=>2SO_{3} (g), Δ_{r}H_{298}^{0}<0. Để thu được nhiều sản phẩm nhất thì ta phải:",
+   "luaChon": [
+    "Giảm áp suất, giảm nhiệt độ.",
+    "Giảm nhiệt độ và tăng áp suất.",
+    "Tăng nhiệt độ, tăng áp suất.",
+    "Tăng nhiệt độ và giảm áp suất."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 10,
+   "de": "Cho phản ứng: N_{2} (g) + 3H_{2} (g) <=>2NH_{3} (g). Biết rằng phản ứng thuận là phản ứng toả nhiệt, cân bằng hoá học không bị chuyển dịch khi",
+   "luaChon": [
+    "Thay đổi áp suất của hệ.",
+    "Thay đổi nhiệt độ của hệ.",
+    "Thay đổi nồng độ N_{2}.",
+    "Thêm chất xúc tác Fe."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 11,
+   "de": "Cho hệ cân bằng trong một bình kín: N_{2} (g) + O_{2} <=>NO (g); Δ_{r}H_{298}^{0}>0\nCân bằng trên chuyển dịch theo chiều thuận khi",
+   "luaChon": [
+    "tăng nhiệt độ của hệ.",
+    "Giảm áp suất của hệ.",
+    "Thêm khí NO vào hệ.",
+    "Thêm chất xúc tác vào hệ."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 12,
+   "de": "Cho phản ứng: 2NO_{2} (g) ( màu nâu đỏ ) <=> N_{2}O_{4} (g) ( không màu ) Δ_{r}H_{298}^{0}<0. Nếu nhúng bình vào nước đá thì:",
+   "luaChon": [
+    "Giữ nguyên màu như ban đầu.",
+    "Màu nâu đậm dần.",
+    "Màu nâu nhạt dần.",
+    "Chuyển sang màu xanh."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 13,
+   "de": "Xét phản ứng: 2NO(g) + O_{2}(g) <=> 2NO_{2}(g). Phát biểu nào sau đây là đúng?",
+   "luaChon": [
+    "Khi tăng áp suất, cân bằng sẽ chuyển dịch theo chiều thuận.",
+    "Khi tăng áp suất, cân bằng sẽ chuyển dịch theo chiều nghịch.",
+    "Trong trường hợp này, áp suất không ảnh hưởng đến sự chuyển dịch cân bằng phản ứng.",
+    "Chất xúc tác sẽ làm cân bằng trên chuyển dịch theo chiều nghịch."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 14,
+   "de": "Phản ứng tổng hợp ammonia là: N_{2}(g) + 3H_{2}(g) <=> 2NH_{3}(g); Δ_{r}H_{298}^{0}<0. Yếu tố không giúp tăng hiệu suất tổng hợp ammonia là",
+   "luaChon": [
+    "Tăng nhiệt độ.",
+    "Lấy ammonia ra khỏi hỗn hợp phản ứng.",
+    "Tăng áp suất.",
+    "Bổ sung thêm khí nitrogen vào hỗn hợp phản ứng."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 15,
+   "de": "Trong các phản ứng sau đây, phản ứng nào áp suất không ảnh hưởng đến cân bằng phản ứng:",
+   "luaChon": [
+    "N_{2}(g) + 3H_{2}(g) <=> 2NH_{3}(g).",
+    "N_{2}(g) + O_{2}(g) <=> 2NO(g).",
+    "2NO(g) + O_{2}(g) <=>2NO_{2}(g).",
+    "2SO_{2}(g) + O_{2}(g) <=> 2SO_{3}(g)."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 16,
+   "de": "Cho các phản ứng sau:\n(1) H_{2}(g) + I_{2}(s) <=> 2HI(g); ∆_{r}H < 0\n(2) 2NO(g) + O_{2}(g) <=> 2NO_{2}(g); ∆_{r}H < 0\n(3) CO(g) + Cl_{2}(g) <=> COCl_{2}(g); ∆_{r}H < 0\n(4) CaCO_{3}(s) <=> CaO(s) + CO_{2}(g); ∆_{r}H > 0\nKhi tăng nhiệt độ, số cân bằng đều chuyển dịch theo chiều thuận là",
+   "luaChon": [
+    "3.",
+    "2.",
+    "1.",
+    "0."
+   ],
+   "dapAn": 2
+  }
+ ]
+}

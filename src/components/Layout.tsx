@@ -89,21 +89,42 @@ export default function Layout() {
         </div>
       </aside>
 
-      {/* Nội dung */}
-      <main className="flex-1 min-w-0 pb-20 md:pb-0">
+      {/* Nội dung. Chừa chỗ cho thanh dưới CỘNG THÊM vạch home của iPhone, nếu
+          không thì mục cuối trang nằm khuất sau thanh. */}
+      <main className="flex-1 min-w-0 pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
         <Outlet />
       </main>
 
-      {/* Thanh dưới cho điện thoại */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-base-900/95 backdrop-blur border-t border-base-800 flex overflow-x-auto px-1 py-1.5 gap-0.5">
-        {[...ITEMS, { to: '/settings', label: 'nav_settings' as StringKey, Icon: IconSettings }].map(
-          ({ to, label, Icon }) => (
+      {/* ═══ Thanh dưới cho điện thoại ═══
+
+          HAI LỚP chứ không một, và đó là chỗ sửa ngày 29/08/2026 cho iPhone:
+
+          - Lớp NGOÀI (thẻ nav) chạm đáy màn hình để nền và viền phủ kín, rồi
+            chừa một dải đúng bằng env(safe-area-inset-bottom) — trên iPhone có
+            vạch home là 34px. Trước đây không chừa nên các nút bị tụt xuống sát
+            đáy, vừa khó bấm vừa bị thanh dưới của Safari che.
+          - Lớp TRONG là dải cuộn ngang, và nhờ lớp ngoài đẩy lên, nó KHÔNG còn
+            đè lên vùng vạch home nữa. Đây mới là chỗ chữa cái lỗi khó chịu
+            nhất: vuốt ngang trong dải vạch home là cử chỉ CHUYỂN APP của iOS,
+            nên trước đây cứ cuộn menu là văng sang app khác.
+
+          overscroll-x-contain chặn nốt đường thứ hai: cuộn hết mép mà còn vuốt
+          tiếp thì Safari hiểu là "lùi/tiến trang", cũng nhảy đi mất.
+
+          Máy không có vạch home (iPhone SE, Android, máy tính) thì
+          env(safe-area-inset-bottom) bằng 0 — không đổi gì so với trước. */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-base-900/95 backdrop-blur border-t border-base-800 pb-[env(safe-area-inset-bottom)]">
+        <div className="flex overflow-x-auto overscroll-x-contain px-1 py-1.5 gap-0.5">
+          {[
+            ...ITEMS,
+            { to: '/settings', label: 'nav_settings' as StringKey, Icon: IconSettings },
+          ].map(({ to, label, Icon }) => (
             <NavLink
               key={to}
               to={to}
               end={to === '/'}
               className={({ isActive }) =>
-                `flex shrink-0 w-[58px] flex-col items-center gap-0.5 px-1 py-1 rounded-lg text-[10px] font-medium ${
+                `flex shrink-0 w-[58px] flex-col items-center gap-0.5 px-1 py-1.5 rounded-lg text-[10px] font-medium ${
                   isActive ? 'text-accent' : 'text-slate-500'
                 }`
               }
@@ -111,8 +132,8 @@ export default function Layout() {
               <Icon className="w-5 h-5" />
               <span className="truncate w-full text-center">{t(label)}</span>
             </NavLink>
-          ),
-        )}
+          ))}
+        </div>
       </nav>
     </div>
   );

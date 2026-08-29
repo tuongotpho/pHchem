@@ -1,0 +1,768 @@
+{
+ "id": "su-dien-li",
+ "ten": "Cân bằng trong dung dịch nước",
+ "chuyenDe": "Cân bằng trong dung dịch nước",
+ "nguon": "2. SỰ ĐIỆN LI_TN_ĐA.docx",
+ "soCau": 69,
+ "cau": [
+  {
+   "so": 1,
+   "de": "Chất nào dưới đây không dẫn được điện?",
+   "luaChon": [
+    "KCl rắn, khan.",
+    "CaCl_{2} nóng chảy.",
+    "NaOH nóng chảy.",
+    "HBr hòa tan trong nước."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 2,
+   "de": "Chất nào dưới đây không phân li ra ion khi hòa tan trong nước (chất không điện li)?",
+   "luaChon": [
+    "MgCl_{2}.",
+    "HClO_{3}.",
+    "Ba(OH)_{2}.",
+    "C_{6}H_{12}O_{6}."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 3,
+   "de": "Chất nào sau đây thuộc loại chất điện li mạnh?",
+   "luaChon": [
+    "CH_{3}COOH.",
+    "C_{2}H_{5}OH.",
+    "H_{2}O.",
+    "NaCl."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 4,
+   "de": "Dãy nào dưới dây chỉ gồm chất điện li mạnh?",
+   "luaChon": [
+    "HBr, Na_{2}S, Cu(OH)_{2}, Na_{2}CO_{3}.",
+    "HNO_{3}, H_{2}SO_{4}, KOH, K_{2}SiO_{3}.",
+    "H_{2}SO_{4}, NaOH, NaCl, HF.",
+    "Ba(OH)_{2}, KOH, CH_{3}COOH, NaCl."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 5,
+   "de": "Phương trình điện li viết đúng là",
+   "luaChon": [
+    "NaCl ⇌ Na^{+} + Cl^{−}",
+    "Ca(OH)_{2} → Ca^{2+} + OH^{2-}",
+    "C_{2}H_{5}OH → C_{2}H_{5}^{+} + OH^{-}.",
+    "CH_{3}COOH ⇌ CH_{3}COO^{-} + H^{+}"
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 6,
+   "de": "Dung dịch NaCl dẫn được điện là",
+   "luaChon": [
+    "các nguyên tử Na, Cl di chuyển tự do.",
+    "phân tử NaCl di chuyển tự do.",
+    "các ion Na^{+}, Cl^{-} di chuyển tự do.",
+    "phân tử NaCl dẫn được điện."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 7,
+   "de": "Cho các chất dưới đây: HClO, HF, HNO_{3}, H_{2}S, H_{2}SO_{3}, NaOH, NaCl, CuSO_{4}, CH_{3}COOH. Số chất thuộc loại chất điện li yếu là",
+   "luaChon": [
+    "4.",
+    "5.",
+    "6.",
+    "7."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 8,
+   "de": "Trong dung dịch HNO_{3} có những phần tử nào?",
+   "luaChon": [
+    "H^{+}, NO_{3}^{-}.",
+    "H^{+}, NO_{3}^{-}, H_{2}O.",
+    "H^{+}, NO_{3}^{-}, HNO_{3}.",
+    "H^{+}, NO_{3}^{-}, HNO_{3}, H_{2}O."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 9,
+   "de": "Trong dung dịch HF có những phần tử nào?",
+   "luaChon": [
+    "H^{+}, F^{-}.",
+    "H^{+}, F^{-}, H_{2}O.",
+    "H^{+}, F^{-}, HF.",
+    "H^{+}, F^{-}, HF, H_{2}O."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 10,
+   "de": "Đối với dung dịch axit HCl 0,1M, nếu bỏ qua sự điện li của nước thì đánh giá nào về nồng độ mol ion sau đây là đúng ?",
+   "luaChon": [
+    "[H^{+}] < 0,1M",
+    "[Cl^{−}] > 0,1M",
+    "[H^{+}] > [Cl^{−}].",
+    "[H^{+}] = 0,1M."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 11,
+   "de": "Đối với dung dịch axit yếu HClO 0,05M, nếu bỏ qua sự điện li của nước thì đánh giá nào về nồng độ mol ion sau đây là đúng?",
+   "luaChon": [
+    "[H^{+}] < 0,05M",
+    "[ClO^{−}] = 0,05M",
+    "[H^{+}] > [ClO^{−}].",
+    "[H^{+}] = 0,05M."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 12,
+   "de": "Dung dịch Na_{2}SO_{4} 0,4M có nồng độ Na^{+} là",
+   "luaChon": [
+    "0,8M.",
+    "0,4M.",
+    "0,9M.",
+    "0,6M."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 13,
+   "de": "Cho các dung dịch: K_{2}SO_{4} ; KOH; KCl; KNO_{3} có nồng độ 1M, dung dịch chất nào dẫn điện tốt nhất?",
+   "luaChon": [
+    "K_{2}SO_{4}.",
+    "KOH.",
+    "KCl.",
+    "KNO_{3}."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 14,
+   "de": "Các dung dịch sau đây có cùng nồng độ 0,10 mol/l, dung dịch nào dẫn điện kém nhất?",
+   "luaChon": [
+    "HCl.",
+    "HF.",
+    "HI.",
+    "HBr."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 15,
+   "de": "Cho 200 ml dung dịch X chứa axit HCl 1 M và NaCl 2 M. Số mol của các ion Na^{+}, Cl^{-}, H^{+} trong dung dịch X lần lượt là",
+   "luaChon": [
+    "0,2; 0,2; 0,2.",
+    "0,4; 0,4; 0,2.",
+    "0,2; 0,4; 0,2.",
+    "0,4; 0,6; 0,2."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 16,
+   "de": "Trộn lẫn 200 ml dung dịch NaCl 0,2M và 300 ml dung dịch Na_{2}SO_{4} 0,2M thu được dung dịch X. Nồng độ cation Na^{+} trong dung dịch X là",
+   "luaChon": [
+    "0,23M.",
+    "1M.",
+    "0,32M.",
+    "0,1M"
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 17,
+   "de": "Muối nào sau đây là muối axit?",
+   "luaChon": [
+    "NH_{4}NO_{3}.",
+    "Na_{3}PO_{4}.",
+    "NaHCO_{3}.",
+    "K_{2}SO_{4}."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 18,
+   "de": "Theo thuyết Brønsted – Lowry về acid – base, những chất hoặc ion có khả năng cho H^{+} là",
+   "luaChon": [
+    "Acid.",
+    "Base.",
+    "Lưỡng tính.",
+    "Muối."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 19,
+   "de": "Theo thuyết Brønsted – Lowry về acid – base, những chất hoặc ion có khả năng nhận H^{+} là",
+   "luaChon": [
+    "Acid.",
+    "Base.",
+    "Lưỡng tính.",
+    "Muối."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 20,
+   "de": "Đặc điểm nào sau đây không đúng về base mạnh?",
+   "luaChon": [
+    "Phân li hoàn toàn trong nước.",
+    "Có khả năng cho H+.",
+    "Dung dịch trong nước dẫn điện.",
+    "Có khả năng nhận H+."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 21,
+   "de": "Cho phương trình: S^{2−} + H_{2}O<=> HS^{−} + OH^{−}. Phát biểu nào sau đây là đúng?",
+   "luaChon": [
+    "H_{2}O là base.",
+    "S^{2−}là base.",
+    "HS^{−}là base.",
+    "S^{2−} là acid."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 22,
+   "de": "Trong phương trình sau: CH_{3}COOH + H_{2}O <=>H_{3}O^{+}+ CH_{3}COO^{−}, theo phản ứng thuận, ion hay chất nào đóng vai trò acid?",
+   "luaChon": [
+    "CH_{3}COOH.",
+    "H_{2}O.",
+    "H_{3}O^{+}.",
+    "CH_{3}COO^{−}."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 23,
+   "de": "Trong phương trình sau: CH_{3}COOH + H_{2}O <=>H_{3}O^{+}+ CH_{3}COO^{−}, theo phản ứng nghịch, ion hay chất nào đóng vai trò base?",
+   "luaChon": [
+    "CH_{3}COOH.",
+    "H_{2}O.",
+    "H_{3}O^{+}.",
+    "CH_{3}COO^{−}."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 24,
+   "de": "Cho phương trình: NH_{4}^{+} + H_{2}O<=> NH_{3} + H_{3}O^{+}. Phát biểu nào sau đây là đúng?",
+   "luaChon": [
+    "NH_{4}^{+} là base.",
+    "NH_{4}^{+} là acid.",
+    "H_{2}O là acid.",
+    "H_{3}O^{+} là base."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 25,
+   "de": "Theo thuyết Brønsted – Lowry về acid – base, chất nào sau đây là acid?",
+   "luaChon": [
+    "NH_{3}.",
+    "CH_{3}COOH.",
+    "C_{2}H_{5}OH.",
+    "C_{6}H_{12}O_{6}."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 26,
+   "de": "Trong phương trình sau: NH_{3} + H_{2}O <=> NH_{4}^{+} + OH^{-} , theo phản ứng thuận, chất nào đóng vai trò base?",
+   "luaChon": [
+    "H_{2}O.",
+    "NH_{4}^{+}.",
+    "NH_{3}.",
+    "OH^{-}."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 27,
+   "de": "Theo thuyết Brønsted – Lowry về acid – base, ion nào sau đây không phải là acid?",
+   "luaChon": [
+    "Al^{3+}.",
+    "NH_{4}^{+}.",
+    "H_{3}O^{+}.",
+    "PO_{4}^{3−}."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 28,
+   "de": "Theo thuyết Brønsted – Lowry về acid – base, ion nào sau đây là acid?",
+   "luaChon": [
+    "CH_{3}COO^{-}.",
+    "CO_{3}^{2−}.",
+    "SO_{3}^{2−}.",
+    "Al^{3+} ."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 29,
+   "de": "Ion nào sau đây khi thủy phân trong nước vừa có thể đóng vai trò là acid vừa có thể đóng vai trò là base?",
+   "luaChon": [
+    "CO_{3}^{2−}.",
+    "SO_{4}^{2−}.",
+    "HCO_{3}^{−}.",
+    "CH_{3}COO^{−}."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 30,
+   "de": "Cặp chất nào sau đây là cặp acid – base liên hợp?",
+   "luaChon": [
+    "HCl, NaOH.",
+    "H_{2}SO_{4}, HSO_{4}^{-}.",
+    "NH_{4}Cl, NaOH.",
+    "KCN, HCN."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 31,
+   "de": "Cặp chất nào sau đây không phải là cặp acid – base liên hợp?",
+   "luaChon": [
+    "H_{3}O^{+}/H_{2}O.",
+    "HCl/Cl^{-}.",
+    "HCN/CN^{-}.",
+    "CH_{3}COOH/OH^{-}."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 32,
+   "de": "Trong phản ứng sau, xác định các chất đóng vai trò acid và các chất đóng vai trò base theo Thuyết Brønsted - Lowry.\nHSO_{3}^{-}(aq) + CN^{-}(aq)⇌HCN(aq) + SO_{3}^{2-}(aq)",
+   "luaChon": [
+    "HSO_{3}^{-}, HCN: base; CN^{-}, SO_{3}^{2-}: acid.",
+    "HSO_{3}^{-}, CN^{-}: base; HCN, SO_{3}^{2-}: acid.",
+    "HSO_{3}^{-}, HCN^{-}: acid; CN^{-}, SO_{3}^{2-}: base.",
+    "HSO_{3}^{-}, SO_{3}^{2-}: acid; CN^{-}, HCN: base."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 33,
+   "de": "Một dung dịch chứa 0,2 mol Na^{+}; 0,1 mol Mg^{2+}; 0,05 mol Ca^{2+}; 0,15 mol HCO_{3}^{-} và x mol Cl^{-}. Giá trị của x là",
+   "luaChon": [
+    "0,35.",
+    "0,3.",
+    "0,15.",
+    "0,20."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 34,
+   "de": "Một dung dịch chứa x mol Na^{+}; y mol Ca^{2+}; z mol HCO_{3}^{-}; t mol Cl^{-}. Hệ thức liên hệ giữa x, y, z, t được xác định là",
+   "luaChon": [
+    "x + 2z = y + 2t",
+    "x+ 2y = z + 2t",
+    "z+ 2x = y+ t",
+    "x + 2y = z + t"
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 35,
+   "de": "Cô cạn dung dịch X chứa Al^{3+} : x mol; Cu^{2+} : 0,1 mol; SO_{4}^{2−} : 0,2 mol và ion Cl^{−} : 0,1 mol thì thu được bao nhiêu gam muối khan?",
+   "luaChon": [
+    "28,3.",
+    "31,85.",
+    "34,5.",
+    "62,85."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 36,
+   "de": "Dung dịch X gồm 0,3 mol K^{+}; 0,6 mol Mg^{2+}; 0,3 mol Na^{+}; 0,6 mol Cl^{-} và a mol SO_{4}^{2-}. Cô cạn dung dịch X, thu được m gam muối khan. Giá trị của m là",
+   "luaChon": [
+    "169,5.",
+    "126,3.",
+    "111,9.",
+    "90,3."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 37,
+   "de": "Một dung dịch chứa 0,25 mol Cu^{2+}; 0,2 mol K^{+} ; a mol Cl^{-} và b mol SO_{4}^{2-}. Tổng khối lượng muối có trong dung dịch là 52,4 gam. Giá trị của a và b lần lượt là",
+   "luaChon": [
+    "0,4 và 0,15.",
+    "0,2 và 0,25.",
+    "0,1 và 0,3.",
+    "0,5 và 0,1."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 38,
+   "de": "Dung dịch X chứa các ion: Fe^{2+} (0,05 mol), Al^{3+} (0,1 mol), Cl^{-} (x mol), SO_{4}^{2-} (y mol). Cô cạn dung dịch X thu được 23,45 gam muối khan. Giá trị của x và y lần lượt là",
+   "luaChon": [
+    "0,1 và 0,25.",
+    "0,15 và 0,1.",
+    "0,1 và 0,15.",
+    "0,2 và 0,3."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 39,
+   "de": "Dung dịch Na_{2}CO_{3} tác dụng được với dung dịch",
+   "luaChon": [
+    "NaCl.",
+    "KC1.",
+    "NaNO_{3}.",
+    "CaCl_{2}."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 40,
+   "de": "Dung dịch NaOH tác dụng được với dung dịch",
+   "luaChon": [
+    "KOH.",
+    "KC1.",
+    "NaNO_{3}.",
+    "HCl."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 41,
+   "de": "Cặp chất nào sau đây không cùng tồn tại trong một dung dịch?",
+   "luaChon": [
+    "Ba(OH)_{2} và HCl.",
+    "NaNO_{3} và HCl.",
+    "HCl và Al(NO_{3})_{3}.",
+    "Cu(NO_{3})_{2} và HNO_{3}."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 42,
+   "de": "Phương trình rút gọn Ba^{2+}+SO_{4}^{2−}->BaSO_{4}↓ tương ứng với phương trình phân tử nào sau đây?",
+   "luaChon": [
+    "Ba(OH)_{2} + CuSO_{4} -> BaSO_{4} + Cu(OH)_{2}.",
+    "H_{2}SO_{4} +BaCO_{3} -> BaSO_{4} + CO_{2} + H_{2}O.",
+    "Na_{2}SO_{4} + Ba(NO_{3})_{2} -> BaSO_{4} + 2NaNO_{3}.",
+    "H_{2}SO_{4} + Ba(OH)_{2} -> BaSO_{4} + 2H_{2}O."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 43,
+   "de": "Phương trình ion rút gọn của phản ứng: 2NaOH + H_{2}SO_{4} -> Na_{2}SO_{4} + 2H_{2}O là",
+   "luaChon": [
+    "S^{2-} + 2H^{+} H_{2}S",
+    "2Na^{+} + SO_{4}^{2-} Na_{2}SO_{4}",
+    "SO_{4}^{2-} + OH^{-} HSO_{4}^{-} + H^{+}",
+    "H^{+} + OH^{-} H_{2}O"
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 44,
+   "de": "Cho phản ứng: Mg(OH)_{2} + 2HCl -> MgCl_{2} + 2H_{2}O. Phương trình ion thu gọn của phản ứng trên là",
+   "luaChon": [
+    "HCl+OH^{−}->H_{2}O+Cl^{−}.",
+    "2H^{+}+Mg(OH)_{2}->Mg^{2+} +2H_{2}O.",
+    "H^{+}+OH^{−}->H_{2}O.",
+    "2HCl+Mg(OH)_{2}->Mg^{2+} +2Cl^{−}+2H_{2}O."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 45,
+   "de": "Cho các phương trình hóa học:\n(a) Ba(OH)_{2} + 2HCl ->BaCl_{2} + 2H_{2}O;\n(b) Mg(OH)_{2} + 2HCl -> MgCl_{2} + 2H_{2}O;\n(c) HNO_{3} + NaOH -> NaNO_{3} + H_{2}O;\n(d) H_{2}S + 2NaOH -> Na_{2}S + 2H_{2}O.\nCác phương trình có cùng phương trình ion thu gọn là",
+   "luaChon": [
+    "(a) và (b).",
+    "(b) và (c).",
+    "(c) và (d).",
+    "(a) và (c)."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 46,
+   "de": "Cho các phản ứng sau:\n(a) NaOH + HCl -> NaCl + H_{2}O.\n(b) Cu(OH)_{2} + 2HCl -> CuCl_{2} + 2H_{2}O.\n(c) Ba(OH)_{2} + H_{2}SO_{4} -> BaSO_{4}↓ + 2H_{2}O.\n(d) 2KOH + H_{2}S -> K_{2}S + 2H_{2}O.\nSố phản ứng có phương trình ion thu gọn: H^{+} + OH^{-} → H_{2}O là",
+   "luaChon": [
+    "2.",
+    "1.",
+    "3.",
+    "4."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 47,
+   "de": "Dung dịch chất nào sau đây làm quỳ tím hóa đỏ?",
+   "luaChon": [
+    "HCl.",
+    "K_{2}SO_{4}.",
+    "KOH.",
+    "NaCl."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 48,
+   "de": "Dung dịch chất nào sau đây làm quỳ tím chuyển thành màu đỏ?",
+   "luaChon": [
+    "H_{2}SO_{4}.",
+    "KOH.",
+    "NaCl.",
+    "C_{2}H_{5}OH."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 49,
+   "de": "Dung dịch chất nào sau đây làm quỳ tím chuyển thành màu xanh?",
+   "luaChon": [
+    "HCl.",
+    "CH_{3}COONa.",
+    "KNO_{3}.",
+    "C_{2}H_{5}OH."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 50,
+   "de": "pH của dung dịch nào sau đây có giá trị nhỏ nhất?",
+   "luaChon": [
+    "Dung dịch HCl 0,1M",
+    "Dung dịch CH_{3}COOH 0,1M",
+    "Dung dịch NaCl 0,1M",
+    "Dung dịch NaOH 0,01M"
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 51,
+   "de": "Công thức tính pH",
+   "luaChon": [
+    "pH = -lg[H^{+}].",
+    "pH = lg[H^{+}].",
+    "pH = +10 lg[H^{+}].",
+    "pH = -lg[OH^{-}]."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 52,
+   "de": "Giá trị nào sau đây là giá trị pH của dung dịch có môi trường trung tính?",
+   "luaChon": [
+    "3.",
+    "5.",
+    "7.",
+    "10."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 53,
+   "de": "Dung dịch chất nào sau đây có pH > 7?",
+   "luaChon": [
+    "NaNO_{3}.",
+    "KCl.",
+    "H_{2}SO_{4}.",
+    "KOH."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 54,
+   "de": "Dung dịch nào sau đây có pH = 7?",
+   "luaChon": [
+    "NaCl.",
+    "NaOH.",
+    "HNO_{3}.",
+    "H_{2}SO_{4}."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 55,
+   "de": "Dung dịch nào sau đây có pH < 7?",
+   "luaChon": [
+    "NaOH.",
+    "Ca(OH)_{2}.",
+    "CH_{3}COOH.",
+    "NaCl."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 56,
+   "de": "Giá trị pH của dung dịch HCl 0,01 M là",
+   "luaChon": [
+    "2.",
+    "12.",
+    "10.",
+    "4."
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 57,
+   "de": "Cho dung dịch HCl có pH=3. Nồng độ ion H^{+} trong dung dịch là",
+   "luaChon": [
+    "0,1M.",
+    "0,001M",
+    "0,01M.",
+    "0,2M."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 58,
+   "de": "Dung dịch Ba(OH)_{2} 0,005 M có pH bằng",
+   "luaChon": [
+    "3.",
+    "2.",
+    "11.",
+    "12"
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 59,
+   "de": "Calcium hydroxide rắn được hòa tan trong nước cho tới khi pH của dung dịch đạt 10,94. Nồng độ của ion hydroxide (OH^{-}) trong dung dịch là",
+   "luaChon": [
+    "1,1.10^{-11} M.",
+    "3,06 M.",
+    "8,7.10^{-4} M.",
+    "1,0.10^{-14} M."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 60,
+   "de": "Trong dung dịch Ba(OH)_{2} có pH = 12, nồng độ của dung dịch Ba(OH)_{2} là",
+   "luaChon": [
+    "0,00005 M.",
+    "0, 0001 M.",
+    "0,0005 M.",
+    "0,005 M."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 61,
+   "de": "Dung dịch X chứa hỗn hợp NaOH 0,01 M và Ba(OH)_{2} 0,005 M. Giá trị pH của dung dịch X là",
+   "luaChon": [
+    "12,3.",
+    "1,7.",
+    "2.",
+    "12"
+   ],
+   "dapAn": 0
+  },
+  {
+   "so": 62,
+   "de": "Đo pH của một cốc nước chanh được giá trị pH bằng 2,4. Nhận định nào sau đây sai?",
+   "luaChon": [
+    "Nước chanh có môi trường acid.",
+    "Nồng độ ion [H^{+}] của nước chanh là 10^{-2,4} mol/L.",
+    "Nồng độ ion [H^{+}] của nước chanh là 0,24 mol/L.",
+    "Nồng độ ion [OH^{-}] của nước chanh nhỏ hơn 10^{-7} mol/L."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 63,
+   "de": "Pha loãng dung dịch HCl có pH = 3 bao nhiêu lần để được dung dịch mới có pH = 4?",
+   "luaChon": [
+    "5.",
+    "4.",
+    "9.",
+    "10."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 64,
+   "de": "Pha loãng dung dịch 1 lít NaOH có pH = 9 bằng nước để được dung dịch mới có pH = 8. Thể tích nước cần dùng là?",
+   "luaChon": [
+    "5 lít.",
+    "4 lít.",
+    "9 lít.",
+    "10 lít."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 65,
+   "de": "Thêm 250 mL nước vào 50 mL dung dịch Ba(OH)_{2} có 0,003 M thì thu được dung dịch mới có pH bằng:",
+   "luaChon": [
+    "13.",
+    "11.",
+    "3.",
+    "1."
+   ],
+   "dapAn": 1
+  },
+  {
+   "so": 66,
+   "de": "Trộn lẫn 100 mL dung dịch NaOH 0,01M với 100 mL dung dịch HCl 0,03 M được 200 mL dung dịch Y. Dung dịch Y có pH là",
+   "luaChon": [
+    "4.",
+    "3.",
+    "2.",
+    "1."
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 67,
+   "de": "Cho các dung dịch có cùng nồng độ: NaOH (1), H_{2}SO_{4} (2), HCl (3), KNO_{3} (4). Giá trị pH của các dung dịch được sắp xếp theo chiều tăng từ trái sang phải là:",
+   "luaChon": [
+    "(3), (2), (4), (1).",
+    "(4), (1), (2), (3).",
+    "(1), (2), (3), (4).",
+    "(2), (3), (4), (1)."
+   ],
+   "dapAn": 3
+  },
+  {
+   "so": 68,
+   "de": "Trong dung dịch nước, cation kim loại mạnh, gốc acid mạnh không bị thủy phân, còn cation kim loại trung bình và yếu bị thủy phân tạo môi trường acid, gốc acid yếu bị thủy phân tạo môi trường base. Dung dịch muối nào sau đây có pH > 7?",
+   "luaChon": [
+    "KNO_{3}",
+    "K_{2}SO_{4}",
+    "Na_{2}CO_{3}",
+    "NaCl"
+   ],
+   "dapAn": 2
+  },
+  {
+   "so": 69,
+   "de": "Để xác định nồng độ của một dung dịch HCl, người ta đã tiến hành chuẩn độ bằng dung dịch NaOH 0,1 M với chỉ thị phenolphthalein. Vậy chất được gọi dung dịch chuẩn ở trên là?",
+   "luaChon": [
+    "HCl.",
+    "Phenolphthalein.",
+    "NaOH.",
+    "Nước cất."
+   ],
+   "dapAn": 2
+  }
+ ]
+}

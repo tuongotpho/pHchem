@@ -85,8 +85,11 @@ de-nguon/*.va.json                    →  public/de/hinh/*.png    (ảnh đã n
   sang PDF thì gạch chân chỉ còn là nét vẽ, mất sạch thông tin đáp án.*
 - **Chỉ số dưới / số mũ** cũng đọc từ định dạng của thầy (đề Nitrogen có 93 + 32 chỗ),
   nên `¹⁴N` không bị nhầm thành hệ số 14.
-- **Công thức chèn bằng MathType** máy không đọc được — script bắt buộc phải có người
-  soi rồi khai `daSoi` trong bản vá mới cho qua.
+- **Công thức chèn bằng MathType đọc được**, kể cả chỉ số dưới, số mũ, mũi tên kèm điều
+  kiện và phân số của hằng số cân bằng — `scripts/deMathType.mjs` mở đối tượng OLE rồi
+  đọc thẳng định dạng MTEF. Đo trên ba đề đang có: 25/25, 46/46, 31/31 công thức. Chỗ
+  nào bộ đọc **tự khai là không hiểu** thì vẫn bắt người soi rồi khai `daSoi` trong bản
+  vá mới cho qua.
 - **Ảnh KHÔNG nằm trong gói cài** (`globIgnores` trong `vite.config.ts`), nén về 4 mức
   xám và đặt tên theo mã băm nội dung nên tự khử trùng lặp giữa các bộ đề. Thêm 100 bộ
   đề thì gói cài vẫn nguyên kích thước.

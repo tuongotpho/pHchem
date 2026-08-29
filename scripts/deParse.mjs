@@ -41,12 +41,27 @@ function boc(chu, dang) {
  * tìm chữ: mất luôn thông tin mẩu nào được gạch chân, mà gạch chân chính là
  * đáp án.
  */
-export function bocDoan(xmlDoan) {
+export function bocDoan(xmlDoan, congThuc = {}) {
   const mau = [];
   const hinh = [];
+  let thieuCongThuc = false;
 
   for (const m of xmlDoan.matchAll(/<w:r(?:\s[^>]*)?>([\s\S]*?)<\/w:r>/g)) {
     const than = m[1];
+
+    // CÔNG THỨC MATHTYPE. Chữ trong đó do scripts/deMathType.mjs bóc ra từ đối
+    // tượng OLE; ở đây chỉ việc cắm vào ĐÚNG CHỖ nó đứng giữa đoạn. Phải cắm
+    // đúng chỗ chứ không dồn xuống cuối: câu 4 đề Sự điện li là "Cho phương
+    // trình: <công thức>. Phát biểu nào sau đây là đúng?" — dồn xuống cuối thì
+    // câu đọc lên ngược.
+    const ole = than.match(/<o:OLEObject[^>]*r:id="(rId\d+)"/);
+    if (ole) {
+      const ct = congThuc[ole[1]];
+      if (ct?.hieu) mau.push({ chu: ct.chu, chuTho: ct.chu, gachChan: false, dang: undefined });
+      else thieuCongThuc = true;
+      continue;
+    }
+
     const rPr = than.match(/<w:rPr>([\s\S]*?)<\/w:rPr>/)?.[1] ?? '';
     // <w:u w:val="none"/> là TẮT gạch chân, không phải bật. Bỏ sót chỗ này thì
     // một chữ cái bị tắt gạch chân vẫn bị chấm thành đáp án.
@@ -78,25 +93,41 @@ export function bocDoan(xmlDoan) {
     mau.push({ chu: boc(chu, dang), chuTho: chu, gachChan, dang });
   }
 
-  for (const m of xmlDoan.matchAll(/r:embed="(rId\d+)"|v:imagedata[^>]*r:id="(rId\d+)"/g)) {
+  // Ảnh minh họa. Bỏ hẳn phần <w:object> trước khi dò: bên trong nó cũng có một
+  // <v:imagedata>, nhưng đó là bản vẽ xem trước của công thức MathType chứ
+  // không phải hình của đề — giữ lại chỉ tổ đẻ ra một cái mốc "{{hinh}}" thừa.
+  const ngoaiCongThuc = xmlDoan.replace(/<w:object[\s\S]*?<\/w:object>/g, '');
+  for (const m of ngoaiCongThuc.matchAll(/r:embed="(rId\d+)"|v:imagedata[^>]*r:id="(rId\d+)"/g)) {
     hinh.push(m[1] ?? m[2]);
+  }
+
+  // Đoạn có công thức MathType mà KHÔNG bóc ra chữ được. Phải theo dõi: phần
+  // chữ còn lại đọc vẫn xuôi tai nhưng câu đã thiếu nội dung — kiểu hỏng nguy
+  // hiểm nhất. Có <w:object> mà không kèm mã tra cứu cũng tính là thiếu.
+  if (/<w:object/.test(xmlDoan) && !/<o:OLEObject[^>]*r:id="rId\d+"/.test(xmlDoan)) {
+    thieuCongThuc = true;
   }
 
   return {
     mau,
     hinh,
-    // Đoạn có chèn công thức MathType. PHẢI theo dõi cờ này: chữ trong công
-    // thức KHÔNG đọc ra được, nên đoạn nào có nó là đoạn đó thiếu nội dung —
-    // dù phần chữ còn lại đọc vẫn xuôi tai. Đây là kiểu hỏng nguy hiểm nhất.
-    coCongThuc: /<w:object|Equation\.DSMT4|<o:OLEObject/.test(xmlDoan),
+    thieuCongThuc,
     chu: mau.map((x) => x.chu).join(''),
   };
 }
 
-/** Tách các đoạn từ XML thân tài liệu. */
-export function tachDoan(documentXml) {
+/**
+ * Tách các đoạn từ XML thân tài liệu.
+ *
+ * @param {string} documentXml
+ * @param {Record<string, {chu: string, hieu: boolean}>} congThuc chữ đã bóc từ
+ *   công thức MathType, tra theo mã rId của đối tượng OLE
+ */
+export function tachDoan(documentXml, congThuc = {}) {
   const ds = [];
-  for (const m of documentXml.matchAll(/<w:p(?:\s[^>]*)?>([\s\S]*?)<\/w:p>/g)) ds.push(bocDoan(m[0]));
+  for (const m of documentXml.matchAll(/<w:p(?:\s[^>]*)?>([\s\S]*?)<\/w:p>/g)) {
+    ds.push(bocDoan(m[0], congThuc));
+  }
   return ds;
 }
 
@@ -198,7 +229,7 @@ export function catThanhCau(doan) {
       luaChon,
       dapAn,
       hinh: gom.flatMap((d) => d.hinh),
-      coCongThuc: gom.some((d) => d.coCongThuc),
+      thieuCongThuc: gom.some((d) => d.thieuCongThuc),
     });
     gom = [];
     return true;

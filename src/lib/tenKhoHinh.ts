@@ -19,3 +19,9 @@ export const TEN_KHO_HINH = 'ph-chem-hinh-cau-tao';
 // tải cả bộ 296 hình; còn ảnh đề đến rồi đi theo từng bộ đề, xóa cả kho đề
 // không được phép đụng tới hình cấu tạo đã tải công phu.
 export const TEN_KHO_ANH_DE = 'ph-chem-anh-de';
+
+// Kho đệm QUYỂN MỤC LỤC của ngân hàng đề (public/de/danh-muc.json). Đứng riêng
+// khỏi kho ảnh đề vì nó theo luật đệm KHÁC HẲN — hỏi mạng trước, xem lý do ở
+// vite.config.ts. Hai luật khác nhau mà ghi chung một kho thì luật dọn của kho
+// này ăn mất mục của kho kia, hỏng theo kiểu chỉ người mất mạng mới thấy.
+export const TEN_KHO_DANH_MUC_DE = 'ph-chem-danh-muc-de';
