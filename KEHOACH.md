@@ -229,6 +229,7 @@ Xong thì đọc **SỔ BÀN GIAO** ngay dưới, rồi mở đúng mục còn d
 
 | Ngày | Đã xong tới | Đang dở | Việc kế tiếp |
 |---|---|---|---|
+| 30/08/2026 10:00 | **Tích hợp Quản lý Fanpage Ph-Chem**: Kết nối Meta Graph API, tạo banner OG 1200x630, gỡ tuyên bố 'không quảng cáo', lên lịch 3 bài viết Tuần 1. Chi tiết xem `FANPAGE_GUIDE.md` | không | Lên lịch tiếp Bài 4 (Dãy điện hóa) khi đến lịch |
 | 24/08/2026 11:25 | Nối **mẩu thực tiễn ↔ lớp chất**, gắn tay 32 mẩu, phủ 15/22 lớp | không | Kho không còn việc treo nào ngoài 3 việc cần mắt người |
 | 24/08/2026 11:20 | Chặn **bẫy đối chứng rỗng** trong gen-structures — phát hiện lúc tách polime | không | Xem "Việc nhỏ ghi lại kẻo quên" |
 | 24/08/2026 11:15 | Tách **tinh bột / xenlulozơ**, xác định α-β bằng InChI đối chứng | không | Chặn bẫy đối chứng rỗng ở gen-structures |
