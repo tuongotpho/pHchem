@@ -20,7 +20,7 @@ export default defineConfig(({ command }) => ({
         name: 'pH-Chem — Hóa học chuyên nghiệp',
         short_name: 'pH-Chem',
         description:
-          'Bộ công cụ hóa học: bảng tuần hoàn, máy tính, độ tan, công thức, từ điển. Chạy offline, không quảng cáo.',
+          'Bộ công cụ hóa học: bảng tuần hoàn, máy tính, độ tan, công thức, từ điển. Chạy offline.',
         theme_color: '#0f141b',
         background_color: '#0a0e14',
         display: 'standalone',

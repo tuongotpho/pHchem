@@ -1,7 +1,7 @@
 # pH-Chem — Hóa học chuyên nghiệp (PWA)
 
 Bộ công cụ hóa học chạy trên trình duyệt, **cài được như app** và **chạy offline**.
-Không quảng cáo, không theo dõi. Giao diện tối, song ngữ Việt / Anh.
+Không theo dõi định danh. Giao diện tối, song ngữ Việt / Anh.
 
 🔗 Bản chạy thử: <https://tuongotpho.github.io/pHchem/>
 

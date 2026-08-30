@@ -47,9 +47,9 @@ export default function Settings() {
             'Số liệu — nguyên tố, công thức, phản ứng, thuật ngữ, mẩu thực tiễn — nằm sẵn trong ứng dụng, mất mạng vẫn tra và tính bình thường. Riêng hình cấu tạo tải khi bạn mở xem, để lần cài đầu khỏi nặng; muốn có sẵn đủ thì bấm nút tải cả bộ ở mục phía trên.',
         },
         {
-          tieuDe: 'Không quảng cáo, không nhận diện người dùng',
+          tieuDe: 'Không nhận diện người dùng',
           noiDung:
-            'Không có quảng cáo. Có một bộ đếm lượt truy cập (GoatCounter) để biết ứng dụng được dùng nhiều hay ít: nó gửi đi đường dẫn trang bạn mở, không đặt cookie, không dựng hồ sơ, không bán số liệu, và không có cách nào lần ra bạn là ai — mã nhận diện khách của nó tự đổi mới mỗi ngày. Con số đó hiện công khai ở cuối cột trái, bạn thấy đúng những gì chúng tôi thấy. Lựa chọn ngôn ngữ và giao diện chỉ lưu trong máy bạn. Ngoài bộ đếm này, ứng dụng chỉ nối mạng để lấy hình cấu tạo lần đầu bạn xem chất đó.',
+            'Có một bộ đếm lượt truy cập (GoatCounter) để biết ứng dụng được dùng nhiều hay ít: nó gửi đi đường dẫn trang bạn mở, không đặt cookie, không dựng hồ sơ, không bán số liệu, và không có cách nào lần ra bạn là ai — mã nhận diện khách của nó tự đổi mới mỗi ngày. Con số đó hiện công khai ở cuối cột trái, bạn thấy đúng những gì chúng tôi thấy. Lựa chọn ngôn ngữ và giao diện chỉ lưu trong máy bạn. Ngoài bộ đếm này, ứng dụng chỉ nối mạng để lấy hình cấu tạo lần đầu bạn xem chất đó.',
         },
         {
           tieuDe: 'Hai nguồn đề, hai mức tin cậy khác nhau',
@@ -84,9 +84,9 @@ export default function Settings() {
             'The data — elements, formulas, reactions, terms, real-world notes — ships inside the app and keeps working with no network. Structure images load when you open them, to keep the install small; the section above downloads the whole set in advance if you want it.',
         },
         {
-          tieuDe: 'No ads, nobody identified',
+          tieuDe: 'Privacy-first, nobody identified',
           noiDung:
-            'No ads. There is one visitor counter (GoatCounter) so we know whether the app gets used: it sends the path of the page you open, sets no cookies, builds no profile, sells nothing, and cannot trace you — its visitor hash is rotated daily. That number is shown openly at the bottom of the sidebar, so you see exactly what we see. Language and theme stay on your device. Apart from the counter, the only network request is fetching a structure image the first time you view that compound.',
+            'There is one visitor counter (GoatCounter) so we know whether the app gets used: it sends the path of the page you open, sets no cookies, builds no profile, sells nothing, and cannot trace you — its visitor hash is rotated daily. That number is shown openly at the bottom of the sidebar, so you see exactly what we see. Language and theme stay on your device. Apart from the counter, the only network request is fetching a structure image the first time you view that compound.',
         },
         {
           tieuDe: 'Two question sources, two levels of trust',
@@ -227,7 +227,7 @@ export default function Settings() {
             {vi ? 'Phiên bản' : 'Version'}{' '}
             <span className="font-mono text-slate-300">{VERSION}</span>
             <span className="mx-2 text-base-700">·</span>
-            {vi ? 'Miễn phí, không quảng cáo' : 'Free, no ads'}
+            {vi ? 'Hóa học chuyên nghiệp' : 'Professional Chemistry'}
           </span>
           <span className="text-slate-500">© {NAM} August87</span>
         </div>
