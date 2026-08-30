@@ -1,6 +1,6 @@
 import { postMessage } from './fanpage-manager.mjs';
 
-const POSTS_WEEK_2 = [
+export const POSTS_WEEK_2 = [
   // 1. Thứ Hai (07/09/2026 19:45): Cấu trúc Bảng tuần hoàn hiện đại
   {
     day: 'Thứ Hai (07/09/2026 19:45)',
@@ -55,13 +55,13 @@ Trong cùng một Nhóm A (từ Trên xuống Dưới):
     link: 'https://ph-chem.web.app/table',
     message: `🌌 [BẢNG TUẦN HOÀN — BÀI 3] BÍ ẨN CÁC NGUYÊN TỐ SIÊU NẶNG & NGUYÊN TẮC DỮ LIỆU CỦA PH-CHEM 🧪
 
-Từ nguyên tố 104 (Rutherfordium) đến 118 (Oganesson), đây là nhóm các **nguyên tố siêu nặng nhân tạo** được tổng hợp trong máy gia tốc hạt với thời gian sống chỉ tính bằng mili-giây hoặc micro-giây!
+Từ nguyên tố 104 (Rutherfordium) đến 118 (Oganesson), đây là nhóm các nguyên tố siêu nặng nhân tạo được tổng hợp trong máy gia tốc hạt với thời gian sống chỉ tính bằng mili-giây hoặc micro-giây!
 
 ❓ Vì sao chúng tồn tại quá ngắn mà vẫn được đưa vào Bảng tuần hoàn?
 Vì các nhà khoa học đang săn tìm "Đảo bền vững" (Island of Stability) — nơi các hạt nhân siêu nặng có thể tồn tại lâu hơn.
 
 🛡️ Nguyên tắc trung thực dữ liệu tại pH-Chem:
-* Những đại lượng nhiệt động (nhiệt độ nóng chảy/sôi, khối lượng riêng) chưa thể đo đạc thực nghiệm sẽ được **để dấu gạch ngang (-)**, tuyệt đối không bịa số ngoại suy.
+* Những đại lượng nhiệt động (nhiệt độ nóng chảy/sôi, khối lượng riêng) chưa thể đo đạc thực nghiệm sẽ được để dấu gạch ngang (-), tuyệt đối không bịa số ngoại suy.
 * Giúp học sinh và giáo viên luôn tiếp cận dữ liệu chuẩn mực khoa học nhất!
 
 👉 Khám phá Bảng tuần hoàn 118 nguyên tố chuẩn quốc tế tại:
@@ -80,7 +80,7 @@ Vì các nhà khoa học đang săn tìm "Đảo bền vững" (Island of Stabil
 He, Ne, Ar, Kr, Xe, Rn — Nhóm VIIIA (nhóm 18) được mệnh danh là nhóm "quý tộc" của Bảng tuần hoàn:
 
 🔒 Bí mật cấu hình:
-Lớp electron ngoài cùng đã bão hòa tuyệt đối (2e với Heli, 8e $ns^2np^6$ với các khí hiếm còn lại) ➔ Cực kỳ bền vững, trơ về mặt hóa học, tồn tại dưới dạng đơn nguyên tử!
+Lớp electron ngoài cùng đã bão hòa tuyệt đối (2e với Heli, 8e ns²np⁶ với các khí hiếm còn lại) ➔ Cực kỳ bền vững, trơ về mặt hóa học, tồn tại dưới dạng đơn nguyên tử!
 
 🎨 Ứng dụng chiếu sáng độc đáo:
 Khi có dòng điện cao áp đi qua:
@@ -105,15 +105,15 @@ Nhóm IA (Li, Na, K, Rb, Cs) và Nhóm IIA (Be, Mg, Ca, Sr, Ba) là những kim 
 
 ⚡ Tính chất đặc trưng:
 * Cực kỳ mềm (Na, K cắt được bằng dao), khối lượng riêng nhẹ (Li nhẹ hơn cả nước!).
-* Phản ứng mãnh liệt với nước ở nhiệt độ thường sinh ra khí $H_2$ và dung dịch kiềm làm đổi màu quỳ tím.
+* Phản ứng mãnh liệt với nước ở nhiệt độ thường sinh ra khí H₂ và dung dịch kiềm làm đổi màu quỳ tím.
 * Phải bảo quản bằng cách ngâm chìm trong dầu hỏa!
 
 🌈 Bí quyết nhận biết qua màu ngọn lửa khi đốt muối:
-* 🔴 Liti ($Li^+$): Đỏ tía
-* 🟡 Natri ($Na^+$): Vàng tươi
-* 🟣 Kali ($K^+$): Tím nhạt
-* 🧱 Canxi ($Ca^{2+}$): Đỏ da cam
-* 🟢 Bari ($Ba^{2+}$): Lục nõn chuối
+* 🔴 Liti (Li⁺): Đỏ tía
+* 🟡 Natri (Na⁺): Vàng tươi
+* 🟣 Kali (K⁺): Tím nhạt
+* 🧱 Canxi (Ca²⁺): Đỏ da cam
+* 🟢 Bari (Ba²⁺): Lục nõn chuối
 
 👉 Tra cứu thông số kim loại kiềm tại:
 🔗 https://ph-chem.web.app/table
@@ -131,13 +131,13 @@ Nhóm IA (Li, Na, K, Rb, Cs) và Nhóm IIA (Be, Mg, Ca, Sr, Ba) là những kim 
 Từ "Halogen" trong tiếng Hy Lạp có nghĩa là "sinh ra muối" (F, Cl, Br, I, At):
 
 🧪 Đặc điểm nổi bật:
-* Có 7 electron lớp ngoài cùng ($ns^2np^5$), xu hướng nhận thêm 1e để đạt cấu hình bền ➔ Có tính oxi hóa rất mạnh.
-* Tính oxi hóa giảm dần: $F_2 > Cl_2 > Br_2 > I_2$ (Halogen đứng trước đẩy được halogen đứng sau ra khỏi dung dịch muối!).
+* Có 7 electron lớp ngoài cùng (ns²np⁵), xu hướng nhận thêm 1e để đạt cấu hình bền ➔ Có tính oxi hóa rất mạnh.
+* Tính oxi hóa giảm dần: F₂ > Cl₂ > Br₂ > I₂ (Halogen đứng trước đẩy được halogen đứng sau ra khỏi dung dịch muối!).
 
 🌍 Ứng dụng quanh ta:
-* Clo ($Cl_2$): Khử trùng nước sinh hoạt, hồ bơi, tẩy trắng vải sợi.
-* Iot ($I_2$): Trộn vào muối ăn chống bệnh bướu cổ; dung dịch cồn iot sát trùng vết thương.
-* Flo ($F_2$): Hợp chất florua bảo vệ men răng và ngừa sâu răng.
+* Clo (Cl₂): Khử trùng nước sinh hoạt, hồ bơi, tẩy trắng vải sợi.
+* Iot (I₂): Trộn vào muối ăn chống bệnh bướu cổ; dung dịch cồn iot sát trùng vết thương.
+* Flo (F₂): Hợp chất florua bảo vệ men răng và ngừa sâu răng.
 
 👉 Tìm hiểu thêm về họ Halogen trên pH-Chem:
 🔗 https://ph-chem.web.app/table
@@ -156,9 +156,9 @@ Khép lại tuần lễ khám phá Bảng tuần hoàn, cùng thử tài với c
 
 ❓ NGUYÊN TỐ X LÀ AI?
 1. Thuộc chu kỳ 3, nhóm VIA trong Bảng tuần hoàn.
-2. Có cấu hình electron lớp ngoài cùng là $3s^23p^4$.
+2. Có cấu hình electron lớp ngoài cùng là 3s²3p⁴.
 3. Đơn chất có màu vàng, cháy trong không khí tạo khí có mùi hắc đặc trưng.
-4. Là thành phần không thể thiếu trong sản xuất axit sulfuric ($H_2SO_4$) — "vua của các loại hóa chất công nghiệp".
+4. Là thành phần không thể thiếu trong sản xuất axit sulfuric (H₂SO₄) — "vua của các loại hóa chất công nghiệp".
 
 👇 Bạn có đoán ra nguyên tố X là gì không? Hãy comment ngay bên dưới nhé!
 💡 Đừng quên vào mục Luyện tập trên pH-Chem để test nhanh 10 câu trắc nghiệm Bảng tuần hoàn có bấm giờ:
@@ -169,7 +169,7 @@ Khép lại tuần lễ khám phá Bảng tuần hoàn, cùng thử tài với c
 ];
 
 export async function scheduleWeek2() {
-  console.log('🚀 ĐANG LÊN LỊCH TUẦN 2 (CHUYÊN SÂU BẢNG TUẦN HOÀN)...\n');
+  console.log('🚀 ĐANG LÊN LỊCH TUẦN 2 (UNICODE CHUẨN ĐẸP)...\n');
   for (let i = 0; i < POSTS_WEEK_2.length; i++) {
     const p = POSTS_WEEK_2[i];
     console.log(`⏳ Đang lên lịch Bài ${i + 1} (${p.day})...`);

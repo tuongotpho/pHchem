@@ -1,6 +1,6 @@
 import { postMessage } from './fanpage-manager.mjs';
 
-const POSTS = [
+export const POSTS_WEEK_1 = [
   // 1. Thứ Hai: Bảng tuần hoàn 118 nguyên tố
   {
     day: 'Thứ Hai (31/08/2026 19:45)',
@@ -55,7 +55,7 @@ Tính pH của dung dịch axit mạnh thì dễ, nhưng khi gặp axit yếu v�
 🎯 Tab "Tính pH" trên pH-Chem được lập trình để giải quyết triệt để:
 1️⃣ Đầy đủ các nồng độ: Tính toán chuẩn xác cho axit mạnh (HCl, HNO₃, H₂SO₄...), bazơ mạnh (NaOH, Ba(OH)₂...) và các axit/bazơ yếu.
 2️⃣ Hiển thị toàn diện: Trả về đồng thời pH, pOH, nồng độ [H⁺] và [OH⁻].
-3️⃣ Giải đúng phương trình cân bằng: Áp dụng phương pháp giải tích chính xác ngay cả ở nồng độ cực loãng ($10^{-7}$ M) mà không bị "lừa" thành môi trường bazơ!
+3️⃣ Giải đúng phương trình cân bằng: Áp dụng phương pháp giải tích chính xác ngay cả ở nồng độ cực loãng (10⁻⁷ M) mà không bị "lừa" thành môi trường bazơ!
 
 👉 Tính nhanh pH của mọi dung dịch tại:
 🔗 https://ph-chem.web.app/calculator
@@ -74,7 +74,7 @@ Tính pH của dung dịch axit mạnh thì dễ, nhưng khi gặp axit yếu v�
 
 🛡️ Không cần ngồi thuộc lòng bảng chữ dài dằng dặc, công cụ Dãy điện hóa trên pH-Chem giúp bạn:
 1️⃣ Tra cứu 21 cặp oxi hóa - khử chuẩn: Xếp theo thứ tự tính oxi hóa tăng dần và tính khử giảm dần.
-2️⃣ Thế điện cực chuẩn $E^0$: Hiển thị rõ giá trị Volt của từng cặp.
+2️⃣ Thế điện cực chuẩn E⁰: Hiển thị rõ giá trị Volt của từng cặp.
 3️⃣ Bộ kiểm tra tương tác tự động: Bạn chỉ cần chọn kim loại A và muối B ➔ Hệ thống tự động phân tích theo quy tắc Alpha và báo ngay phản ứng có xảy ra hay không!
 
 👉 Tra cứu Dãy điện hóa chuẩn xác ngay tại:
@@ -143,11 +143,10 @@ Bạn đang tìm kiếm hình công thức cấu tạo phân tử Hóa hữu cơ
   },
 ];
 
-async function scheduleAll() {
-  console.log('🚀 BẮT ĐẦU LÊN LỊCH TOÀN BỘ 7 BÀI VIẾT TÍNH NĂNG CHO TUẦN 1...\n');
-
-  for (let i = 0; i < POSTS.length; i++) {
-    const p = POSTS[i];
+export async function scheduleWeek1() {
+  console.log('🚀 ĐANG LÊN LỊCH TUẦN 1 (UNICODE CHUẨN ĐẸP)...\n');
+  for (let i = 0; i < POSTS_WEEK_1.length; i++) {
+    const p = POSTS_WEEK_1[i];
     console.log(`⏳ Đang lên lịch Bài ${i + 1} (${p.day})...`);
     const res = await postMessage({
       message: p.message,
@@ -157,11 +156,9 @@ async function scheduleAll() {
     });
     console.log(`✅ Thành công Bài ${i + 1}! ID: ${res.id}\n`);
   }
-
-  console.log('🎉 TẤT CẢ 7 BÀI VIẾT ĐÃ ĐƯỢC LÊN LỊCH THÀNH CÔNG TRÊN FANPAGE PH-CHEM!');
+  console.log('🎉 ĐÃ LÊN LỊCH THÀNH CÔNG TOÀN BỘ TUẦN 1!');
 }
 
-scheduleAll().catch((err) => {
-  console.error('❌ Lỗi:', err.message);
-  process.exit(1);
-});
+if (process.argv[1]?.endsWith('schedule-week-1.mjs')) {
+  scheduleWeek1().catch(console.error);
+}

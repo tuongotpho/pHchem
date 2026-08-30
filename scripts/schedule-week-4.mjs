@@ -1,6 +1,6 @@
 import { postMessage } from './fanpage-manager.mjs';
 
-const POSTS_WEEK_4 = [
+export const POSTS_WEEK_4 = [
   // 1. Thứ Hai (21/09/2026 19:45): Bản chất thang đo pH và pOH
   {
     day: 'Thứ Hai (21/09/2026 19:45)',
@@ -68,7 +68,7 @@ Ka = ([CH₃COO⁻] × [H⁺]) / [CH₃COOH]
 Nếu gọi x là [H⁺] phân ly: Ka = x² / (C₀ - x).
 
 ✨ Ưu thế của Máy tính pH-Chem:
-* Tự động giải đúng phương trình bậc 2: x² + Ka.x - Ka.C₀ = 0 mà không cần xấp xỉ thô sơ (x << C₀), đảm bảo độ chính xác tuyệt đối kể cả khi hằng số Ka tương đối lớn!
+* Tự động giải đúng phương trình bậc 2: x² + Ka·x - Ka·C₀ = 0 mà không cần xấp xỉ thô sơ (x << C₀), đảm bảo độ chính xác tuyệt đối kể cả khi hằng số Ka tương đối lớn!
 
 👉 Tính pH axit yếu chuẩn xác tại:
 🔗 https://ph-chem.web.app/calculator
@@ -92,8 +92,8 @@ Nhưng pH = 8 là môi trường BAZƠ! Axit dù loãng đến đâu cũng khôn
 🔑 Lời giải khoa học:
 Ở nồng độ cực loãng, ta BẮT BUỘC phải tính cả sự phân ly của nước:
 H₂O ⇌ H⁺ + OH⁻ (Kw = 10⁻¹⁴)
-Tổng [H⁺] = [H⁺]_{HCl} + [H⁺]_{H₂O} = 10⁻⁸ + x.
-Giải phương trình cân bằng: (10⁻⁸ + x).x = 10⁻¹⁴ ➔ [H⁺] ≈ 1.05 × 10⁻⁷ M ➔ pH ≈ 6.98 (Vẫn là môi trường axit nhẹ gần trung tính!).
+Tổng [H⁺] = [H⁺]_HCl + [H⁺]_H₂O = 10⁻⁸ + x.
+Giải phương trình cân bằng: (10⁻⁸ + x)·x = 10⁻¹⁴ ➔ [H⁺] ≈ 1.05 × 10⁻⁷ M ➔ pH ≈ 6.98 (Vẫn là môi trường axit nhẹ gần trung tính!).
 
 ✨ Thuật toán của pH-Chem tự động xử lý chuẩn xác trường hợp loãng này!
 
@@ -185,7 +185,7 @@ D. pH ≈ 9.0 – 10.0
 ];
 
 export async function scheduleWeek4() {
-  console.log('🚀 ĐANG LÊN LỊCH TUẦN 4 (CHUYÊN SÂU MÁY TÍNH pH & NỒNG ĐỘ DUNG DỊCH)...\n');
+  console.log('🚀 ĐANG LÊN LỊCH TUẦN 4 (UNICODE CHUẨN ĐẸP)...\n');
   for (let i = 0; i < POSTS_WEEK_4.length; i++) {
     const p = POSTS_WEEK_4[i];
     console.log(`⏳ Đang lên lịch Bài ${i + 1} (${p.day})...`);

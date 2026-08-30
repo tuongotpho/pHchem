@@ -1,6 +1,6 @@
 import { postMessage } from './fanpage-manager.mjs';
 
-const POSTS_WEEK_3 = [
+export const POSTS_WEEK_3 = [
   // 1. Thứ Hai (14/09/2026 19:45): Cân bằng phương trình đại số phân số
   {
     day: 'Thứ Hai (14/09/2026 19:45)',
@@ -9,7 +9,7 @@ const POSTS_WEEK_3 = [
     message: `⚡ [MÁY TÍNH HÓA HỌC — BÀI 1] CÂN BẰNG PHƯƠNG TRÌNH PHỨC TẠP BẰNG ĐẠI SỐ PHÂN SỐ CHÍNH XÁC 100% ⚗️
 
 Bạn từng mất hàng chục phút để "mò" hệ số cân bằng của các phản ứng oxi hóa - khử phức tạp như:
-Fe3O4 + HNO3 -> Fe(NO3)3 + NO + H2O hay KMnO4 + HCl -> KCl + MnCl2 + Cl2 + H2O?
+Fe₃O₄ + HNO₃ → Fe(NO₃)₃ + NO↑ + H₂O hay KMnO₄ + HCl → KCl + MnCl₂ + Cl₂↑ + H₂O?
 
 🧠 Tại sao Máy tính pH-Chem không bao giờ cân bằng sai?
 * Khác với các công cụ dùng AI đoán mò hệ số (dễ bị sai số hoặc không bảo toàn nguyên tố), pH-Chem sử dụng thuật toán đại số phân số ma trận (Gaussian Elimination).
@@ -58,8 +58,8 @@ Trong Hóa học, Mol (n) chính là "ngã tư trung tâm" kết nối mọi đ�
 📐 4 Công thức chuyển đổi cốt lõi:
 1. n = m / M (Khối lượng ↔ Mol)
 2. n = V / 22.4 (hoặc V / 24.79 theo chuẩn mới ở 25°C, 1 bar) (Thể tích khí ↔ Mol)
-3. n = CM × Vdd (Nồng độ mol ↔ Mol)
-4. C% = (mct / mdd) × 100% (Nồng độ phần trăm)
+3. n = C_M × V_dd (Nồng độ mol ↔ Mol)
+4. C% = (m_ct / m_dd) × 100% (Nồng độ phần trăm)
 
 💡 Trên pH-Chem, bạn chỉ cần chọn đại lượng đã biết, máy sẽ tự động tính ra tất cả các đại lượng còn lại mà không cần nhớ công thức biến đổi!
 
@@ -80,10 +80,10 @@ Trong Hóa học, Mol (n) chính là "ngã tư trung tâm" kết nối mọi đ�
 
 🎯 Nguyên tắc pha loãng:
 Khi thêm nước cất vào một dung dịch, lượng dung môi tăng lên nhưng tổng số mol chất tan không đổi!
-=> C1 × V1 = C2 × V2
+➔ C₁ × V₁ = C₂ × V₂
 
 🛠️ Hỗ trợ pha chế trong phòng thí nghiệm:
-* Tab "Pha loãng" trên pH-Chem cho phép bạn nhập 3 thông số bất kỳ trong bộ (C1, V1, C2, V2) ➔ Máy sẽ tự động tính đại lượng còn lại và chỉ rõ lượng nước cất cần thêm vào (Vnuoc = V2 - V1).
+* Tab "Pha loãng" trên pH-Chem cho phép bạn nhập 3 thông số bất kỳ trong bộ (C₁, V₁, C₂, V₂) ➔ Máy sẽ tự động tính đại lượng còn lại và chỉ rõ lượng nước cất cần thêm vào (V_nước = V₂ - V₁).
 
 👉 Tính toán pha chế dung dịch chuẩn xác tại:
 🔗 https://ph-chem.web.app/calculator
@@ -98,12 +98,12 @@ Khi thêm nước cất vào một dung dịch, lượng dung môi tăng lên nh
     link: 'https://ph-chem.web.app/calculator',
     message: `💎 [MÁY TÍNH HÓA HỌC — BÀI 5] MUỐI NGẬM NƯỚC (HYDRATE): TÍNH M VÀ % KHỐI LƯỢNG SAO CHO CHUẨN? 🧊
 
-Khi gặp các công thức như phèn chua KAl(SO4)2.12H2O, thạch cao sống CaSO4.2H2O, hay đồng sunfat ngậm nước CuSO4.5H2O:
+Khi gặp các công thức như phèn chua KAl(SO₄)₂·12H₂O, thạch cao sống CaSO₄·2H₂O, hay đồng sunfat ngậm nước CuSO₄·5H₂O:
 
 ⚠️ Bẫy thường gặp của học sinh:
-Nhiều bạn nhầm dấu chấm "." là dấu nhân nên nhân toàn bộ khối lượng với nhau!
+Nhiều bạn nhầm dấu chấm "·" là dấu nhân nên nhân toàn bộ khối lượng với nhau!
 Thực tế: Dấu chấm biểu thị phân tử chất ngậm các phân tử nước trong mạng tinh thể.
-M(CuSO4.5H2O) = M(CuSO4) + 5 × M(H2O) = 159.6 + 90 = 249.6 g/mol.
+M(CuSO₄·5H₂O) = M(CuSO₄) + 5 × M(H₂O) = 159.6 + 90 = 249.6 g/mol.
 
 ✨ Máy tính pH-Chem hỗ trợ đọc trực tiếp cú pháp muối ngậm nước, tính đúng khối lượng mol và phân tích chi tiết % khối lượng từng nguyên tố!
 
@@ -121,8 +121,8 @@ M(CuSO4.5H2O) = M(CuSO4) + 5 × M(H2O) = 159.6 + 90 = 249.6 g/mol.
     message: `📈 [MÁY TÍNH HÓA HỌC — BÀI 6] BÍ KÍP XỬ LÝ BÀI TOÁN HIỆU SUẤT PHẢN ỨNG (H%) KHÔNG BAO GIỜ BỊ NGƯỢC 🚀
 
 Bài toán hiệu suất là câu hỏi phân loại quen thuộc trong các kỳ thi:
-* Khi nào nhân hiệu suất (mtt = mlt × H%)?
-* Khi nào chia hiệu suất (mtt = mlt / H%)?
+* Khi nào nhân hiệu suất (m_tt = m_lt × H%)?
+* Khi nào chia hiệu suất (m_tt = m_lt / H%)?
 
 🔑 Bí quyết nhớ mẹo 1 câu: "Tính Thuận thì Nhân — Tính Nghịch thì Chia"
 * Đi từ Chất tham gia ➔ Sản phẩm (Tính thuận): NHÂN H% (Vì thực tế sản phẩm sinh ra luôn ít hơn lý thuyết!).
@@ -144,7 +144,7 @@ Bài toán hiệu suất là câu hỏi phân loại quen thuộc trong các k�
 Cùng thử tài cân bằng một phản ứng oxi hóa - khử kinh điển của Hóa vô cơ:
 
 ❓ Hãy tìm các hệ số nguyên tối giản (a, b, c, d, e):
-a Fe3O4 + b HNO3 -> c Fe(NO3)3 + d NO + e H2O
+a Fe₃O₄ + b HNO₃ → c Fe(NO₃)₃ + d NO↑ + e H₂O
 
 Tổng hệ số (a + b + c + d + e) bằng bao nhiêu?
 A. 55
@@ -161,7 +161,7 @@ D. 38
 ];
 
 export async function scheduleWeek3() {
-  console.log('🚀 ĐANG LÊN LỊCH TUẦN 3 (CHUYÊN SÂU MÁY TÍNH HÓA HỌC & PHƯƠNG TRÌNH)...\n');
+  console.log('🚀 ĐANG LÊN LỊCH TUẦN 3 (UNICODE CHUẨN ĐẸP)...\n');
   for (let i = 0; i < POSTS_WEEK_3.length; i++) {
     const p = POSTS_WEEK_3[i];
     console.log(`⏳ Đang lên lịch Bài ${i + 1} (${p.day})...`);
