@@ -191,31 +191,46 @@ export async function getSearchAnalytics(siteUrl, days = 28) {
   return data;
 }
 
-// 5. Yêu cầu Google Index trang web (Google Indexing API)
-export async function requestIndexing(url, type = 'URL_UPDATED') {
+// 6. Gửi Sitemap lên Google Search Console
+export async function submitSitemap(siteUrl, feedpath) {
   const keyPath = findKeyFile();
   const { token } = await getAccessToken(keyPath, [
-    'https://www.googleapis.com/auth/indexing'
+    'https://www.googleapis.com/auth/webmasters'
   ]);
 
-  console.log(`🚀 Đang gửi yêu cầu Google Indexing API (${type}): ${url}...`);
-  const res = await fetch('https://indexing.googleapis.com/v3/urlNotifications:publish', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      url,
-      type
-    })
+  console.log(`🗺️  Đang gửi sitemap ${feedpath} lên GSC cho ${siteUrl}...`);
+  const encodedSiteUrl = encodeURIComponent(siteUrl);
+  const encodedFeedpath = encodeURIComponent(feedpath);
+  const res = await fetch(`https://www.googleapis.com/webmasters/v3/sites/${encodedSiteUrl}/sitemaps/${encodedFeedpath}`, {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+  if (res.status === 204 || res.ok) {
+    console.log(`✅ Đã gửi thành công sitemap: ${feedpath}`);
+    return true;
+  }
+  const data = await res.json().catch(() => ({}));
+  throw new Error(`Lỗi gửi sitemap: ${data.error?.message || res.statusText}`);
+}
+
+// 7. Lấy danh sách Sitemap đã gửi
+export async function listSitemaps(siteUrl) {
+  const keyPath = findKeyFile();
+  const { token } = await getAccessToken(keyPath, [
+    'https://www.googleapis.com/auth/webmasters.readonly'
+  ]);
+
+  const encodedSiteUrl = encodeURIComponent(siteUrl);
+  const res = await fetch(`https://www.googleapis.com/webmasters/v3/sites/${encodedSiteUrl}/sitemaps`, {
+    headers: { Authorization: `Bearer ${token}` }
   });
 
   const data = await res.json();
   if (!res.ok) {
-    throw new Error(`Lỗi Indexing API: ${data.error?.message || JSON.stringify(data)}`);
+    throw new Error(`Lỗi lấy sitemap: ${data.error?.message || JSON.stringify(data)}`);
   }
-  return data;
+  return data.sitemap || [];
 }
 
 // Chạy trực tiếp từ dòng lệnh
@@ -250,17 +265,20 @@ async function main() {
       const analytics = await getSearchAnalytics(targetSite);
       console.log('📊 Thống kê tìm kiếm (Search Analytics):');
       console.log(JSON.stringify(analytics, null, 2));
-    } else if (cmd === 'index') {
-      const urlToIndex = process.argv[3] || targetSite;
-      const res = await requestIndexing(urlToIndex);
-      console.log('✅ Kết quả Google Indexing API:', res);
+    } else if (cmd === 'sitemap') {
+      const sitemapUrl = process.argv[4] || 'https://ph-chem.web.app/sitemap.xml';
+      await submitSitemap(targetSite, sitemapUrl);
+    } else if (cmd === 'sitemaps') {
+      const sitemaps = await listSitemaps(targetSite);
+      console.log('📋 Danh sách sitemaps:', JSON.stringify(sitemaps, null, 2));
     } else {
       console.log('Cách dùng:');
       console.log('  node scripts/gsc-manager.mjs list');
       console.log('  node scripts/gsc-manager.mjs add <siteUrl>');
       console.log('  node scripts/gsc-manager.mjs inspect <siteUrl> <urlToInspect>');
       console.log('  node scripts/gsc-manager.mjs analytics <siteUrl>');
-      console.log('  node scripts/gsc-manager.mjs index <url>');
+      console.log('  node scripts/gsc-manager.mjs sitemap <siteUrl> <sitemapUrl>');
+      console.log('  node scripts/gsc-manager.mjs sitemaps <siteUrl>');
     }
   } catch (err) {
     console.error(`❌ ${err.message}`);
