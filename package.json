@@ -13,6 +13,7 @@
     "struct": "node scripts/gen-structures.mjs",
     "de": "node scripts/gen-de.mjs",
     "audit": "tsc -b && vitest run && node scripts/gen-structures.mjs",
+    "gsc": "node scripts/gsc-manager.mjs",
     "build:firebase": "tsc -b && vite build --base=/ --outDir dist-firebase",
     "preview:firebase": "vite preview --outDir dist-firebase --port 5185"
   },

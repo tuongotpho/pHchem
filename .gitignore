@@ -16,6 +16,11 @@ dist-ssr
 .env
 .env.*
 !.env.example
+# Khóa bí mật Google Service Account
+*-*.json
+!package.json
+!tsconfig*.json
+!*.oxlintrc.json
 
 # Trang duyệt hình cấu tạo (đồ dev, sinh bởi npm run struct)
 structure-review.html
