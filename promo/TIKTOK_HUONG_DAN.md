@@ -202,6 +202,27 @@ This is our first submission for this app. There is no previous version to
 compare against.
 ```
 
+### 4b. Bản rút gọn — dùng khi ô đếm ký tự
+
+Bản đầy đủ ở trên dài **830 từ / 5.495 ký tự**. Ô "Explain how each product and
+scope works" giới hạn 1000 — nếu nó đếm **từ** thì bản đầy đủ vừa khít, dùng luôn.
+Nếu đếm **ký tự** thì dùng bản dưới, **996 ký tự**, còn dư 4.
+
+Cách phân biệt: dán bản đầy đủ vào rồi nhìn con số đếm. Nhảy lên ~830 là đếm từ,
+nhảy lên ~5.500 là đếm ký tự.
+
+```
+pH-Chem (ph-chem.web.app) is a free chemistry study tool: periodic table, calculators, quizzes. No accounts, no user data.
+
+We make our own educational videos (281 so far: elements, facts, chemical safety, history), our own narration, no third-party music, published to our own account @thanh8787 from an internal tool. We never post for other users.
+
+user.info.basic: shows which account is connected, so the operator confirms the target before posting. Tokens stay local.
+
+video.publish (Direct Post): the posting screen is built from creator_info. Privacy options come only from privacy_level_options, nothing preselected, and Post stays disabled until one is picked. Comment/Duet/Stitch follow the disabled flags. A disclosure switch sets brand_organic_toggle or brand_content_toggle; branded content disables SELF_ONLY. The Music Usage Confirmation line, plus Branded Content Policy when applicable, sits above Post. The operator confirms every post; nothing is automated.
+
+First submission.
+```
+
 ---
 
 ## 5. Những chỗ đã vấp và cách gỡ
