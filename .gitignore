@@ -51,3 +51,7 @@ promo/**/*.txt
 # nhưng giữ lại báo cáo và trang web trong promo/
 !promo/*.md
 !promo/*.html
+
+# Token TikTok va ma PKCE — nam tren may, khong dua vao git
+.tiktok-token.json
+.tiktok-pkce.json

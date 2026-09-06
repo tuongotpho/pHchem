@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bảng đăng TikTok — pH-Chem</title>
+<style>
+  :root{
+    --nen:#F5F7F6; --giay:#fff; --chu:#16201A; --mo:#63756B; --vien:#DCE3DE;
+    --nhan:#1F7A55; --do:#B3261E; --vang:#8A6A00;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--nen);color:var(--chu);
+    font:15px/1.6 system-ui,"Segoe UI",Roboto,sans-serif}
+  .khung{max-width:1080px;margin:0 auto;padding:26px 20px 80px}
+  h1{font-size:22px;margin:0 0 2px;letter-spacing:-.01em}
+  .phu{color:var(--mo);font-size:13px;margin:0 0 22px}
+  .the{background:var(--giay);border:1px solid var(--vien);border-radius:10px;padding:18px 20px;margin-bottom:16px}
+  .the h2{font-size:15px;margin:0 0 12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mo)}
+  .luoi{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+  @media(max-width:820px){.luoi{grid-template-columns:1fr}}
+  button{font:inherit;border-radius:7px;border:1px solid var(--vien);background:var(--giay);
+    color:var(--chu);padding:8px 14px;cursor:pointer}
+  button:hover{border-color:var(--nhan)}
+  button.chinh{background:var(--nhan);border-color:var(--nhan);color:#fff;font-weight:600;padding:11px 26px}
+  button.chinh:disabled{background:#C3CCC7;border-color:#C3CCC7;cursor:not-allowed}
+  button.nhe{font-size:13px;padding:5px 11px}
+  select,input[type=text],textarea{font:inherit;width:100%;padding:9px 11px;border:1px solid var(--vien);
+    border-radius:7px;background:var(--giay);color:var(--chu)}
+  textarea{min-height:104px;resize:vertical;line-height:1.55}
+  label.hang{display:flex;gap:9px;align-items:flex-start;margin:0 0 9px;cursor:pointer}
+  label.hang input{margin-top:4px;flex:none}
+  label.hang.khoa{color:var(--mo);cursor:not-allowed}
+  .nhan{font-size:13px;font-weight:600;color:var(--mo);display:block;margin:0 0 6px;
+    text-transform:uppercase;letter-spacing:.05em}
+  .dem{font-size:12px;color:var(--mo);text-align:right;margin-top:4px}
+  .ds{max-height:330px;overflow:auto;border:1px solid var(--vien);border-radius:8px}
+  .ds div{padding:8px 11px;border-bottom:1px solid var(--vien);cursor:pointer;font-size:13.5px}
+  .ds div:last-child{border-bottom:0}
+  .ds div:hover{background:var(--nen)}
+  .ds div.chon{background:#E4F2EB;font-weight:600}
+  .ds small{color:var(--mo);font-weight:400;display:block}
+  video{width:100%;border-radius:9px;background:#000;display:block}
+  .tk{display:flex;gap:12px;align-items:center}
+  .tk img{width:46px;height:46px;border-radius:50%;background:var(--nen);flex:none}
+  .tk b{display:block}
+  .tk span{color:var(--mo);font-size:13px}
+  .canh{background:#FFF8E6;border:1px solid #E8D79A;border-left:4px solid var(--vang);
+    border-radius:7px;padding:11px 14px;font-size:13.5px;margin:12px 0}
+  .loi{background:#FDECEA;border:1px solid #F0BDB8;border-left:4px solid var(--do);
+    border-radius:7px;padding:11px 14px;font-size:13.5px;margin:12px 0;color:#7A1911}
+  .cam-ket{font-size:13px;color:var(--mo);border-top:1px solid var(--vien);margin-top:16px;padding-top:14px}
+  a{color:var(--nhan)}
+  .an{display:none!important}
+  .buoc{display:flex;gap:9px;align-items:center;font-size:13.5px;padding:6px 0}
+  .buoc i{width:20px;height:20px;border-radius:50%;background:var(--vien);flex:none;
+    display:inline-block;text-align:center;line-height:20px;font-style:normal;font-size:12px}
+  .buoc.xong i{background:var(--nhan);color:#fff}
+  .buoc.hong i{background:var(--do);color:#fff}
+  code{background:var(--nen);padding:1px 6px;border-radius:4px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="khung">
+  <h1>Bảng đăng TikTok — pH-Chem</h1>
+  <p class="phu">Công cụ nội bộ, chạy tại máy. Chỉ đăng video do pH-Chem tự dựng, lên chính tài khoản TikTok của pH-Chem.</p>
+
+  <!-- 1. Tài khoản -->
+  <div class="the">
+    <h2>1 · Tài khoản TikTok</h2>
+    <div id="vung-tk">Đang kiểm tra…</div>
+  </div>
+
+  <!-- 2..5 chỉ hiện khi đã nối -->
+  <div id="vung-soan" class="an">
+    <div class="luoi">
+      <div>
+        <div class="the">
+          <h2>2 · Chọn video</h2>
+          <input type="text" id="tim" placeholder="Lọc theo tên…" style="margin-bottom:9px">
+          <div class="ds" id="ds-video"></div>
+          <p class="phu" style="margin:9px 0 0" id="dem-video"></p>
+        </div>
+        <div class="the" id="the-xem" style="display:none">
+          <h2>Xem lại trước khi đăng</h2>
+          <video id="xem" controls preload="metadata"></video>
+        </div>
+      </div>
+
+      <div>
+        <div class="the">
+          <h2>3 · Chú thích</h2>
+          <textarea id="tieude" maxlength="2200" placeholder="Viết chú thích cho video…"></textarea>
+          <div class="dem"><span id="dem-chu">0</span> / 2200</div>
+        </div>
+
+        <div class="the">
+          <h2>4 · Cách hiển thị và tương tác</h2>
+
+          <span class="nhan">Ai xem được video này</span>
+          <select id="riengtu">
+            <option value="">— Chưa chọn —</option>
+          </select>
+          <p class="phu" style="margin:6px 0 16px">Phải tự chọn, không có mục nào được chọn sẵn.</p>
+
+          <span class="nhan">Cho phép người xem</span>
+          <label class="hang"><input type="checkbox" id="binhluan"><span>Bình luận</span></label>
+          <label class="hang"><input type="checkbox" id="duet"><span>Duet</span></label>
+          <label class="hang"><input type="checkbox" id="stitch"><span>Stitch</span></label>
+        </div>
+
+        <div class="the">
+          <h2>5 · Công bố nội dung thương mại</h2>
+          <label class="hang"><input type="checkbox" id="cong-bo">
+            <span><b>Công bố nội dung thương mại</b><br>
+            <span style="color:var(--mo);font-size:13px">Bật nếu video quảng bá cho một thương hiệu, sản phẩm hoặc dịch vụ.</span></span></label>
+
+          <div id="vung-th" class="an" style="margin-left:28px;margin-top:8px">
+            <label class="hang"><input type="checkbox" id="th-minh">
+              <span>Thương hiệu của tôi<br>
+              <span style="color:var(--mo);font-size:13px">Video quảng bá cho chính pH-Chem.</span></span></label>
+            <label class="hang"><input type="checkbox" id="th-thue">
+              <span>Nội dung được trả phí<br>
+              <span style="color:var(--mo);font-size:13px">Video quảng bá cho một bên khác theo thoả thuận trả phí.</span></span></label>
+            <div id="nhan-hien" class="canh an"></div>
+            <div id="loi-th" class="loi an">Đã bật công bố nội dung thì phải chọn ít nhất một mục.</div>
+          </div>
+
+          <div class="cam-ket" id="cam-ket"></div>
+        </div>
+
+        <div class="the">
+          <h2>6 · Đăng</h2>
+          <div id="tom-tat" class="phu" style="margin:0 0 12px"></div>
+          <button class="chinh" id="nut-dang" disabled>Đăng lên TikTok</button>
+          <div id="tien-trinh" class="an" style="margin-top:16px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const TEN_RIENGTU = {
+  PUBLIC_TO_EVERYONE: 'Công khai — mọi người xem được',
+  MUTUAL_FOLLOW_FRIENDS: 'Bạn bè — theo dõi hai chiều',
+  FOLLOWER_OF_CREATOR: 'Người theo dõi tôi',
+  SELF_ONLY: 'Chỉ mình tôi',
+};
+let TK = null;      // creator_info
+let CHON = null;    // video đang chọn
+let KHO = [];
+
+// ── 1. Tài khoản ───────────────────────────────────────────
+async function veTaiKhoan() {
+  const t = await (await fetch('/api/trangthai')).json();
+  const v = $('#vung-tk');
+
+  if (t.thieuKhoa) {
+    v.innerHTML = '<div class="loi">Chưa có <code>TIKTOK_CLIENT_KEY</code> và <code>TIKTOK_CLIENT_SECRET</code> trong <code>.env.local</code>. Lấy ở trang quản lý ứng dụng TikTok for Developers rồi dán vào.</div>';
+    return;
+  }
+  if (!t.daNoi) {
+    v.innerHTML = '<p style="margin:0 0 12px">Chưa nối tài khoản.'
+      + (t.loi ? ' <span style="color:var(--do)">' + t.loi + '</span>' : '') + '</p>'
+      + '<button class="chinh" id="nut-noi">Nối tài khoản TikTok</button>';
+    $('#nut-noi').onclick = async () => {
+      const r = await (await fetch('/api/url-dangnhap')).json();
+      location.href = r.url;
+    };
+    return;
+  }
+
+  TK = t.taiKhoan;
+  v.innerHTML =
+    '<div class="tk">'
+    + '<img src="' + (TK.creator_avatar_url || '') + '" alt="">'
+    + '<div><b>' + (TK.creator_nickname || '—') + '</b>'
+    + '<span>@' + (TK.creator_username || '—') + ' · quyền: ' + (t.quyen || '—') + '</span></div>'
+    + '<div style="margin-left:auto"><button class="nhe" id="nut-ngat">Ngắt kết nối</button></div>'
+    + '</div>'
+    + '<p class="phu" style="margin:12px 0 0">Video sẽ đăng lên đúng tài khoản này. Độ dài tối đa cho phép: '
+    + (TK.max_video_post_duration_sec || '—') + ' giây.</p>';
+  $('#nut-ngat').onclick = async () => {
+    await fetch('/api/ngat', { method: 'POST' });
+    location.href = '/';
+  };
+
+  $('#vung-soan').classList.remove('an');
+  dungRiengTu();
+  dungTuongTac();
+  await veKho();
+  capNhat();
+}
+
+function dungRiengTu() {
+  const s = $('#riengtu');
+  s.innerHTML = '<option value="">— Chưa chọn —</option>';
+  for (const m of (TK.privacy_level_options || [])) {
+    const o = document.createElement('option');
+    o.value = m;
+    o.textContent = TEN_RIENGTU[m] || m;
+    s.appendChild(o);
+  }
+}
+
+// Tài khoản khoá tương tác nào thì ô đó khoá luôn, không cho bật.
+function dungTuongTac() {
+  const map = [['#binhluan', 'comment_disabled'], ['#duet', 'duet_disabled'], ['#stitch', 'stitch_disabled']];
+  for (const [sel, co] of map) {
+    const o = $(sel);
+    const nhan = o.closest('label');
+    if (TK[co]) {
+      o.checked = false; o.disabled = true;
+      nhan.classList.add('khoa');
+      nhan.querySelector('span').innerHTML += ' <span style="font-size:12px">(tài khoản đang tắt mục này)</span>';
+    } else {
+      o.checked = true; o.disabled = false;
+    }
+  }
+}
+
+// ── 2. Kho video ───────────────────────────────────────────
+async function veKho() {
+  KHO = await (await fetch('/api/kho')).json();
+  locKho();
+}
+
+function locKho() {
+  const q = $('#tim').value.trim().toLowerCase();
+  const ds = KHO.filter((v) => !q || v.ten.toLowerCase().includes(q) || v.chuDe.toLowerCase().includes(q));
+  const h = $('#ds-video');
+  h.innerHTML = '';
+  for (const v of ds.slice(0, 400)) {
+    const d = document.createElement('div');
+    d.textContent = v.ten;
+    d.innerHTML = v.ten + '<small>' + v.chuDe + ' · ' + v.mb + ' MB</small>';
+    if (CHON && CHON.id === v.id) d.classList.add('chon');
+    d.onclick = () => {
+      CHON = v;
+      $('#the-xem').style.display = '';
+      $('#xem').src = '/api/video?id=' + encodeURIComponent(v.id);
+      locKho();
+      capNhat();
+    };
+    h.appendChild(d);
+  }
+  $('#dem-video').textContent = ds.length + ' / ' + KHO.length + ' video';
+}
+
+// ── 5. Công bố nội dung ────────────────────────────────────
+function veCongBo() {
+  const bat = $('#cong-bo').checked;
+  const minh = $('#th-minh').checked;
+  const thue = $('#th-thue').checked;
+  $('#vung-th').classList.toggle('an', !bat);
+
+  // Nội dung được trả phí thì không được để "Chỉ mình tôi".
+  const s = $('#riengtu');
+  for (const o of s.options) {
+    if (o.value === 'SELF_ONLY') {
+      o.disabled = bat && thue;
+      o.textContent = TEN_RIENGTU.SELF_ONLY + (o.disabled ? ' — không dùng được với nội dung trả phí' : '');
+    }
+  }
+  if (bat && thue && s.value === 'SELF_ONLY') s.value = '';
+
+  const nh = $('#nhan-hien');
+  if (bat && (minh || thue)) {
+    nh.classList.remove('an');
+    nh.textContent = thue
+      ? 'Video sẽ được gắn nhãn "Hợp tác trả phí".'
+      : 'Video sẽ được gắn nhãn "Nội dung quảng bá".';
+  } else nh.classList.add('an');
+
+  $('#loi-th').classList.toggle('an', !(bat && !minh && !thue));
+
+  $('#cam-ket').innerHTML = (bat && thue)
+    ? 'Bấm "Đăng lên TikTok" nghĩa là đồng ý với <a href="https://www.tiktok.com/legal/page/global/bc-policy/en" target="_blank" rel="noopener">Chính sách nội dung thương hiệu</a> và <a href="https://www.tiktok.com/legal/page/global/music-usage-confirmation/en" target="_blank" rel="noopener">Xác nhận sử dụng âm nhạc</a> của TikTok.'
+    : 'Bấm "Đăng lên TikTok" nghĩa là đồng ý với <a href="https://www.tiktok.com/legal/page/global/music-usage-confirmation/en" target="_blank" rel="noopener">Xác nhận sử dụng âm nhạc</a> của TikTok.';
+}
+
+// ── 6. Chốt điều kiện được đăng ────────────────────────────
+function capNhat() {
+  veCongBo();
+  const bat = $('#cong-bo').checked;
+  const hopLe = !!CHON && !!$('#riengtu').value
+    && (!bat || $('#th-minh').checked || $('#th-thue').checked);
+  $('#nut-dang').disabled = !hopLe;
+
+  const thieu = [];
+  if (!CHON) thieu.push('chọn video');
+  if (!$('#riengtu').value) thieu.push('chọn ai xem được');
+  if (bat && !$('#th-minh').checked && !$('#th-thue').checked) thieu.push('chọn loại nội dung thương mại');
+  $('#tom-tat').textContent = thieu.length
+    ? 'Còn thiếu: ' + thieu.join(', ') + '.'
+    : 'Sẽ đăng "' + CHON.ten + '" lên tài khoản ' + TK.creator_nickname + ' — ' + (TEN_RIENGTU[$('#riengtu').value] || '');
+}
+
+// ── Đăng và theo dõi kết quả ───────────────────────────────
+function buoc(t, trangThai) {
+  const d = document.createElement('div');
+  d.className = 'buoc ' + (trangThai || '');
+  d.innerHTML = '<i>' + (trangThai === 'xong' ? '✓' : trangThai === 'hong' ? '!' : '·') + '</i><span>' + t + '</span>';
+  $('#tien-trinh').appendChild(d);
+  return d;
+}
+
+$('#nut-dang').onclick = async () => {
+  $('#nut-dang').disabled = true;
+  const tt = $('#tien-trinh');
+  tt.classList.remove('an');
+  tt.innerHTML = '';
+  const b1 = buoc('Đang gửi video lên TikTok…');
+
+  try {
+    const r = await (await fetch('/api/dang', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: CHON.id,
+        tieuDe: $('#tieude').value,
+        riengTu: $('#riengtu').value,
+        khoaBinhLuan: !$('#binhluan').checked,
+        khoaDuet: !$('#duet').checked,
+        khoaStitch: !$('#stitch').checked,
+        coCongBo: $('#cong-bo').checked,
+        thuongHieuMinh: $('#th-minh').checked,
+        thuongHieuThue: $('#th-thue').checked,
+        mocAnhBia: 1000,
+      }),
+    })).json();
+
+    if (r.loi) throw new Error(r.loi);
+    b1.className = 'buoc xong'; b1.querySelector('i').textContent = '✓';
+    b1.querySelector('span').textContent = 'Đã gửi xong. Mã bài: ' + r.publish_id;
+
+    const b2 = buoc('TikTok đang xử lý…');
+    for (let i = 0; i < 40; i++) {
+      await new Promise((k) => setTimeout(k, 3000));
+      const s = await (await fetch('/api/tinhtrang?publish_id=' + encodeURIComponent(r.publish_id))).json();
+      if (s.loi) throw new Error(s.loi);
+      b2.querySelector('span').textContent = 'TikTok đang xử lý… (' + (s.status || '?') + ')';
+      if (s.status === 'PUBLISH_COMPLETE') {
+        b2.className = 'buoc xong'; b2.querySelector('i').textContent = '✓';
+        b2.querySelector('span').textContent = 'Đã đăng xong lên hồ sơ TikTok.';
+        buoc('Mở app TikTok để xem bài vừa đăng.', 'xong');
+        return;
+      }
+      if (s.status === 'FAILED') {
+        throw new Error('TikTok từ chối: ' + (s.fail_reason || 'không rõ lý do'));
+      }
+    }
+    b2.className = 'buoc hong'; b2.querySelector('i').textContent = '!';
+    b2.querySelector('span').textContent = 'Chờ quá lâu. Kiểm tra lại trong app TikTok.';
+  } catch (e) {
+    buoc(e.message, 'hong');
+    $('#nut-dang').disabled = false;
+  }
+};
+
+// ── Nối dây ────────────────────────────────────────────────
+for (const s of ['#riengtu', '#cong-bo', '#th-minh', '#th-thue']) $(s).addEventListener('change', capNhat);
+$('#tim').addEventListener('input', locKho);
+$('#tieude').addEventListener('input', () => { $('#dem-chu').textContent = $('#tieude').value.length; });
+
+const q = new URLSearchParams(location.search);
+if (q.get('loi')) {
+  document.querySelector('.khung').insertAdjacentHTML('afterbegin',
+    '<div class="loi">Nối tài khoản không thành công: ' + q.get('loi') + '</div>');
+}
+veTaiKhoan();
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Đang nối tài khoản TikTok — pH-Chem</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+  :root{--nen:#F7F8F6;--giay:#fff;--chu:#16201A;--mo:#5F7168;--vien:#DDE4DA;--nhan:#1F7A55;--do:#B3261E}
+  @media (prefers-color-scheme:dark){
+    :root{--nen:#0C1210;--giay:#131B17;--chu:#E4EBE5;--mo:#93A399;--vien:#25322B;--nhan:#43C48D;--do:#F2857B}
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--nen);color:var(--chu);
+    font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+  .hop{background:var(--giay);border:1px solid var(--vien);border-radius:12px;
+    padding:30px 32px;max-width:520px;width:100%}
+  h1{font-size:21px;margin:0 0 6px;letter-spacing:-.01em}
+  p{margin:0 0 12px;color:var(--mo);font-size:15px}
+  code{background:var(--nen);border:1px solid var(--vien);border-radius:5px;padding:2px 7px;
+    font-family:ui-monospace,Consolas,monospace;font-size:13px;word-break:break-all}
+  .ma{display:block;padding:11px 13px;margin:12px 0}
+  a.nut{display:inline-block;background:var(--nhan);color:#fff;text-decoration:none;
+    padding:10px 22px;border-radius:7px;font-weight:600;font-size:15px}
+  .loi{color:var(--do)}
+  .nho{font-size:13px;margin-top:18px;padding-top:14px;border-top:1px solid var(--vien)}
+</style>
+</head>
+<body>
+<div class="hop" id="hop">
+  <h1>Đang nối tài khoản TikTok…</h1>
+  <p>Trang này nhận mã cho phép từ TikTok rồi chuyển về bảng điều khiển chạy trên máy của bạn.</p>
+</div>
+
+<script>
+(function () {
+  var CONG = 3721;
+  var q = new URLSearchParams(location.search);
+  var hop = document.getElementById('hop');
+  var dich = 'http://localhost:' + CONG + '/tiktok/callback' + location.search;
+
+  if (q.get('error')) {
+    hop.innerHTML =
+      '<h1 class="loi">TikTok không cho phép</h1>' +
+      '<p>' + (q.get('error_description') || q.get('error')) + '</p>' +
+      '<p>Quay lại bảng điều khiển và bấm "Nối tài khoản TikTok" để thử lại.</p>';
+    return;
+  }
+
+  if (!q.get('code')) {
+    hop.innerHTML =
+      '<h1>Không có mã cho phép</h1>' +
+      '<p>Đường dẫn này chỉ dùng khi TikTok chuyển về sau bước cho phép. Mở thẳng vào đây thì không có gì để làm.</p>';
+    return;
+  }
+
+  hop.innerHTML =
+    '<h1>Đã nhận mã từ TikTok</h1>' +
+    '<p>Đang chuyển về bảng điều khiển ở máy bạn (<code>localhost:' + CONG + '</code>). ' +
+    'Nếu trình duyệt không tự chuyển, bấm nút dưới.</p>' +
+    '<p><a class="nut" href="' + dich + '">Về bảng điều khiển</a></p>' +
+    '<div class="nho"><p>Bảng điều khiển chưa chạy? Mở PowerShell trong thư mục dự án, gõ ' +
+    '<code>npm run tiktok:bang</code> rồi bấm nút trên.</p></div>';
+
+  setTimeout(function () { location.replace(dich); }, 700);
+})();
+</script>
+</body>
+</html>
