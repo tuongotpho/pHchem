@@ -103,10 +103,11 @@ We already publish these videos to our own Facebook Page through the Facebook
 Graph API. We want to publish the same self-produced videos to our own TikTok
 account from the same internal tool, instead of uploading each file by hand.
 
-We never post on behalf of any other TikTok user. Only the owner of our own
-TikTok account authorizes this app, and video is only ever published to that
-same account. The tool is internal: it runs on the operator's own computer at
-127.0.0.1 and is not reachable from the internet.
+The TikTok account we publish to is @thanh8787, operated by the person who
+builds and maintains pH-Chem. We never post on behalf of any other TikTok user.
+Only the owner of that account authorizes this app, and video is only ever
+published to that same account. The tool is internal: it runs on the operator's
+own computer at 127.0.0.1 and is not reachable from the internet.
 
 HOW EACH SCOPE IS USED
 
