@@ -52,8 +52,8 @@ không thừa dấu `/`.
 ## 3. Các chốt chặn theo quy định của TikTok — đã làm và đã đo
 
 TikTok bắt buộc màn hình đăng phải có đủ những thứ dưới. Cột cuối là kết quả tự đo
-trên trình duyệt ngày 06/09/2026 (dùng dữ liệu `creator_info` giả lập để thử logic,
-vì lúc đo chưa có Client key thật).
+trên trình duyệt ngày 06/09/2026 (dùng dữ liệu `creator_info` giả lập để thử logic),
+và chạy thật với TikTok ngày 07/09/2026.
 
 | Quy định | Cách làm | Đo được |
 |---|---|---|
@@ -68,11 +68,28 @@ vì lúc đo chưa có Client key thật).
 | Nội dung trả phí không được để "Chỉ mình tôi" | Mục SELF_ONLY bị khoá, nếu đang chọn thì tự bỏ chọn | ✅ |
 | Hiện nhãn sẽ gắn lên video | "Hợp tác trả phí" / "Nội dung quảng bá" | ✅ |
 | Câu cam kết Music Usage Confirmation | Luôn hiện; có nội dung trả phí thì thêm Branded Content Policy | ✅ |
-| Theo dõi kết quả sau khi đăng | Hỏi `status/fetch` 3 giây một lần tới khi `PUBLISH_COMPLETE` | ⚠ chưa chạy thật |
+| Theo dõi kết quả sau khi đăng | Hỏi `status/fetch` 3 giây một lần tới khi `PUBLISH_COMPLETE` | ✅ |
 
-**Chỗ chưa kiểm được:** toàn bộ đường đi thật với TikTok (đăng nhập, đổi mã lấy token,
-`creator_info` thật, đẩy file, đăng xong) **chưa chạy lần nào**, vì chưa có Client key.
-Phải có key rồi chạy thử một lần mới dám nói là xong.
+### Đã chạy thật — 07/09/2026
+
+Nối tài khoản **Lê Thanh (@thanh8787)** qua sandbox, quyền cấp về đủ
+`user.info.basic,video.publish`. `creator_info` thật trả về:
+
+```
+chế độ cho phép : PUBLIC_TO_EVERYONE, MUTUAL_FOLLOW_FRIENDS, SELF_ONLY
+bình luận/duet/stitch : không khoá cái nào
+dài tối đa      : 3600 giây
+```
+
+Đăng thử `element_03_vang.mp4` (6,28 MB) ở chế độ "Chỉ mình tôi":
+
+```
+publish_id : v_pub_file~v2-1.7682471349650540564
+trạng thái : PUBLISH_COMPLETE  (trong vòng 4 giây)
+```
+
+Toàn bộ đường đi đã chạy một lượt: đăng nhập → đổi mã lấy token →
+`creator_info` → `video/init` → đẩy file → `status/fetch` → đăng xong.
 
 ---
 
@@ -187,15 +204,29 @@ compare against.
 
 ---
 
-## 5. Còn phải làm
+## 5. Những chỗ đã vấp và cách gỡ
 
-1. Bấm **Verify** cho tên miền `ph-chem.web.app` (hai tệp xác minh đã sống trên máy chủ).
-2. Điền nốt phần thông tin cơ bản của ứng dụng: mô tả, đường dẫn Điều khoản, Chính sách bảo mật, chọn nền tảng Web.
-3. Đổi tên ứng dụng từ `tuongotsieucay` sang `pH-Chem` — tên hiện tại không liên quan gì tới nội dung khai.
-4. Lấy Client key / Client secret dán vào `.env.local`.
-5. **Chạy thử thật một lần**: nối tài khoản → đăng một video ở chế độ "Chỉ mình tôi" → xem có lên hồ sơ không. Chưa chạy được bước này thì chưa nộp.
-6. Quay màn hình đúng 6 bước ở mục "OPERATOR FLOW" để nộp kèm hồ sơ.
-7. Sau khi xác minh tên miền xong, xoá tệp xác minh thừa (`tiktok-developers-site-verification.txt` hoặc `tiktokSRTkUodcAXPWeHero3VNP4LORUu3kGYo.txt`, giữ lại cái TikTok thật sự dùng).
+Ghi lại để lần sau khỏi mò:
+
+| Triệu chứng | Nguyên nhân thật | Cách gỡ |
+|---|---|---|
+| `client_key` sai, dù key dán đúng | Thay đổi trong sandbox còn ở dạng nháp | Bấm **Apply changes** ở từng khối trong trang sandbox, tải lại trang kiểm xem còn nguyên không |
+| `sai_state` khi quay về | Công cụ chỉ giữ một mã phiên, bấm lần hai đè lần đầu | Đã sửa: giữ 5 mã gần nhất, mỗi mã sống 15 phút |
+| `unaudited_client_can_only_post_to_private_accounts` | App chưa qua kiểm duyệt thì chỉ đăng được vào **tài khoản** đang để riêng tư (không phải bài đăng riêng tư) | Bật *Tài khoản riêng tư* trong app TikTok, duyệt xong thì tắt lại |
+
+Lưu ý: sandbox có **client key, client secret và mã xác minh tên miền riêng**,
+khác hoàn toàn với app production. Key sandbox bắt đầu bằng `sbaw`, key production bắt đầu bằng `aw`.
+
+---
+
+## 5b. Còn phải làm
+
+1. Điền nốt thông tin cơ bản của ứng dụng: mô tả, đường dẫn Điều khoản, Chính sách bảo mật, nền tảng Web.
+2. Dán nội dung mục 4 vào ô "Explain how each product and scope works".
+3. Quay màn hình đúng 6 bước ở mục "OPERATOR FLOW" để nộp kèm hồ sơ.
+4. Nộp duyệt. Duyệt xong thì **tắt chế độ tài khoản riêng tư** của @thanh8787.
+5. Xoá tệp xác minh thừa `public/tiktok-developers-site-verification.txt` (tạo theo phỏng đoán, giờ đã rõ TikTok dùng kiểu tên `tiktok<mã>.txt`).
+6. Đăng thủ công vài video hoá học lên @thanh8787 trước khi nộp, để người duyệt mở hồ sơ ra thấy đúng loại nội dung đã khai.
 
 ---
 
