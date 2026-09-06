@@ -234,10 +234,27 @@ khác hoàn toàn với app production. Key sandbox bắt đầu bằng `sbaw`, 
 
 Người duyệt tìm đúng mấy thứ này, thiếu là trả hồ sơ:
 
-- Quay được cảnh ô chế độ hiển thị đang ở trạng thái **chưa chọn** và nút Đăng đang **mờ**.
-- Quay được cảnh chọn chế độ xong thì nút Đăng **sáng lên**.
-- Quay được cảnh ô Duet (hoặc Comment/Stitch) bị **khoá** vì cài đặt tài khoản.
-- Quay được **câu cam kết Music Usage Confirmation** nằm ngay trên nút Đăng.
-- Quay được cảnh bật công bố nội dung thương mại → chọn "nội dung trả phí" → mục
-  "Chỉ mình tôi" **biến thành không chọn được**.
-- Quay tới lúc bài **lên hồ sơ TikTok thật**, mở app TikTok cho thấy bài đó.
+Quay một mạch, không cắt, theo đúng thứ tự này:
+
+1. Bảng lúc mới mở: hiện **avatar và tên @thanh8787** lấy từ `creator_info`.
+2. Chọn một video trong kho, **bấm phát cho chạy vài giây** để thấy là xem lại được.
+3. Gõ chú thích vào ô, cho thấy **bộ đếm ký tự** chạy.
+4. Dừng lại ở cảnh ô chế độ hiển thị đang là **"— Chưa chọn —"** và nút Đăng đang **mờ**.
+   Rê chuột xuống dòng "Còn thiếu: chọn ai xem được" cho rõ.
+5. Mở ô chế độ ra: danh sách **đúng ba mục** TikTok cho phép. Chọn "Công khai".
+   Nút Đăng **sáng lên** — đây là cảnh quan trọng nhất.
+6. Bật **Công bố nội dung thương mại**: nút Đăng **khoá lại**, hiện lỗi đỏ.
+7. Tích **"Nội dung được trả phí"**: mục "Chỉ mình tôi" **chuyển thành không chọn được**,
+   nhãn "Hợp tác trả phí" hiện ra, câu cam kết đổi thành có thêm **Branded Content Policy**.
+8. Tắt công bố đi. Câu cam kết quay về chỉ còn **Music Usage Confirmation**.
+   Quay cận dòng chữ này, nó nằm ngay trên nút Đăng.
+9. Bấm **Đăng lên TikTok**. Quay cả phần tiến trình chạy tới `PUBLISH_COMPLETE`.
+10. **Mở app TikTok**, vào hồ sơ @thanh8787, chỉ vào video vừa lên.
+
+**Không quay được cảnh ô tương tác bị khoá**, vì `creator_info` của @thanh8787 trả về
+`comment_disabled`, `duet_disabled`, `stitch_disabled` đều là `false` — tài khoản không
+khoá cái nào. Không được dựng giả cảnh này. Công cụ có xử lý đúng trường hợp đó
+(đã đo bằng dữ liệu giả lập ngày 06/09), nhưng trên tài khoản thật thì không có gì để quay.
+
+**Nhớ nói trong hồ sơ:** app chạy trong sandbox nên bài đăng ra vẫn ở chế độ riêng tư
+dù màn hình chọn "Công khai". Đó là TikTok cố ý, không phải công cụ sai.
