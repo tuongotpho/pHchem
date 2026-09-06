@@ -240,6 +240,17 @@ khác hoàn toàn với app production. Key sandbox bắt đầu bằng `sbaw`, 
 
 ---
 
+## 5c. Đổi giữa key sandbox và key production
+
+Token do client nào cấp thì phải làm mới bằng đúng client đó. Đổi key mà giữ token cũ
+thì **gọi API vẫn chạy** (TikTok chỉ xét token), nhưng tới lúc token hết hạn, bước làm
+mới sẽ hỏng vì key không khớp.
+
+Nên: trong lúc chờ duyệt cứ để **key sandbox**. Được duyệt rồi mới dán key production,
+và nhớ **nối lại tài khoản một lần** để lấy token mới do client production cấp.
+
+---
+
 ## 5b. Còn phải làm
 
 1. Điền nốt thông tin cơ bản của ứng dụng: mô tả, đường dẫn Điều khoản, Chính sách bảo mật, nền tảng Web.
@@ -272,10 +283,18 @@ Quay một mạch, không cắt, theo đúng thứ tự này:
 9. Bấm **Đăng lên TikTok**. Quay cả phần tiến trình chạy tới `PUBLISH_COMPLETE`.
 10. **Mở app TikTok**, vào hồ sơ @thanh8787, chỉ vào video vừa lên.
 
-**Không quay được cảnh ô tương tác bị khoá**, vì `creator_info` của @thanh8787 trả về
-`comment_disabled`, `duet_disabled`, `stitch_disabled` đều là `false` — tài khoản không
-khoá cái nào. Không được dựng giả cảnh này. Công cụ có xử lý đúng trường hợp đó
-(đã đo bằng dữ liệu giả lập ngày 06/09), nhưng trên tài khoản thật thì không có gì để quay.
+**Về cảnh ô tương tác bị khoá:** phụ thuộc tài khoản đang công khai hay riêng tư.
+Đo trên @thanh8787 ngày 07/09:
+
+| | Tài khoản công khai | Tài khoản riêng tư |
+|---|---|---|
+| `privacy_level_options` | PUBLIC_TO_EVERYONE, MUTUAL_FOLLOW_FRIENDS, SELF_ONLY | FOLLOWER_OF_CREATOR, MUTUAL_FOLLOW_FRIENDS, SELF_ONLY |
+| `duet_disabled` | false | **true** |
+| `stitch_disabled` | false | **true** |
+
+Vì phải bật tài khoản riêng tư mới đăng được khi app chưa duyệt, nên lúc quay màn hình
+ô **Duet và Stitch sẽ tự động hiện mờ** — đúng cảnh người duyệt muốn thấy, không phải
+dàn dựng gì. Tuyệt đối không dựng giả cảnh này khi tài khoản đang công khai.
 
 **Nhớ nói trong hồ sơ:** app chạy trong sandbox nên bài đăng ra vẫn ở chế độ riêng tư
 dù màn hình chọn "Công khai". Đó là TikTok cố ý, không phải công cụ sai.
