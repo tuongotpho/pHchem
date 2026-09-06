@@ -99,6 +99,13 @@ const may = http.createServer(async (req, res) => {
       return json(res, 200, khoVideo().map(({ tep, ...v }) => v));
     }
 
+    // Bảng chú thích sinh sẵn từ dữ liệu video (npm run chu-thich).
+    if (p === '/api/chu-thich') {
+      const f = path.resolve(process.cwd(), 'promo', 'chu-thich.json');
+      if (!fs.existsSync(f)) return json(res, 200, {});
+      return json(res, 200, JSON.parse(fs.readFileSync(f, 'utf8')));
+    }
+
     if (p === '/api/video') {
       const v = timVideo(u.searchParams.get('id'));
       const co = fs.statSync(v.tep).size;

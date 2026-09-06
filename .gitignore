@@ -21,6 +21,8 @@ dist-ssr
 !package.json
 !tsconfig*.json
 !*.oxlintrc.json
+# Bang chu thich sinh tu du lieu — giu lai de cong cu dang bai doc
+!promo/chu-thich.json
 
 # Trang duyệt hình cấu tạo (đồ dev, sinh bởi npm run struct)
 structure-review.html

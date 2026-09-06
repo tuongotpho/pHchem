@@ -33,6 +33,7 @@
     "gen:fact-reels-v2": "node scripts/gen-fact-reels-v2.mjs",
     "soi:fact-reels-v2": "node scripts/gen-fact-reels-v2.mjs soi",
     "nghiemthu:fact-reels-v2": "node scripts/gen-fact-reels-v2.mjs nghiemthu",
+    "chu-thich": "node scripts/chu-thich.mjs",
     "tiktok:noi": "node scripts/tiktok-manager.mjs noi",
     "tiktok:ai": "node scripts/tiktok-manager.mjs ai",
     "tiktok:kho": "node scripts/tiktok-manager.mjs kho",

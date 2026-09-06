@@ -92,6 +92,7 @@
           <h2>3 · Chú thích</h2>
           <textarea id="tieude" maxlength="2200" placeholder="Viết chú thích cho video…"></textarea>
           <div class="dem"><span id="dem-chu">0</span> / 2200</div>
+          <div id="bao-chu-thich" class="phu an" style="margin:6px 0 0"></div>
         </div>
 
         <div class="the">
@@ -151,6 +152,7 @@ const TEN_RIENGTU = {
 let TK = null;      // creator_info
 let CHON = null;    // video đang chọn
 let KHO = [];
+let CHU_THICH = {};   // chú thích sinh sẵn, khoá theo id video
 
 // ── 1. Tài khoản ───────────────────────────────────────────
 async function veTaiKhoan() {
@@ -223,7 +225,12 @@ function dungTuongTac() {
 
 // ── 2. Kho video ───────────────────────────────────────────
 async function veKho() {
-  KHO = await (await fetch('/api/kho')).json();
+  const [kho, ct] = await Promise.all([
+    fetch('/api/kho').then((r) => r.json()),
+    fetch('/api/chu-thich').then((r) => r.json()).catch(() => ({})),
+  ]);
+  KHO = kho;
+  CHU_THICH = ct || {};
   locKho();
 }
 
@@ -241,12 +248,43 @@ function locKho() {
       CHON = v;
       $('#the-xem').style.display = '';
       $('#xem').src = '/api/video?id=' + encodeURIComponent(v.id);
+      dienChuThich(v);
       locKho();
       capNhat();
     };
     h.appendChild(d);
   }
   $('#dem-video').textContent = ds.length + ' / ' + KHO.length + ' video';
+}
+
+// ── Chú thích sinh sẵn ─────────────────────────────────────
+// Điền tự động khi chọn video, nhưng KHÔNG đè lên chữ người dùng đã sửa —
+// mất công gõ lại thì rất bực.
+
+function dienChuThich(v) {
+  const o = $('#tieude');
+  const goiY = (CHU_THICH[v.id] || {}).tiktok || '';
+  const daSua = o.value.trim() && o.value !== o.dataset.tuDong;
+  const bao = $('#bao-chu-thich');
+
+  if (!goiY) {
+    if (!daSua) { o.value = ''; o.dataset.tuDong = ''; }
+    bao.textContent = 'Video này chưa có chú thích sinh sẵn — tự viết nhé.';
+    bao.classList.remove('an');
+  } else if (daSua) {
+    bao.innerHTML = 'Có chú thích sinh sẵn cho video này. <a href="#" id="lay-goi-y">Dùng bản đó</a> (sẽ thay chữ đang gõ).';
+    bao.classList.remove('an');
+    $('#lay-goi-y').onclick = (e) => {
+      e.preventDefault();
+      o.value = goiY; o.dataset.tuDong = goiY;
+      o.dispatchEvent(new Event('input'));
+      bao.classList.add('an');
+    };
+  } else {
+    o.value = goiY; o.dataset.tuDong = goiY;
+    bao.classList.add('an');
+  }
+  o.dispatchEvent(new Event('input'));
 }
 
 // ── 5. Công bố nội dung ────────────────────────────────────
