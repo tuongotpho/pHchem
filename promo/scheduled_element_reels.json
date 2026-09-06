@@ -1,0 +1,322 @@
+{
+  "1": {
+    "id": 1,
+    "title": "HỒ SƠ NGUYÊN TỐ #01: FLO (FLUORINE) - SÁT THỦ NGUYÊN TỐ",
+    "videoFile": "element_01_flo.mp4",
+    "reel_id": "928920483614896",
+    "scheduleIso": "2026-09-07T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T08:09:45.294Z"
+  },
+  "2": {
+    "id": 2,
+    "title": "HỒ SƠ NGUYÊN TỐ #02: THỦY NGÂN (MERCURY) - BẠC SỐNG THỂ LỎNG",
+    "videoFile": "element_02_thuy_ngan.mp4",
+    "reel_id": "1328597269349394",
+    "scheduleIso": "2026-09-07T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T08:10:30.016Z"
+  },
+  "3": {
+    "id": 3,
+    "title": "HỒ SƠ NGUYÊN TỐ #03: VÀNG (GOLD) - ÔNG HOÀNG BẤT HOẠI",
+    "videoFile": "element_03_vang.mp4",
+    "reel_id": "3198856776973757",
+    "scheduleIso": "2026-09-08T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T08:10:40.400Z"
+  },
+  "4": {
+    "id": 4,
+    "title": "HỒ SƠ NGUYÊN TỐ #04: LITI (LITHIUM) - TRÁI TIM XE ĐIỆN",
+    "videoFile": "element_04_liti.mp4",
+    "reel_id": "4543070085963113",
+    "scheduleIso": "2026-09-08T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T08:10:49.350Z"
+  },
+  "5": {
+    "id": 5,
+    "title": "HỒ SƠ NGUYÊN TỐ #05: CACBON (CARBON) - CỘI NGUỒN SỰ SỐNG",
+    "videoFile": "element_05_cacbon.mp4",
+    "reel_id": "1045587781597788",
+    "scheduleIso": "2026-09-09T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T08:10:58.286Z"
+  },
+  "6": {
+    "id": 6,
+    "title": "HỒ SƠ NGUYÊN TỐ #06: TITAN (TITANIUM) - CHIẾN BINH VŨ TRỤ",
+    "videoFile": "element_06_titan.mp4",
+    "reel_id": "1555560075796225",
+    "scheduleIso": "2026-09-09T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T08:11:07.227Z"
+  },
+  "7": {
+    "id": 7,
+    "title": "HỒ SƠ NGUYÊN TỐ #07: OSMI (OSMIUM) - NẶNG NHẤT HÀNH TINH",
+    "videoFile": "element_07_osmi.mp4",
+    "reel_id": "1533293118844332",
+    "scheduleIso": "2026-09-10T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T08:12:23.968Z"
+  },
+  "8": {
+    "id": 8,
+    "title": "HỒ SƠ NGUYÊN TỐ #08: WOLFRAM (TUNGSTEN) - VUA CHỊU NHIỆT",
+    "videoFile": "element_08_wolfram.mp4",
+    "reel_id": "1782492829425133",
+    "scheduleIso": "2026-09-10T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T08:12:34.946Z"
+  },
+  "9": {
+    "id": 9,
+    "title": "HỒ SƠ NGUYÊN TỐ #09: XESI (CAESIUM) - ĐỊNH NGHĨA THỜI GIAN",
+    "videoFile": "element_09_xesi.mp4",
+    "reel_id": "1078774058006151",
+    "scheduleIso": "2026-09-11T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T08:12:46.185Z"
+  },
+  "10": {
+    "id": 10,
+    "title": "HỒ SƠ NGUYÊN TỐ #10: GALI (GALLIUM) - TAN CHẢY TRÊN TAY",
+    "videoFile": "element_10_gali.mp4",
+    "reel_id": "1828088741964816",
+    "scheduleIso": "2026-09-11T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T08:12:57.245Z"
+  },
+  "11": {
+    "id": 11,
+    "title": "HỒ SƠ NGUYÊN TỐ #11: OXY (OXYGEN) - HƠI THỞ SỰ SỐNG",
+    "videoFile": "element_11_oxy.mp4",
+    "reel_id": "1439238581636053",
+    "scheduleIso": "2026-09-14T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:02:23.163Z"
+  },
+  "12": {
+    "id": 12,
+    "title": "HỒ SƠ NGUYÊN TỐ #12: HYDRO (HYDROGEN) - KHỞI NGUỒN VŨ TRỤ",
+    "videoFile": "element_12_hydro.mp4",
+    "reel_id": "1981910415802810",
+    "scheduleIso": "2026-09-14T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:02:33.870Z"
+  },
+  "13": {
+    "id": 13,
+    "title": "HỒ SƠ NGUYÊN TỐ #13: SẮT (IRON) - KHUNG XƯƠNG VĂN MINH",
+    "videoFile": "element_13_sat.mp4",
+    "reel_id": "2654014275030407",
+    "scheduleIso": "2026-09-15T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:02:45.886Z"
+  },
+  "14": {
+    "id": 14,
+    "title": "HỒ SƠ NGUYÊN TỐ #14: ĐỒNG (COPPER) - DÂY THẦN KINH DẪN ĐIỆN",
+    "videoFile": "element_14_dong.mp4",
+    "reel_id": "28221171394242265",
+    "scheduleIso": "2026-09-15T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:02:57.770Z"
+  },
+  "15": {
+    "id": 15,
+    "title": "HỒ SƠ NGUYÊN TỐ #15: NHÔM (ALUMINIUM) - KIM LOẠI HÀNG KHÔNG",
+    "videoFile": "element_15_nhom.mp4",
+    "reel_id": "28968230559435978",
+    "scheduleIso": "2026-09-16T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:03:09.753Z"
+  },
+  "16": {
+    "id": 16,
+    "title": "HỒ SƠ NGUYÊN TỐ #16: BẠC (SILVER) - QUÁN QUÂN DẪN ĐIỆN",
+    "videoFile": "element_16_bac.mp4",
+    "reel_id": "2881465535545106",
+    "scheduleIso": "2026-09-16T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:03:20.293Z"
+  },
+  "17": {
+    "id": 17,
+    "title": "HỒ SƠ NGUYÊN TỐ #17: SILIC (SILICON) - TRÁI TIM KỶ NGUYÊN SỐ",
+    "videoFile": "element_17_silic.mp4",
+    "reel_id": "4529787260600724",
+    "scheduleIso": "2026-09-17T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:03:33.810Z"
+  },
+  "18": {
+    "id": 18,
+    "title": "HỒ SƠ NGUYÊN TỐ #18: CLO (CHLORINE) - CỨU TINH NƯỚC SẠCH",
+    "videoFile": "element_18_clo.mp4",
+    "reel_id": "1818591159506485",
+    "scheduleIso": "2026-09-17T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:03:47.738Z"
+  },
+  "19": {
+    "id": 19,
+    "title": "HỒ SƠ NGUYÊN TỐ #19: NITƠ (NITROGEN) - KHÍ NUÔI SỐNG THẾ GIỚI",
+    "videoFile": "element_19_nito.mp4",
+    "reel_id": "1616492936505824",
+    "scheduleIso": "2026-09-18T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:03:59.113Z"
+  },
+  "20": {
+    "id": 20,
+    "title": "HỒ SƠ NGUYÊN TỐ #20: NATRI (SODIUM) - BÙNG NỔ TRONG NƯỚC",
+    "videoFile": "element_20_natri.mp4",
+    "reel_id": "1392222716373389",
+    "scheduleIso": "2026-09-18T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:04:09.138Z"
+  },
+  "21": {
+    "id": 21,
+    "title": "HỒ SƠ NGUYÊN TỐ #21: HELI (HELIUM) - KHÍ HIẾM SIÊU LẠNH",
+    "videoFile": "element_21_heli.mp4",
+    "reel_id": "967095279751745",
+    "scheduleIso": "2026-09-21T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:04:19.788Z"
+  },
+  "22": {
+    "id": 22,
+    "title": "HỒ SƠ NGUYÊN TỐ #22: PHOTPHO (PHOSPHORUS) - NGỌN LỬA MA TRƠI",
+    "videoFile": "element_22_photpho.mp4",
+    "reel_id": "1536242804854351",
+    "scheduleIso": "2026-09-21T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:04:31.668Z"
+  },
+  "23": {
+    "id": 23,
+    "title": "HỒ SƠ NGUYÊN TỐ #23: LƯU HUỲNH (SULFUR) - MẸ CỦA CÔNG NGHIỆP",
+    "videoFile": "element_23_luu_huynh.mp4",
+    "reel_id": "2279761736212243",
+    "scheduleIso": "2026-09-22T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:04:42.976Z"
+  },
+  "24": {
+    "id": 24,
+    "title": "HỒ SƠ NGUYÊN TỐ #24: CANXI (CALCIUM) - CỘT TRỤ XƯƠNG RĂNG",
+    "videoFile": "element_24_canxi.mp4",
+    "reel_id": "1440265851322430",
+    "scheduleIso": "2026-09-22T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:04:56.140Z"
+  },
+  "25": {
+    "id": 25,
+    "title": "HỒ SƠ NGUYÊN TỐ #25: MAGIE (MAGNESIUM) - ÁNH SÁNG CHÓI LÒA",
+    "videoFile": "element_25_magie.mp4",
+    "reel_id": "1598476935406695",
+    "scheduleIso": "2026-09-23T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:05:10.681Z"
+  },
+  "26": {
+    "id": 26,
+    "title": "HỒ SƠ NGUYÊN TỐ #26: BROM (BROMINE) - CHẤT LỎNG NÂU ĐỎ",
+    "videoFile": "element_26_brom.mp4",
+    "reel_id": "1509685891195310",
+    "scheduleIso": "2026-09-23T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:05:24.505Z"
+  },
+  "27": {
+    "id": 27,
+    "title": "HỒ SƠ NGUYÊN TỐ #27: IOT (IODINE) - TINH THỂ TÍM THĂNG HOA",
+    "videoFile": "element_27_iot.mp4",
+    "reel_id": "956110943415862",
+    "scheduleIso": "2026-09-24T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:05:37.323Z"
+  },
+  "28": {
+    "id": 28,
+    "title": "HỒ SƠ NGUYÊN TỐ #28: CHÌ (LEAD) - LÁ CHẮN PHÓNG XẠ",
+    "videoFile": "element_28_chi.mp4",
+    "reel_id": "915717431185514",
+    "scheduleIso": "2026-09-24T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:05:49.388Z"
+  },
+  "29": {
+    "id": 29,
+    "title": "HỒ SƠ NGUYÊN TỐ #29: BẠCH KIM (PLATINUM) - VUA CHẤT XÚC TÁC",
+    "videoFile": "element_29_bach_kim.mp4",
+    "reel_id": "957822214037502",
+    "scheduleIso": "2026-09-25T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:06:01.485Z"
+  },
+  "30": {
+    "id": 30,
+    "title": "HỒ SƠ NGUYÊN TỐ #30: URANI (URANIUM) - NĂNG LƯỢNG HẠT NHÂN",
+    "videoFile": "element_30_urani.mp4",
+    "reel_id": "4020961001531672",
+    "scheduleIso": "2026-09-25T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:06:13.895Z"
+  },
+  "31": {
+    "id": 31,
+    "title": "HỒ SƠ NGUYÊN TỐ #31: KẼM (ZINC) - ÁO GIÁP CHỐNG RỈ 🛡️⚡",
+    "videoFile": "element_31_kem.mp4",
+    "reel_id": "1626060219231449",
+    "scheduleIso": "2026-09-28T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:10:04.688Z"
+  },
+  "32": {
+    "id": 32,
+    "title": "HỒ SƠ NGUYÊN TỐ #32: KALI (POTASSIUM) - NGỌN LỬA TÍM NỔ TUNG 🟣💥",
+    "videoFile": "element_32_kali.mp4",
+    "reel_id": "1069306205474695",
+    "scheduleIso": "2026-09-28T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:10:15.990Z"
+  },
+  "33": {
+    "id": 33,
+    "title": "HỒ SƠ NGUYÊN TỐ #33: NEON (NEON) - ÁNH ĐÈN KHÔNG BAO GIỜ TẮT 🔴✨",
+    "videoFile": "element_33_neon.mp4",
+    "reel_id": "1691041028666019",
+    "scheduleIso": "2026-09-29T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:10:26.937Z"
+  },
+  "34": {
+    "id": 34,
+    "title": "HỒ SƠ NGUYÊN TỐ #34: ARGON (ARGON) - VỆ SĨ VÔ HÌNH CỦA KHÍ QUYỂN 🛡️💨",
+    "videoFile": "element_34_argon.mp4",
+    "reel_id": "1589967382764901",
+    "scheduleIso": "2026-09-29T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:10:38.671Z"
+  },
+  "35": {
+    "id": 35,
+    "title": "HỒ SƠ NGUYÊN TỐ #35: BO (BORON) - BÁN KIM LOẠI SIÊU CỨNG 💎🛡️",
+    "videoFile": "element_35_bo.mp4",
+    "reel_id": "3124216867969907",
+    "scheduleIso": "2026-09-30T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:10:50.141Z"
+  },
+  "36": {
+    "id": 36,
+    "title": "HỒ SƠ NGUYÊN TỐ #36: BERI (BERYLLIUM) - MẮT THẦN VŨ TRỤ 🛰️💎",
+    "videoFile": "element_36_beri.mp4",
+    "reel_id": "2069622317078623",
+    "scheduleIso": "2026-09-30T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:11:01.512Z"
+  },
+  "37": {
+    "id": 37,
+    "title": "HỒ SƠ NGUYÊN TỐ #37: THIẾC (TIN) - DỊCH BỆNH BIẾN HÌNH KỲ BÍ 🧊❄️",
+    "videoFile": "element_37_thiec.mp4",
+    "reel_id": "1076782791396490",
+    "scheduleIso": "2026-10-01T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:11:14.708Z"
+  },
+  "38": {
+    "id": 38,
+    "title": "HỒ SƠ NGUYÊN TỐ #38: NIKEN (NICKEL) - TRÁI TIM LÕI ĐỊA CẦU 🌍🪙",
+    "videoFile": "element_38_niken.mp4",
+    "reel_id": "1894533754855424",
+    "scheduleIso": "2026-10-01T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:11:25.342Z"
+  },
+  "39": {
+    "id": 39,
+    "title": "HỒ SƠ NGUYÊN TỐ #39: COBAN (COBALT) - SẮC XANH HUYỀN BÍ 💙⚡",
+    "videoFile": "element_39_coban.mp4",
+    "reel_id": "1874794246817587",
+    "scheduleIso": "2026-10-02T07:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:11:37.183Z"
+  },
+  "40": {
+    "id": 40,
+    "title": "HỒ SƠ NGUYÊN TỐ #40: CROM (CHROMIUM) - VUA ĐỘ CỨNG KIM LOẠI ⚔️✨",
+    "videoFile": "element_40_crom.mp4",
+    "reel_id": "2180537930007904",
+    "scheduleIso": "2026-10-02T17:30:00+07:00",
+    "scheduledAt": "2026-09-05T13:11:50.458Z"
+  }
+}

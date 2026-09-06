@@ -20,3 +20,7 @@ Dự án sử dụng **GitHub Actions CI/CD** ([`.github/workflows/deploy.yml`](
        - Bản Firebase Hosting (`base: /` -> `dist-firebase`) -> deploy lên `https://ph-chem.web.app/`
 4. **Lưu ý**:
    - **KHÔNG** chạy lệnh deploy thủ công từ máy local (`firebase deploy`) trừ khi có yêu cầu đặc biệt hoặc khắc phục sự cố.
+
+## 🌐 Quy Định Tên Miền Chính Thức & Truyền Thông (Branding & Media)
+- **Tên miền chính thức duy nhất**: `https://ph-chem.web.app/`
+- Khi tạo nội dung, banner, poster, hình ảnh, kịch bản, âm thanh TTS, video hoặc bài viết quảng cáo/mạng xã hội: **BẮT BUỘC chỉ sử dụng URL `https://ph-chem.web.app/`** (tuyệt đối KHÔNG dùng link github.io).

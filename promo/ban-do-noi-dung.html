@@ -1,0 +1,327 @@
+<title>Bản đồ nội dung pH-Chem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --giay:#F6F8F4; --mat:#FFFFFF; --mat2:#EEF2EB; --vien:#DBE3D6;
+  --chu:#16201A; --mo:#5F7168; --mo2:#87968C;
+  --nhan:#1F7A55; --nhan-nen:#E3F1EA;
+  --ph0:#C62828; --ph2:#DC5B0E; --ph4:#C9930A; --ph6:#7BA300; --ph8:#1F9463; --ph10:#1877C4;
+  --bong:0 1px 2px rgba(20,40,30,.06);
+}
+:root:not([data-theme="light"]){ @media (prefers-color-scheme:dark){
+  --giay:#0C1210; --mat:#131B17; --mat2:#18221D; --vien:#25322B;
+  --chu:#E4EBE5; --mo:#93A399; --mo2:#6F8078;
+  --nhan:#43C48D; --nhan-nen:#123227;
+  --ph0:#E5564F; --ph2:#EE7C2E; --ph4:#DDAE28; --ph6:#96C420; --ph8:#33BC85; --ph10:#3D9BE0;
+  --bong:0 1px 2px rgba(0,0,0,.3);
+}}
+:root[data-theme="dark"]{
+  --giay:#0C1210; --mat:#131B17; --mat2:#18221D; --vien:#25322B;
+  --chu:#E4EBE5; --mo:#93A399; --mo2:#6F8078;
+  --nhan:#43C48D; --nhan-nen:#123227;
+  --ph0:#E5564F; --ph2:#EE7C2E; --ph4:#DDAE28; --ph6:#96C420; --ph8:#33BC85; --ph10:#3D9BE0;
+  --bong:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--giay); color:var(--chu);
+  font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+.khung{max-width:1120px;margin:0 auto;padding:0 24px 80px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-variant-numeric:tabular-nums}
+
+/* ── đầu trang ── */
+header{padding:44px 0 30px;border-bottom:1px solid var(--vien)}
+.dai{display:flex;gap:5px;margin-bottom:20px}
+.dai i{height:5px;flex:1;border-radius:1px}
+h1{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-.02em;margin:0 0 6px;text-wrap:balance}
+.phu{color:var(--mo);margin:0;max-width:62ch}
+.tong{display:flex;flex-wrap:wrap;gap:28px;margin-top:24px}
+.tong div{display:flex;flex-direction:column;gap:2px}
+.tong b{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:30px;font-weight:600;line-height:1}
+.tong span{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--mo2)}
+
+/* ── mục ── */
+section{margin-top:52px}
+h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mo);
+   font-weight:700;margin:0 0 4px}
+.dan{color:var(--mo);margin:0 0 20px;max-width:64ch;font-size:14px}
+
+/* ── độ phủ ── */
+.phu-hang{display:grid;grid-template-columns:minmax(150px,1.1fr) 92px minmax(0,3fr) 52px;
+  gap:16px;align-items:center;padding:11px 0;border-bottom:1px solid var(--vien)}
+.phu-hang:last-child{border-bottom:0}
+.phu-ten{font-weight:500}
+.phu-so{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  font-size:13px;color:var(--mo);text-align:right}
+.thanh{height:9px;background:var(--mat2);border-radius:1px;overflow:hidden}
+.thanh i{display:block;height:100%;border-radius:1px}
+.phu-pt{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  font-size:13px;font-weight:600;text-align:right}
+
+/* ── thanh công cụ ── */
+.cong-cu{position:sticky;top:0;z-index:5;background:var(--giay);
+  padding:12px 0;border-bottom:1px solid var(--vien);margin-bottom:6px}
+.hang-cc{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+input[type=search]{flex:1;min-width:200px;padding:9px 13px;border:1px solid var(--vien);
+  border-radius:3px;background:var(--mat);color:var(--chu);font:inherit;font-size:14px}
+input[type=search]:focus-visible{outline:2px solid var(--nhan);outline-offset:1px}
+.chip{padding:7px 13px;border:1px solid var(--vien);border-radius:3px;background:var(--mat);
+  color:var(--mo);font:inherit;font-size:13px;cursor:pointer;display:inline-flex;
+  align-items:center;gap:7px;white-space:nowrap}
+.chip:hover{border-color:var(--mo2);color:var(--chu)}
+.chip[aria-pressed=true]{background:var(--nhan-nen);border-color:var(--nhan);color:var(--nhan);font-weight:500}
+.chip:focus-visible{outline:2px solid var(--nhan);outline-offset:1px}
+.chip u{width:9px;height:9px;border-radius:50%;display:inline-block}
+.chip em{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:12px;opacity:.75}
+
+/* ── danh sách video ── */
+.nhom-ten{display:flex;align-items:baseline;gap:10px;margin:26px 0 6px;
+  font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mo);font-weight:700}
+.nhom-ten b{font-family:"IBM Plex Mono",monospace;font-weight:400;letter-spacing:0;
+  text-transform:none;color:var(--mo2)}
+.hang{display:grid;grid-template-columns:3px 1fr auto;gap:14px;align-items:center;
+  padding:9px 0;border-bottom:1px solid var(--vien)}
+.hang .soc{align-self:stretch;border-radius:2px;min-height:22px}
+.hang p{margin:0;font-size:14px;overflow-wrap:anywhere}
+.hang .ma{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--mo2);margin-top:1px}
+.dang{border:1px solid var(--vien);background:var(--mat);color:var(--mo);border-radius:3px;
+  padding:5px 11px;font:inherit;font-size:12px;cursor:pointer;white-space:nowrap;min-width:96px}
+.dang:hover:not(:disabled){border-color:var(--nhan);color:var(--nhan)}
+.dang:disabled{opacity:.45;cursor:default}
+.dang[aria-pressed=true]{background:var(--nhan-nen);border-color:var(--nhan);color:var(--nhan);font-weight:500}
+.dang:focus-visible{outline:2px solid var(--nhan);outline-offset:1px}
+.chua-dung{opacity:.5}
+.trong{padding:28px 0;color:var(--mo);font-size:14px}
+
+/* ── còn thiếu ── */
+details{border-bottom:1px solid var(--vien)}
+summary{cursor:pointer;padding:12px 0;display:flex;justify-content:space-between;
+  align-items:center;gap:12px;font-weight:500;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:"IBM Plex Mono",monospace;color:var(--mo2);font-size:17px}
+details[open] summary::after{content:"−"}
+summary:focus-visible{outline:2px solid var(--nhan);outline-offset:2px}
+summary b{font-family:"IBM Plex Mono",monospace;font-weight:400;font-size:13px;color:var(--mo)}
+details ol{margin:0 0 16px;padding-left:26px;color:var(--mo);font-size:14px}
+details li{margin-bottom:7px;padding-left:3px}
+details li::marker{font-family:"IBM Plex Mono",monospace;font-size:12px}
+
+/* ── hai cột cuối ── */
+.doi{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:36px}
+.kiem{counter-reset:b;list-style:none;margin:0;padding:0}
+.kiem li{position:relative;padding:0 0 20px 44px;counter-increment:b}
+.kiem li::before{content:counter(b);position:absolute;left:0;top:1px;width:28px;height:28px;
+  border-radius:50%;background:var(--nhan-nen);color:var(--nhan);
+  font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;
+  display:grid;place-items:center}
+.kiem strong{display:block;margin-bottom:3px}
+.kiem p{margin:0;color:var(--mo);font-size:14px}
+.treo{list-style:none;margin:0;padding:0}
+.treo li{padding:11px 0 11px 20px;border-bottom:1px solid var(--vien);position:relative;font-size:14px}
+.treo li::before{content:"";position:absolute;left:0;top:19px;width:7px;height:7px;
+  border-radius:50%;background:var(--ph2)}
+.treo li:last-child{border-bottom:0}
+.treo code{font-family:"IBM Plex Mono",monospace;font-size:12.5px;
+  background:var(--mat2);padding:1px 5px;border-radius:2px}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--vien);
+  color:var(--mo2);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 18px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="khung">
+<header>
+  <div class="dai" aria-hidden="true">
+    <i style="background:var(--ph0)"></i><i style="background:var(--ph2)"></i>
+    <i style="background:var(--ph4)"></i><i style="background:var(--ph6)"></i>
+    <i style="background:var(--ph8)"></i><i style="background:var(--ph10)"></i>
+  </div>
+  <h1>Bản đồ nội dung pH-Chem</h1>
+  <p class="phu">Toàn bộ video truyền thông đã dựng, những mảng nội dung trong app còn để trống, và các phép kiểm phải chạy trước khi đăng. Số liệu quét thẳng từ ổ đĩa ngày <span class="mono" id="ngay"></span>.</p>
+  <div class="tong">
+    <div><b id="t-video">—</b><span>video đã dựng</span></div>
+    <div><b id="t-dang">—</b><span>đã đăng fanpage</span></div>
+    <div><b id="t-loat">—</b><span>loạt nội dung</span></div>
+    <div><b id="t-thieu">—</b><span>mẩu chưa làm</span></div>
+  </div>
+</header>
+
+<section>
+  <h2>Độ phủ theo mảng nội dung</h2>
+  <p class="dan">Mỗi mảng trong app đã được kể lại thành video tới đâu. Thanh màu đọc theo giấy quỳ: đỏ là còn bỏ ngỏ, xanh lam là đã phủ kín.</p>
+  <div id="phu"></div>
+</section>
+
+<section>
+  <h2>Kho video</h2>
+  <p class="dan">Bấm <em>Đã đăng</em> để đánh dấu video đã lên fanpage. Dấu này lưu trên máy chủ nên mở ở máy khác vẫn thấy.</p>
+  <div class="cong-cu">
+    <div class="hang-cc">
+      <input type="search" id="tim" placeholder="Tìm theo tên hoặc mã video…" aria-label="Tìm video">
+      <button class="chip" id="loc-chua" aria-pressed="false">Chỉ hiện chưa đăng</button>
+    </div>
+    <div class="hang-cc" style="margin-top:8px" id="chips"></div>
+  </div>
+  <div id="ds"></div>
+</section>
+
+<section>
+  <h2>Chuyện lạ hoá học còn thiếu</h2>
+  <p class="dan" id="dan-thieu"></p>
+  <div id="thieu"></div>
+</section>
+
+<section class="doi">
+  <div>
+    <h2>Ba phép kiểm trước khi đăng</h2>
+    <p class="dan">Theo đúng thứ tự. Phép thứ ba là thứ hai phép kia không thay thế được.</p>
+    <ol class="kiem">
+      <li><strong>Soi bố cục</strong><p>Chạy lại công thức ngắt dòng của cả bốn cảnh để tìm chữ tràn khung hoặc bị cắt, không cần kết xuất ảnh nào. Đã bắt được lỗi thật ở Tecneti và Oganesson trong dữ liệu cũ.</p></li>
+      <li><strong>Nghiệm thu file</strong><p>Soi khung hình, thời lượng, có tiếng chưa và dung lượng của từng tệp mp4.</p></li>
+      <li><strong>Đo cao độ giọng đọc</strong><p>Khi dịch vụ đọc đứt kết nối, một cảnh có thể bị đọc bằng giọng khác ba cảnh còn lại. Tệp vẫn đủ khung hình, đủ tiếng, đủ dài nên nghiệm thu vẫn báo đạt. Đã dính hai lần: Astatin và Rượu methanol.</p></li>
+    </ol>
+  </div>
+  <div>
+    <h2>Việc còn treo</h2>
+    <p class="dan">Cập nhật tay trong <span class="mono">scripts/build-ban-do-web.mjs</span>.</p>
+    <ul class="treo">
+      <li>Chưa đăng bài nào lên fanpage. Toàn bộ video mới vẫn nằm trên máy.</li>
+      <li>Hai lỗi trong dữ liệu nguyên tố đợt 1: <code>#58 Tecneti</code> tràn chữ và <code>#60 Oganesson</code> bị cắt chữ. Chỉ lộ ra nếu dựng lại theo bản 2.</li>
+      <li>Chín video Đố vui hoá học đã có kịch bản, script đã sửa được lỗi, nhưng chưa dựng.</li>
+      <li>Ba mảng lớn chưa có video nào: từ điển, công thức và danh pháp IUPAC.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <span>Quét lại số liệu: <span class="mono">npm run kiem-ke</span></span>
+  <span>Dựng lại trang này: <span class="mono">node scripts/build-ban-do-web.mjs</span></span>
+  <span id="tt-db">Đang nối máy chủ lưu trạng thái…</span>
+</footer>
+</div>
+
+<script>
+const D = {"videos":[{"l":"nt1","t":"FLO (FLUORINE) - SÁT THỦ NGUYÊN TỐ","k":"element_01_flo","x":true},{"l":"nt1","t":"THỦY NGÂN (MERCURY) - BẠC SỐNG THỂ LỎNG","k":"element_02_thuy_ngan","x":true},{"l":"nt1","t":"VÀNG (GOLD) - ÔNG HOÀNG BẤT HOẠI","k":"element_03_vang","x":true},{"l":"nt1","t":"LITI (LITHIUM) - TRÁI TIM XE ĐIỆN","k":"element_04_liti","x":true},{"l":"nt1","t":"CACBON (CARBON) - CỘI NGUỒN SỰ SỐNG","k":"element_05_cacbon","x":true},{"l":"nt1","t":"TITAN (TITANIUM) - CHIẾN BINH VŨ TRỤ","k":"element_06_titan","x":true},{"l":"nt1","t":"OSMI (OSMIUM) - NẶNG NHẤT HÀNH TINH","k":"element_07_osmi","x":true},{"l":"nt1","t":"WOLFRAM (TUNGSTEN) - VUA CHỊU NHIỆT","k":"element_08_wolfram","x":true},{"l":"nt1","t":"XESI (CAESIUM) - ĐỊNH NGHĨA THỜI GIAN","k":"element_09_xesi","x":true},{"l":"nt1","t":"GALI (GALLIUM) - TAN CHẢY TRÊN TAY","k":"element_10_gali","x":true},{"l":"nt1","t":"OXY (OXYGEN) - HƠI THỞ SỰ SỐNG","k":"element_11_oxy","x":true},{"l":"nt1","t":"HYDRO (HYDROGEN) - KHỞI NGUỒN VŨ TRỤ","k":"element_12_hydro","x":true},{"l":"nt1","t":"SẮT (IRON) - KHUNG XƯƠNG VĂN MINH","k":"element_13_sat","x":true},{"l":"nt1","t":"ĐỒNG (COPPER) - DÂY THẦN KINH DẪN ĐIỆN","k":"element_14_dong","x":true},{"l":"nt1","t":"NHÔM (ALUMINIUM) - KIM LOẠI HÀNG KHÔNG","k":"element_15_nhom","x":true},{"l":"nt1","t":"BẠC (SILVER) - QUÁN QUÂN DẪN ĐIỆN","k":"element_16_bac","x":true},{"l":"nt1","t":"SILIC (SILICON) - TRÁI TIM KỶ NGUYÊN SỐ","k":"element_17_silic","x":true},{"l":"nt1","t":"CLO (CHLORINE) - CỨU TINH NƯỚC SẠCH","k":"element_18_clo","x":true},{"l":"nt1","t":"NITƠ (NITROGEN) - KHÍ NUÔI SỐNG THẾ GIỚI","k":"element_19_nito","x":true},{"l":"nt1","t":"NATRI (SODIUM) - BÙNG NỔ TRONG NƯỚC","k":"element_20_natri","x":true},{"l":"nt1","t":"HELI (HELIUM) - KHÍ HIẾM SIÊU LẠNH","k":"element_21_heli","x":true},{"l":"nt1","t":"PHOTPHO (PHOSPHORUS) - NGỌN LỬA MA TRƠI","k":"element_22_photpho","x":true},{"l":"nt1","t":"LƯU HUỲNH (SULFUR) - MẸ CỦA CÔNG NGHIỆP","k":"element_23_luu_huynh","x":true},{"l":"nt1","t":"CANXI (CALCIUM) - CỘT TRỤ XƯƠNG RĂNG","k":"element_24_canxi","x":true},{"l":"nt1","t":"MAGIE (MAGNESIUM) - ÁNH SÁNG CHÓI LÒA","k":"element_25_magie","x":true},{"l":"nt1","t":"BROM (BROMINE) - CHẤT LỎNG NÂU ĐỎ","k":"element_26_brom","x":true},{"l":"nt1","t":"IOT (IODINE) - TINH THỂ TÍM THĂNG HOA","k":"element_27_iot","x":true},{"l":"nt1","t":"CHÌ (LEAD) - LÁ CHẮN PHÓNG XẠ","k":"element_28_chi","x":true},{"l":"nt1","t":"BẠCH KIM (PLATINUM) - VUA CHẤT XÚC TÁC","k":"element_29_bach_kim","x":true},{"l":"nt1","t":"URANI (URANIUM) - NĂNG LƯỢNG HẠT NHÂN","k":"element_30_urani","x":true},{"l":"nt1","t":"KẼM (ZINC) - ÁO GIÁP CHỐNG RỈ 🛡️⚡","k":"element_31_kem","x":true},{"l":"nt1","t":"KALI (POTASSIUM) - NGỌN LỬA TÍM NỔ TUNG 🟣💥","k":"element_32_kali","x":true},{"l":"nt1","t":"NEON (NEON) - ÁNH ĐÈN KHÔNG BAO GIỜ TẮT 🔴✨","k":"element_33_neon","x":true},{"l":"nt1","t":"ARGON (ARGON) - VỆ SĨ VÔ HÌNH CỦA KHÍ QUYỂN 🛡️💨","k":"element_34_argon","x":true},{"l":"nt1","t":"BO (BORON) - BÁN KIM LOẠI SIÊU CỨNG 💎🛡️","k":"element_35_bo","x":true},{"l":"nt1","t":"BERI (BERYLLIUM) - MẮT THẦN VŨ TRỤ 🛰️💎","k":"element_36_beri","x":true},{"l":"nt1","t":"THIẾC (TIN) - DỊCH BỆNH BIẾN HÌNH KỲ BÍ 🧊❄️","k":"element_37_thiec","x":true},{"l":"nt1","t":"NIKEN (NICKEL) - TRÁI TIM LÕI ĐỊA CẦU 🌍🪙","k":"element_38_niken","x":true},{"l":"nt1","t":"COBAN (COBALT) - SẮC XANH HUYỀN BÍ 💙⚡","k":"element_39_coban","x":true},{"l":"nt1","t":"CROM (CHROMIUM) - VUA ĐỘ CỨNG KIM LOẠI ⚔️✨","k":"element_40_crom","x":true},{"l":"nt1","t":"MANGAN (MANGANESE) - ẢO THUẬT GIA MÀU SẮC 🔮✨","k":"element_41_mangan","x":true},{"l":"nt1","t":"BARI (BARIUM) - NGỌN LỬA XANH LỤC PHÁO HOA 🎆🟢","k":"element_42_bari","x":true},{"l":"nt1","t":"STRONTI (STRONTIUM) - ÁNH ĐỎ CỨU HỘ BIỂN SÂU 🚨🔴","k":"element_43_stronti","x":true},{"l":"nt1","t":"RUBIDI (RUBIDIUM) - CÚ NỔ VỠ THỦY TINH 💥⚡","k":"element_44_rubidi","x":true},{"l":"nt1","t":"BITMUT (BISMUTH) - TINH THỂ CẦU VỒNG NGŨ SẮC 🌈🏛️","k":"element_45_bitmut","x":true},{"l":"nt1","t":"RADON (RADON) - KẺ GIẾT NGƯỜI THẦM LẶNG ☢️🏠","k":"element_46_radon","x":true},{"l":"nt1","t":"PLUTONI (PLUTONIUM) - TRÁI TIM TÀU DU HÀNH 🚀☢️","k":"element_47_plutoni","x":true},{"l":"nt1","t":"ASEN (ARSENIC) - THẠCH TÍN BÓNG MA LỊCH SỬ ☠️🏛️","k":"element_48_asen","x":true},{"l":"nt1","t":"FRANXI (FRANCIUM) - NGUYÊN TỐ MA HIẾM NHẤT 👻⏳","k":"element_49_franxi","x":true},{"l":"nt1","t":"XERI (CERIUM) - ĐÁ LỬA PHÁT TIA SÁNG 🔥🪨","k":"element_50_xeri","x":true},{"l":"nt1","t":"NEODYM (NEODYMIUM) - NAM CHÂM SIÊU CƯỜNG 🧲⚡","k":"element_51_neodym","x":true},{"l":"nt1","t":"ANTIMON (ANTIMONY) - NGHỊCH LÝ ĐÔNG ĐẶC NỞ RA ❄️👁️","k":"element_52_antimon","x":true},{"l":"nt1","t":"SELEN (SELENIUM) - MẮT THẦN DẪN QUANG 💡🖨️","k":"element_53_selen","x":true},{"l":"nt1","t":"GEMANI (GERMANIUM) - KHỞI NGUỒN TRANSISTOR 💻🔬","k":"element_54_gemani","x":true},{"l":"nt1","t":"TALI (THALLIUM) - CHẤT ĐỘC CỦA KẺ ĐẦU ĐỘC ☠️🧪","k":"element_55_tali","x":true},{"l":"nt1","t":"KRIPTON (KRYPTON) - ĐÈN CHỚP TỐC ĐỘ CAO 📸⚡","k":"element_56_kripton","x":true},{"l":"nt1","t":"XENON (XENON) - ĐỘNG CƠ ĐẨY LIÊN HÀNH TINH 🚀💡","k":"element_57_xenon","x":true},{"l":"nt1","t":"TECNETI (TECHNETIUM) - NGUYÊN TỐ NHÂN TẠO ĐẦU TIÊN ☢️🏥","k":"element_58_tecneti","x":true},{"l":"nt1","t":"RADI (RADIUM) - ÁNH SÁNG XANH CỦA MARIE CURIE 💚☢️","k":"element_59_radi","x":true},{"l":"nt1","t":"OGANESSON (OGANESSON) - TRÙM CUỐI BẢNG TUẦN HOÀN 👑🌌","k":"element_60_oganesson","x":true},{"l":"nt2","t":"SCANDI (SCANDIUM) - KIM LOẠI NHẸ CỦA HỢP KIM HÀNG KHÔNG","k":"element_61_scandi","x":true},{"l":"nt2","t":"VANADI (VANADIUM) - KIM LOẠI ĐỔI MÀU CỦA THÉP","k":"element_62_vanadi","x":true},{"l":"nt2","t":"YTRI (YTTRIUM) - NGƯỜI TẠO MÀU ĐỎ CHO MÀN HÌNH","k":"element_63_ytri","x":true},{"l":"nt2","t":"ZIRCONI (ZIRCONIUM) - ÁO GIÁP CỦA LÒ PHẢN ỨNG HẠT NHÂN","k":"element_64_zirconi","x":true},{"l":"nt2","t":"NIOBI (NIOBIUM) - TRÁI TIM NAM CHÂM CỦA MÁY CHỤP MRI","k":"element_65_niobi","x":true},{"l":"nt2","t":"MOLYPDEN (MOLYBDENUM) - KIM LOẠI CỦA THÉP CHỊU NHIỆT VÀ SỰ SỐNG","k":"element_66_molypden","x":true},{"l":"nt2","t":"RUTHENI (RUTHENIUM) - LỚP MÀNG BA NGUYÊN TỬ TRONG Ổ CỨNG","k":"element_67_rutheni","x":true},{"l":"nt2","t":"RHODI (RHODIUM) - KIM LOẠI ĐẮT NHẤT HÀNH TINH","k":"element_68_rhodi","x":true},{"l":"nt2","t":"PALADI (PALLADIUM) - MIẾNG BỌT BIỂN HÚT KHÍ HYDRO","k":"element_69_paladi","x":true},{"l":"nt2","t":"CADIMI (CADMIUM) - KIM LOẠI ĐỘC CỦA SẮC VÀNG VÀ PIN CŨ","k":"element_70_cadimi","x":true},{"l":"nt2","t":"INDI (INDIUM) - LỚP DẪN ĐIỆN TRONG SUỐT CỦA MÀN HÌNH","k":"element_71_indi","x":true},{"l":"nt2","t":"TELU (TELLURIUM) - Á KIM CỦA PIN MẶT TRỜI MÀNG MỎNG","k":"element_72_telu","x":true},{"l":"nt2","t":"LANTAN (LANTHANUM) - NGƯỜI MỞ ĐẦU HỌ ĐẤT HIẾM","k":"element_73_lantan","x":true},{"l":"nt2","t":"PRASEODYM (PRASEODYMIUM) - SẮC XANH LÁ CỦA KÍNH THỢ HÀN","k":"element_74_praseodym","x":true},{"l":"nt2","t":"PROMETHI (PROMETHIUM) - ĐẤT HIẾM KHÔNG CÓ SẴN TRONG THIÊN NHIÊN","k":"element_75_promethi","x":true},{"l":"nt2","t":"SAMARI (SAMARIUM) - NAM CHÂM CHỊU NÓNG CỦA ĐỘNG CƠ","k":"element_76_samari","x":true},{"l":"nt2","t":"EUROPI (EUROPIUM) - MỰC CHỐNG GIẢ TRÊN TỜ TIỀN EURO","k":"element_77_europi","x":true},{"l":"nt2","t":"GADOLINI (GADOLINIUM) - THUỐC CẢN QUANG CỦA MÁY CHỤP MRI","k":"element_78_gadolini","x":true},{"l":"nt2","t":"TERBI (TERBIUM) - KIM LOẠI BIẾN HÌNH THEO TỪ TRƯỜNG","k":"element_79_terbi","x":true},{"l":"nt2","t":"DYSPROSI (DYSPROSIUM) - CHÌA KHOÁ GIỮ NHIỆT CHO MÔ TƠ XE ĐIỆN","k":"element_80_dysprosi","x":true},{"l":"nt2","t":"HOLMI (HOLMIUM) - NGƯỜI GIỮ KỶ LỤC TỪ TRƯỜNG MẠNH NHẤT","k":"element_81_holmi","x":true},{"l":"nt2","t":"ERBI (ERBIUM) - TRẠM TIẾP SỨC CỦA CÁP QUANG BIỂN","k":"element_82_erbi","x":true},{"l":"nt2","t":"TULI (THULIUM) - ĐẤT HIẾM HIẾM NHẤT TRONG TỰ NHIÊN","k":"element_83_tuli","x":true},{"l":"nt2","t":"YTTERBI (YTTERBIUM) - TRÁI TIM CỦA ĐỒNG HỒ CHÍNH XÁC NHẤT","k":"element_84_ytterbi","x":true},{"l":"nt2","t":"LUTETI (LUTETIUM) - ĐẤT HIẾM CỨNG NHẤT VÀ ĐẮT NHẤT","k":"element_85_luteti","x":true},{"l":"nt2","t":"HAFNI (HAFNIUM) - ANH EM SONG SINH NGƯỢC ĐỜI CỦA ZIRCONI","k":"element_86_hafni","x":true},{"l":"nt2","t":"TANTAN (TANTALUM) - KIM LOẠI CƠ THỂ NGƯỜI KHÔNG CHỐI BỎ","k":"element_87_tantan","x":true},{"l":"nt2","t":"RENI (RHENIUM) - NGUYÊN TỐ BỀN CUỐI CÙNG ĐƯỢC TÌM RA","k":"element_88_reni","x":true},{"l":"nt2","t":"IRIDI (IRIDIUM) - DẤU VẾT CỦA VỤ TUYỆT CHỦNG KHỦNG LONG","k":"element_89_iridi","x":true},{"l":"nt2","t":"POLONI (POLONIUM) - NGUYÊN TỐ MANG TÊN QUÊ HƯƠNG MARIE CURIE","k":"element_90_poloni","x":true},{"l":"nt2","t":"ASTATIN (ASTATINE) - NGUYÊN TỐ HIẾM NHẤT TRÊN TRÁI ĐẤT","k":"element_91_astatin","x":true},{"l":"nt2","t":"ACTINI (ACTINIUM) - NGUYÊN TỐ TỰ PHÁT SÁNG XANH TRONG ĐÊM","k":"element_92_actini","x":true},{"l":"nt2","t":"THORI (THORIUM) - NHIÊN LIỆU HẠT NHÂN CỦA TƯƠNG LAI","k":"element_93_thori","x":true},{"l":"nt2","t":"PROTACTINI (PROTACTINIUM) - CHIẾC ĐỒNG HỒ ĐO TUỔI ĐÁY BIỂN","k":"element_94_protactini","x":true},{"l":"nt2","t":"NEPTUNI (NEPTUNIUM) - NGUYÊN TỐ ĐẦU TIÊN VƯỢT QUA URANI","k":"element_95_neptuni","x":true},{"l":"nt2","t":"AMERICI (AMERICIUM) - NGUYÊN TỐ NHÂN TẠO NẰM NGAY TRONG NHÀ BẠN","k":"element_96_americi","x":true},{"l":"nt2","t":"CURI (CURIUM) - NGUYÊN TỐ ĐÃ ĐẶT CHÂN LÊN SAO HOẢ","k":"element_97_curi","x":true},{"l":"nt2","t":"BERKELI (BERKELIUM) - TẤM BIA ĐỂ TẠO RA NGUYÊN TỐ 117","k":"element_98_berkeli","x":true},{"l":"nt2","t":"CALIFORNI (CALIFORNIUM) - MÁY PHÁT NƠTRON BỎ TÚI","k":"element_99_californi","x":true},{"l":"nt2","t":"EINSTEINI (EINSTEINIUM) - NGUYÊN TỐ TÌM THẤY TRONG TRO BOM KHINH KHÍ","k":"element_100_einsteini","x":true},{"l":"nt2","t":"FERMI (FERMIUM) - RANH GIỚI CUỐI CÙNG CỦA LÒ PHẢN ỨNG","k":"element_101_fermi","x":true},{"l":"nt2","t":"MENDELEVI (MENDELEVIUM) - NGUYÊN TỐ MANG TÊN CHA ĐẺ BẢNG TUẦN HOÀN","k":"element_102_mendelevi","x":true},{"l":"nt2","t":"NOBELI (NOBELIUM) - NGUYÊN TỐ GÂY TRANH CÃI SUỐT BA THẬP KỶ","k":"element_103_nobeli","x":true},{"l":"nt2","t":"LAWRENCI (LAWRENCIUM) - NGUYÊN TỐ KHÉP LẠI HỌ ACTINI","k":"element_104_lawrenci","x":true},{"l":"nt2","t":"RUTHERFORDI (RUTHERFORDIUM) - NGUYÊN TỐ SIÊU NẶNG ĐẦU TIÊN","k":"element_105_rutherfordi","x":true},{"l":"nt2","t":"DUBNI (DUBNIUM) - NGUYÊN TỐ MANG TÊN THÀNH PHỐ HẠT NHÂN","k":"element_106_dubni","x":true},{"l":"nt2","t":"SEABORGI (SEABORGIUM) - NGUYÊN TỐ ĐẶT TÊN NGƯỜI CÒN SỐNG","k":"element_107_seaborgi","x":true},{"l":"nt2","t":"BOHRI (BOHRIUM) - NGUYÊN TỐ MANG TÊN CHA ĐẺ MÔ HÌNH NGUYÊN TỬ","k":"element_108_bohri","x":true},{"l":"nt2","t":"HASI (HASSIUM) - NGUYÊN TỐ BAY HƠI ĐÚNG NHƯ DỰ ĐOÁN","k":"element_109_hasi","x":true},{"l":"nt2","t":"MEITNERI (MEITNERIUM) - NGUYÊN TỐ DUY NHẤT MANG TÊN MỘT NHÀ KHOA HỌC NỮ","k":"element_110_meitneri","x":true},{"l":"nt2","t":"DARMSTADTI (DARMSTADTIUM) - NGUYÊN TỐ MANG TÊN THÀNH PHỐ DARMSTADT","k":"element_111_darmstadti","x":true},{"l":"nt2","t":"ROENTGENI (ROENTGENIUM) - NGUYÊN TỐ KỶ NIỆM 100 NĂM TIA X","k":"element_112_roentgeni","x":true},{"l":"nt2","t":"COPERNIXI (COPERNICIUM) - KIM LOẠI CÓ THỂ LÀ CHẤT KHÍ","k":"element_113_copernixi","x":true},{"l":"nt2","t":"NIHONI (NIHONIUM) - NGUYÊN TỐ ĐẦU TIÊN DO CHÂU Á TÌM RA","k":"element_114_nihoni","x":true},{"l":"nt2","t":"FLEROVI (FLEROVIUM) - NGUYÊN TỐ SÁT ĐẢO BỀN VỮNG","k":"element_115_flerovi","x":true},{"l":"nt2","t":"MOSCOVI (MOSCOVIUM) - NGUYÊN TỐ MANG TÊN VÙNG MATXCƠVA","k":"element_116_moscovi","x":true},{"l":"nt2","t":"LIVERMORI (LIVERMORIUM) - THÀNH QUẢ CỦA HAI PHÒNG THÍ NGHIỆM HAI NƯỚC","k":"element_117_livermori","x":true},{"l":"nt2","t":"TENNESSIN (TENNESSINE) - HALOGEN NẶNG NHẤT VÀ GẦN CUỐI BẢNG","k":"element_118_tennessin","x":true},{"l":"cl","t":"BỊ KIẾN CẮN: VÌ SAO BÔI VÔI HAY XÀ PHÒNG?","k":"reel_01_kien_can","x":true},{"l":"cl","t":"NGHỊCH LÝ ĐÁ NỔI CỨU SỐNG HÀNH TINH","k":"reel_02_da_noi","x":true},{"l":"cl","t":"VÌ SAO CỒN 70° DIỆT KHUẨN TỐT HƠN CỒN 90°?","k":"reel_03_con_70_do","x":true},{"l":"cl","t":"CẮT HÀNH TÂY VÌ SAO CHẢY NƯỚC MẮT?","k":"reel_04_hanh_cay_mat","x":true},{"l":"cl","t":"KIM CƯƠNG CÓ BỊ THIÊU RỤI THÀNH KHÓI?","k":"reel_05_kim_cuong_chay","x":true},{"l":"cl","t":"BAKING SODA + GIẤM: NÚI LỬA TẨY RỬA","k":"reel_06_baking_soda_giam","x":true},{"l":"cl","t":"VÌ SAO PHÁO HOA CÓ MUÔN MÀU RỰC RỠ?","k":"reel_07_mau_phao_hoa","x":true},{"l":"cl","t":"VÌ SAO SAM BIỂN CÓ MÁU XANH DƯƠNG?","k":"reel_08_mau_xanh_muc_cua","x":true},{"l":"cl","t":"TIẾNG XÌ XÌ BÍ ẨN CỦA NƯỚC NGỌT","k":"reel_09_nuoc_ngot_co_ga","x":true},{"l":"cl","t":"TÚI KHÍ Ô TÔ: NỔ CỨU MẠNG TRONG 0.03s","k":"reel_10_tui_khi_o_to","x":true},{"l":"cl","t":"VÌ SAO LÒNG ĐỎ TRỨNG CÓ VIỀN XÁM XANH?","k":"reel_11_trung_luoc_xam_xanh","x":true},{"l":"cl","t":"ĐUN ĐƯỜNG THẮNG NƯỚC HÀNG: CARAMEL HÓA","k":"reel_12_thang_duong_caramel","x":true},{"l":"cl","t":"CHANH TẨY SẠCH CẶN ẤM ĐUN NƯỚC","k":"reel_13_chanh_tay_can_am","x":true},{"l":"cl","t":"VÌ SAO UỐNG SỮA GIẢM CAY XÉ LƯỠI?","k":"reel_14_uong_sua_giam_cay","x":true},{"l":"cl","t":"BỘT NGỌT MSG: VỊ UMAMI THỨ NĂM","k":"reel_15_mi_chinh_msg","x":true},{"l":"cl","t":"KHỬ MÙI TANH CÁ BẰNG GIẤM HOẶC RƯỢU","k":"reel_16_mui_tanh_ca_giam","x":true},{"l":"cl","t":"BÁNH MÌ PHỒNG XỐP: SINH KHÍ CO₂","k":"reel_17_men_no_banh_mi","x":true},{"l":"cl","t":"VÌ SAO TÁO BỔ RA LẠI BỊ THÂM ĐEN?","k":"reel_18_tao_got_vo_tham","x":true},{"l":"cl","t":"MUỐI I-ỐT: VI LƯỢNG CỨU TUYẾN GIÁP","k":"reel_19_muoi_iot","x":true},{"l":"cl","t":"PHẢN ỨNG MAILLARD: MÙI THỊT NƯỚNG","k":"reel_20_phan_ung_maillard","x":true},{"l":"cl","t":"VẮT CHANH VÀO CANH RAU MUỐNG","k":"reel_21_chanh_rau_muong","x":true},{"l":"cl","t":"RƯỢU ĐỂ LÂU THÀNH GIẤM ĂN: VÌ SAO?","k":"reel_22_len_men_giam","x":true},{"l":"cl","t":"SỮA CHUA ĐÔNG TỤ THẦN KỲ","k":"reel_23_dong_tu_sua_chua","x":true},{"l":"cl","t":"COCA-COLA TẨY SẠCH CẶN BỒN CẦU","k":"reel_24_coca_tay_can","x":true},{"l":"cl","t":"DẠ DÀY CHỨA AXIT HCl: VÌ SAO KHÔNG TỰ ĂN MÒN?","k":"reel_25_axit_da_day","x":true},{"l":"cl","t":"MỎI CƠ KHI TẬP THỂ THAO: THỦ PHẠM AXIT LACTIC","k":"reel_26_moi_co_axit_lactic","x":true},{"l":"cl","t":"SÂU RĂNG: VI KHUẨN TIẾT AXIT ĐỤC THỦNG MEN","k":"reel_27_sau_rang_axit","x":true},{"l":"cl","t":"THUỐC ĐAU DẠ DÀY: DẬP TẮT AXIT DƯ THẦN TỐC","k":"reel_28_thuoc_dau_da_day","x":true},{"l":"cl","t":"NGỘ ĐỘC KHÍ CO: KẺ GIẾT NGƯỜI VÔ HÌNH","k":"reel_29_ngo_doc_khi_co","x":true},{"l":"cl","t":"BÓNG CƯỜI N₂O: GÂY TÊ VÀ HIỂM HỌA THẦN KINH","k":"reel_30_khi_cuoi_n2o","x":true},{"l":"cl","t":"SỎI THẬN: PHẢN ỨNG KẾT TỦA CANXI OXALAT","k":"reel_31_soi_than_canxi_oxalat","x":true},{"l":"cl","t":"PARACETAMOL: CƠ CHẾ HẠ SỐT GIẢM ĐAU","k":"reel_32_paracetamol_ha_sot","x":true},{"l":"cl","t":"TÌNH YÊU SÉT ĐÁNH: BÃI CHIẾN TRƯỜNG HORMONE","k":"reel_33_tinh_yeu_hormone","x":true},{"l":"cl","t":"OXY GIÀ SỦI BỌT TRẮNG TRÊN VẾT THƯƠNG","k":"reel_34_oxy_gia_sui_bot","x":true},{"l":"cl","t":"ADRENALINE: HORMONE BÙNG NỔ NĂNG LƯỢNG","k":"reel_35_adrenaline_chay_nhay","x":true},{"l":"cl","t":"VÀNG DA SƠ SINH: CHIẾU ĐÈN ÁNH SÁNG XANH","k":"reel_36_vang_da_chieu_den","x":true},{"l":"cl","t":"HÍT KHÍ HELI BIẾN ĐỔI GIỌNG NÓI THE THÉ","k":"reel_37_hit_heli_giong_the_the","x":true},{"l":"cl","t":"THUỐC ĐỎ POVIDONE IODINE: SÁT TRÙNG DIỆT KHUẨN","k":"reel_38_thuoc_do_povidone_iod","x":true},{"l":"cl","t":"MƯA AXIT: THẢM HỌA ĂN MÒN RỪNG CÂY VÀ TƯỢNG ĐÁ","k":"reel_39_mua_axit_tan_pha","x":true},{"l":"cl","t":"HIỆU ỨNG NHÀ KÍNH: TẤM CHĂN GIỮ NHIỆT CỦA TRÁI ĐẤT","k":"reel_40_hieu_ung_nha_kinh","x":true},{"l":"cl","t":"TẦNG OZON: LÁ CHẮN TIA CỰC TÍM CỨU SỐNG SINH QUYỂN","k":"reel_41_tang_ozon_o3","x":true},{"l":"cl","t":"ĐOM ĐÓM PHÁT SÁNG: KỲ QUAN PHÁT QUANG SINH HỌC","k":"reel_42_dom_dom_phat_quang","x":true},{"l":"cl","t":"MA TRƠI TRÊN NGHĨA ĐỊA: BẢN CHẤT TỰ CHÁY CỦA PHOTPHIN","k":"reel_43_ma_troi_photphin","x":true},{"l":"cl","t":"BĂNG CHÁY ĐÁY ĐẠI DƯƠNG: NGUỒN NĂNG LƯỢNG KHỔNG LỒ","k":"reel_44_bang_chay_methane","x":true},{"l":"cl","t":"MÙI ĐẤT SAU CƠN MƯA: MÙI HƯƠNG KỲ DIỆU GEOSMIN","k":"reel_45_mui_dat_sau_mua","x":true},{"l":"cl","t":"THẠCH NHŨ HANG ĐỘNG: KIỆT TÁC CÂN BẰNG HÓA HỌC","k":"reel_46_thach_nhu_hang_dong","x":true},{"l":"cl","t":"ĐẤT ĐỎ BAZAN: MÀU MỠ NHỜ KHOÁNG CHẤT SẮT","k":"reel_47_tro_nui_lua_do","x":true},{"l":"cl","t":"TẠI SAO NƯỚC BIỂN CÓ VỊ MẶN CHÁT?","k":"reel_48_nuoc_bien_vi_man","x":true},{"l":"cl","t":"CÂY XANH NHẢ OXY: BÍ MẬT DIỆP LỤC CHỨA MAGIE","k":"reel_49_quang_hop_clorophin","x":true},{"l":"cl","t":"SẤM SÉT TẠO PHÂN ĐẠM: TRỜI CHO MÙA MÀNG TỐT TƯƠI","k":"reel_50_sam_set_phan_dam","x":true},{"l":"cl","t":"BONG BÓNG BĂNG METAN: KỲ QUAN ĐẸP NGUY HIỂM","k":"reel_51_bong_bong_bang_metan","x":true},{"l":"cl","t":"BIỂN CHẾT: VÌ SAO NGƯỜI NẰM ĐỌC SÁCH NỔI BỀNH BỒNG?","k":"reel_52_bien_chet_noi_bong_benh","x":true},{"l":"cl","t":"SAO HỎA: HÀNH TINH ĐỎ BỊ RỈ SÉT BAO PHỦ","k":"reel_53_sao_hoa_do_ri_set","x":true},{"l":"cl","t":"PIN LITHIUM-ION: TRÁI TIM XE ĐIỆN VÀ SMARTPHONE","k":"reel_54_pin_lithium_ion","x":true},{"l":"cl","t":"SAO KIM: MƯA AXIT SUNFURIC TRÊN ĐỊA NGỤC 465°C","k":"reel_55_mua_axit_sao_kim","x":true},{"l":"cl","t":"GRAPHENE: VẬT LIỆU MỎNG NHẤT CỨNG GẤP 200 LẦN THÉP","k":"reel_56_graphene_sieu_vat_lieu","x":true},{"l":"cl","t":"MẶT TRỜI TỎA SÁNG: PHẢN ỨNG NHIỆT HẠCH HẠT NHÂN","k":"reel_57_mat_troi_nhiet_hach","x":true},{"l":"cl","t":"KÍNH JAMES WEBB MẠ VÀNG: MẮT THẦN DÒ TÌM VŨ TRỤ","k":"reel_58_kinh_james_webb_ma_vang","x":true},{"l":"cl","t":"VÌ SAO SAO BĂNG BỐC CHÁY SÁNG RỰC TRÊN BẦU TRỜI?","k":"reel_59_sao_bang_chay_sang","x":true},{"l":"cl","t":"HIỆN TƯỢNG SIÊU DẪN: TRUYỀN TẢI ĐIỆN KHÔNG TIÊU HAO","k":"reel_60_sieu_dan_nhiet_do_phong","x":true},{"l":"cl","t":"TITAN: KIM LOẠI CỦA VŨ TRỤ VÀ CẤY GHÉP Y HỌC","k":"reel_61_titan_kim_loai_tuong_lai","x":true},{"l":"cl","t":"KHÍ HIẾM NEON: ÁNH SÁNG ĐỎ CAM BẤT TẬN","k":"reel_62_khi_hiem_neon_den_quang_cao","x":true},{"l":"cl","t":"NHIÊN LIỆU TÊN LỬA VŨ TRỤ: SỨC MẠNH HYDRO VÀ OXY LỎNG","k":"reel_63_nhien_lieu_ten_lua","x":true},{"l":"cl","t":"AEROGEL: KHÓI ĐÔNG KẾT CÁCH NHIỆT VÔ ĐỊCH","k":"reel_64_aerogel_khoi_dong_ket","x":true},{"l":"cl","t":"CHIP BÁN DẪN SILICON: BỘ NÃO CỦA KỶ NGUYÊN AI","k":"reel_65_chip_ban_dan_silicon","x":true},{"l":"cl","t":"BỤI MẶT TRĂNG: BÍ ẨN MÙI THUỐC SÚNG CHÁY","k":"reel_66_bui_mat_trang_mui_thuoc_sung","x":true},{"l":"at","t":"TRỘN NƯỚC TẨY JAVEN VỚI GIẤM → SINH RA KHÍ CLO ĐỘC","k":"antoan_01_javen_giam","x":true},{"l":"at","t":"DÙNG JAVEN CHUNG VỚI NƯỚC LAU KÍNH → SINH RA KHÍ CLORAMIN","k":"antoan_02_javen_amoniac","x":true},{"l":"at","t":"ĐỔ NƯỚC VÀO AXIT ĐẶC → AXIT SÔI BẮN THẲNG VÀO MẶT","k":"antoan_03_nuoc_vao_axit","x":true},{"l":"at","t":"ĐỐT THAN SƯỞI TRONG PHÒNG ĐÓNG KÍN → NGỘ ĐỘC KHÍ CO KHÔNG MÙI","k":"antoan_04_than_phong_kin","x":true},{"l":"at","t":"CHẠY MÁY PHÁT ĐIỆN TRONG NHÀ → KHÍ CO TÍCH ĐẾN MỨC CHẾT NGƯỜI","k":"antoan_05_may_phat_dien","x":true},{"l":"at","t":"DÙNG LẠI BÌNH GAS MINI SANG CHIẾT → BÌNH NỔ NGAY TRÊN BÀN ĂN","k":"antoan_06_binh_gas_mini","x":true},{"l":"at","t":"SẠC ĐIỆN THOẠI QUA ĐÊM DƯỚI GỐI → PIN LITHIUM CHÁY DỮ DỘI","k":"antoan_07_pin_lithium","x":true},{"l":"at","t":"ĐỔ THUỐC THÔNG CỐNG RỒI ĐỔ TIẾP AXIT → DUNG DỊCH SÔI TRÀO NGƯỢC LÊN","k":"antoan_08_thong_cong_axit","x":true},{"l":"at","t":"UỐNG RƯỢU KHÔNG RÕ NGUỒN GỐC → METHANOL GÂY MÙ VÀ TỬ VONG","k":"antoan_09_ruou_methanol","x":true},{"l":"at","t":"QUÉT CHỔI KHI NHIỆT KẾ THUỶ NGÂN VỠ → HƠI THUỶ NGÂN LAN KHẮP PHÒNG","k":"antoan_10_thuy_ngan_vo","x":true},{"l":"at","t":"XỊT THUỐC MUỖI GẦN BẾP ĐANG CHÁY → CỘT LỬA BÙNG NGAY TRƯỚC MẶT","k":"antoan_11_binh_xit_gan_lua","x":true},{"l":"at","t":"SANG CHIẾT XĂNG BẰNG CAN NHỰA TRONG NHÀ → TĨNH ĐIỆN ĐỐT CHÁY HƠI XĂNG","k":"antoan_12_sang_chiet_xang","x":true},{"l":"at","t":"ĐỰNG HOÁ CHẤT TRONG CHAI NƯỚC NGỌT → TRẺ CẦM LÊN UỐNG NHẦM","k":"antoan_13_chai_nuoc_ngot","x":true},{"l":"at","t":"CÂU BÌNH ẮC QUY NGAY SAU KHI SẠC NO → TIA LỬA ĐỐT KHÍ HYDRO GÂY NỔ BÌNH","k":"antoan_14_ac_quy_hydro","x":true},{"l":"at","t":"ĐỔ NƯỚC VÀO VÔI SỐNG CHO TÔI NHANH → VÔI SÔI BẮN BỎNG MẮT VÀ DA","k":"antoan_15_voi_song","x":true},{"l":"at","t":"HẤT NƯỚC VÀO CHẢO DẦU ĐANG CHÁY → LỬA BÙNG LÊN TỚI TRẦN NHÀ","k":"antoan_16_chao_dau_chay","x":true},{"l":"at","t":"HÀN CẮT TRÊN THÙNG PHUY ĐÃ HẾT DẦU → THÙNG RỖNG NỔ MẠNH HƠN THÙNG ĐẦY","k":"antoan_17_han_thung_phuy","x":true},{"l":"at","t":"ĐỔ THÊM CỒN VÀO BẾP CỒN ĐANG CHÁY → LỬA CHẠY NGƯỢC VỀ TAY CẦM CHAI","k":"antoan_18_do_them_con","x":true},{"l":"at","t":"HÂM NƯỚC TINH KHIẾT TRONG LÒ VI SÓNG → NƯỚC BÙNG SÔI KHI VỪA CHẠM VÀO","k":"antoan_19_lo_vi_song","x":true},{"l":"at","t":"ĐỐT NHỰA VÀ CAO SU ĐỂ DỌN RÁC → SINH KHÍ ĂN MÒN VÀ ĐIOXIN","k":"antoan_20_dot_nhua","x":true},{"l":"ls","t":"1869 · DMITRI MENDELEEV — NGƯỜI ĐỂ TRỐNG Ô CHO TƯƠNG LAI","k":"lichsu_01_mendeleev","x":true},{"l":"ls","t":"1911 · MARIE CURIE — HAI GIẢI NOBEL, HAI NGÀNH KHÁC NHAU","k":"lichsu_02_marie_curie","x":true},{"l":"ls","t":"1669 · HENNIG BRAND — NHÀ GIẢ KIM TÌM VÀNG, RA PHỐT PHO","k":"lichsu_03_hennig_brand","x":true},{"l":"ls","t":"1867 · ALFRED NOBEL — PHÁT MINH THUỐC NỔ RỒI LẬP GIẢI HOÀ BÌNH","k":"lichsu_04_alfred_nobel","x":true},{"l":"ls","t":"1928 · ALEXANDER FLEMING — CÁI ĐĨA MỐC CỨU HÀNG TRĂM TRIỆU NGƯỜI","k":"lichsu_05_fleming","x":true},{"l":"ls","t":"1828 · FRIEDRICH WÖHLER — XOÁ RANH GIỚI SỐNG VÀ KHÔNG SỐNG","k":"lichsu_06_wohler_ure","x":true},{"l":"ls","t":"1865 · AUGUST KEKULÉ — GIẤC MƠ CON RẮN TỰ CẮN ĐUÔI","k":"lichsu_07_kekule_benzen","x":true},{"l":"ls","t":"1774 · PRIESTLEY VÀ SCHEELE — HAI NGƯỜI CÙNG TÌM RA OXY","k":"lichsu_08_oxy_priestley","x":true},{"l":"ls","t":"1661 · ROBERT BOYLE — NGƯỜI TÁCH HOÁ HỌC RA KHỎI GIẢ KIM","k":"lichsu_09_robert_boyle","x":true},{"l":"ls","t":"1803 · JOHN DALTON — THẦY GIÁO DỰNG NÊN THUYẾT NGUYÊN TỬ","k":"lichsu_10_john_dalton","x":true},{"l":"ls","t":"1911 · ERNEST RUTHERFORD — BẮN HẠT VÀO LÁ VÀNG ĐỂ THẤY HẠT NHÂN","k":"lichsu_11_rutherford","x":true},{"l":"ls","t":"1954 · LINUS PAULING — HAI GIẢI NOBEL KHÔNG CHIA VỚI AI","k":"lichsu_12_linus_pauling","x":true},{"l":"ls","t":"1952 · ROSALIND FRANKLIN — TẤM ẢNH SỐ NĂM MƯƠI MỐT","k":"lichsu_13_rosalind_franklin","x":true},{"l":"ls","t":"1856 · WILLIAM PERKIN — CẬU SINH VIÊN MƯỜI TÁM TUỔI ĐỔI MÀU THẾ GIỚI","k":"lichsu_14_william_perkin","x":true},{"l":"ls","t":"1947 · BARDEEN, BRATTAIN, SHOCKLEY — TRANSISTOR ĐẦU TIÊN LÀM BẰNG GECMANI","k":"lichsu_15_transistor_gecmani","x":true},{"l":"ls","t":"1937 · PERRIER VÀ SEGRÈ — NGUYÊN TỐ ĐẦU TIÊN DO CON NGƯỜI TẠO RA","k":"lichsu_16_tecneti","x":true},{"l":"ls","t":"1960 · KHI MỘT MÉT LÀ ÁNH SÁNG — ĐƠN VỊ ĐO BỎ MẪU VẬT ĐỂ THEO TỰ NHIÊN","k":"lichsu_17_met_krypton","x":true},{"l":"cl2","t":"XÀ PHÒNG KÉO DẦU MỠ VÀO NƯỚC BẰNG CÁCH NÀO","k":"cl2_01_xa_phong","x":true},{"l":"cl2","t":"VÌ SAO CHANH THÌ CHUA CÒN XÀ PHÒNG THÌ NHỚT","k":"cl2_02_chua_dang","x":true},{"l":"cl2","t":"DÂY TÓC BÓNG ĐÈN NÓNG HƠN DUNG NHAM","k":"cl2_03_day_toc_wolfram","x":true},{"l":"cl2","t":"NƯỚC HOA ĐỔI MÙI SUỐT CẢ NGÀY","k":"cl2_04_nuoc_hoa","x":true},{"l":"cl2","t":"CHẢO CHỐNG DÍNH KHÔNG BÁM VÀO THỨ GÌ, KỂ CẢ KEO","k":"cl2_05_chao_chong_dinh","x":true},{"l":"cl2","t":"MỰC BÚT BI KHÔ NGAY KHI VỪA RỜI NGÒI","k":"cl2_06_muc_but_bi","x":true},{"l":"cl2","t":"KÍNH TỰ SẪM LẠI KHI RA NẮNG RỒI TỰ TRONG KHI VÀO BÓNG","k":"cl2_07_kinh_doi_mau","x":true},{"l":"cl2","t":"HỘP THIẾC THẬT RA LÀM BẰNG THÉP","k":"cl2_08_hop_thiec","x":true},{"l":"cl2","t":"ARGON NHIỀU HƠN KHÍ NHÀ KÍNH CO₂ GẦN BA MƯƠI LẦN","k":"cl2_09_argon_bong_den","x":true},{"l":"cl2","t":"CỐC THUỶ TINH NÀY RÓT NƯỚC SÔI KHÔNG NỨT","k":"cl2_10_pyrex","x":true},{"l":"cl2","t":"MÀU XANH GỐM SỨ NGHÌN NĂM CHƯA CÓ THỨ THAY THẾ","k":"cl2_11_xanh_coban","x":true},{"l":"cl2","t":"TRÁI CÂY GỌI NHAU CÙNG CHÍN","k":"cl2_12_etilen_chin","x":true},{"l":"cl2","t":"THUỐC TRỪ NẤM RA ĐỜI TỪ MỘT MẸO CHỐNG TRỘM NHO","k":"cl2_13_booc_do","x":true},{"l":"cl2","t":"THUỶ TINH KHÔNG HỀ CHẢY, DÙ NGƯỜI TA VẪN KỂ THẾ","k":"cl2_14_kinh_nha_tho","x":true},{"l":"cl2","t":"MỘT CỐC NƯỚC CỘNG MỘT CỐC CỒN KHÔNG RA HAI CỐC","k":"cl2_15_nuoc_con","x":true},{"l":"cl2","t":"KHÔNG CHẤT NÀO THỰC SỰ KHÔNG MÀU","k":"cl2_16_khong_mau","x":true},{"l":"cl2","t":"NGƯỜI LA MÃ TRANG ĐIỂM BẰNG CHÌ","k":"cl2_17_chi_la_ma","x":true},{"l":"cl2","t":"MỘT GIỌT KIM LOẠI LÀM VỠ VỤN CẢ THANH NHÔM","k":"cl2_18_gali_pha_nhom","x":true},{"l":"cl2","t":"HỢP KIM NHỚ ĐƯỢC HÌNH DẠNG CŨ CỦA MÌNH","k":"cl2_19_nitinol","x":true},{"l":"cl2","t":"CẢ BẢNG TUẦN HOÀN CHỈ CÓ HAI NGUYÊN TỐ Ở THỂ LỎNG","k":"cl2_20_hai_nguyen_to_long","x":true},{"l":"cl2","t":"KIM LOẠI CÓ THỂ MẮC BỆNH VÀ MỤN RA THÀNH BỘT","k":"cl2_21_dich_thiec","x":true},{"l":"cl2","t":"NHÔM TỪNG ĐẮT HƠN VÀNG","k":"cl2_22_nhom_dat_hon_vang","x":true},{"l":"cl2","t":"HƠN HAI MƯƠI NGUYÊN TỐ MANG TÊN MỘT VÙNG ĐẤT","k":"cl2_23_ten_dia_danh","x":true},{"l":"cl2","t":"MỌI SINH VẬT MANG SẴN MỘT CHIẾC ĐỒNG HỒ TRONG NGƯỜI","k":"cl2_24_cacbon_14","x":true},{"l":"cl2","t":"HOÁ CHẤT ĐƯỢC LÀM RA NHIỀU NHẤT HÀNH TINH","k":"cl2_25_axit_sunfuric","x":true},{"l":"cl2","t":"THÊM MỘT CHÚT CACBON, SẮT THÀNH THÉP","k":"cl2_26_thep_cacbon","x":true},{"l":"cl2","t":"NHÀ MÁY NHÔM PHẢI DỰNG CẠNH NHÀ MÁY ĐIỆN","k":"cl2_27_nhom_ton_dien","x":true},{"l":"cl2","t":"MỘT THÙNG DẦU THÔ TÁCH RA ĐƯỢC CẢ CHỤC THỨ","k":"cl2_28_chung_cat_dau","x":true},{"l":"cl2","t":"GIẤY VÀNG Ố VÌ MỘT CHẤT KEO CỦA CÂY","k":"cl2_29_giay_trang","x":true},{"l":"cl2","t":"LỚP KẼM TỰ NGUYỆN GỈ THAY CHO SẮT","k":"cl2_30_ma_kem","x":true},{"l":"cl2","t":"MUỐI ĂN CHO RA BA SẢN PHẨM ĐẮT TIỀN CÙNG LÚC","k":"cl2_31_dien_phan_muoi","x":true},{"l":"cl2","t":"CHIẾC ÁO KHOÁC CỦA BẠN CÓ THỂ TỪNG LÀ CHAI NƯỚC","k":"cl2_32_pet_thanh_vai","x":true},{"l":"cl2","t":"MỘT NHÚM PHÈN LÀM TRONG CẢ CHUM NƯỚC ĐỤC","k":"cl2_33_phen_lang_nuoc","x":true},{"l":"cl2","t":"MỘT VIÊN PIN VỨT BỪA LÀM HỎNG CẢ KHỐI ĐẤT","k":"cl2_34_pin_cu","x":true},{"l":"cl2","t":"TÁI CHẾ NHÔM CHỈ TỐN NĂM PHẦN TRĂM NĂNG LƯỢNG","k":"cl2_35_nhom_tai_che","x":true},{"l":"cl2","t":"NƯỚC GIẾNG KHOAN TRONG VẮT VẪN CÓ THỂ NHIỄM ĐỘC","k":"cl2_36_asen_nuoc_ngam","x":true},{"l":"cl2","t":"UỐNG MỘT KIM LOẠI ĐỘC ĐỂ ĐI CHỤP X-QUANG","k":"cl2_37_bari_xquang","x":true},{"l":"cl2","t":"THUỐC UNG THƯ ĐƯỢC TÌM RA NHỜ MỘT THÍ NGHIỆM VỀ ĐIỆN","k":"cl2_38_cisplatin","x":true},{"l":"cl2","t":"VÌ SAO INSULIN PHẢI TIÊM CHỨ KHÔNG UỐNG ĐƯỢC","k":"cl2_39_insulin_tiem","x":true},{"l":"cl2","t":"THUỐC CHỮA ĐAU TIM CHÍNH LÀ THUỐC NỔ","k":"cl2_40_nitroglixerin_thuoc","x":true},{"l":"cl2","t":"THUỐC HẠ SỐT AN TOÀN NHẤT CŨNG LÀ THUỐC HAY GÂY SUY GAN NHẤT","k":"cl2_41_paracetamol_gan","x":true},{"l":"cl2","t":"TRƯỚC NĂM 1846, MỔ LÀ MỔ SỐNG","k":"cl2_42_gay_me","x":true},{"l":"cl2","t":"THUỐC MÊ HOÀN HẢO ĐÃ CÓ, CHỈ LÀ QUÁ ĐẮT","k":"cl2_43_xenon_gay_me","x":true},{"l":"cl2","t":"KHÍ GAS VỐN KHÔNG MÙI, MÙI HẮC LÀ NGƯỜI TA CỐ Ý PHA VÀO","k":"cl2_44_mui_gas","x":true},{"l":"cl2","t":"VẬT LIỆU CHỐNG CHÁY HOÀN HẢO HOÁ RA LÀ THỨ GIẾT NGƯỜI CHẬM","k":"cl2_45_amiang","x":true},{"l":"cl2","t":"CÓ NGUYÊN TỐ ĐƯỢC ĐẶT TÊN THEO MÙI HÔI THỐI","k":"cl2_46_brom_hoi_thoi","x":true},{"l":"cl2","t":"CỜ LÊ KHÔNG PHÁT TIA LỬA, DÙNG Ở NƠI CÓ HƠI XĂNG","k":"cl2_47_dong_beri","x":true},{"l":"cl2","t":"VỎ TIVI VÀ Ổ ĐIỆN ĐƯỢC TRỘN CHẤT CHẶN LỬA","k":"cl2_48_antimon_chong_chay","x":true},{"l":"cl2","t":"MỘT KHÍ PHÓNG XẠ TỰ RỈ LÊN TỪ NỀN NHÀ BẠN","k":"cl2_49_radon_tang_ham","x":true},{"l":"cl2","t":"CHẤT ĐỘC KHÔNG MÀU, KHÔNG MÙI, KHÔNG VỊ","k":"cl2_50_tali","x":true},{"l":"cl2","t":"BA KẾT TỦA BA MÀU ĐỂ PHÂN BIỆT BA ANION","k":"cl2_51_bac_halogenua","x":true},{"l":"cl2","t":"DUNG DỊCH TÍM BIẾN MẤT MÀU LÀ PHÉP ĐO ĐANG XONG","k":"cl2_52_thuoc_tim","x":true},{"l":"cl2","t":"HỒNG NGỌC VÀ LAM NGỌC LÀ CÙNG MỘT KHOÁNG VẬT","k":"cl2_53_ruby_saphia","x":true},{"l":"cl2","t":"CĂN BỆNH GIẾT THUỶ THỦ NHIỀU HƠN CẢ BÃO TỐ","k":"cl2_54_vitamin_c","x":true},{"l":"cl2","t":"CÓ CHẤT MÀ LIỀU ĐỦ VÀ LIỀU ĐỘC GẦN NHAU ĐẾN GIẬT MÌNH","k":"cl2_55_selen","x":true},{"l":"cl2","t":"CÓ MỘT THẾ GIỚI MƯA XUỐNG KHÔNG PHẢI NƯỚC","k":"cl2_56_titan_ho_metan","x":true},{"l":"dv","t":"axit da day","k":"quiz_01_axit_da_day","x":true},{"l":"tr","t":"calculator","k":"phchem_calculator_video","x":true},{"l":"tr","t":"electro","k":"phchem_electro_video","x":true},{"l":"tr","t":"formulas","k":"phchem_formulas_video","x":true},{"l":"tr","t":"periodic table","k":"phchem_periodic_table_video","x":true},{"l":"tr","t":"promo","k":"phchem_promo_video","x":true},{"l":"tr","t":"quiz","k":"phchem_quiz_video","x":true},{"l":"tr","t":"reactions","k":"phchem_reactions_video","x":true},{"l":"tr","t":"solubility","k":"phchem_solubility_video","x":true}],"conThieu":[{"g":"Lịch sử","v":"Joseph Priestley và Carl Scheele độc lập phát hiện ra oxy trong thập niên 1770."}],"mangApp":[{"n":"Bảng tuần hoàn","t":118,"x":118},{"n":"Chuyện lạ hoá học","t":236,"x":235},{"n":"Từ điển hoá học","t":224,"x":0},{"n":"Công thức vô cơ","t":154,"x":0},{"n":"Công thức hữu cơ","t":144,"x":0},{"n":"Danh pháp IUPAC","t":140,"x":0},{"n":"Công thức vật lý","t":43,"x":0},{"n":"Dãy điện hoá","t":21,"x":0}],"ngay":"2026-09-06"};
+const LOAT = {
+  nt2:{ten:'Nguyên tố · bản 2',mau:'#1877C4'},
+  nt1:{ten:'Nguyên tố · bản 1',mau:'#6F8078'},
+  cl2:{ten:'Chuyện lạ · bản 2',mau:'#7BA300'},
+  cl :{ten:'Chuyện lạ · bản 1',mau:'#9AA88C'},
+  at :{ten:'An toàn hoá chất',mau:'#DC5B0E'},
+  ls :{ten:'Lịch sử hoá học',mau:'#C9930A'},
+  dv :{ten:'Đố vui hoá học',mau:'#8E56C4'},
+  tr :{ten:'Giới thiệu trang',mau:'#1F9463'}
+};
+const thangPh = p => p >= 100 ? 'var(--ph10)' : p >= 80 ? 'var(--ph8)' : p >= 55 ? 'var(--ph6)'
+  : p >= 35 ? 'var(--ph4)' : p >= 15 ? 'var(--ph2)' : 'var(--ph0)';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+document.getElementById('ngay').textContent = D.ngay;
+const daDung = D.videos.filter(v => v.x);
+
+// ── độ phủ ──
+document.getElementById('phu').innerHTML = D.mangApp.map(m => {
+  const p = m.t ? Math.round(m.x / m.t * 100) : 0;
+  return `<div class="phu-hang">
+    <span class="phu-ten">${esc(m.n)}</span>
+    <span class="phu-so">${m.x} / ${m.t}</span>
+    <span class="thanh"><i style="width:${Math.max(p, p ? 1.5 : 0)}%;background:${thangPh(p)}"></i></span>
+    <span class="phu-pt" style="color:${p ? thangPh(p) : 'var(--mo2)'}">${p}%</span>
+  </div>`;
+}).join('');
+
+// ── chips lọc ──
+const thuTu = ['nt2','nt1','cl2','cl','at','ls','dv','tr'];
+let locLoat = null, locChua = false, tuKhoa = '';
+document.getElementById('chips').innerHTML =
+  `<button class="chip" data-l="" aria-pressed="true">Tất cả <em>${daDung.length}</em></button>` +
+  thuTu.map(k => {
+    const n = daDung.filter(v => v.l === k).length;
+    return `<button class="chip" data-l="${k}" aria-pressed="false"><u style="background:${LOAT[k].mau}"></u>${LOAT[k].ten} <em>${n}</em></button>`;
+  }).join('');
+
+// ── trạng thái đã đăng ──
+let dang = {}, luuDb = null;
+const soDang = () => Object.keys(dang).length;
+
+function ve() {
+  const ds = document.getElementById('ds');
+  const loc = daDung.filter(v =>
+    (!locLoat || v.l === locLoat) &&
+    (!locChua || !dang[v.k]) &&
+    (!tuKhoa || (v.t + ' ' + v.k).toLowerCase().includes(tuKhoa)));
+
+  if (!loc.length) { ds.innerHTML = '<p class="trong">Không có video nào khớp.</p>'; return; }
+
+  let html = '';
+  for (const k of thuTu) {
+    const nhom = loc.filter(v => v.l === k);
+    if (!nhom.length) continue;
+    const daDangNhom = nhom.filter(v => dang[v.k]).length;
+    html += `<div class="nhom-ten">${esc(LOAT[k].ten)} <b>${daDangNhom}/${nhom.length} đã đăng</b></div>`;
+    html += nhom.map(v => `<div class="hang">
+      <span class="soc" style="background:${LOAT[k].mau}"></span>
+      <p>${esc(v.t)}<span class="ma">${esc(v.k)}</span></p>
+      <button class="dang" data-k="${esc(v.k)}" aria-pressed="${dang[v.k] ? 'true' : 'false'}"
+        ${luuDb ? '' : 'disabled'}>${dang[v.k] ? '✓ Đã đăng' : 'Đã đăng'}</button>
+    </div>`).join('');
+  }
+  ds.innerHTML = html;
+  document.getElementById('t-dang').textContent = soDang();
+}
+
+document.getElementById('t-video').textContent = daDung.length;
+document.getElementById('t-dang').textContent = '0';
+document.getElementById('t-loat').textContent = thuTu.filter(k => daDung.some(v => v.l === k)).length;
+document.getElementById('t-thieu').textContent = D.conThieu.length;
+
+document.getElementById('chips').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  locLoat = b.dataset.l || null;
+  document.querySelectorAll('#chips .chip').forEach(c => c.setAttribute('aria-pressed', String(c === b)));
+  ve();
+});
+document.getElementById('loc-chua').addEventListener('click', e => {
+  locChua = !locChua; e.currentTarget.setAttribute('aria-pressed', String(locChua)); ve();
+});
+document.getElementById('tim').addEventListener('input', e => { tuKhoa = e.target.value.trim().toLowerCase(); ve(); });
+document.getElementById('ds').addEventListener('click', async e => {
+  const b = e.target.closest('.dang'); if (!b || !luuDb) return;
+  const k = b.dataset.k;
+  if (dang[k]) delete dang[k]; else dang[k] = new Date().toISOString().slice(0, 10);
+  ve();
+  try { await luuDb.set({ ...dang }); }
+  catch { document.getElementById('tt-db').textContent = 'Không lưu được lên máy chủ — thử lại sau.'; }
+});
+
+// ── chuyện lạ còn thiếu ──
+const theoGroup = {};
+for (const f of D.conThieu) (theoGroup[f.g] ||= []).push(f.v);
+const sapXep = Object.entries(theoGroup).sort((a, b) => b[1].length - a[1].length);
+document.getElementById('dan-thieu').textContent =
+  `${D.conThieu.length} mẩu trong app chưa được kể thành video, chia ${sapXep.length} chủ đề. Đối chiếu bằng máy theo độ trùng từ khoá, nên vài mẩu sát ngưỡng cần đọc lại bằng mắt.`;
+document.getElementById('thieu').innerHTML = sapXep.map(([g, l], i) =>
+  `<details${i === 0 ? ' open' : ''}><summary>${esc(g)} <b>${l.length} mẩu</b></summary>
+   <ol>${l.map(v => '<li>' + esc(v) + '</li>').join('')}</ol></details>`).join('');
+
+ve();
+
+// ── nối máy chủ lưu trạng thái ──
+(async () => {
+  const db = window.claude && await window.claude.use('db');
+  const tt = document.getElementById('tt-db');
+  if (!db) { tt.textContent = 'Chưa nối được máy chủ — nút đánh dấu tạm khoá.'; return; }
+  luuDb = db.doc('trangthai/dadang');
+  try {
+    const snap = await luuDb.get();
+    if (snap.exists) dang = { ...(snap.data() || {}) };
+    tt.textContent = 'Trạng thái đăng bài lưu trên máy chủ.';
+  } catch {
+    tt.textContent = 'Đọc trạng thái lỗi — vẫn đánh dấu được, sẽ lưu khi bấm.';
+  }
+  ve();
+})();
+</script>

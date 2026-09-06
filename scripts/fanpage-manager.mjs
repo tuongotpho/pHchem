@@ -98,6 +98,42 @@ export async function postPhoto({ caption, filePath, url: photoUrl, published = 
 }
 
 /**
+ * Đăng video lên Fanpage (sử dụng endpoint graph-video)
+ */
+export async function postVideo({ title, description, videoPath, published = true, scheduledPublishTime }) {
+  const url = `https://graph-video.facebook.com/v26.0/${PAGE_ID}/videos`;
+  const formData = new FormData();
+  formData.append('access_token', ACCESS_TOKEN);
+  if (title) formData.append('title', title);
+  if (description) formData.append('description', description);
+  
+  if (scheduledPublishTime) {
+    formData.append('published', 'false');
+    formData.append('scheduled_publish_time', String(scheduledPublishTime));
+  } else {
+    formData.append('published', String(published));
+  }
+
+  if (videoPath) {
+    const fileBuffer = fs.readFileSync(videoPath);
+    const blob = new Blob([fileBuffer], { type: 'video/mp4' });
+    formData.append('source', blob, path.basename(videoPath));
+  } else {
+    throw new Error('Cần cung cấp videoPath.');
+  }
+
+  const res = await fetch(url, {
+    method: 'POST',
+    body: formData,
+  });
+  const data = await res.json();
+  if (data.error) {
+    throw new Error(`Lỗi đăng video: ${data.error.message} (code ${data.error.code})`);
+  }
+  return data;
+}
+
+/**
  * Lấy danh sách bài viết gần đây
  */
 export async function getRecentPosts(limit = 5) {

@@ -1,0 +1,3346 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pH-Chem — Trình Xem Trước 66 Video Reel (Trọn 1 Tháng) "Bạn Có Biết?"</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070a13;
+      --bg-card: rgba(15, 23, 42, 0.75);
+      --bg-card-hover: rgba(30, 41, 59, 0.85);
+      --border-glow: rgba(56, 189, 248, 0.3);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-cyan: #38bdf8;
+      --accent-teal: #2dd4bf;
+      --accent-amber: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 10%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 60%, rgba(45, 212, 191, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+    }
+
+    /* HEADER */
+    header {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      background: rgba(7, 10, 19, 0.8);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 16px 24px;
+    }
+
+    .header-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #0284c7, #2dd4bf);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+    }
+
+    .brand-text h1 {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #ffffff, #7dd3fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-text p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .header-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-web {
+      background: linear-gradient(135deg, #0284c7, #0d9488);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+    }
+
+    .btn-web:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(45, 212, 191, 0.4);
+    }
+
+    /* MAIN CONTAINER */
+    main {
+      max-width: 1440px;
+      margin: 28px auto;
+      padding: 0 24px;
+    }
+
+    /* EPISODE NAV PILLS */
+    .episodes-bar {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 14px;
+      margin-bottom: 28px;
+      scrollbar-width: thin;
+      scrollbar-color: #334155 transparent;
+    }
+
+    .episodes-bar::-webkit-scrollbar {
+      height: 6px;
+    }
+    .episodes-bar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
+
+    .ep-pill {
+      flex-shrink: 0;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .ep-pill:hover {
+      background: rgba(30, 41, 59, 0.9);
+      color: #fff;
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .ep-pill.active {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.35), rgba(13, 148, 136, 0.35));
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+    }
+
+    /* WORKSPACE (2 COLUMNS) */
+    .workspace {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+
+    @media (max-width: 1024px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* VIDEO PLAYER BOX (9:16) */
+    .player-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .phone-mockup {
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 9 / 16;
+      background: #020617;
+      border-radius: 36px;
+      border: 3px solid #1e293b;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.15);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .phone-mockup video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #000;
+    }
+
+    .phone-controls {
+      margin-top: 16px;
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .btn-action {
+      background: #1e293b;
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-action:hover {
+      background: #334155;
+      color: #fff;
+    }
+
+    /* DETAILS COL */
+    .details-col {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .glass-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .badge-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tag-badge {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .ep-title {
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+
+    .ep-hook {
+      font-size: 16px;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      padding-left: 12px;
+      border-left: 3px solid var(--accent-amber);
+    }
+
+    /* FORMULA & REACTION BOX */
+    .formula-box {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 16px;
+      margin: 16px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .formula-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent-teal);
+    }
+
+    .formula-tag {
+      font-size: 12px;
+      color: var(--text-muted);
+      background: #1e293b;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* STORYBOARD TIMELINE */
+    .storyboard-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scenes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .scene-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 16px;
+      transition: all 0.2s;
+    }
+
+    .scene-card:hover {
+      border-color: rgba(56, 189, 248, 0.3);
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    .scene-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .scene-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+
+    .scene-timing {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .scene-text {
+      font-size: 13.5px;
+      line-height: 1.45;
+      color: #e2e8f0;
+    }
+
+    /* CAPTION & COPY BOX */
+    .caption-box {
+      margin-top: 14px;
+      position: relative;
+    }
+
+    .caption-textarea {
+      width: 100%;
+      height: 120px;
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 14px;
+      color: #cbd5e1;
+      font-family: inherit;
+      font-size: 13.5px;
+      line-height: 1.5;
+      resize: vertical;
+    }
+
+    .caption-textarea:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+    }
+
+    .caption-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+      gap: 10px;
+    }
+
+    /* GRID GALLERY AT BOTTOM */
+    .gallery-section {
+      margin-top: 48px;
+    }
+
+    .gallery-heading {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .reels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .grid-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .grid-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .grid-thumb {
+      aspect-ratio: 9 / 16;
+      background: #020617;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid-thumb img, .grid-thumb video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .grid-play-badge {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .grid-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .grid-ep-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-amber);
+      margin-bottom: 4px;
+    }
+
+    .grid-ep-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .grid-route-tag {
+      font-size: 12px;
+      color: var(--accent-teal);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-logo">🧪</div>
+        <div class="brand-text">
+          <h1>pH-Chem · BẠN CÓ BIẾT? (10 EPISODES)</h1>
+          <p>Trình xem trước &amp; kiểm duyệt chuỗi Reels khoa học thực tiễn</p>
+        </div>
+      </div>
+      <div class="header-links">
+        <a href="https://ph-chem.web.app/" target="_blank" class="btn-web">
+          🌐 Mở ph-chem.web.app
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <!-- TOP PILLS NAVIGATION -->
+    <div class="episodes-bar" id="episodesBar">
+      <!-- Injected via JS -->
+    </div>
+
+    <!-- WORKSPACE 2 COLS -->
+    <div class="workspace">
+      <!-- LEFT: PHONE PLAYER -->
+      <div class="player-col">
+        <div class="phone-mockup">
+          <video id="mainVideo" controls playsinline loop>
+            <source src="" type="video/mp4">
+            Trình duyệt không hỗ trợ thẻ video.
+          </video>
+        </div>
+
+        <div class="phone-controls">
+          <button class="btn-action" onclick="togglePlay()">
+            <span id="playIcon">▶️</span> Phát / Tạm dừng
+          </button>
+          <a id="btnDownload" href="#" download class="btn-action">
+            ⬇️ Tải file MP4
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: DETAILS & STORYBOARD -->
+      <div class="details-col">
+        <div class="glass-card">
+          <div class="badge-row">
+            <span class="tag-badge" id="epTag">Đời sống</span>
+            <span class="tag-badge" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border-color: rgba(245, 158, 11, 0.3);" id="epIdBadge">Tập 01</span>
+            <span class="tag-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.3);">9:16 Reel HD</span>
+            <span class="tag-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); font-weight: 600;" id="epScheduleBadge">📅 Lịch: 11:45 · 05/09/2026</span>
+          </div>
+
+          <h2 class="ep-title" id="epTitle">BỊ KIẾN CẮN: VÌ SAO BÔI VÔI HAY XÀ PHÒNG?</h2>
+          <p class="ep-hook" id="epHook">Bạn có biết tại sao khi bị kiến cắn hay ong đốt, người ta thường bảo bôi chút vôi hoặc xà phòng là dịu ngay không?</p>
+
+          <div class="formula-box">
+            <div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">CHẤT / PHƯƠNG TRÌNH TRỌNG TÂM:</div>
+              <div class="formula-text" id="epReaction">2 HCOOH + Ca(OH)₂ → (HCOO)₂Ca + 2 H₂O</div>
+            </div>
+            <span class="formula-tag" id="epCompound">Axit Formic (HCOOH)</span>
+          </div>
+
+          <!-- STORYBOARD 4 SCENES -->
+          <div class="storyboard-title">
+            🎬 Phân Cảnh Kịch Bản (4-Layer Retention Pipeline)
+          </div>
+          <div class="scenes-grid" id="scenesGrid">
+            <!-- Injected via JS -->
+          </div>
+
+          <!-- CAPTION & HASHTAGS -->
+          <div class="caption-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-size: 14px; font-weight: 700; color: #cbd5e1;">📝 Caption Đăng Bài &amp; Hashtags:</span>
+              <span style="font-size: 12px; color: var(--text-muted);">Sẵn sàng cho FB Reels / TikTok / Shorts</span>
+            </div>
+            <textarea class="caption-textarea" id="captionText" readonly></textarea>
+            <div class="caption-actions">
+              <a id="btnAppFeature" href="https://ph-chem.web.app/" target="_blank" class="btn-action" style="border-color: var(--accent-cyan); color: var(--accent-cyan);">
+                ⚡ Thử nghiệm trên Web App
+              </a>
+              <button class="btn-action" style="background: linear-gradient(135deg, #0284c7, #0d9488); border: none; color: #fff;" onclick="copyCaption()">
+                📋 Sao chép Caption
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM GALLERY GRID -->
+    <div class="gallery-section">
+      <div class="gallery-heading">
+        <span>🎬 Bộ Sưu Tập 10 Tập Reels "Bạn Có Biết?"</span>
+      </div>
+      <div class="reels-grid" id="reelsGrid">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast">✅ Đã sao chép caption vào bộ nhớ tạm!</div>
+
+  <script>
+    const REELS_DATA = [
+  {
+    "id": 1,
+    "schedule": "2026-09-05 · 11:45",
+    "key": "reel_01_kien_can",
+    "video": "reels/reel_01_kien_can.mp4",
+    "thumb": "reels/reel_01/slide_01.jpg",
+    "title": "BỊ KIẾN CẮN: VÌ SAO BÔI VÔI HAY XÀ PHÒNG?",
+    "tag": "Đời sống",
+    "compound": "Axit Formic (HCOOH)",
+    "reaction": "2 HCOOH + Ca(OH)₂ → (HCOO)₂Ca + 2 H₂O",
+    "route": "calculator",
+    "hook": "Bạn có biết tại sao khi bị kiến cắn hay ong đốt, ông bà ta thường bảo bôi chút vôi hoặc xà phòng là dịu ngay không?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Bạn có biết tại sao khi bị kiến cắn hay ong đốt, ông bà ta thường bảo bôi chút vôi hoặc xà phòng là dịu ngay không?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Thủ phạm gây ngứa rát chính là Axit Formic — một axit hữu cơ đặc trưng có trong nọc độc kiến và côn trùng!"
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Vôi tôi Ca(OH)2 hay xà phòng có tính kiềm. Phản ứng trung hòa diễn ra tức thì, chuyển axit thành muối và nước vô hại, dập tắt cơn đau ngứa!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Kiểm tra độ pH và mô phỏng phản ứng trung hòa chỉ trong 1 giây tại website chính thức: ph-chem.web.app/calculator nhé!"
+      }
+    ],
+    "caption": "Bị kiến hay ong đốt — Vì sao ông bà ta thường bảo bôi chút vôi ăn trầu hoặc xà phòng là dịu ngay? 🐜🤯\n\nDưới góc nhìn hóa học, thủ phạm gây sưng rát chính là Axit Formic (HCOOH) có trong nọc độc kiến.\nKhi bôi vôi tôi Ca(OH)₂ hay xà phòng có tính kiềm, phản ứng trung hòa lập tức diễn ra:\n👉 2 HCOOH + Ca(OH)₂ → (HCOO)₂Ca + 2 H₂O\n\nAxit bị vô hiệu hóa thành muối canxi fomat và nước, dập tắt cơn đau ngứa tức thì!\n\n📱 Khám phá kho tàng hóa học và tính pH siêu tốc tại website chính thức:\n🌐 https://ph-chem.web.app/calculator\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #AxitFormic #MeoVatHoaHoc #HoaHocDoiSong #HocHoaOnline #CongCuHocTap"
+  },
+  {
+    "id": 2,
+    "schedule": "2026-09-05 · 19:45",
+    "key": "reel_02_da_noi",
+    "video": "reels/reel_02_da_noi.mp4",
+    "thumb": "reels/reel_02/slide_01.jpg",
+    "title": "NGHỊCH LÝ ĐÁ NỔI CỨU SỐNG HÀNH TINH",
+    "tag": "Tự nhiên",
+    "compound": "Phân tử Nước (H₂O)",
+    "reaction": "D(đá) = 0.917 g/cm³ < D(nước) = 1.0 g/cm³",
+    "route": "formulas",
+    "hook": "Gần như mọi chất khi đóng băng đều co lại và chìm xuống, nhưng tại sao nước đá lại nổi bồng bềnh trên mặt nước?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Gần như mọi chất khi đóng băng đều co lại và chìm xuống, nhưng tại sao nước đá lại nổi bồng bềnh trên mặt nước?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Theo dữ liệu thực tiễn trên pH-Chem: Khi hạ dưới 4 độ C, các liên kết hydro đẩy phân tử nước dãn nở thành mạng tinh thể lục giác rỗng!"
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Nhờ đá nổi lên, bề mặt hồ tạo thành tấm chăn cách nhiệt hoàn hảo, giúp sinh vật thủy sinh dưới đáy sống sót qua mùa đông buốt giá!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Khám phá cấu trúc không gian 3D của Nước và hơn 340 hợp chất hóa học tại website: ph-chem.web.app/formulas nhé!"
+      }
+    ],
+    "caption": "Vì sao đá nổi trên nước? Một \"lỗi lập trình\" tuyệt đẹp của tự nhiên cứu sống cả Trái Đất! 🧊✨\n\nGần như mọi chất khi đông đặc đều co lại và chìm xuống. Nhưng khi nước hạ dưới 4°C, các liên kết hydro đẩy phân tử nước dãn nở thành mạng tinh thể lục giác rỗng kỳ lạ, làm khối lượng riêng của đá nhẹ hơn nước lỏng!\n\nNhờ đá nổi lên trên, bề mặt sông hồ tạo thành tấm chăn cách nhiệt hoàn hảo, giữ ấm cho sinh vật thủy sinh sống sót qua mùa đông buốt giá. Nếu đá chìm, các đại dương sẽ đông cứng từ đáy lên và sự sống Trái Đất bị xóa sổ!\n\n📱 Xem cấu trúc phân tử 3D chuẩn IUPAC tại website chính thức:\n🌐 https://ph-chem.web.app/formulas\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #NuocDa #LienKetHydro #KhoaHocThuVi #HocHoaDeDang #HoaHoc10"
+  },
+  {
+    "id": 3,
+    "schedule": "2026-09-06 · 11:45",
+    "key": "reel_03_con_70_do",
+    "video": "reels/reel_03_con_70_do.mp4",
+    "thumb": "reels/reel_03/slide_01.jpg",
+    "title": "VÌ SAO CỒN 70° DIỆT KHUẨN TỐT HƠN CỒN 90°?",
+    "tag": "Y học",
+    "compound": "Ethanol (C₂H₅OH)",
+    "reaction": "C₁V₁ = C₂V₂ (Pha loãng nồng độ)",
+    "route": "calculator",
+    "hook": "Độ cồn càng cao thì diệt khuẩn càng mạnh? Sự thật hoàn toàn ngược lại: Cồn 70 độ sát trùng tốt hơn cồn 90 độ rất nhiều!",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Độ cồn càng cao thì diệt khuẩn càng mạnh? Sự thật hoàn toàn ngược lại: Cồn 70 độ sát trùng tốt hơn cồn 90 độ rất nhiều!"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Cồn 90% quá háo nước, làm đông tụ vỏ ngoài protein của vi khuẩn quá nhanh, vô tình tạo bức tường bảo vệ nhân vi khuẩn bên trong!"
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Tỷ lệ vàng 70% cồn và 30% nước giúp làm chậm quá trình đông tụ, cho phép cồn thẩm thấu sâu vào nhân và tiêu diệt mầm bệnh tận gốc!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Tính toán tỷ lệ pha loãng nồng độ cồn và dung dịch chỉ trong 1 chạm tại: ph-chem.web.app/calculator nhé!"
+      }
+    ],
+    "caption": "Đừng nhầm lẫn: Cồn 70 độ sát trùng mạnh hơn cồn 90 độ rất nhiều! 🧪⚠️\n\nCồn 90% quá háo nước làm đông tụ lớp vỏ protein của vi khuẩn quá nhanh, vô tình tạo bức tường bảo vệ nhân vi khuẩn bên trong.\n\nTrong khi đó, tỷ lệ vàng 70% ethanol + 30% nước làm chậm quá trình đông tụ, giúp cồn thẩm thấu sâu vào nhân tế bào và tiêu diệt mầm bệnh tận gốc!\n\n📱 Tính toán tỷ lệ pha loãng nồng độ dung dịch siêu tốc tại:\n🌐 https://ph-chem.web.app/calculator\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #Ethanol #SatKhuan #KienThucYKhoa #MayTinhHoaHoc #HocHoaOnline"
+  },
+  {
+    "id": 4,
+    "schedule": "2026-09-06 · 19:45",
+    "key": "reel_04_hanh_cay_mat",
+    "video": "reels/reel_04_hanh_cay_mat.mp4",
+    "thumb": "reels/reel_04/slide_01.jpg",
+    "title": "CẮT HÀNH TÂY VÌ SAO CHẢY NƯỚC MẮT?",
+    "tag": "Ẩm thực",
+    "compound": "Axit Sunfurơ (H₂SO₃)",
+    "reaction": "Khí lưu huỳnh + H₂O mắt → Axit loãng kích ứng",
+    "route": "formulas",
+    "hook": "Tại sao dù tâm trạng đang rất vui, nhưng chỉ cần bổ một củ hành tây là bạn lại khóc nức nở không kìm được?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Tại sao dù tâm trạng đang rất vui, nhưng chỉ cần bổ một củ hành tây là bạn lại khóc nức nở không kìm được?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Khi dao cắt đứt tế bào, enzim lập tức phân giải axit amin thành một chất khí chứa lưu huỳnh bay lơ lửng: Syn-propanethial-S-oxide!"
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Khí này bay lên tiếp xúc với nước mắt và chuyển thành dung dịch axit loãng. Tuyến lệ lập tức xả nước ồ ạt để bảo vệ giác mạc!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Tra cứu hàng trăm hợp chất hữu cơ và cấu trúc hóa học sinh động tại website chính thức: ph-chem.web.app/formulas nhé!"
+      }
+    ],
+    "caption": "Hóa ra cắt hành bị cay mắt là vì mắt bạn vừa tự chế tạo ra axit! 🧅👀\n\nKhi dao cắt vỡ tế bào hành, enzim giải phóng hợp chất lưu huỳnh bay hơi Syn-propanethial-S-oxide.\nKhí này bay lên gặp nước mắt tạo thành dung dịch axit loãng kích thích tuyến lệ. Mắt lập tức xả nước ồ ạt để rửa trôi axit!\n\n💡 Mẹo: Ngâm hành trong nước lạnh hoặc cho vào ngăn mát tủ lạnh trước khi cắt để giảm bay hơi nhé!\n\n📱 Tra cứu hàng trăm hợp chất hữu cơ tại website chính thức:\n🌐 https://ph-chem.web.app/formulas\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #HanhTay #HoaHocAmThuc #MeoNhaBep #KhoaHocCuocSong"
+  },
+  {
+    "id": 5,
+    "schedule": "2026-09-07 · 11:45",
+    "key": "reel_05_kim_cuong_chay",
+    "video": "reels/reel_05_kim_cuong_chay.mp4",
+    "thumb": "reels/reel_05/slide_01.jpg",
+    "title": "KIM CƯƠNG CÓ BỊ THIÊU RỤI THÀNH KHÓI?",
+    "tag": "Bất ngờ",
+    "compound": "Cacbon Đioxit (CO₂)",
+    "reaction": "C (kim cương) + O₂ → CO₂ ↑ (t° ≈ 800°C)",
+    "route": "table",
+    "hook": "Vật chất tự nhiên cứng nhất hành tinh — liệu một viên kim cương đắt giá có thể bị ngọn lửa thiêu rụi hoàn toàn không?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Vật chất tự nhiên cứng nhất hành tinh — liệu một viên kim cương đắt giá có thể bị ngọn lửa thiêu rụi hoàn toàn không?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Câu trả lời là CÓ! Kim cương và ruột bút chì than thực chất đều được cấu tạo từ một nguyên tố duy nhất: Cacbon thuần khiết!"
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Ở khoảng 800 độ C trong khí oxy, kim cương sẽ bốc cháy rực rỡ và biến thành khí CO2, bốc hơi sạch sẽ không để lại chút tro nào!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Khám phá bí mật của nguyên tố Cacbon và trọn bộ 118 nguyên tố trên Bảng tuần hoàn tại: ph-chem.web.app/table nhé!"
+      }
+    ],
+    "caption": "Vật chất tự nhiên cứng nhất hành tinh — liệu kim cương có bị ngọn lửa thiêu rụi thành khói không? 💎🤯\n\nCâu trả lời là CÓ! Kim cương và ruột bút chì than thực chất đều được cấu tạo từ 100% nguyên tố Cacbon thuần khiết.\nỞ khoảng 800°C trong oxy tinh khiết, kim cương sẽ bốc cháy rực rỡ và biến thành khí CO₂, bốc hơi sạch sẽ không để lại một hạt tro nào!\n👉 C (kim cương) + O₂ → CO₂ ↑\n\n📱 Khám phá bí mật nguyên tố Cacbon và 118 nguyên tố tại:\n🌐 https://ph-chem.web.app/table\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #KimCuong #Cacbon #BangTuanHoan #HoaHocKyThu"
+  },
+  {
+    "id": 6,
+    "schedule": "2026-09-07 · 19:45",
+    "key": "reel_06_baking_soda_giam",
+    "video": "reels/reel_06_baking_soda_giam.mp4",
+    "thumb": "reels/reel_06/slide_01.jpg",
+    "title": "BAKING SODA + GIẤM: NÚI LỬA TẨY RỬA",
+    "tag": "Ẩm thực",
+    "compound": "Axit Axetic (CH₃COOH)",
+    "reaction": "NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂ ↑",
+    "route": "reactions",
+    "hook": "Mẹo vặt dọn nhà nào cũng bảo trộn Baking Soda với Giấm. Nhưng dưới góc nhìn hóa học, điều gì thực sự xảy ra?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Mẹo vặt dọn nhà nào cũng bảo trộn Baking Soda với Giấm. Nhưng dưới góc nhìn hóa học, điều gì thực sự xảy ra?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Baking soda mang tính kiềm nhẹ, còn giấm là dung dịch axit axetic. Khi gặp nhau, chúng xảy ra phản ứng trao đổi cực kỳ mãnh liệt!"
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Chính áp lực cơ học từ hàng triệu bọt khí CO2 sủi tăm liên tục đã bóc tách các mảng bám dầu mỡ cứng đầu trong đường ống!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Cân bằng tự động mọi phương trình hóa học và xem hiện tượng thực tế chỉ trong 1 giây tại: ph-chem.web.app/reactions nhé!"
+      }
+    ],
+    "caption": "Trộn Baking Soda với Giấm — Bí mật tẩy rửa thần thánh dưới góc nhìn hóa học! 🌋✨\n\nBaking soda mang tính kiềm nhẹ gặp axit axetic trong giấm xảy ra phản ứng trao đổi mãnh liệt:\n👉 NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂ ↑\n\nÁp lực cơ học từ hàng triệu bọt khí CO₂ giải phóng dồn dập giúp bóc tách mảng bám dầu mỡ cứng đầu mà không làm hại bề mặt thiết bị!\n\n📱 Tự động cân bằng mọi phản ứng hóa học chỉ trong 1 giây tại:\n🌐 https://ph-chem.web.app/reactions\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #BakingSoda #CanBangPhuongTrinh #MeoVatGiaDinh #HocHoaDeHieu"
+  },
+  {
+    "id": 7,
+    "schedule": "2026-09-08 · 11:45",
+    "key": "reel_07_mau_phao_hoa",
+    "video": "reels/reel_07_mau_phao_hoa.mp4",
+    "thumb": "reels/reel_07/slide_01.jpg",
+    "title": "VÌ SAO PHÁO HOA CÓ MUÔN MÀU RỰC RỠ?",
+    "tag": "Đời sống",
+    "compound": "Đồng Sunfat (CuSO₄)",
+    "reaction": "Cu²⁺ (Lam) · Sr²⁺ (Đỏ) · Ba²⁺ (Lục) · Na⁺ (Vàng)",
+    "route": "table",
+    "hook": "Ai là họa sĩ bí mật vẽ nên những sắc màu rực rỡ bùng nổ của pháo hoa đêm giao thừa? Khám phá ngay bí mật hóa học này!",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Ai là họa sĩ bí mật vẽ nên những sắc màu rực rỡ bùng nổ của pháo hoa đêm giao thừa? Khám phá ngay bí mật hóa học này!"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Đó là vũ điệu của các nguyên tố kim loại! Khi bị nung nóng, các electron nhảy lên mức năng lượng cao rồi rơi về, phát ra ánh sáng đơn sắc!"
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Muối đồng cho màu xanh lam huyền ảo, Stronti cho màu đỏ rực, Bari cho màu xanh lục, và Natri cho ánh sáng vàng chói lọi!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Tra cứu tính chất ngọn lửa và màu sắc nhận biết kim loại trong Bảng tuần hoàn tại: ph-chem.web.app/table nhé!"
+      }
+    ],
+    "caption": "Ai là \"họa sĩ\" bí mật vẽ nên những sắc màu rực rỡ bùng nổ của pháo hoa đêm giao thừa? 🎆🎨\n\nĐó là vũ điệu của các electron trong ion kim loại! Khi bị nung nóng rồi hạ mức năng lượng, chúng phát ra ánh sáng đơn sắc đặc trưng:\n🔹 Muối Đồng (Cu²⁺): Xanh lam huyền ảo\n🔸 Muối Stronti (Sr²⁺): Đỏ son rực rỡ\n🔹 Muối Bari (Ba²⁺): Xanh lục\n🔸 Muối Natri (Na⁺): Vàng chói lọi!\n\n📱 Tra cứu tính chất ngọn lửa và màu sắc kim loại tại:\n🌐 https://ph-chem.web.app/table\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #PhaoHoa #ThuMauNgonLua #KimLoai #VatLyHoaHoc"
+  },
+  {
+    "id": 8,
+    "schedule": "2026-09-08 · 19:45",
+    "key": "reel_08_mau_xanh_muc_cua",
+    "video": "reels/reel_08_mau_xanh_muc_cua.mp4",
+    "thumb": "reels/reel_08/slide_01.jpg",
+    "title": "VÌ SAO SAM BIỂN CÓ MÁU XANH DƯƠNG?",
+    "tag": "Cơ thể",
+    "compound": "Phức Đồng Cu(II)",
+    "reaction": "Máu đỏ: Fe²⁺ (Hemoglobin)  vs  Máu xanh: Cu²⁺ (Hemocyanin)",
+    "route": "electro",
+    "hook": "Bạn có tin trên hành tinh chúng ta thực sự tồn tại những sinh vật mang dòng máu màu xanh dương quý tộc tự nhiên không?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Bạn có tin trên hành tinh chúng ta thực sự tồn tại những sinh vật mang dòng máu màu xanh dương quý tộc tự nhiên không?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Máu con người màu đỏ vì protein Hemoglobin chứa ion Sắt Fe2+ làm lõi vận chuyển phân tử oxy đi khắp cơ thể."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Nhưng mực và sam biển sống dưới đáy biển lạnh lại dùng Hemocyanin chứa ion Đồng Cu2+. Khi gắn với oxy, máu của chúng hóa màu xanh biếc!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Khám phá thế điện cực, phức chất và tính chất kim loại trên công cụ Dãy điện hóa tại: ph-chem.web.app/electro nhé!"
+      }
+    ],
+    "caption": "Bí mật dòng máu màu xanh dương quý tộc của mực và sam biển! 🦀💙\n\nMáu người màu đỏ vì protein Hemoglobin chứa ion Sắt (Fe²⁺) làm lõi vận chuyển oxy.\nCòn mực, bạch tuộc và sam biển sống ở đáy biển sâu lạnh giá lại dùng protein Hemocyanin chứa ion Đồng (Cu²⁺) — khi gắn với oxy sẽ chuyển sang màu xanh lam ngọc bích quý giá!\n\n📱 Tìm hiểu thế điện cực, phức chất và vai trò sinh học tại:\n🌐 https://ph-chem.web.app/electro\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #MauXanh #Hemoglobin #Hemocyanin #SinhHocHoaHoc"
+  },
+  {
+    "id": 9,
+    "schedule": "2026-09-09 · 11:45",
+    "key": "reel_09_nuoc_ngot_co_ga",
+    "video": "reels/reel_09_nuoc_ngot_co_ga.mp4",
+    "thumb": "reels/reel_09/slide_01.jpg",
+    "title": "TIẾNG XÌ XÌ BÍ ẨN CỦA NƯỚC NGỌT",
+    "tag": "Ẩm thực",
+    "compound": "Axit Cacbonic (H₂CO₃)",
+    "reaction": "CO₂ (khí) + H₂O ⇌ H₂CO₃ (dung dịch)",
+    "route": "quiz",
+    "hook": "Tiếng xì xì sảng khoái mỗi khi giật nắp lon nước ngọt thực chất là một bài toán cân bằng hóa học kinh điển trong đời sống!",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Tiếng xì xì sảng khoái mỗi khi giật nắp lon nước ngọt thực chất là một bài toán cân bằng hóa học kinh điển trong đời sống!"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Trong nhà máy, khí CO2 được nén dưới áp suất cao vào nước ngọt để hòa tan thành axit cacbonic H2CO3 tạo vị tê the mát."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Khi mở nắp, áp suất giảm đột ngột. Cân bằng lập tức chuyển dịch sang chiều nghịch, giải phóng ồ ạt hàng triệu bọt khí CO2 ra ngoài!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Ôn luyện ngay các câu hỏi thực tế về Chuyển dịch cân bằng hóa học trong phòng thi 30 giây tại: ph-chem.web.app/quiz nhé!"
+      }
+    ],
+    "caption": "Tiếng \"xì xì\" sảng khoái khi mở lon nước ngọt từ đâu ra? 🥤💨\n\nTrong nhà máy, khí CO₂ được nén dưới áp suất cao để hòa tan vào nước ngọt tạo axit cacbonic H₂CO₃ mang vị tê tê the mát.\nKhi bạn mở nắp, áp suất tụt giảm đột ngột khiến cân bằng hóa học dịch chuyển theo chiều nghịch (nguyên lý Le Chatelier), giải phóng ồ ạt hàng triệu bọt khí CO₂ sủi tăm!\n👉 CO₂ (khí) + H₂O ⇌ H₂CO₃ (dung dịch)\n\n📱 Luyện đề trắc nghiệm cân bằng hóa học 30s tại:\n🌐 https://ph-chem.web.app/quiz\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #NuocNgot #CanBangHoaHoc #LeChatelier #LuyenDeHoa"
+  },
+  {
+    "id": 10,
+    "schedule": "2026-09-09 · 19:45",
+    "key": "reel_10_tui_khi_o_to",
+    "video": "reels/reel_10_tui_khi_o_to.mp4",
+    "thumb": "reels/reel_10/slide_01.jpg",
+    "title": "TÚI KHÍ Ô TÔ: NỔ CỨU MẠNG TRONG 0.03s",
+    "tag": "An toàn",
+    "compound": "Khí Nitơ (N₂)",
+    "reaction": "2 NaN₃ → 2 Na + 3 N₂ ↑ (Thời gian < 0.03s)",
+    "route": "calculator",
+    "hook": "Chỉ mất 0,03 giây để cứu mạng một con người — túi khí ô tô lấy đâu ra lượng khí khổng lồ nhanh thần tốc đến như vậy?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Chỉ mất 0,03 giây để cứu mạng một con người — túi khí ô tô lấy đâu ra lượng khí khổng lồ nhanh thần tốc đến như vậy?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Không có máy nén khí nào phản ứng kịp! Bên trong túi khí chứa một lượng thuốc nổ rắn Natri Azide NaN3!"
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Khi va chạm mạnh, cảm biến kích hoạt tia lửa điện làm NaN3 phân hủy chớp nhoáng, tạo ra hàng chục lít khí Nitơ N2 thổi phồng túi khí!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Tính toán thể tích khí sinh ra, số mol và giải bài tập hóa học siêu tốc tại: ph-chem.web.app/calculator nhé!"
+      }
+    ],
+    "caption": "Chỉ 0,03 giây để cứu một mạng người — túi khí ô tô lấy đâu ra lượng khí khổng lồ nhanh đến vậy? 🚗⚡\n\nKhông có máy nén khí nào phản ứng kịp! Bên trong túi khí chứa một lượng thuốc nổ rắn Natri Azide (NaN₃).\nKhi va chạm mạnh, cảm biến kích hoạt xung điện làm NaN₃ phân hủy siêu thanh:\n👉 2 NaN₃ → 2 Na + 3 N₂ ↑\nGiải phóng hàng chục lít khí Nitơ trơ vô hại thổi phồng túi đệm trước khi người lái bị va đập!\n\n📱 Tính toán số mol, thể tích khí và khối lượng mol tại:\n🌐 https://ph-chem.web.app/calculator\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #TuiKhiOTo #TocDoPhanUng #HoaHocUngDung #CongCuHocTap"
+  },
+  {
+    "id": 11,
+    "schedule": "2026-09-10 · 11:45",
+    "key": "reel_11_trung_luoc_xam_xanh",
+    "video": "reels/reel_11_trung_luoc_xam_xanh.mp4",
+    "thumb": "reels/reel_11_trung_luoc_xam_xanh/slide_01.jpg",
+    "title": "VÌ SAO LÒNG ĐỎ TRỨNG CÓ VIỀN XÁM XANH?",
+    "tag": "Ẩm thực",
+    "compound": "Sắt(II) Sunfua (FeS)",
+    "reaction": "Fe²⁺ (lòng đỏ) + H₂S (lòng trắng) → FeS ↓",
+    "route": "formulas",
+    "hook": "Bạn có biết tại sao khi luộc trứng gà quá lâu, bề mặt lòng đỏ lại xuất hiện một lớp viền màu xám xanh kỳ lạ không?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Bạn có biết tại sao khi luộc trứng gà quá lâu, bề mặt lòng đỏ lại xuất hiện một lớp viền màu xám xanh kỳ lạ không?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Khi bị đun nóng lâu, protein lòng trắng giải phóng khí hydro sunfua H2S có mùi đặc trưng."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Khí H2S khuếch tán vào lòng đỏ gặp ion sắt Fe2+ tạo kết tủa sắt sunfua FeS màu xám đen bao quanh lòng đỏ!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Khám phá cấu trúc của 340 hợp chất hóa học tại website chính thức: ph-chem.web.app/formulas nhé!"
+      }
+    ],
+    "caption": "Luộc trứng quá kỹ vì sao lòng đỏ lại xuất hiện một lớp viền màu xám xanh? 🥚🍳\n\nĐun sôi lâu phân giải protein lòng trắng sinh khí hydro sunfua H₂S. Khí này khuếch tán vào lòng đỏ gặp ion sắt Fe²⁺ tạo kết tủa sắt(II) sunfua FeS màu xám đen bao quanh bề mặt!\n👉 Fe²⁺ + H₂S → FeS ↓ + 2 H⁺\n\nLớp viền này hoàn toàn vô hại nhưng làm giảm vị béo ngậy. Mẹo nhỏ: Luộc xong ngâm ngay vào nước lạnh để hạ nhiệt tức thì nhé!\n\n📱 Tra cứu cấu trúc 340 hợp chất hóa học tại:\n🌐 https://ph-chem.web.app/formulas\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #TrungLuoc #FeS #HoaHocAmThuc #MeoVatNhaBep"
+  },
+  {
+    "id": 12,
+    "schedule": "2026-09-10 · 19:45",
+    "key": "reel_12_thang_duong_caramel",
+    "video": "reels/reel_12_thang_duong_caramel.mp4",
+    "thumb": "reels/reel_12_thang_duong_caramel/slide_01.jpg",
+    "title": "ĐUN ĐƯỜNG THẮNG NƯỚC HÀNG: CARAMEL HÓA",
+    "tag": "Ẩm thực",
+    "compound": "Saccarozơ (C₁₂H₂₂O₁₁)",
+    "reaction": "C₁₂H₂₂O₁₁ → Hợp chất màu nâu caramel + Hương thơm",
+    "route": "reactions",
+    "hook": "Tại sao khi thắng đường kho thịt, từ những hạt đường trắng tinh lại biến thành màu nâu cánh gián thơm nức mũi?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Tại sao khi thắng đường kho thịt, từ những hạt đường trắng tinh lại biến thành màu nâu cánh gián thơm nức mũi?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Đó là phản ứng Caramel hóa! Ở nhiệt độ trên 160 độ C, đường saccarozơ bị nhiệt phân và mất nước liên tục."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Các phân tử mới tạo màu nâu óng ả và hợp chất furan mang lại mùi thơm ngậy kích thích khứu giác!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Tra cứu phản ứng hóa học và cân bằng phương trình tự động tại: ph-chem.web.app/reactions nhé!"
+      }
+    ],
+    "caption": "Thắng đường kho thịt — Bí mật phản ứng Caramel hóa đỉnh cao của ẩm thực! 🍮✨\n\nỞ nhiệt độ trên 160°C, các phân tử đường saccarozơ C₁₂H₂₂O₁₁ bị nhiệt phân và mất nước liên tục, bẻ gãy cấu trúc để tái tổ hợp thành hàng trăm chất mới:\n🔹 Caramelan & Caramelen: Tạo màu nâu óng ả cánh gián\n🔸 Hợp chất Furan: Tỏa hương thơm ngậy ngọt ngào kích thích khứu giác!\n\n📱 Khám phá phản ứng hóa học tự động tại website:\n🌐 https://ph-chem.web.app/reactions\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #Caramel #ThangDuong #HoaHocDoiSong #AmThucVietNam"
+  },
+  {
+    "id": 13,
+    "schedule": "2026-09-11 · 11:45",
+    "key": "reel_13_chanh_tay_can_am",
+    "video": "reels/reel_13_chanh_tay_can_am.mp4",
+    "thumb": "reels/reel_13_chanh_tay_can_am/slide_01.jpg",
+    "title": "CHANH TẨY SẠCH CẶN ẤM ĐUN NƯỚC",
+    "tag": "Mẹo vặt",
+    "compound": "Axit Citric (C₆H₈O₇)",
+    "reaction": "2 C₆H₈O₇ + 3 CaCO₃ → Ca₃(C₆H₅O₇)₂ + 3 CO₂ ↑",
+    "route": "calculator",
+    "hook": "Đáy ấm đun nước bám cặn vôi cứng ngắc cọ mãi không sạch? Chỉ cần nửa quả chanh đun sôi là sáng bóng như mới!",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Đáy ấm đun nước bám cặn vôi cứng ngắc cọ mãi không sạch? Chỉ cần nửa quả chanh đun sôi là sáng bóng như mới!"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Cặn ấm chính là canxi cacbonat CaCO3 kết tủa khi đun sôi nước cứng chứa muối canxi hidrocacbonat."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Axit citric trong chanh phản ứng hòa tan hoàn toàn lớp cặn đá vôi thành muối canxi citrat tan biến trong nước!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Tính toán pH và mô phỏng phản ứng axit bazơ siêu tốc tại website: ph-chem.web.app/calculator nhé!"
+      }
+    ],
+    "caption": "Đáy ấm đun nước bám cặn đá vôi cứng ngắc? Chỉ cần nửa quả chanh là sáng bóng như mới! 🍋✨\n\nCặn nước đun sôi chính là canxi cacbonat CaCO₃ kết tủa từ nước cứng.\nAxit citric trong chanh phản ứng hòa tan hoàn toàn lớp cặn đá vôi thành muối canxi citrat tan biến trong nước:\n👉 2 C₆H₈O₇ + 3 CaCO₃ → Ca₃(C₆H₅O₇)₂ + 3 CO₂ ↑ + 3 H₂O\n\nVừa sạch bong kin kít vừa thơm mát tự nhiên, an toàn gấp vạn lần hóa chất tẩy rửa công nghiệp!\n\n📱 Máy tính pH và mô phỏng phản ứng axit - bazơ siêu tốc tại:\n🌐 https://ph-chem.web.app/calculator\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #AxitCitric #TayCanAm #MeoVatGiaDinh #HoaHocMoiNgay"
+  },
+  {
+    "id": 14,
+    "schedule": "2026-09-11 · 19:45",
+    "key": "reel_14_uong_sua_giam_cay",
+    "video": "reels/reel_14_uong_sua_giam_cay.mp4",
+    "thumb": "reels/reel_14_uong_sua_giam_cay/slide_01.jpg",
+    "title": "VÌ SAO UỐNG SỮA GIẢM CAY XÉ LƯỠI?",
+    "tag": "Ẩm thực",
+    "compound": "Protein Casein & Capsaicin",
+    "reaction": "Casein (ưa dầu) + Capsaicin → Rửa trôi chất cay",
+    "route": "formulas",
+    "hook": "Khi ăn phải ớt cay xé lưỡi, uống cả lít nước lọc vẫn rát bỏng, nhưng chỉ cần một ngụm sữa tươi là êm dịu ngay?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Khi ăn phải ớt cay xé lưỡi, uống cả lít nước lọc vẫn rát bỏng, nhưng chỉ cần một ngụm sữa tươi là êm dịu ngay?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Thủ phạm gây cay là Capsaicin — một chất kỵ nước, không tan trong nước nên uống nước lọc chỉ làm chất cay loang khắp miệng!"
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Trong sữa chứa protein Casein ưa dầu đóng vai trò như xà phòng sinh học, bao bọc và cuốn trôi capsaicin khỏi lưỡi."
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Khám phá thế giới hóa học ẩm thực kỳ thú tại website chính thức: ph-chem.web.app/formulas nhé!"
+      }
+    ],
+    "caption": "Ăn ớt cay xé lưỡi — Uống nước lọc càng cay, nhưng uống sữa tươi lại êm dịu ngay? 🥛🌶️\n\nThủ phạm gây cay là Capsaicin — một chất kỵ nước tuyệt đối, không tan trong nước nên uống nước chỉ làm loang chất cay khắp khoang miệng!\n\nTrong sữa tươi chứa hàm lượng lớn protein Casein ưa dầu. Casein hoạt động như \"xà phòng sinh học\", ôm lấy các phân tử capsaicin và cuốn trôi chúng khỏi thụ thể vị giác trên lưỡi!\n\n📱 Tra cứu cấu trúc hóa học phân tử tại:\n🌐 https://ph-chem.web.app/formulas\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #Capsaicin #Casein #GiamCay #KienThucSinhHoc"
+  },
+  {
+    "id": 15,
+    "schedule": "2026-09-12 · 11:45",
+    "key": "reel_15_mi_chinh_msg",
+    "video": "reels/reel_15_mi_chinh_msg.mp4",
+    "thumb": "reels/reel_15_mi_chinh_msg/slide_01.jpg",
+    "title": "BỘT NGỌT MSG: VỊ UMAMI THỨ NĂM",
+    "tag": "Ẩm thực",
+    "compound": "Mononatri Glutamat (MSG)",
+    "reaction": "Glutamat kích hoạt thụ thể Umami trên lưỡi",
+    "route": "table",
+    "hook": "Bột ngọt hay mì chính thực chất được tạo ra từ đâu và vì sao nó lại mang lại vị ngọt thịt quyến rũ đến thế?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Bột ngọt hay mì chính thực chất được tạo ra từ đâu và vì sao nó lại mang lại vị ngọt thịt quyến rũ đến thế?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Mì chính là muối natri của axit glutamic — một axit amin có mặt tự nhiên trong thịt bò, nấm và cà chua chín mọng."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Khi hòa tan, ion glutamat gắn vào thụ thể Umami trên lưỡi, báo hiệu cho não bộ biết đây là món ăn giàu đạm dinh dưỡng!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Khám phá bí mật các axit amin và 118 nguyên tố tại website: ph-chem.web.app/table nhé!"
+      }
+    ],
+    "caption": "Bột ngọt mì chính (MSG) thực chất là gì và vì sao lại mang vị ngọt thịt thần thánh? 🍜🔬\n\nMì chính là Monosodium Glutamate — muối natri của axit glutamic, một amino axit thiết yếu cấu tạo nên protein, có sẵn tự nhiên trong thịt bò, nấm và phô mai.\n\nKhi nếm, ion glutamat kích hoạt thụ thể Umami (vị ngon thứ năm bên cạnh ngọt, mặn, chua, đắng), báo hiệu cho não bộ biết đây là nguồn thực phẩm giàu dinh dưỡng!\n\n📱 Khám phá bảng tuần hoàn và các axit amin tại:\n🌐 https://ph-chem.web.app/table\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #BotNgot #MSG #Umami #HoaHocThucPham #GiaVi"
+  },
+  {
+    "id": 16,
+    "schedule": "2026-09-12 · 19:45",
+    "key": "reel_16_mui_tanh_ca_giam",
+    "video": "reels/reel_16_mui_tanh_ca_giam.mp4",
+    "thumb": "reels/reel_16_mui_tanh_ca_giam/slide_01.jpg",
+    "title": "KHỬ MÙI TANH CÁ BẰNG GIẤM HOẶC RƯỢU",
+    "tag": "Mẹo vặt",
+    "compound": "Axit Axetic & Trimetylamin",
+    "reaction": "(CH₃)₃N (mùi tanh) + CH₃COOH → Muối tan",
+    "route": "reactions",
+    "hook": "Tại sao khi sơ chế cá sống, chỉ cần rửa qua một chút giấm ăn hoặc rượu trắng là mùi tanh biến mất không còn dấu vết?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Tại sao khi sơ chế cá sống, chỉ cần rửa qua một chút giấm ăn hoặc rượu trắng là mùi tanh biến mất không còn dấu vết?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Mùi tanh đặc trưng của cá do hợp chất trimetylamin gây ra — một amin mang tính bazơ hữu cơ rất dễ bay hơi."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Axit axetic trong giấm lập tức trung hòa amin bazơ thành muối không bay hơi, triệt tiêu hoàn toàn mùi tanh khó chịu!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Tra cứu phản ứng trung hòa và cấu trúc hóa học tại: ph-chem.web.app/reactions nhé!"
+      }
+    ],
+    "caption": "Khử sạch mùi tanh của cá chỉ với một thìa giấm ăn hoặc rượu trắng! 🐟🍶\n\nMùi tanh nồng của cá do hợp chất trimetylamin (CH₃)₃N gây ra — một amin mang tính bazơ hữu cơ rất dễ bay hơi vào không khí.\n\nAxit axetic trong giấm lập tức phản ứng trung hòa amin bazơ thành muối không bay hơi:\n👉 (CH₃)₃N + CH₃COOH → (CH₃)₃NH⁺ CH₃COO⁻\n\nMuối này tan hoàn toàn trong nước và trôi sạch khi rửa, trả lại món cá thơm ngon tuyệt hảo!\n\n📱 Tra cứu phản ứng hóa học tự động tại:\n🌐 https://ph-chem.web.app/reactions\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #MuiTanhCa #GiAmAn #MeoVatNauAn #HoaHocCuocSong"
+  },
+  {
+    "id": 17,
+    "schedule": "2026-09-13 · 11:45",
+    "key": "reel_17_men_no_banh_mi",
+    "video": "reels/reel_17_men_no_banh_mi.mp4",
+    "thumb": "reels/reel_17_men_no_banh_mi/slide_01.jpg",
+    "title": "BÁNH MÌ PHỒNG XỐP: SINH KHÍ CO₂",
+    "tag": "Ẩm thực",
+    "compound": "Khí Cacbonic (CO₂)",
+    "reaction": "C₆H₁₂O₆ → 2 C₂H₅OH + 2 CO₂ ↑ (làm nở bột)",
+    "route": "calculator",
+    "hook": "Làm thế nào mà một cục bột mì đặc quánh lại nở phồng xốp thành ổ bánh mì giòn tan thơm phức?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Làm thế nào mà một cục bột mì đặc quánh lại nở phồng xốp thành ổ bánh mì giòn tan thơm phức?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Bí mật nằm ở nấm men bánh mì! Chúng phân giải đường trong bột mì và thực hiện quá trình lên men sinh khí."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Hàng triệu bọt khí CO2 bị mạng lưới gluten giữ lại, dãn nở mạnh khi nướng tạo nên những lỗ xốp mềm mại!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Tính toán lượng chất khí và nồng độ dung dịch siêu tốc tại: ph-chem.web.app/calculator nhé!"
+      }
+    ],
+    "caption": "Làm thế nào mà cục bột mì đặc quánh lại nở phồng xốp thành ổ bánh mì giòn tan? 🍞✨\n\nĐó là công lao của hàng tỷ sinh vật nấm men bánh mì! Chúng \"ăn\" đường trong bột và thực hiện phản ứng lên men rượu:\n👉 C₆H₁₂O₆ → 2 C₂H₅OH + 2 CO₂ ↑\n\nHàng triệu bọt khí CO₂ sinh ra bị giữ lại bên trong mạng lưới protein gluten dẻo dai. Khi đưa vào lò nướng, khí CO₂ dãn nở nhiệt làm phồng to các khoang rỗng tạo nên ruột bánh mềm xốp tuyệt hảo!\n\n📱 Tính toán thể tích khí và khối lượng mol tại:\n🌐 https://ph-chem.web.app/calculator\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #BanhMi #NamMen #LênMen #KhiCO2 #HocHoaOnline"
+  },
+  {
+    "id": 18,
+    "schedule": "2026-09-13 · 19:45",
+    "key": "reel_18_tao_got_vo_tham",
+    "video": "reels/reel_18_tao_got_vo_tham.mp4",
+    "thumb": "reels/reel_18_tao_got_vo_tham/slide_01.jpg",
+    "title": "VÌ SAO TÁO BỔ RA LẠI BỊ THÂM ĐEN?",
+    "tag": "Ẩm thực",
+    "compound": "Polyphenol & Enzim Oxy Hóa",
+    "reaction": "Polyphenol + O₂ (xúc tác PPO) → Melanin nâu xỉn",
+    "route": "formulas",
+    "hook": "Vừa gọt xong quả táo đặt ra đĩa được vài phút là miếng táo đã bị thâm xỉn xấu xí — thủ phạm hóa học là gì?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Vừa gọt xong quả táo đặt ra đĩa được vài phút là miếng táo đã bị thâm xỉn xấu xí — thủ phạm hóa học là gì?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Khi dao cắt rách tế bào, các hợp chất polyphenol bên trong tiếp xúc trực tiếp với oxy trong không khí."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Enzim polyphenol oxidase xúc tác phản ứng tạo ra sắc tố melanin màu nâu sẫm — tương tự sắc tố da người!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Khám phá thế giới phân tử tự nhiên kỳ thú tại website chính thức: ph-chem.web.app/formulas nhé!"
+      }
+    ],
+    "caption": "Vừa gọt quả táo đặt ra đĩa vài phút đã bị thâm xỉn — Thủ phạm khoa học là gì? 🍏🍂\n\nKhi dao cắt làm rách tế bào thực vật, các hợp chất polyphenol bên trong tiếp xúc trực tiếp với oxy trong không khí.\nDưới sự xúc tác của enzim Polyphenol Oxidase (PPO), polyphenol bị oxy hóa liên hoàn tạo thành Melanin — sắc tố màu nâu sẫm tương tự sắc tố da người!\n\n💡 Mẹo: Ngâm miếng táo vào nước muối loãng hoặc nước chanh để ức chế enzim, giữ táo trắng giòn suốt cả ngày nhé!\n\n📱 Xem cấu trúc các chất chống oxy hóa tại:\n🌐 https://ph-chem.web.app/formulas\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #TaoTham #Polyphenol #OxyHoa #MeoNhaBep #KhoaHocThuVi"
+  },
+  {
+    "id": 19,
+    "schedule": "2026-09-14 · 11:45",
+    "key": "reel_19_muoi_iot",
+    "video": "reels/reel_19_muoi_iot.mp4",
+    "thumb": "reels/reel_19_muoi_iot/slide_01.jpg",
+    "title": "MUỐI I-ỐT: VI LƯỢNG CỨU TUYẾN GIÁP",
+    "tag": "Y học",
+    "compound": "Kali Iotua (KI)",
+    "reaction": "Iot là nguyên liệu tổng hợp hormone Thyroxine",
+    "route": "table",
+    "hook": "Cả đời người chỉ cần một lượng I-ốt bé bằng hạt đậu, nhưng nếu thiếu nó thì cơ thể sẽ phải đối mặt với thảm họa gì?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Cả đời người chỉ cần một lượng I-ốt bé bằng hạt đậu, nhưng nếu thiếu nó thì cơ thể sẽ phải đối mặt với thảm họa gì?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Tuyến giáp bắt buộc phải có ion iotua để tổng hợp hormone thyroxine điều hòa toàn bộ quá trình trao đổi chất của cơ thể."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Thiếu I-ốt khiến tuyến giáp phải phình to thành bướu cổ và làm trẻ nhỏ suy giảm trí tuệ vĩnh viễn!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Khám phá vai trò sinh học của 118 nguyên tố tại website: ph-chem.web.app/table nhé!"
+      }
+    ],
+    "caption": "Cả đời người chỉ cần một lượng I-ốt bé bằng hạt đậu, nhưng thiếu nó sẽ dẫn tới hậu quả khôn lường! 🧂🧠\n\nTuyến giáp bắt buộc phải có ion iotua để tổng hợp hormone Thyroxine (T4) — hormone điều khiển tốc độ trao đổi chất, nhịp tim và sự phát triển trí tuệ.\n\nThiếu I-ốt làm tuyến giáp phải phình to hết cỡ để cố gắng bắt giữ từng phân tử iot, tạo thành khối bướu cổ và làm trẻ nhỏ bị thiểu năng trí tuệ vĩnh viễn.\n\n📱 Khám phá vai trò sinh học của 118 nguyên tố tại:\n🌐 https://ph-chem.web.app/table\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #MuoiIot #TuyenGiap #YTeDuPhong #BangTuanHoan"
+  },
+  {
+    "id": 20,
+    "schedule": "2026-09-14 · 19:45",
+    "key": "reel_20_phan_ung_maillard",
+    "video": "reels/reel_20_phan_ung_maillard.mp4",
+    "thumb": "reels/reel_20_phan_ung_maillard/slide_01.jpg",
+    "title": "PHẢN ỨNG MAILLARD: MÙI THỊT NƯỚNG",
+    "tag": "Ẩm thực",
+    "compound": "Amino Axit & Đường Khử",
+    "reaction": "Amino Axit + Đường (ở 140°C) → Mùi thơm phức",
+    "route": "quiz",
+    "hook": "Mùi thịt nướng xèo xèo, vỏ bánh mì giòn rụm thơm lừng kích thích mọi giác quan — điều kỳ diệu nào tạo nên?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Mùi thịt nướng xèo xèo, vỏ bánh mì giòn rụm thơm lừng kích thích mọi giác quan — điều kỳ diệu nào tạo nên?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Đó là phản ứng Maillard kinh điển! Xảy ra ở nhiệt độ 140 đến 165 độ C giữa amino axit và đường khử."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Phản ứng sinh ra hàng trăm phân tử hương thơm đặc trưng: mùi bơ, mùi hạt dẻ và màu vàng nâu bắt mắt!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Luyện đề trắc nghiệm hóa học tương tác 30 giây cực vui tại: ph-chem.web.app/quiz nhé!"
+      }
+    ],
+    "caption": "Mùi thịt nướng xèo xèo thơm nức mũi — Phép màu của phản ứng Maillard vĩ đại! 🥩✨\n\nKhi nấu nướng ở nhiệt độ 140°C đến 165°C, các amino axit từ protein phản ứng với đường khử trong thực phẩm.\nPhản ứng này tạo ra hàng trăm hợp chất mùi vị mới:\n🔹 Mùi khói, mùi bơ, mùi hạt dẻ nướng\n🔸 Sắc vàng nâu giòn rụm kích thích vị giác tột đỉnh!\n\n📱 Thử thách trắc nghiệm hóa học tương tác 30s tại:\n🌐 https://ph-chem.web.app/quiz\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #PhanUngMaillard #ThitNuong #KhoaHocAmThuc #LuyenDeHoa"
+  },
+  {
+    "id": 21,
+    "schedule": "2026-09-15 · 11:45",
+    "key": "reel_21_chanh_rau_muong",
+    "video": "reels/reel_21_chanh_rau_muong.mp4",
+    "thumb": "reels/reel_21_chanh_rau_muong/slide_01.jpg",
+    "title": "VẮT CHANH VÀO CANH RAU MUỐNG",
+    "tag": "Ẩm thực",
+    "compound": "Axit Citric & Clorophyl",
+    "reaction": "Axit biến Clorophyl thành Pheophytin vàng đỏ",
+    "route": "calculator",
+    "hook": "Tại sao bát canh rau muống đang xanh ngắt, chỉ cần vắt vào nửa quả chanh là nước canh chuyển sang màu hồng đỏ?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Tại sao bát canh rau muống đang xanh ngắt, chỉ cần vắt vào nửa quả chanh là nước canh chuyển sang màu hồng đỏ?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Nước luộc rau muống chứa hợp chất diệp lục và anthocyanin có đặc tính đổi màu theo độ pH của môi trường."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Axit citric trong chanh hạ độ pH xuống môi trường axit, làm ion magie trong diệp lục bị thay thế và đổi màu nước canh!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Kiểm tra độ pH và các thang chỉ thị màu hóa học tại website: ph-chem.web.app/calculator nhé!"
+      }
+    ],
+    "caption": "Tại sao canh rau muống đang xanh ngắt, vắt chanh vào lại chuyển màu hồng đỏ thanh tao? 🍋🥬\n\nNước luộc rau muống chứa hợp chất chlorophyll và anthocyanin đóng vai trò như chất chỉ thị màu pH tự nhiên.\nAxit citric trong chanh làm giảm độ pH của nước canh xuống môi trường axit. Dưới tác động của ion H⁺, ion magie trong nhân diệp lục bị tách ra biến chlorophyll thành pheophytin có màu vàng đỏ!\n\nVừa đổi màu đẹp mắt vừa kích thích tuyến tiêu hóa hoạt động tối ưu!\n\n📱 Thử nghiệm các chất chỉ thị màu pH tự động tại:\n🌐 https://ph-chem.web.app/calculator\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #CanhRauMuong #VatChanh #ChiThiMau #TinhpH"
+  },
+  {
+    "id": 22,
+    "schedule": "2026-09-15 · 19:45",
+    "key": "reel_22_len_men_giam",
+    "video": "reels/reel_22_len_men_giam.mp4",
+    "thumb": "reels/reel_22_len_men_giam/slide_01.jpg",
+    "title": "RƯỢU ĐỂ LÂU THÀNH GIẤM ĂN: VÌ SAO?",
+    "tag": "Ẩm thực",
+    "compound": "Axit Axetic (CH₃COOH)",
+    "reaction": "C₂H₅OH + O₂ (men giấm) → CH₃COOH + H₂O",
+    "route": "reactions",
+    "hook": "Chai rượu vang mở nắp quên không đậy, vài tuần sau nếm thử lại thấy chua ngắt như giấm ăn — tại sao?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Chai rượu vang mở nắp quên không đậy, vài tuần sau nếm thử lại thấy chua ngắt như giấm ăn — tại sao?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Vi khuẩn Acetobacter trong không khí đã xâm nhập vào chai rượu và tiến hành quá trình lên men axetic sinh học."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Chúng oxy hóa rượu etylic thành axit axetic CH3COOH — thành phần chính tạo nên vị chua thanh của giấm ăn!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Cân bằng phương trình lên men và tra cứu chất hữu cơ tại: ph-chem.web.app/reactions nhé!"
+      }
+    ],
+    "caption": "Chai rượu vang mở nắp quên đậy, vài tuần sau lại hóa thành giấm chua loét? 🍷🏺\n\nĐó là quá trình lên men giấm sinh học do vi khuẩn Acetobacter thực hiện.\nChúng sử dụng oxy trong không khí để oxy hóa rượu etylic thành axit axetic:\n👉 C₂H₅OH + O₂ → CH₃COOH + H₂O\n\nĐây cũng chính là bí quyết nuôi con giấm truyền thống mà các bà các mẹ vẫn làm tại nhà!\n\n📱 Cân bằng phương trình lên men tự động tại:\n🌐 https://ph-chem.web.app/reactions\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #LenMenGiam #AxitAxetic #RuouVang #HoaHocHuuCo"
+  },
+  {
+    "id": 23,
+    "schedule": "2026-09-16 · 11:45",
+    "key": "reel_23_dong_tu_sua_chua",
+    "video": "reels/reel_23_dong_tu_sua_chua.mp4",
+    "thumb": "reels/reel_23_dong_tu_sua_chua/slide_01.jpg",
+    "title": "SỮA CHUA ĐÔNG TỤ THẦN KỲ",
+    "tag": "Ẩm thực",
+    "compound": "Axit Lactic (C₃H₆O₃)",
+    "reaction": "pH hạ xuống 4.6 → Protein Casein đông tụ mịn màng",
+    "route": "calculator",
+    "hook": "Từ sữa tươi lỏng bỏng, làm thế nào vi khuẩn lại biến thành hũ sữa chua dẻo quánh, mịn màng thơm ngon?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Từ sữa tươi lỏng bỏng, làm thế nào vi khuẩn lại biến thành hũ sữa chua dẻo quánh, mịn màng thơm ngon?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Vi khuẩn lactic lên men đường lactose trong sữa thành axit lactic, làm giảm độ pH của môi trường xuống mức 4.6."
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Tại điểm đẳng điện này, các phân tử protein casein mất điện tích bảo vệ, hút chặt vào nhau tạo cấu trúc gel dẻo mịn!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Tính toán nồng độ mol và pH dung dịch tại website chính thức: ph-chem.web.app/calculator nhé!"
+      }
+    ],
+    "caption": "Từ sữa tươi lỏng bỏng thành hũ sữa chua sánh mịn dẻo quánh — Bí mật nằm ở đâu? 🥛✨\n\nVi khuẩn lactic chuyển hóa đường lactose thành axit lactic, làm độ pH của sữa hạ dần xuống 4.6.\nTại điểm đẳng điện này, các phân tử protein Casein mất điện tích âm bảo vệ, không còn đẩy nhau mà liên kết chặt thành mạng lưới 3D giữ nước, tạo nên cấu trúc gel đông tụ mịn màng như thạch!\n\n📱 Tính toán pH và nồng độ dung dịch siêu tốc tại:\n🌐 https://ph-chem.web.app/calculator\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #SuaChua #AxitLactic #DongTuProtein #ViSinhVat"
+  },
+  {
+    "id": 24,
+    "schedule": "2026-09-16 · 19:45",
+    "key": "reel_24_coca_tay_can",
+    "video": "reels/reel_24_coca_tay_can.mp4",
+    "thumb": "reels/reel_24_coca_tay_can/slide_01.jpg",
+    "title": "COCA-COLA TẨY SẠCH CẶN BỒN CẦU",
+    "tag": "Mẹo vặt",
+    "compound": "Axit Photphoric (H₃PO₄)",
+    "reaction": "2 H₃PO₄ + 3 CaCO₃ → Ca₃(PO₄)₂ + 3 CO₂ + 3 H₂O",
+    "route": "calculator",
+    "hook": "Đổ một lon Coca-Cola vào bồn cầu ố vàng rồi xả nước là men sứ trắng tinh tươm — nước ngọt có axit thật sao?",
+    "scenes": [
+      {
+        "num": "Cảnh 1: Hook",
+        "time": "00 - 06s",
+        "text": "Đổ một lon Coca-Cola vào bồn cầu ố vàng rồi xả nước là men sứ trắng tinh tươm — nước ngọt có axit thật sao?"
+      },
+      {
+        "num": "Cảnh 2: Fact",
+        "time": "06 - 18s",
+        "text": "Trong thành phần nước ngọt có ga chứa axit photphoric H3PO4 tạo vị chua sắc, với độ pH cực thấp khoảng 2.5!"
+      },
+      {
+        "num": "Cảnh 3: Formula",
+        "time": "18 - 30s",
+        "text": "Axit photphoric dễ dàng hòa tan các cặn bám đá vôi canxi cacbonat và vết rỉ sét kim loại lâu ngày!"
+      },
+      {
+        "num": "Cảnh 4: CTA",
+        "time": "30 - 40s",
+        "text": "Đo độ pH của mọi dung dịch trong đời sống tại website chính thức: ph-chem.web.app/calculator nhé!"
+      }
+    ],
+    "caption": "Đổ lon Coca-Cola vào bồn cầu ố vàng rồi xả nước là sạch bong kin kít? 🥤✨\n\nKhông phải phép thuật — đó là sức mạnh của Axit Photphoric (H₃PO₄) có sẵn trong thành phần nước ngọt có ga để tạo vị chua sắc, với độ pH cực thấp ~ 2.5!\nAxit photphoric dễ dàng hòa tan các cặn bám canxi cacbonat và các vết ố rỉ sét kim loại lâu ngày mà không ăn mòn men sứ:\n👉 2 H₃PO₄ + 3 CaCO₃ → Ca₃(PO₄)₂ + 3 CO₂ ↑ + 3 H₂O\n\n📱 Đo độ pH của mọi đồ uống hàng ngày tại website chính thức:\n🌐 https://ph-chem.web.app/calculator\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #AxitPhotphoric #CocaCola #TayRua #HoaHocThucTe"
+  }
+,
+{
+    "id": 25,
+    "key": "reel_25_axit_da_day",
+    "videoFileName": "reel_25_axit_da_day.mp4",
+    "title": "DẠ DÀY CHỨA AXIT HCl: VÌ SAO KHÔNG TỰ ĂN MÒN?",
+    "tag": "Cơ thể",
+    "themeColor": "#ef4444",
+    "accentColor": "#f87171",
+    "svgFile": "public/hinh/HCl.3233372f.svg",
+    "compoundName": "Axit Clohiđric (HCl)",
+    "reaction": "HCl + NaHCO₃ → NaCl + CO₂ ↑ + H₂O",
+    "route": "calculator",
+    "scenes": [
+      {
+        "text": "Bạn có biết dịch vị dạ dày có nồng độ axit HCl đủ sức làm tan chảy cả kim loại, nhưng tại sao dạ dày lại không tự tiêu hóa chính mình?",
+        "badge": "BẠN CÓ BIẾT? #25",
+        "h1": "DẠ DÀY CHỨA AXIT HCl",
+        "h2": "VÌ SAO KHÔNG TỰ THỦNG?",
+        "sub": "Lá chắn kiềm HCO3- thần kỳ",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Bản chất là tế bào dạ dày tiết ra lớp chất nhầy Mucin giàu ion Bicacbonat HCO3- phủ kín niêm mạc, tạo thành lá chắn trung hòa axit bảo vệ!",
+        "factTitle": "CHẤT NHẦY MUCIN & HCO3-",
+        "factDesc": "Ion bicacbonat trung hòa ion H+ ngay trên bề mặt niêm mạc dạ dày",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Khi lớp nhầy bị tổn thương do vi khuẩn HP hoặc stress, ion H+ sẽ tấn công lớp mô gây viêm loét dạ dày cực kỳ nguy hiểm!",
+        "rxTitle": "CƠ CHẾ BẢO VỆ NIÊM MẠC",
+        "rxDesc": "Ngăn chặn hiện tượng tự tiêu hóa của enzym Pepsin và HCl",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Kiểm tra độ pH dịch vị dạ dày từ 1.5 đến 2.0 tại website chính thức: ph-chem.web.app/calculator nhé!",
+        "ctaUrl": "ph-chem.web.app/calculator",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  },
+  {
+    "id": 26,
+    "key": "reel_26_moi_co_axit_lactic",
+    "videoFileName": "reel_26_moi_co_axit_lactic.mp4",
+    "title": "MỎI CƠ KHI TẬP THỂ THAO: THỦ PHẠM AXIT LACTIC",
+    "tag": "Cơ thể",
+    "themeColor": "#f59e0b",
+    "accentColor": "#fbbf24",
+    "svgFile": "public/hinh/C3H6O3.ff6a1116.svg",
+    "compoundName": "Axit Lactic (C₃H₆O₃)",
+    "reaction": "C₆H₁₂O₆ (Glucose) → 2 C₃H₆O₃ (Axit Lactic) + Năng lượng",
+    "route": "formulas",
+    "scenes": [
+      {
+        "text": "Tại sao sau những buổi tập gym hay chạy bộ hết sức, các bó cơ bắp của bạn lại đau mỏi rã rời suốt nhiều ngày sau đó?",
+        "badge": "BẠN CÓ BIẾT? #26",
+        "h1": "MỎI CƠ KHI VẬN ĐỘNG",
+        "h2": "THỦ PHẠM AXIT LACTIC",
+        "sub": "Hô hấp kị khí của tế bào cơ bắp",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Thủ phạm chính là Axit Lactic sinh ra khi cơ bắp vận động cường độ cao thiếu oxy, đường Glucose chuyển hóa yếm khí tích tụ axit!",
+        "factTitle": "TÍCH TỤ AXIT LACTIC TRONG CƠ",
+        "factDesc": "Quá trình đường phân kị khí sinh ra axit lactic gây toan hóa mô",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Ion H+ từ axit lactic làm giảm pH nội bào, ức chế enzyme co cơ gây nhức mỏi. Xoa bóp và hít thở sâu giúp oxy hóa phân giải axit nhanh chóng!",
+        "rxTitle": "CƠ CHẾ PHỤC HỒI CƠ BẮP",
+        "rxDesc": "Gan chuyển hóa axit lactic ngược lại thành glucose qua chu trình Cori",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Tra cứu công thức cấu tạo của Axit Lactic tại website chính thức: ph-chem.web.app/formulas nhé!",
+        "ctaUrl": "ph-chem.web.app/formulas",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  },
+  {
+    "id": 27,
+    "key": "reel_27_sau_rang_axit",
+    "videoFileName": "reel_27_sau_rang_axit.mp4",
+    "title": "SÂU RĂNG: VI KHUẨN TIẾT AXIT ĐỤC THỦNG MEN",
+    "tag": "Y học",
+    "themeColor": "#06b6d4",
+    "accentColor": "#22d3ee",
+    "svgFile": "public/hinh/Ca3_PO4_2.e6e550d2.svg",
+    "compoundName": "Men Răng Hydroxyapatit",
+    "reaction": "Ca₅(PO₄)₃OH + 4 H⁺ ⇌ 5 Ca²⁺ + 3 HPO₄²⁻ + H₂O",
+    "route": "calculator",
+    "scenes": [
+      {
+        "text": "Men răng là mô cứng nhất trong cơ thể con người, thậm chí cứng hơn cả xương, nhưng tại sao chúng ta vẫn bị sâu răng đục lỗ?",
+        "badge": "BẠN CÓ BIẾT? #27",
+        "h1": "MEN RĂNG CỨNG HƠN CẢ XƯƠNG",
+        "h2": "TẠI SAO VẪN BỊ SÂU RĂNG?",
+        "sub": "Quá trình mất khoáng ở pH dưới 5.5",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Vi khuẩn trong mảng bám lên men đường dư thừa tạo thành axit hữu cơ, kéo độ pH khoang miệng tụt dốc xuống dưới ngưỡng tới hạn 5.5!",
+        "factTitle": "AXIT HÓA KHOANG MIỆNG (pH < 5.5)",
+        "factDesc": "Vi khuẩn Streptococcus mutans chuyển hóa đường thành axit hữu cơ",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Ở môi trường axit cao, tinh thể Hydroxyapatit của men răng bị hòa tan phân giải ion canxi, khiến men răng xốp mềm và hình thành lỗ sâu!",
+        "rxTitle": "PHẢN ỨNG MẤT KHOÁNG MEN RĂNG",
+        "rxDesc": "Ion H+ hòa tan muối canxi photphat làm xói mòn cấu trúc tinh thể",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Đánh răng bằng kem chứa Flo để tạo màng Fluorapatit siêu bền. Tìm hiểu thêm tại website: ph-chem.web.app/calculator nhé!",
+        "ctaUrl": "ph-chem.web.app/calculator",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  },
+  {
+    "id": 28,
+    "key": "reel_28_thuoc_dau_da_day",
+    "videoFileName": "reel_28_thuoc_dau_da_day.mp4",
+    "title": "THUỐC ĐAU DẠ DÀY: DẬP TẮT AXIT DƯ THẦN TỐC",
+    "tag": "Y học",
+    "themeColor": "#10b981",
+    "accentColor": "#34d399",
+    "svgFile": "public/hinh/Al_OH_3.9dca03d5.svg",
+    "compoundName": "Nhôm Hiđroxit Al(OH)₃",
+    "reaction": "Al(OH)₃ + 3 HCl → AlCl₃ + 3 H₂O",
+    "route": "reactions",
+    "scenes": [
+      {
+        "text": "Vì sao gói thuốc chữ P màu trắng sữa lại có thể làm dịu cơn đau rát dạ dày chỉ sau vài phút uống vào bụng?",
+        "badge": "BẠN CÓ BIẾT? #28",
+        "h1": "THUỐC DẠ DÀY CHỮ P",
+        "h2": "DẬP TẮT CƠN ĐAU NHƯ THẾ NÀO?",
+        "sub": "Phản ứng trung hòa kiềm nhẹ an toàn",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Thuốc kháng axit chứa các hợp chất kiềm nhẹ như Nhôm hiđroxit Al(OH)3 và Magie hiđroxit Mg(OH)2 không tan trong nước!",
+        "factTitle": "HỢP CHẤT KIỀM NHẸ KHÔNG TAN",
+        "factDesc": "Al(OH)3 và Mg(OH)2 trung hòa axit mà không hấp thu vào máu",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Khi vào dạ dày, chúng lập tức trung hòa lượng axit HCl dư thừa, nâng độ pH dạ dày lên mức an toàn mà không làm kiềm hóa toàn thân!",
+        "rxTitle": "PHẢN ỨNG TRUNG HÒA DỊCH VỊ",
+        "rxDesc": "Chuyển hóa axit ăn mòn thành muối clorua và nước dịu êm",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Cân bằng các phản ứng trung hòa axit dạ dày trong nháy mắt tại website chính thức: ph-chem.web.app/reactions nhé!",
+        "ctaUrl": "ph-chem.web.app/reactions",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  },
+  {
+    "id": 29,
+    "key": "reel_29_ngo_doc_khi_co",
+    "videoFileName": "reel_29_ngo_doc_khi_co.mp4",
+    "title": "NGỘ ĐỘC KHÍ CO: KẺ GIẾT NGƯỜI VÔ HÌNH",
+    "tag": "Đời sống",
+    "themeColor": "#64748b",
+    "accentColor": "#94a3b8",
+    "svgFile": "public/hinh/CO.f825aa97.svg",
+    "compoundName": "Cacbon Monoxit (CO)",
+    "reaction": "Hb + CO ⇌ HbCO (Ái lực gấp 250 lần O₂)",
+    "route": "table",
+    "scenes": [
+      {
+        "text": "Tại sao đốt than sưởi ấm trong phòng kín vào mùa đông lại là cạm bẫy chết người cực kỳ êm ái mà nạn nhân không hề hay biết?",
+        "badge": "BẠN CÓ BIẾT? #29",
+        "h1": "ĐỐT THAN SƯỞI PHÒNG KÍN",
+        "h2": "KẺ GIẾT NGƯỜI VÔ HÌNH",
+        "sub": "Khí CO cướp oxy trong hồng cầu",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Quá trình cháy thiếu oxy sinh ra khí Cacbon Monoxit CO — một chất khí không màu, không mùi, không gây sặc nhưng cực độc!",
+        "factTitle": "KHÍ CO KHÔNG MÀU KHÔNG MÙI",
+        "factDesc": "Khí độc tích tụ âm thầm khiến nạn nhân lịm dần đi trong giấc ngủ",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Khí CO gắn chặt vào Hemoglobin trong máu với lực hút gấp 250 lần khí Oxy, cướp đoạt vị trí vận chuyển làm tế bào não chết ngạt!",
+        "rxTitle": "TẠO PHỨC CARBOXYHEMOGLOBIN",
+        "rxDesc": "Lực liên kết cực mạnh làm tê liệt khả năng hô hấp tế bào",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Tuyệt đối không đốt than phòng kín! Tra cứu tính chất độc hại của khí CO tại website: ph-chem.web.app/table nhé!",
+        "ctaUrl": "ph-chem.web.app/table",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  },
+  {
+    "id": 30,
+    "key": "reel_30_khi_cuoi_n2o",
+    "videoFileName": "reel_30_khi_cuoi_n2o.mp4",
+    "title": "BÓNG CƯỜI N₂O: GÂY TÊ VÀ HIỂM HỌA THẦN KINH",
+    "tag": "Y học",
+    "themeColor": "#8b5cf6",
+    "accentColor": "#a78bfa",
+    "svgFile": "public/hinh/N2O.160afff2.svg",
+    "compoundName": "Đinitơ Monoxit (N₂O)",
+    "reaction": "N₂O + Vitamin B12 → Phá hủy Myelin sợi thần kinh",
+    "route": "formulas",
+    "scenes": [
+      {
+        "text": "Tại sao hít bóng cười lại khiến người ta cười mất kiểm soát, và tại sao trào lưu nguy hiểm này có thể dẫn tới liệt hai chân?",
+        "badge": "BẠN CÓ BIẾT? #30",
+        "h1": "BÓNG CƯỜI N₂O",
+        "h2": "HIỂM HỌA TÊ LIỆT TỦY SỐNG",
+        "sub": "Cơ chế kích thích và tàn phá thần kinh",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Khí trong bóng cười là Đinitơ Monoxit N2O, vốn là thuốc gây mê trong nha khoa nhờ tác dụng kích thích giải phóng Dopamine tạo hưng phấn!",
+        "factTitle": "KHÍ GÂY MÊ N₂O",
+        "factDesc": "Tác động lên hệ thần kinh trung ương tạo ảo giác và sảng khoái giả",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Lạm dụng N2O sẽ oxy hóa phá hủy Vitamin B12, làm thoái hóa lớp vỏ myelin bảo vệ dây thần kinh tủy sống, dẫn đến tê liệt vĩnh viễn!",
+        "rxTitle": "PHÁ HỦY TẬN GỐC VITAMIN B12",
+        "rxDesc": "Mất dẫn truyền thần kinh vận động cảm giác ở tứ chi",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Hãy nói không với bóng cười! Khám phá cấu trúc các oxide của nitơ tại website chính thức: ph-chem.web.app/formulas nhé!",
+        "ctaUrl": "ph-chem.web.app/formulas",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  },
+  {
+    "id": 31,
+    "key": "reel_31_soi_than_canxi_oxalat",
+    "videoFileName": "reel_31_soi_than_canxi_oxalat.mp4",
+    "title": "SỎI THẬN: PHẢN ỨNG KẾT TỦA CANXI OXALAT",
+    "tag": "Cơ thể",
+    "themeColor": "#eab308",
+    "accentColor": "#fde047",
+    "svgFile": "public/hinh/H2C2O4.ddd03be0.svg",
+    "compoundName": "Axit Oxalic (H₂C₂O₄)",
+    "reaction": "Ca²⁺ + C₂O₄²⁻ → CaC₂O₄ ↓ (Tinh thể hình gai)",
+    "route": "calculator",
+    "scenes": [
+      {
+        "text": "Những viên sỏi thận sắc nhọn như mảnh kính gây đau quặn thắt lưng thực chất được hình thành từ phản ứng hóa học nào trong cơ thể?",
+        "badge": "BẠN CÓ BIẾT? #31",
+        "h1": "SỎI THẬN SẮC NHỌN",
+        "h2": "HÌNH THÀNH NHƯ THẾ NÀO?",
+        "sub": "Phản ứng kết tủa Canxi Oxalat",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Hơn 80% sỏi thận là Canxi Oxalat. Khi chúng ta ăn nhiều thực phẩm giàu oxalate như khế chua hay rau bina mà lại uống quá ít nước!",
+        "factTitle": "KẾT TINH CANXI OXALAT",
+        "factDesc": "Nồng độ ion Ca2+ và C2O4(2-) vượt quá tích số tan bão hòa",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Nồng độ ion Canxi Ca2+ và Oxalat tích tụ vượt ngưỡng tích số tan, lập tức kết tủa thành tinh thể sắc nhọn găm vào thành niệu quản!",
+        "rxTitle": "TÍCH SỐ TAN QUÁ NGƯỠNG BÃO HÒA",
+        "rxDesc": "Uống đủ nước là biện pháp hòa tan và ngăn kết tủa tốt nhất",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Uống đủ 2 lít nước mỗi ngày để hòa loãng ion nhé! Tính toán nồng độ dung dịch tại website chính thức: ph-chem.web.app/calculator!",
+        "ctaUrl": "ph-chem.web.app/calculator",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  },
+  {
+    "id": 32,
+    "key": "reel_32_paracetamol_ha_sot",
+    "videoFileName": "reel_32_paracetamol_ha_sot.mp4",
+    "title": "PARACETAMOL: CƠ CHẾ HẠ SỐT GIẢM ĐAU",
+    "tag": "Y học",
+    "themeColor": "#0ea5e9",
+    "accentColor": "#38bdf8",
+    "svgFile": "public/hinh/C8H9NO2.f2665182.svg",
+    "compoundName": "Paracetamol (C₈H₉NO₂)",
+    "reaction": "Ức chế COX-2 → Giảm Prostaglandin E2 (PGE2)",
+    "route": "formulas",
+    "scenes": [
+      {
+        "text": "Chỉ một viên thuốc Paracetamol nhỏ bé có thể dập tắt cơn sốt hầm hập và xua tan cơn đau đầu chỉ sau ba mươi phút hoạt động thế nào?",
+        "badge": "BẠN CÓ BIẾT? #32",
+        "h1": "VIÊN THUỐC QUỐC DÂN PARACETAMOL",
+        "h2": "HẠ SỐT GIẢM ĐAU NHƯ THẾ NÀO?",
+        "sub": "Cơ chế ức chế tổng hợp Prostaglandin",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Paracetamol có công thức C8H9NO2. Khi vào cơ thể, nó ức chế chọn lọc enzyme Cyclooxygenase COX tại hệ thần kinh trung ương não bộ!",
+        "factTitle": "CÔNG THỨC C8H9NO2",
+        "factDesc": "Dẫn xuất p-aminophenol tác động ức chế enzyme tổng hợp chất gây sốt",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Quá trình này chặn đứng việc tổng hợp Prostaglandin — chất gây viêm và sốt, giúp hạ nhiệt vùng dưới đồi và dãn mạch tỏa nhiệt!",
+        "rxTitle": "ỨC CHẾ ENZYME COX TRUNG ƯƠNG",
+        "rxDesc": "Lập lại điểm cân bằng nhiệt độ sinh học bình thường của cơ thể",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá cấu trúc chuẩn IUPAC của Paracetamol và thuốc tây tại website chính thức: ph-chem.web.app/formulas nhé!",
+        "ctaUrl": "ph-chem.web.app/formulas",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  },
+  {
+    "id": 33,
+    "key": "reel_33_tinh_yeu_hormone",
+    "videoFileName": "reel_33_tinh_yeu_hormone.mp4",
+    "title": "TÌNH YÊU SÉT ĐÁNH: BÃI CHIẾN TRƯỜNG HORMONE",
+    "tag": "Cơ thể",
+    "themeColor": "#ec4899",
+    "accentColor": "#f472b6",
+    "svgFile": "public/hinh/C8H11NO2.226777df.svg",
+    "compoundName": "Dopamine (C₈H₁₁NO₂)",
+    "reaction": "PEA (C₈H₁₁N) + Dopamine → Hưng phấn não bộ",
+    "route": "formulas",
+    "scenes": [
+      {
+        "text": "Cảm giác tim đập thình thịch, bồn chồn rạo rực khi vừa chạm mắt một ai đó thực chất là một cơn bão hóa chất quét qua não bộ!",
+        "badge": "BẠN CÓ BIẾT? #33",
+        "h1": "TÌNH YÊU SÉT ĐÁNH",
+        "h2": "BÃI CHIẾN TRƯỜNG HORMONE",
+        "sub": "Cơ chế Dopamine và Phenylethylamine",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Chất dẫn truyền thần kinh Phenylethylamine PEA và Dopamine C8H11NO2 ồ ạt tiết ra, kích hoạt mạnh mẽ trung tâm tưởng thưởng của não!",
+        "factTitle": "CƠN BÃO DOPAMINE & PEA",
+        "factDesc": "Kích thích thụ thể thần kinh mang lại cảm giác ngất ngây say đắm",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Sự bùng nổ của các hormone này tạo cảm giác hưng phấn cuồng nhiệt và si mê, hệt như phản ứng dây chuyền không thể dừng lại!",
+        "rxTitle": "BẢN GIAO HƯỞNG HÓA HỌC",
+        "rxDesc": "Noradrenaline kích thích tim đập nhanh và giãn nở đồng tử",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá cấu trúc phân tử của tình yêu và hạnh phúc tại website chính thức: ph-chem.web.app/formulas nhé!",
+        "ctaUrl": "ph-chem.web.app/formulas",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  },
+  {
+    "id": 34,
+    "key": "reel_34_oxy_gia_sui_bot",
+    "videoFileName": "reel_34_oxy_gia_sui_bot.mp4",
+    "title": "OXY GIÀ SỦI BỌT TRẮNG TRÊN VẾT THƯƠNG",
+    "tag": "Y học",
+    "themeColor": "#14b8a6",
+    "accentColor": "#2dd4bf",
+    "svgFile": "public/hinh/H2O2.90c5e405.svg",
+    "compoundName": "Hiđro Peoxit (H₂O₂)",
+    "reaction": "2 H₂O₂ (xúc tác Catalase) → 2 H₂O + O₂ ↑ (Sủi bọt)",
+    "route": "reactions",
+    "scenes": [
+      {
+        "text": "Nhỏ giọt oxy già lên vết thương trầy xước, bạn sẽ thấy bọt trắng sủi lên xèo xèo kèm cảm giác xót buốt. Đó là phản ứng gì?",
+        "badge": "BẠN CÓ BIẾT? #34",
+        "h1": "OXY GIÀ SỦI BỌT TRẮNG",
+        "h2": "VÌ SAO LẠI XÓT BUỐT?",
+        "sub": "Enzyme Catalase xúc tác phân hủy H2O2",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Oxy già là dung dịch Hiđro peoxit H2O2. Khi tiếp xúc máu và tế bào bị rách, nó gặp ngay enzyme xúc tác Catalase có sẵn trong hồng cầu!",
+        "factTitle": "XÚC TÁC ENZYME CATALASE",
+        "factDesc": "Catalase phân hủy hàng triệu phân tử H2O2 mỗi giây",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Enzyme này thúc đẩy phân hủy H2O2 giải phóng oxy nguyên tử và khí O2 sủi bọt cuồn cuộn, tiêu diệt vi khuẩn kị khí và đẩy đất cát ra ngoài!",
+        "rxTitle": "GIẢI PHÓNG KHÍ O₂ VÀ O NGUYÊN TỬ",
+        "rxDesc": "Tính oxy hóa mạnh tiêu diệt mầm bệnh và làm sạch dị vật",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Cân bằng phản ứng phân hủy oxy già cực nhanh tại website chính thức: ph-chem.web.app/reactions nhé!",
+        "ctaUrl": "ph-chem.web.app/reactions",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  },
+  {
+    "id": 35,
+    "key": "reel_35_adrenaline_chay_nhay",
+    "videoFileName": "reel_35_adrenaline_chay_nhay.mp4",
+    "title": "ADRENALINE: HORMONE BÙNG NỔ NĂNG LƯỢNG",
+    "tag": "Cơ thể",
+    "themeColor": "#f97316",
+    "accentColor": "#fb923c",
+    "svgFile": "public/hinh/C9H13NO3.9c7d3f5c.svg",
+    "compoundName": "Adrenaline (C₉H₁₃NO₃)",
+    "reaction": "Phóng thích Glucose từ Glycogen tức thì",
+    "route": "formulas",
+    "scenes": [
+      {
+        "text": "Tại sao khi bị chó đuổi hay gặp nguy hiểm tính mạng, con người có thể nhảy qua bức tường cao mà ngày thường không bao giờ làm được?",
+        "badge": "BẠN CÓ BIẾT? #35",
+        "h1": "ADRENALINE BÙNG NỔ",
+        "h2": "SỨC MẠNH PHI THƯỜNG",
+        "sub": "Phản ứng chiến đấu hay bỏ chạy",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Tuyến thượng thận lập tức phóng thích ồ ạt hormone Adrenaline C9H13NO3 vào dòng máu, kích hoạt chế độ chiến đấu hoặc bỏ chạy!",
+        "factTitle": "CÔNG THỨC C9H13NO3",
+        "factDesc": "Hormone kích hoạt hệ thần kinh giao cảm nâng ngưỡng chịu đựng cơ thể",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Adrenaline làm tim đập mạnh, dãn phế quản nạp oxy tối đa, chuyển Glycogen thành Glucose cung cấp năng lượng bùng nổ cho cơ bắp!",
+        "rxTitle": "CUNG CẤP NĂNG LƯỢNG BÙNG NỔ",
+        "rxDesc": "Dồn máu về các cơ bắp lớn giúp tăng cường sức mạnh tức thì",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Tra cứu công thức của hormone sinh học tại website chính thức: ph-chem.web.app/formulas nhé!",
+        "ctaUrl": "ph-chem.web.app/formulas",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  },
+  {
+    "id": 36,
+    "key": "reel_36_vang_da_chieu_den",
+    "videoFileName": "reel_36_vang_da_chieu_den.mp4",
+    "title": "VÀNG DA SƠ SINH: CHIẾU ĐÈN ÁNH SÁNG XANH",
+    "tag": "Y học",
+    "themeColor": "#eab308",
+    "accentColor": "#facc15",
+    "svgFile": "public/hinh/C6H5OH.4bf7a664.svg",
+    "compoundName": "Sắc Tố Mật Bilirubin",
+    "reaction": "Bilirubin (kị nước) + Photon xanh → Đồng phân quang học",
+    "route": "formulas",
+    "scenes": [
+      {
+        "text": "Tại sao nhiều em bé sơ sinh vừa chào đời bị vàng da, các bác sĩ chỉ cần đặt bé nằm dưới một bóng đèn ánh sáng xanh là khỏi?",
+        "badge": "BẠN CÓ BIẾT? #36",
+        "h1": "VÀNG DA TRẺ SƠ SINH",
+        "h2": "ĐIỀU TRỊ BẰNG ÁNH SÁNG XANH",
+        "sub": "Phản ứng đồng phân quang học quang hóa",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Vàng da do tích tụ sắc tố mật Bilirubin khi gan bé chưa kịp đào thải. Bilirubin dạng tự nhiên không tan trong nước nên ứ đọng dưới da!",
+        "factTitle": "SẮC TỐ MẬT DƯ THỪA",
+        "factDesc": "Hồng cầu thai nhi vỡ giải phóng heme chuyển hóa thành bilirubin",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Quang phổ ánh sáng xanh 460 nanomet bẻ gãy liên kết nội phân tử, chuyển Bilirubin thành đồng phân tan được trong nước để bài tiết an toàn!",
+        "rxTitle": "QUANG HÓA ĐỒNG PHÂN HÓA",
+        "rxDesc": "Chuyển hóa dạng kị nước thành dạng tan trong nước đào thải qua thận",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá phản ứng quang hóa và cấu trúc phân tử tại website chính thức: ph-chem.web.app/formulas nhé!",
+        "ctaUrl": "ph-chem.web.app/formulas",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  },
+  {
+    "id": 37,
+    "key": "reel_37_hit_heli_giong_the_the",
+    "videoFileName": "reel_37_hit_heli_giong_the_the.mp4",
+    "title": "HÍT KHÍ HELI BIẾN ĐỔI GIỌNG NÓI THE THÉ",
+    "tag": "Đời sống",
+    "themeColor": "#38bdf8",
+    "accentColor": "#7dd3fc",
+    "svgFile": "public/hinh/He.svg",
+    "compoundName": "Khí Heli (He · Khí hiếm)",
+    "reaction": "V(âm thanh trong He) = 965 m/s > V(không khí) = 343 m/s",
+    "route": "table",
+    "scenes": [
+      {
+        "text": "Chỉ cần hít một ngụm khí từ bóng bay Heli, giọng nói trầm ấm của bạn bỗng biến thành the thé như nhân vật hoạt hình vịt Donald!",
+        "badge": "BẠN CÓ BIẾT? #37",
+        "h1": "HÍT KHÍ HELI BIẾN ĐỔI GIỌNG",
+        "h2": "NHƯ PHIM HOẠT HÌNH VỊT DONALD",
+        "sub": "Vận tốc truyền âm thanh siêu nhanh",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Heli là khí trơ nhẹ thứ hai vũ trụ, nhẹ hơn không khí tới sáu lần, khiến tốc độ truyền âm thanh trong Heli nhanh gấp ba lần bình thường!",
+        "factTitle": "KHÍ TRƠ NHẸ THỨ HAI VŨ TRỤ",
+        "factDesc": "Khối lượng phân tử cực nhỏ chỉ bằng 4 so với 29 của không khí",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Khi bạn nói, sóng âm đi qua khí Heli nhanh hơn nhiều làm tần số cộng hưởng thanh quản vọt lên cao, tạo nên chất giọng the thé hài hước!",
+        "rxTitle": "TĂNG TẦN SỐ CỘNG HƯỞNG THANH QUẢN",
+        "rxDesc": "Vận tốc âm thanh đạt gần 1000 m/s đẩy cao tần số sóng âm thanh",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Lưu ý không lạm dụng hít nhiều gây ngạt nhé! Khám phá nguyên tố Heli tại website chính thức: ph-chem.web.app/table!",
+        "ctaUrl": "ph-chem.web.app/table",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  },
+  {
+    "id": 38,
+    "key": "reel_38_thuoc_do_povidone_iod",
+    "videoFileName": "reel_38_thuoc_do_povidone_iod.mp4",
+    "title": "THUỐC ĐỎ POVIDONE IODINE: SÁT TRÙNG DIỆT KHUẨN",
+    "tag": "Y học",
+    "themeColor": "#b91c1c",
+    "accentColor": "#f87171",
+    "svgFile": "public/hinh/I2.8d05656d.svg",
+    "compoundName": "Iốt & Povidone Iodine (PVP-I₂)",
+    "reaction": "I₂ + Protein vi khuẩn → Biến tính protein vi khuẩn",
+    "route": "calculator",
+    "scenes": [
+      {
+        "text": "Chai cồn đỏ Povidone Iodine luôn có mặt trong tủ thuốc mỗi gia đình. Tại sao dung dịch màu nâu đỏ này lại sát trùng mạnh mẽ đến vậy?",
+        "badge": "BẠN CÓ BIẾT? #38",
+        "h1": "THUỐC ĐỎ POVIDONE IODINE",
+        "h2": "VŨ KHÍ SÁT TRÙNG HUYỀN THOẠI",
+        "sub": "Oxy hóa màng tế bào vi khuẩn trong 30 giây",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Thuốc là phức chất của Polyvinylpyrrolidone phóng thích chậm phân tử Iot I2 tự do — một chất oxy hóa cực mạnh tiêu diệt mầm bệnh!",
+        "factTitle": "PHÓNG THÍCH IÔT TỰ DO",
+        "factDesc": "Polymer mang iod phóng thích đều đặn không gây bỏng rát như cồn iod",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Iot thấm qua màng tế bào, oxy hóa axit amin và làm đông tụ protein của vi khuẩn và virus trong 30 giây mà không bị kháng thuốc!",
+        "rxTitle": "OXY HÓA PROTEIN VI SINH VẬT",
+        "rxDesc": "Tiêu diệt vi khuẩn, nấm, virus phổ rộng an toàn và hiệu quả",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Tra cứu tính chất halogen của Iot và chất sát khuẩn tại website chính thức: ph-chem.web.app/calculator nhé!",
+        "ctaUrl": "ph-chem.web.app/calculator",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": ""
+  }
+,
+{
+    "id": 39,
+    "key": "reel_39_mua_axit_tan_pha",
+    "videoFileName": "reel_39_mua_axit_tan_pha.mp4",
+    "title": "MƯA AXIT: THẢM HỌA ĂN MÒN RỪNG CÂY VÀ TƯỢNG ĐÁ",
+    "tag": "Môi trường",
+    "themeColor": "#06b6d4",
+    "accentColor": "#22d3ee",
+    "svgFile": "public/hinh/SO2.fa0f286a.svg",
+    "compoundName": "Lưu Huỳnh Đioxit (SO₂)",
+    "reaction": "2 SO₂ + O₂ + 2 H₂O → 2 H₂SO₄",
+    "route": "calculator",
+    "scenes": [
+      {
+        "text": "Những cơn mưa nhìn như làn nước mát lành nhưng lại có thể thiêu rụi cả cánh rừng xanh mướt và làm tan chảy những bức tượng đá cổ — Đó là hiện tượng gì?",
+        "badge": "BẠN CÓ BIẾT? #39",
+        "h1": "MƯA AXIT HỦY DIỆT",
+        "h2": "THẢM HỌA KHÔNG BÁO TRƯỚC",
+        "sub": "Sự tích tụ SO2 và oxit nitơ khí quyển",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Thủ phạm là khí lưu huỳnh đioxit và oxit nitơ từ khói bụi nhà máy, hòa tan trong nước mưa bị oxy hóa thành axit sunfuric đậm đặc!",
+        "factTitle": "KHÍ SO₂ TẠO AXIT SUNFURIC",
+        "factDesc": "Khí thải công nghiệp phản ứng với hơi nước và oxy tạo axit mạnh",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Nước mưa axit có độ pH dưới 5.0, hòa tan canxi cacbonat của tượng đá và rửa trôi khoáng chất trong đất, hủy diệt thảm thực vật!",
+        "rxTitle": "ĂN MÒN ĐÁ VÔI VÀ THẢM RỪNG",
+        "rxDesc": "Axit sunfuric hòa tan muối canxi cacbonat thành canxi sunfat",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Đo độ pH nước mưa và dung dịch môi trường tại website chính thức: ph-chem.web.app/calculator nhé!",
+        "ctaUrl": "ph-chem.web.app/calculator",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Những cơn mưa tưởng như mát lành lại có thể thiêu rụi cả cánh rừng và làm tan chảy tượng đá cổ — Đó là hiện tượng gì? 🌧️🌲\n\nThủ phạm chính là Mưa Axit!\nKhí lưu huỳnh đioxit (SO₂) và các oxit nitơ (NOₓ) thải ra từ các nhà máy nhiệt điện than và phương tiện giao thông. Khi bay lên tầng đối lưu, chúng gặp hơi nước và oxy, bị oxy hóa tạo thành axit sunfuric (H₂SO₄) và axit nitric (HNO₃):\n👉 2 SO₂ + O₂ + 2 H₂O → 2 H₂SO₄\n\nNước mưa rơi xuống có độ pH thấp dưới 5.0 (thậm chí dưới 4.0), hòa tan lớp đá vôi canxi cacbonat (CaCO₃) của tượng đài cổ:\n👉 CaCO₃ + H₂SO₄ → CaSO₄ + CO₂ ↑ + H₂O\n\nAxit còn rửa trôi các khoáng chất dinh dưỡng trong đất, làm rễ cây bị đầu độc và biến những cánh rừng xanh tươi thành nghĩa địa cây khô!\n\n📱 Kiểm tra độ pH nước mưa và dung dịch hóa học tại website chính thức:\n🌐 https://ph-chem.web.app/calculator\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #MuaAxit #SO2 #MoiTruong #HoaHoc10 #BaoVeHanhTinh"
+  },
+  {
+    "id": 40,
+    "key": "reel_40_hieu_ung_nha_kinh",
+    "videoFileName": "reel_40_hieu_ung_nha_kinh.mp4",
+    "title": "HIỆU ỨNG NHÀ KÍNH: TẤM CHĂN GIỮ NHIỆT CỦA TRÁI ĐẤT",
+    "tag": "Tự nhiên",
+    "themeColor": "#f59e0b",
+    "accentColor": "#fbbf24",
+    "svgFile": "public/hinh/CO2.f9e76a2b.svg",
+    "compoundName": "Khí Cacbonic (CO₂)",
+    "reaction": "Hấp thụ bức xạ hồng ngoại (Bước sóng 15 µm)",
+    "route": "formulas",
+    "scenes": [
+      {
+        "text": "Nếu không có hiệu ứng nhà kính, Trái Đất của chúng ta sẽ là một tảng băng chết âm 18 độ C, nhưng tại sao hiện nay nó lại là thảm họa khí hậu?",
+        "badge": "BẠN CÓ BIẾT? #40",
+        "h1": "HIỆU ỨNG NHÀ KÍNH",
+        "h2": "TẤM CHĂN GIỮ NHIỆT TRÁI ĐẤT",
+        "sub": "Cơ chế dao động phân tử CO2 và Mêtan",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Các phân tử khí CO2 và mêtan có cấu trúc liên kết dao động hấp thụ bức xạ hồng ngoại tỏa ra từ mặt đất, giữ nhiệt lượng lại bầu khí quyển!",
+        "factTitle": "HẤP THỤ BỨC XẠ HỒNG NGOẠI",
+        "factDesc": "Liên kết C=O dao động hấp thụ chọn lọc sóng nhiệt phản xạ",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Lượng khí nhà kính tăng vọt do con người đốt nhiên liệu hóa thạch, biến tấm chăn ấm áp thành một lò hơi khổng lồ làm tan băng hai cực!",
+        "rxTitle": "MẤT CÂN BẰNG NHIỆT TOÀN CẦU",
+        "rxDesc": "Nồng độ CO2 vượt 420 ppm gây nóng lên toàn cầu và biến đổi khí hậu",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Tra cứu cấu trúc ba chiều của các phân tử khí nhà kính tại website chính thức: ph-chem.web.app/formulas nhé!",
+        "ctaUrl": "ph-chem.web.app/formulas",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Nếu không có hiệu ứng nhà kính, Trái Đất sẽ là một tảng băng chết âm 18°C — Nhưng vì sao hiện nay nó lại là thảm họa khí hậu? 🌡️🌍\n\nVề bản chất tự nhiên, hiệu ứng nhà kính là chiếc chăn giữ nhiệt ấm áp cho Trái Đất!\nBề mặt Trái Đất sau khi hấp thụ ánh nắng sẽ phát xạ nhiệt ngược lại không gian dưới dạng tia hồng ngoại.\n\nCác phân tử khí nhà kính như Cacbonic (CO₂) và Mêtan (CH₄) có các liên kết cộng hóa trị dao động uốn và dãn ở tần số trùng với bước sóng bức xạ hồng ngoại (~15 µm). Chúng hấp thụ năng lượng nhiệt này rồi phát xạ ngược trở lại mặt đất, giữ nhiệt độ trung bình toàn cầu ở mức lý tưởng +15°C.\n\nTuy nhiên, việc con người đốt quá nhiều than đá và dầu mỏ đã đẩy nồng độ CO₂ vượt mức 420 ppm — mức cao nhất trong 2 triệu năm qua, biến chiếc chăn ấm thành một lò nướng khổng lồ làm tan băng hai cực!\n\n📱 Tra cứu cấu trúc không gian 3D của các phân tử khí tại:\n🌐 https://ph-chem.web.app/formulas\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #HieuUngNhaKinh #CO2 #BienDoiKhiHau #KhoaHocMoiTruong #HocHoaOnline"
+  },
+  {
+    "id": 41,
+    "key": "reel_41_tang_ozon_o3",
+    "videoFileName": "reel_41_tang_ozon_o3.mp4",
+    "title": "TẦNG OZON: LÁ CHẮN TIA CỰC TÍM CỨU SỐNG SINH QUYỂN",
+    "tag": "Tự nhiên",
+    "themeColor": "#3b82f6",
+    "accentColor": "#60a5fa",
+    "svgFile": "public/hinh/O3.1545db8d.svg",
+    "compoundName": "Khí Ozon (O₃)",
+    "reaction": "O₃ + Tia UV-B → O₂ + O",
+    "route": "formulas",
+    "scenes": [
+      {
+        "text": "Bầu trời cách mặt đất hai mươi kilômét có một lớp màng vô hình mỏng manh, nhưng nếu nó biến mất, toàn bộ sự sống trên cạn sẽ bị thiêu rụi!",
+        "badge": "BẠN CÓ BIẾT? #41",
+        "h1": "TẦNG OZON MỎNG MANH",
+        "h2": "LÁ CHẮN SỐNG CỦA HÀNH TINH",
+        "sub": "Hấp thụ 99% bức xạ cực tím tử ngoại",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Tầng ozon gồm các phân tử O3 liên kết đặc biệt, hấp thụ tới 99% tia cực tím độc hại từ Mặt Trời chiếu xuống Trái Đất!",
+        "factTitle": "PHÂN TỬ OZON GÓC 116.8°",
+        "factDesc": "Cấu trúc cộng hưởng đặc biệt có khả năng hấp thụ photon UV-B mạnh",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Khí làm lạnh CFC từng làm thủng tầng ozon vì giải phóng clo tự do, một nguyên tử clo có thể phá hủy tới một trăm ngàn phân tử ozon!",
+        "rxTitle": "PHẢN ỨNG DÂY CHUYỀN PHÁ HỦY",
+        "rxDesc": "Gốc tự do Clo xúc tác phân hủy O3 thành oxy thông thường",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá cấu trúc của ozon và các đơn chất khí tại website chính thức: ph-chem.web.app/formulas nhé!",
+        "ctaUrl": "ph-chem.web.app/formulas",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Bầu trời cách mặt đất 20 km có một tấm khiên vô hình mỏng manh — Nếu nó biến mất, sự sống trên cạn sẽ bị thiêu rụi! 🛡️☀️\n\nĐó chính là Tầng Ozon (O₃) nằm ở tầng bình lưu!\nKhác với phân tử oxy (O₂) thông thường, Ozon (O₃) gồm 3 nguyên tử oxy liên kết góc 116.8°. Cấu trúc này hấp thụ cực mạnh các photon ánh sáng tia cực tím UV-B có năng lượng cao từ Mặt Trời:\n👉 O₃ + Tia UV-B → O₂ + O\n\nNhờ phản ứng này, tầng ozon lọc sạch tới 99% tia cực tím độc hại, bảo vệ DNA của con người khỏi ung thư da và bảo vệ sinh quyển Trái Đất.\n\nTrước đây, con người sử dụng khí CFC (như Freon trong tủ lạnh). Khí này bay lên tầng bình lưu bị tia cực tím bẻ gãy giải phóng gốc Clo tự do (Cl•). Mỗi nguyên tử Clo có thể kích hoạt phản ứng dây chuyền phá hủy tới 100.000 phân tử Ozon gây ra lỗ thủng tầng ozon kinh hoàng!\n\n📱 Khám phá cấu trúc các dạng thù hình của oxy tại:\n🌐 https://ph-chem.web.app/formulas\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #TangOzon #Ozon #O3 #TiaCucTim #KhoaHocVuTru #HoaHoc10"
+  },
+  {
+    "id": 42,
+    "key": "reel_42_dom_dom_phat_quang",
+    "videoFileName": "reel_42_dom_dom_phat_quang.mp4",
+    "title": "ĐOM ĐÓM PHÁT SÁNG: KỲ QUAN PHÁT QUANG SINH HỌC",
+    "tag": "Tự nhiên",
+    "themeColor": "#84cc16",
+    "accentColor": "#a3e635",
+    "svgFile": "public/hinh/C10H14N2.de4e981e.svg",
+    "compoundName": "Phát Quang Sinh Học Luciferin",
+    "reaction": "Luciferin + O₂ + ATP → Oxyluciferin + Photon",
+    "route": "reactions",
+    "scenes": [
+      {
+        "text": "Những chú đom đóm lập lòe ánh sáng xanh ngọc trong đêm hè tĩnh lặng mà không hề bị nóng hay bỏng rát — Bí mật đằng sau là gì?",
+        "badge": "BẠN CÓ BIẾT? #42",
+        "h1": "ĐOM ĐÓM LẬP LÒE TRONG ĐÊM",
+        "h2": "KỲ QUAN PHÁT QUANG SINH HỌC",
+        "sub": "Hiệu suất chuyển hóa ánh sáng 100%",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Đó là phản ứng phát quang sinh học hoàn hảo bậc nhất tự nhiên, nơi 100% năng lượng hóa học được chuyển hóa trực tiếp thành ánh sáng lạnh!",
+        "factTitle": "ÁNH SÁNG LẠNH HIỆU SUẤT 100%",
+        "factDesc": "Khác bóng đèn sợi đốt, gần như không có năng lượng bị thất thoát dưới dạng nhiệt",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Hợp chất Luciferin kết hợp oxy dưới sự xúc tác của enzym và năng lượng tế bào, giải phóng photon ánh sáng mà không tỏa nhiệt!",
+        "rxTitle": "OXY HÓA HỢP CHẤT LUCIFERIN",
+        "rxDesc": "Phản ứng sinh hóa biến đổi phân tử lên trạng thái kích thích phát photon",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Cân bằng và mô phỏng phản ứng sinh hóa tại website chính thức: ph-chem.web.app/reactions nhé!",
+        "ctaUrl": "ph-chem.web.app/reactions",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Những chú đom đóm lập lòe ánh sáng xanh ngọc trong đêm hè mà không hề bị nóng hay bỏng rát — Bí mật là gì? ✨🦗\n\nĐó là hiện tượng Phát Quang Sinh Học (Bioluminescence) với hiệu suất chuyển hóa năng lượng đạt mức 100% hoàn hảo nhất tự nhiên!\nCác bóng đèn điện thông thường chỉ chuyển 10-20% điện năng thành ánh sáng, còn lại bị thất thoát thành nhiệt. Nhưng đom đóm tạo ra \"ánh sáng lạnh\" hoàn toàn không tỏa nhiệt:\n\n👉 Hợp chất Luciferin kết hợp với oxy (O₂) dưới sự xúc tác của enzym Luciferase và phân tử mang năng lượng ATP.\n👉 Phản ứng sinh hóa tạo thành Oxyluciferin ở trạng thái kích thích điện tử.\n👉 Khi trở về trạng thái cơ bản, nó giải phóng toàn bộ năng lượng dưới dạng các hạt photon ánh sáng xanh vàng lung linh!\n\n📱 Khám phá các phản ứng sinh hóa phát quang kỳ diệu tại:\n🌐 https://ph-chem.web.app/reactions\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #DomDom #PhatQuangSinhHoc #Luciferin #KyQuanTuNhien #SinhHoa"
+  },
+  {
+    "id": 43,
+    "key": "reel_43_ma_troi_photphin",
+    "videoFileName": "reel_43_ma_troi_photphin.mp4",
+    "title": "MA TRƠI TRÊN NGHĨA ĐỊA: BẢN CHẤT TỰ CHÁY CỦA PHOTPHIN",
+    "tag": "Tự nhiên",
+    "themeColor": "#a855f7",
+    "accentColor": "#c084fc",
+    "svgFile": "public/hinh/PH3.5de702fe.svg",
+    "compoundName": "Khí Photphin (PH₃)",
+    "reaction": "2 P₂H₄ + 7 O₂ → 2 P₂O₅ + 4 H₂O",
+    "route": "table",
+    "scenes": [
+      {
+        "text": "Những ngọn lửa xanh ma mị lập lòe trôi nổi trên các khu nghĩa địa lúc nửa đêm, ai đuổi theo thì nó lại chạy theo — Ma trơi có thật không?",
+        "badge": "BẠN CÓ BIẾT? #43",
+        "h1": "MA TRƠI TRÊN NGHĨA ĐỊA",
+        "h2": "BẢN CHẤT HÓA HỌC TỰ CHÁY",
+        "sub": "Sự phân hủy sinh khí Photphin và Điphotphin",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Khoa học chứng minh đó là phản ứng hóa học tự nhiên! Xương người và động vật chứa nhiều photpho, khi phân hủy yếm khí sinh ra khí photphin!",
+        "factTitle": "PHÂN HỦY PHOTPHO HỮU CƠ",
+        "factDesc": "Xương cốt phân hủy sinh ra khí photphin PH3 và tạp chất điphotphin P2H4",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Đi kèm photphin là tạp chất điphotphin có khả năng tự bốc cháy ngay ở nhiệt độ phòng, tạo ngọn lửa bay theo luồng gió khi có người bước tới!",
+        "rxTitle": "TỰ BỐC CHÁY TRONG KHÔNG KHÍ",
+        "rxDesc": "P2H4 tự bốc cháy ở nhiệt độ thường châm ngòi cho PH3 bốc cháy",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá các hợp chất của nguyên tố photpho tại website chính thức: ph-chem.web.app/table nhé!",
+        "ctaUrl": "ph-chem.web.app/table",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Những ngọn lửa xanh ma mị lập lòe trôi nổi trên các khu nghĩa địa lúc nửa đêm — Ma trơi có thật không? 👻🔥\n\nHoàn toàn không có yếu tố tâm linh nào ở đây — Đó là phản ứng hóa học tự nhiên 100%!\nXương cốt của con người và động vật chứa một lượng lớn nguyên tố Photpho ở dạng muối canxi photphat Ca₃(PO₄)₂.\nKhi chôn cất dưới lòng đất ẩm và thiếu oxy, vi khuẩn phân hủy chất hữu cơ sinh ra hỗn hợp khí Photphin (PH₃) và Điphotphin (P₂H₄).\n\nKhí này len lỏi qua các kẽ đất thoát lên mặt đất. Điphotphin (P₂H₄) là chất cực kỳ kém bền, nó tự bốc cháy ngay lập tức khi tiếp xúc với oxy không khí ở nhiệt độ phòng:\n👉 2 P₂H₄ + 7 O₂ → 2 P₂O₅ + 4 H₂O\n\nNgọn lửa P₂H₄ châm ngòi cho khí PH₃ cháy theo với ánh sáng xanh lơ mờ ảo. Khi thấy ngọn lửa, người sợ hãi bỏ chạy tạo ra luồng gió hút khí bay theo, khiến người ta tưởng rằng ngọn lửa ma trơi đang đuổi theo mình!\n\n📱 Khám phá tính chất hóa học của nguyên tố Photpho tại:\n🌐 https://ph-chem.web.app/table\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #MaTroi #Photphin #PH3 #GiaiMaHienTuong #HoaHoc11 #KhoaHocVui"
+  },
+  {
+    "id": 44,
+    "key": "reel_44_bang_chay_methane",
+    "videoFileName": "reel_44_bang_chay_methane.mp4",
+    "title": "BĂNG CHÁY ĐÁY ĐẠI DƯƠNG: NGUỒN NĂNG LƯỢNG KHỔNG LỒ",
+    "tag": "Tự nhiên",
+    "themeColor": "#0284c7",
+    "accentColor": "#38bdf8",
+    "svgFile": "public/hinh/CH4.78d17873.svg",
+    "compoundName": "Mêtan Hydrat (Băng Cháy)",
+    "reaction": "CH₄ + 2 O₂ → CO₂ ↑ + 2 H₂O",
+    "route": "formulas",
+    "scenes": [
+      {
+        "text": "Một tảng băng trắng muốt lấy từ đáy biển sâu, khi châm lửa lại bùng cháy rực rỡ như một ngọn đuốc — Băng làm sao có thể cháy?",
+        "badge": "BẠN CÓ BIẾT? #44",
+        "h1": "TẢNG BĂNG TỰ BỐC CHÁY",
+        "h2": "NGUỒN NĂNG LƯỢNG ĐÁY ĐẠI DƯƠNG",
+        "sub": "Mạng tinh thể bọc khí Methane Hydrate",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Đó là Băng Cháy Mêtan Hydrat. Dưới đáy biển sâu hàng ngàn mét với áp suất cực lớn và nhiệt độ thấp, phân tử nước nhốt chặt khí mêtan bên trong!",
+        "factTitle": "LỒNG TINH THỂ NƯỚC NHỐT CH4",
+        "factDesc": "Mỗi mét khối băng cháy giải phóng tới 164 mét khối khí mêtan",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Khi đưa lên mặt nước, lớp lồng băng tan chảy giải phóng khí mêtan nguyên chất bốc cháy cuồn cuộn, trữ lượng gấp đôi mọi nhiên liệu hóa thạch!",
+        "rxTitle": "CHÁY RỰC RỠ TỎA NHIỆT KHỔNG LỒ",
+        "rxDesc": "Quá trình cháy tạo CO2 và hơi nước, giải phóng năng lượng sạch",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Xem cấu trúc không gian ba chiều của phân tử mêtan tại website chính thức: ph-chem.web.app/formulas nhé!",
+        "ctaUrl": "ph-chem.web.app/formulas",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Một tảng băng trắng muốt lấy từ đáy biển sâu, khi châm lửa lại bốc cháy rừng rực như ngọn đuốc — Băng làm sao có thể cháy? 🧊🔥\n\nThực chất đó không phải băng nước đá thông thường, mà là Băng Cháy (Methane Hydrate - CH₄ · 5.75 H₂O)!\nỞ đáy đại dương sâu từ 500 đến 3.000 mét, nơi nhiệt độ chỉ khoảng 2 - 4°C và áp suất nước biển lên tới hàng trăm atmosphere:\nCác phân tử nước kết tinh thành mạng lưới lồng tinh thể hình đa diện rỗng (Clathrate), nhốt chặt phân tử khí Mêtan (CH₄) vào bên trong.\n\nMỗi 1 mét khối băng cháy có thể giải phóng tới 164 mét khối khí mêtan nguyên chất!\nKhi đưa lên bờ, áp suất giảm làm lồng băng tan chảy giải phóng khí mêtan bốc cháy dữ dội:\n👉 CH₄ + 2 O₂ → CO₂ ↑ + 2 H₂O + Tỏa nhiệt lượng cực lớn!\n\nTrữ lượng băng cháy dưới đáy biển ước tính gấp đôi toàn bộ trữ lượng than đá, dầu mỏ và khí đốt trên Trái Đất cộng lại!\n\n📱 Xem cấu trúc 3D của phân tử mêtan tại website chính thức:\n🌐 https://ph-chem.web.app/formulas\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #BangChay #MethaneHydrate #NangLuongTuongLai #HoaHoc11 #DiaChat"
+  },
+  {
+    "id": 45,
+    "key": "reel_45_mui_dat_sau_mua",
+    "videoFileName": "reel_45_mui_dat_sau_mua.mp4",
+    "title": "MÙI ĐẤT SAU CƠN MƯA: MÙI HƯƠNG KỲ DIỆU GEOSMIN",
+    "tag": "Tự nhiên",
+    "themeColor": "#10b981",
+    "accentColor": "#34d399",
+    "svgFile": "public/hinh/C10H20O.df908eb2.svg",
+    "compoundName": "Hợp Chất Mùi Đất Geosmin",
+    "reaction": "Khứu giác con người nhận biết ở 5 ppt",
+    "route": "formulas",
+    "scenes": [
+      {
+        "text": "Tại sao khi cơn mưa rào đầu mùa vừa đổ xuống mảnh đất khô cằn, bạn lại ngửi thấy một mùi hương ngai ngái ngọt lành vô cùng dễ chịu?",
+        "badge": "BẠN CÓ BIẾT? #45",
+        "h1": "MÙI ĐẤT SAU CƠN MƯA RÀO",
+        "h2": "MÙI HƯƠNG KỲ DIỆU CỦA ĐẤT MẸ",
+        "sub": "Hợp chất hữu cơ Petrichor và Geosmin",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Mùi hương này có tên khoa học là Petrichor, được tạo nên bởi hợp chất hữu cơ Geosmin do vi khuẩn trong đất màu mỡ tiết ra!",
+        "factTitle": "HỢP CHẤT HỮU CƠ GEOSMIN",
+        "factDesc": "Hợp chất bicyclic alcohol được xạ khuẩn Actinomyces giải phóng vào đất",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Giọt nước mưa rơi xuống bắn tung các bọt khí mang phân tử Geosmin vào không khí. Mũi người nhạy với Geosmin gấp hàng trăm lần cá mập ngửi máu!",
+        "rxTitle": "CƠ CHẾ KHUẾCH TÁN BỌT KHÍ",
+        "rxDesc": "Mũi người cảm nhận được ở nồng độ cực nhỏ chỉ 5 phần nghìn tỷ",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Tra cứu các hợp chất hữu cơ vòng trong tự nhiên tại website chính thức: ph-chem.web.app/formulas nhé!",
+        "ctaUrl": "ph-chem.web.app/formulas",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Tại sao khi cơn mưa rào đầu mùa đổ xuống mảnh đất khô cằn, ta lại ngửi thấy mùi đất ngai ngái ngọt lành vô cùng khoan khoái? 🌧️🌱\n\nMùi hương dễ chịu này có tên khoa học là Petrichor!\nThủ phạm tạo nên mùi hương chính là hợp chất hữu cơ Geosmin (C₁₂H₂₂O) do các vi khuẩn xạ khuẩn (Actinomyces) sống trong đất màu mỡ tiết ra.\n\nKhi giọt mưa rơi xuống bề mặt đất xốp, nó bẫy những túi khí siêu nhỏ bên dưới. Bọt khí này nhanh chóng bắn vọt lên không trung mang theo các phân tử Geosmin khuếch tán thành làn sương aerosol mỏng manh.\n\nĐiều kỳ diệu là khứu giác con người cực kỳ nhạy cảm với Geosmin: Chúng ta có thể phát hiện mùi này ở nồng độ cực nhỏ chỉ 5 phần nghìn tỷ (5 ppt) — nhạy hơn cả khả năng đánh hơi máu của cá mập!\n\n📱 Tra cứu các hợp chất hữu cơ thiên nhiên tại website chính thức:\n🌐 https://ph-chem.web.app/formulas\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #MuiDatSauMua #Geosmin #Petrichor #KhoaHocThuVi #HoaHocHuuCo"
+  },
+  {
+    "id": 46,
+    "key": "reel_46_thach_nhu_hang_dong",
+    "videoFileName": "reel_46_thach_nhu_hang_dong.mp4",
+    "title": "THẠCH NHŨ HANG ĐỘNG: KIỆT TÁC CÂN BẰNG HÓA HỌC",
+    "tag": "Tự nhiên",
+    "themeColor": "#eab308",
+    "accentColor": "#fde047",
+    "svgFile": "public/hinh/CaCO3.6a0a815f.svg",
+    "compoundName": "Đá Vôi Canxi Cacbonat",
+    "reaction": "CaCO₃ + CO₂ + H₂O ⇌ Ca(HCO₃)₂",
+    "route": "reactions",
+    "scenes": [
+      {
+        "text": "Những cột thạch nhũ tráng lệ trong hang Sơn Đoòng hay vịnh Hạ Long lung linh như cung điện, được bàn tay tự nhiên kiến tạo ra sao?",
+        "badge": "BẠN CÓ BIẾT? #46",
+        "h1": "THẠCH NHŨ HANG ĐỘNG",
+        "h2": "CÂN BẰNG HÓA HỌC TRIỆU NĂM",
+        "sub": "Phản ứng hòa tan và tái kết tủa đá vôi",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Bản chất là phản ứng thuận nghịch kỳ diệu: Nước mưa chứa CO2 hòa tan đá vôi canxi cacbonat tạo dung dịch canxi bicacbonat!",
+        "factTitle": "HÒA TAN ĐÁ VÔI BẰNG CO2 VÀ NƯỚC",
+        "factDesc": "Nước ngầm hòa tan núi đá vôi tạo thành các hang động ngầm khổng lồ",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Khi từng giọt nước nhỏ từ trần hang xuống, CO2 bay hơi đẩy phản ứng ngược lại tái tạo canxi cacbonat, bồi đắp từng milimét thạch nhũ qua triệu năm!",
+        "rxTitle": "TÁI KẾT TỦA TỪNG GIỌT NƯỚC",
+        "rxDesc": "Phản ứng nghịch nhả khí CO2 giúp tinh thể canxi cacbonat kết tinh lấp lánh",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Cân bằng các phản ứng hòa tan và tái kết tủa đá vôi tại website chính thức: ph-chem.web.app/reactions nhé!",
+        "ctaUrl": "ph-chem.web.app/reactions",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Những cột thạch nhũ tráng lệ trong hang Sơn Đoòng hay vịnh Hạ Long lung linh như cung điện được kiến tạo như thế nào? ⛰️✨\n\nĐó là kiệt tác của phản ứng hóa học hai chiều thuận nghịch diễn ra bền bỉ suốt hàng triệu năm!\n1. Phản ứng thuận (Hòa tan đá vôi tạo hang động):\nNước mưa hấp thụ khí CO₂ trong không khí trở thành dung dịch axit cacbonic nhẹ, len lỏi qua các khe nứt hòa tan đá vôi Canxi cacbonat (CaCO₃) thành Canxi bicacbonat Ca(HCO₃)₂ tan trong nước:\n👉 CaCO₃ + CO₂ + H₂O → Ca(HCO₃)₂\n\n2. Phản ứng nghịch (Tái kết tủa tạo thạch nhũ):\nDung dịch chảy đến trần hang động, khi từng giọt nước nhỏ xuống, áp suất giảm và khí CO₂ thoát ra ngoài. Phản ứng đảo chiều khiến muối Canxi cacbonat kết tủa trở lại:\n👉 Ca(HCO₃)₂ → CaCO₃ ↓ + CO₂ ↑ + H₂O\n\nTừng phân tử CaCO₃ tích tụ qua hàng trăm năm mới bồi đắp nên 1 cm thạch nhũ rực rỡ!\n\n📱 Cân bằng phản ứng thuận nghịch đá vôi tại website chính thức:\n🌐 https://ph-chem.web.app/reactions\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #ThachNhu #HangDong #SonDoong #DaVoi #CanBangHoaHoc #HoaHoc11"
+  },
+  {
+    "id": 47,
+    "key": "reel_47_tro_nui_lua_do",
+    "videoFileName": "reel_47_tro_nui_lua_do.mp4",
+    "title": "ĐẤT ĐỎ BAZAN: MÀU MỠ NHỜ KHOÁNG CHẤT SẮT",
+    "tag": "Tự nhiên",
+    "themeColor": "#dc2626",
+    "accentColor": "#f87171",
+    "svgFile": "public/hinh/Fe2O3.51ab914b.svg",
+    "compoundName": "Sắt(III) Oxit (Fe₂O₃)",
+    "reaction": "Dung nham bazan phong hóa giàu Fe, K, P",
+    "route": "table",
+    "scenes": [
+      {
+        "text": "Tại sao vùng đất đỏ bazan ở Tây Nguyên lại màu mỡ phì nhiêu đến vậy, trồng cà phê và cao su tốt tươi bậc nhất cả nước?",
+        "badge": "BẠN CÓ BIẾT? #47",
+        "h1": "ĐẤT ĐỎ BAZAN TÂY NGUYÊN",
+        "h2": "MẦU MỠ NHỜ KHOÁNG CHẤT SẮT",
+        "sub": "Sản phẩm phong hóa từ dung nham núi lửa",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Hàng triệu năm trước, dung nham núi lửa phun trào nguội đi tạo thành đá bazan. Màu đỏ thẫm đặc trưng đến từ khoáng chất sắt ba oxit!",
+        "factTitle": "KHOÁNG CHẤT SẮT BA OXIT",
+        "factDesc": "Fe2O3 tạo nên màu nâu đỏ trù phú và khả năng giữ ẩm vượt trội",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Quá trình phong hóa liên tục giải phóng khoáng vi lượng sắt, magie, kali và photpho, tạo nên tầng đất xốp giàu dưỡng chất nuôi sống cây trồng!",
+        "rxTitle": "KHO KHOÁNG DINH DƯỠNG TỰ NHIÊN",
+        "rxDesc": "Cung cấp đầy đủ vi lượng sống còn giúp cây cà phê, cao su phát triển mạnh",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá nguyên tố Sắt và các oxit kim loại tại website chính thức: ph-chem.web.app/table nhé!",
+        "ctaUrl": "ph-chem.web.app/table",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Tại sao đất đỏ bazan ở Tây Nguyên lại màu mỡ phì nhiêu đến vậy, trồng cà phê và cao su tốt tươi số 1 cả nước? 🌋☕\n\nHàng triệu năm trước, dung nham núi lửa phun trào và nguội đi tạo thành lớp đá macma bazan giàu khoáng chất.\nMàu đỏ nâu đặc trưng của đất bazan đến từ hàm lượng cao của khoáng chất Sắt(III) Oxit (Fe₂O₃) và Nhôm Oxit (Al₂O₃) hình thành qua quá trình phong hóa feralit hóa.\n\nQuá trình phân hủy tự nhiên của đá bazan liên tục giải phóng các nguyên tố dinh dưỡng vi lượng và đa lượng sống còn: Sắt (Fe), Magie (Mg), Kali (K), Canxi (Ca) và Photpho (P). Lớp đất có độ xốp cao, giữ nước và thoáng khí hoàn hảo giúp bộ rễ cây công nghiệp phát triển vượt bậc!\n\n📱 Khám phá các hợp chất của Sắt và kim loại tại website chính thức:\n🌐 https://ph-chem.web.app/table\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #DatDoBazan #TayNguyen #Fe2O3 #KhoangChat #NongNghiep #HoaHoc12"
+  },
+  {
+    "id": 48,
+    "key": "reel_48_nuoc_bien_vi_man",
+    "videoFileName": "reel_48_nuoc_bien_vi_man.mp4",
+    "title": "TẠI SAO NƯỚC BIỂN CÓ VỊ MẶN CHÁT?",
+    "tag": "Tự nhiên",
+    "themeColor": "#0ea5e9",
+    "accentColor": "#38bdf8",
+    "svgFile": "public/hinh/NaCl.42ad885d.svg",
+    "compoundName": "Muối Ăn Natri Clorua (NaCl)",
+    "reaction": "Độ mặn trung bình 35‰ đại dương",
+    "route": "calculator",
+    "scenes": [
+      {
+        "text": "Tất cả các dòng sông nước ngọt đều chảy ra biển lớn, nhưng tại sao nước biển lại mặn chát đến mức không thể uống được?",
+        "badge": "BẠN CÓ BIẾT? #48",
+        "h1": "VÌ SAO NƯỚC BIỂN CÓ VỊ MẶN?",
+        "h2": "BÍ MẬT KHOÁNG CHẤT BA TỶ NĂM",
+        "sub": "Hành trình tích tụ muối qua các dòng sông",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Nước mưa hơi có tính axit bào mòn đá trên lục địa giải phóng ion khoáng như natri, magie. Các con sông cuốn trôi khoáng chất đổ về đại dương!",
+        "factTitle": "BÀO MÒN LỤC ĐỊA & KHOÁNG CHẤT",
+        "factDesc": "Hàng tỷ tấn ion Na+ và Cl- được rửa trôi từ đất đá ra biển mỗi năm",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Nước biển bốc hơi liên tục tạo thành mây để lại toàn bộ muối natri clorua tích tụ qua hơn ba tỷ năm, tạo nên độ mặn ba mươi lăm phần nghìn!",
+        "rxTitle": "NƯỚC BAY HƠI, MUỐI Ở LẠI",
+        "rxDesc": "Vòng tuần hoàn nước hàng tỷ năm biến đại dương thành kho muối khổng lồ",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Tính toán nồng độ phần trăm và độ mặn dung dịch tại website chính thức: ph-chem.web.app/calculator nhé!",
+        "ctaUrl": "ph-chem.web.app/calculator",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Tất cả các dòng sông nước ngọt đều đổ ra biển lớn — Nhưng tại sao nước biển lại mặn chát đến mức không thể uống? 🌊🧂\n\nHành trình tích tụ muối của đại dương đã kéo dài hơn 3.8 tỷ năm!\nNước mưa khi rơi qua bầu khí quyển hòa tan khí CO₂ tạo thành axit yếu. Khi chảy qua bề mặt lục địa, dòng nước axit này bào mòn đá tảng, bóc tách các ion khoáng như Natri (Na⁺), Magie (Mg²⁺), Canxi (Ca²⁺) và cuốn trôi chúng theo các dòng sông đổ ra biển.\n\nĐồng thời, các miệng núi lửa dưới đáy biển phun trào giải phóng một lượng khổng lồ ion Clorua (Cl⁻). Hai ion này gặp nhau tạo thành muối Natri Clorua (NaCl):\n👉 Na⁺ + Cl⁻ ⇌ NaCl\n\nTrong chu trình tuần hoàn, nước đại dương bốc hơi lên trời để tạo thành mây và mưa ngọt, nhưng TOÀN BỘ MUỐI ĐƯỢC GIỮ LẠI. Sau hàng tỷ năm tích tụ, độ mặn trung bình của biển đạt 35‰ (mỗi lít nước chứa 35 gam muối)!\n\n📱 Tính toán nồng độ dung dịch muối tại website chính thức:\n🌐 https://ph-chem.web.app/calculator\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #NuocBien #MuoiAn #NaCl #DaiDuong #DiaLyHoaHoc #HocHoaOnline"
+  },
+  {
+    "id": 49,
+    "key": "reel_49_quang_hop_clorophin",
+    "videoFileName": "reel_49_quang_hop_clorophin.mp4",
+    "title": "CÂY XANH NHẢ OXY: BÍ MẬT DIỆP LỤC CHỨA MAGIE",
+    "tag": "Tự nhiên",
+    "themeColor": "#16a34a",
+    "accentColor": "#4ade80",
+    "svgFile": "public/hinh/MgO.100548cb.svg",
+    "compoundName": "Chất Diệp Lục (Lõi Magie Mg²⁺)",
+    "reaction": "6 CO₂ + 6 H₂O → C₆H₁₂O₆ + 6 O₂ ↑",
+    "route": "reactions",
+    "scenes": [
+      {
+        "text": "Một cái cây lặng lẽ đứng trong vườn, hấp thụ ánh nắng mặt trời và nước để nuôi sống cả hành tinh bằng nguồn khí oxy bất tận ra sao?",
+        "badge": "BẠN CÓ BIẾT? #49",
+        "h1": "CÂY XANH TẠO RA OXY",
+        "h2": "BÍ MẬT PHÂN TỬ DIỆP LỤC MAGIE",
+        "sub": "Cỗ máy quang hợp vĩ đại của tự nhiên",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Trung tâm của cỗ máy quang hợp là chất diệp lục Clorophin — một phức chất hữu cơ khổng lồ với nguyên tử Magie nằm ở lõi trung tâm!",
+        "factTitle": "LÕI MAGIE TRONG DIỆP LỤC",
+        "factDesc": "Ion Mg2+ phối trí với 4 vòng pyrrole hấp thụ chọn lọc ánh sáng đỏ và xanh",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Diệp lục bắt trọn photon ánh sáng bẻ gãy phân tử nước giải phóng khí oxy, đồng thời cố định khí cacbonic thành đường nuôi cây lớn lên!",
+        "rxTitle": "QUANG PHÂN LY NƯỚC GIẢI PHÓNG O₂",
+        "rxDesc": "Nguồn oxy khí quyển nuôi sống muôn loài bắt nguồn từ phân tử nước",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Cân bằng phương trình quang hợp kinh điển trong nháy mắt tại website chính thức: ph-chem.web.app/reactions nhé!",
+        "ctaUrl": "ph-chem.web.app/reactions",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Một chiếc lá nhỏ bé hấp thụ ánh nắng mặt trời và nước để tạo ra dòng khí oxy nuôi sống muôn loài ra sao? 🍃☀️\n\nTrái tim của cỗ máy quang hợp chính là sắc tố Diệp Lục (Chlorophyll)!\nCấu trúc phân tử diệp lục là một vòng porphyrin khổng lồ, ở chính giữa trung tâm là ion Magie (Mg²⁺) liên kết phối trí với 4 nguyên tử nitơ.\n\nIon Magie đóng vai trò như một ăng-ten siêu nhạy, hấp thụ trọn vẹn năng lượng từ các photon ánh sáng đỏ và xanh lam (phản chiếu ánh sáng xanh lục tạo nên màu xanh của lá).\nNăng lượng này kích hoạt phản ứng quang phân ly nước:\n👉 2 H₂O (Quang phân ly) → O₂ ↑ + 4 H⁺ + 4 e⁻\n\nToàn bộ lượng khí oxy nuôi dưỡng bầu khí quyển Trái Đất thực chất được tách ra từ chính phân tử NƯỚC, đồng thời chuyển hóa CO₂ thành tinh bột nuôi sống cây trồng!\n\n📱 Cân bằng phương trình quang hợp tự động tại website chính thức:\n🌐 https://ph-chem.web.app/reactions\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #QuangHop #DiepLuc #Magie #Oxy #SinhHoc11 #HoaHocXanh"
+  },
+  {
+    "id": 50,
+    "key": "reel_50_sam_set_phan_dam",
+    "videoFileName": "reel_50_sam_set_phan_dam.mp4",
+    "title": "SẤM SÉT TẠO PHÂN ĐẠM: TRỜI CHO MÙA MÀNG TỐT TƯƠI",
+    "tag": "Tự nhiên",
+    "themeColor": "#eab308",
+    "accentColor": "#fde047",
+    "svgFile": "public/hinh/HNO3.f792a2d5.svg",
+    "compoundName": "Axit Nitric & Muối Nitrat",
+    "reaction": "N₂ + O₂ (Tia sét 3000°C) → 2 NO → 2 NO₂ → HNO₃",
+    "route": "reactions",
+    "scenes": [
+      {
+        "text": "Dân gian có câu: Lúa chiêm lấp ló đầu bờ, hễ nghe tiếng sấm phất cờ mà lên! Tiếng sấm sét thì có liên quan gì đến việc lúa tốt tươi?",
+        "badge": "BẠN CÓ BIẾT? #50",
+        "h1": "HỄ NGHE TIẾNG SẤM PHẤT CỜ MÀ LÊN",
+        "h2": "SẤM SÉT TẠO PHÂN ĐẠM TRỜI CHO",
+        "sub": "Cơ chế bẻ gãy liên kết ba của khí Nitơ",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Khí nitơ trong không khí cực kỳ bền vững. Nhưng tia sét có nhiệt độ tới ba ngàn độ C bẻ gãy liên kết ba, ép nitơ phản ứng với oxy tạo khí NO!",
+        "factTitle": "BẺ GÃY LIÊN KẾT BA BẰNG TIA SÉT",
+        "factDesc": "Nhiệt độ cực cao của luồng sét cung cấp năng lượng hoạt hóa phản ứng",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Khí NO bị oxy hóa và hòa tan trong nước mưa rơi xuống đất biến thành muối đạm nitrat quý giá, phân bón tự nhiên tưới tắm cho mùa màng!",
+        "rxTitle": "CHUYỂN HÓA THÀNH PHÂN ĐẠM NITRAT",
+        "rxDesc": "NO2 kết hợp nước mưa tạo axit nitric rồi thành ion đạm NO3- rễ cây dễ hấp thu",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá chuỗi phản ứng của nitơ và axit nitric tại website chính thức: ph-chem.web.app/reactions nhé!",
+        "ctaUrl": "ph-chem.web.app/reactions",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Dân gian có câu: \"Lúa chiêm lấp ló đầu bờ, hễ nghe tiếng sấm phất cờ mà lên\" — Tiếng sấm thì giúp ích gì cho cây lúa? ⚡🌾\n\nKhí Nitơ (N₂) chiếm tới 78% bầu khí quyển, nhưng phân tử N₂ có liên kết ba cực kỳ bền vững (N≡N) nên rễ cây không thể tự hấp thụ được.\n\nKhi có cơn giông, tia sét phóng điện tạo nhiệt độ cục bộ lên tới 3.000°C!\nNhiệt độ này bẻ gãy liên kết ba bền vững, ép Nitơ phản ứng với Oxy:\n👉 N₂ + O₂ (Tia sét 3000°C) → 2 NO\n👉 2 NO + O₂ → 2 NO₂ (Khí màu nâu đỏ)\n\nKhí NO₂ tiếp tục hòa tan trong nước mưa tạo thành dung dịch Axit Nitric (HNO₃):\n👉 4 NO₂ + O₂ + 2 H₂O → 4 HNO₃\n\nKhi rơi xuống đất, axit phản ứng với khoáng chất kiềm tạo thành muối Đạm Nitrat (NO₃⁻) — nguồn phân đạm dinh dưỡng thiên nhiên vô giá giúp lúa tốt bời bời!\n\n📱 Khám phá chuỗi phản ứng của Nitơ tại website chính thức:\n🌐 https://ph-chem.web.app/reactions\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #SamSetTaoDam #PhanDam #Nito #NongNghiep #HoaHoc11"
+  },
+  {
+    "id": 51,
+    "key": "reel_51_bong_bong_bang_metan",
+    "videoFileName": "reel_51_bong_bong_bang_metan.mp4",
+    "title": "BONG BÓNG BĂNG METAN: KỲ QUAN ĐẸP NGUY HIỂM",
+    "tag": "Tự nhiên",
+    "themeColor": "#38bdf8",
+    "accentColor": "#7dd3fc",
+    "svgFile": "public/hinh/CH4.78d17873.svg",
+    "compoundName": "Khí Mêtan (CH₄)",
+    "reaction": "CH₄ + 2 O₂ → CO₂ ↑ + 2 H₂O",
+    "route": "formulas",
+    "scenes": [
+      {
+        "text": "Những chuỗi bong bóng trắng muốt xếp tầng tầng lớp lớp bị đóng băng vĩnh cửu dưới mặt hồ băng đẹp như cổ tích, nhưng chớ dại châm lửa!",
+        "badge": "BẠN CÓ BIẾT? #51",
+        "h1": "BONG BÓNG BĂNG METAN",
+        "h2": "KỲ QUAN ĐẸP VÀ NGUY HIỂM",
+        "sub": "Khí Mêtan đông kết dưới mặt hồ băng",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Đó là các bọc khí mêtan sinh ra khi vi khuẩn phân hủy lá cây và xác sinh vật dưới đáy hồ trong điều kiện thiếu oxy!",
+        "factTitle": "PHÂN HỦY YẾM KHÍ ĐÁY HỒ",
+        "factDesc": "Vi khuẩn cổ sinh methanogen phân giải chất hữu cơ sinh ra khí mêtan",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Khí mêtan bay lên gặp tầng nước mặt đóng băng bị chặn lại đông kết thành khối. Nếu đục một lỗ nhỏ rồi châm lửa, ngọn lửa sẽ bùng cháy dữ dội!",
+        "rxTitle": "BẪY KHÍ MÊTAN DỄ CHÁY NỔ",
+        "rxDesc": "Khí CH4 nguyên chất cháy mạnh với ngọn lửa xanh lam tỏa nhiệt cao",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Xem cấu trúc phân tử hydrocacbon tại website chính thức: ph-chem.web.app/formulas nhé!",
+        "ctaUrl": "ph-chem.web.app/formulas",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Những chuỗi bong bóng trắng muốt xếp tầng tầng lớp lớp đông cứng dưới mặt hồ băng đẹp như tranh vẽ — Nhưng chớ dại châm lửa! 🫧❄️\n\nĐây là hiện tượng kỳ quan thiên nhiên tại hồ Abraham (Canada) và hồ Baikal (Nga).\nDưới đáy hồ, các vi khuẩn kị khí liên tục phân hủy lá cây, rong rêu và xác động vật, giải phóng một lượng khổng lồ khí Mêtan (CH₄).\n\nVào mùa đông, khi mặt hồ đóng băng từ trên xuống dưới, các bong bóng khí mêtan nổi lên bị mắc kẹt lại dưới lớp băng trong suốt. Khi nhiệt độ tiếp tục hạ thấp, các bọt khí này bị đóng băng thành từng chuỗi đa tầng tuyệt đẹp.\n\nKhí mêtan (CH₄) là chất khí cực kỳ dễ bắt lửa! Nếu dùng khoan đục một lỗ nhỏ trên mặt băng rồi châm que diêm, khí mêtan nén sẽ phụt lên và bùng cháy thành cột lửa xanh rực rỡ trên mặt băng lạnh giá!\n\n📱 Tra cứu cấu trúc các hydrocacbon tại website chính thức:\n🌐 https://ph-chem.web.app/formulas\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #BongBongBang #Metan #CH4 #KyQuanThienNhien #DiaChat #HoaHoc11"
+  },
+  {
+    "id": 52,
+    "key": "reel_52_bien_chet_noi_bong_benh",
+    "videoFileName": "reel_52_bien_chet_noi_bong_benh.mp4",
+    "title": "BIỂN CHẾT: VÌ SAO NGƯỜI NẰM ĐỌC SÁCH NỔI BỀNH BỒNG?",
+    "tag": "Tự nhiên",
+    "themeColor": "#14b8a6",
+    "accentColor": "#2dd4bf",
+    "svgFile": "public/hinh/NaCl.42ad885d.svg",
+    "compoundName": "Dung Dịch Muối Khoáng Bão Hòa",
+    "reaction": "D(nước) = 1.24 g/cm³ > D(người) = 1.0 g/cm³",
+    "route": "calculator",
+    "scenes": [
+      {
+        "text": "Tại Biển Chết, dù bạn không biết bơi cũng không bao giờ bị chìm, thậm chí có thể ngả lưng đọc báo bồng bềnh trên mặt nước!",
+        "badge": "BẠN CÓ BIẾT? #52",
+        "h1": "NGHỊCH LÝ Ở BIỂN CHẾT",
+        "h2": "KHÔNG BIẾT BƠI VẪN NỔI BỒNG BỀNH",
+        "sub": "Khối lượng riêng cực lớn của dung dịch muối",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Độ mặn của Biển Chết lên tới ba mươi tư phần trăm, gấp mười lần nước biển thông thường, nồng độ muối khoáng bão hòa đẩy khối lượng riêng lên cực cao!",
+        "factTitle": "ĐỘ MẶN BÃO HÒA 34%",
+        "factDesc": "Nồng độ muối cực đại khiến không sinh vật nào sống sót ngoại trừ vi khuẩn chịu mặn",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Nước biển nặng tới 1.24 gam trên centimét khối, lớn hơn nhiều khối lượng riêng cơ thể người, tạo lực đẩy Ác-si-mét nâng bổng cơ thể nổi lên!",
+        "rxTitle": "LỰC ĐẨY ÁC-SI-MÉT VƯỢT TRỘI",
+        "rxDesc": "D(nước) 1.24 g/cm3 lớn hơn D(cơ thể) 1.0 g/cm3 giúp nổi tự nhiên",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Tính toán khối lượng riêng và nồng độ dung dịch tại website chính thức: ph-chem.web.app/calculator nhé!",
+        "ctaUrl": "ph-chem.web.app/calculator",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Tại Biển Chết, dù bạn hoàn toàn không biết bơi cũng không bao giờ bị chìm — Thậm chí có thể thảnh thơi nằm đọc báo trên mặt nước! 🌊📖\n\nBí mật nằm ở Định luật Vạn vật Nổi và lực đẩy Ác-si-mét!\nĐộ mặn của Biển Chết đạt tới 34.2% — gấp 10 lần độ mặn nước biển thông thường. Nồng độ muối khoáng bão hòa cao đến mức không một loài cá hay thực vật thủy sinh nào có thể sống sót (nên mới gọi là Biển Chết).\n\nDo hòa tan một lượng muối khổng lồ (chủ yếu là NaCl, MgCl₂, CaCl₂), khối lượng riêng của nước Biển Chết đạt tới:\n👉 D(nước Biển Chết) ≈ 1.24 g/cm³\n\nTrong khi đó, khối lượng riêng trung bình của cơ thể con người chỉ là:\n👉 D(cơ thể) ≈ 0.985 - 1.0 g/cm³\n\nVì D(nước) lớn hơn D(người) rất nhiều, lực đẩy Ác-si-mét nâng bổng cơ thể lên khỏi mặt nước. Trọng lượng cơ thể không đủ sức kéo bạn chìm xuống đáy!\n\n📱 Tính toán khối lượng riêng và nồng độ dung dịch tại website chính thức:\n🌐 https://ph-chem.web.app/calculator\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #BienChet #LucDayAcSiMet #KhoiLuongRieng #VatLyHoaHoc #HocHoaOnline"
+  }
+,
+{
+    "id": 53,
+    "key": "reel_53_sao_hoa_do_ri_set",
+    "videoFileName": "reel_53_sao_hoa_do_ri_set.mp4",
+    "title": "SAO HỎA: HÀNH TINH ĐỎ BỊ RỈ SÉT BAO PHỦ",
+    "tag": "Vũ trụ",
+    "themeColor": "#ef4444",
+    "accentColor": "#f87171",
+    "svgFile": "public/hinh/Fe2O3.51ab914b.svg",
+    "compoundName": "Sắt(III) Oxit (Fe₂O₃)",
+    "reaction": "4 Fe + 3 O₂ → 2 Fe₂O₃ (Lớp rỉ sét đỏ cam)",
+    "route": "table",
+    "scenes": [
+      {
+        "text": "Nhìn lên bầu trời đêm, Sao Hỏa tỏa ra ánh sáng đỏ cam rực rỡ kỳ ảo. Tại sao hành tinh này lại có màu sắc đặc biệt như vậy?",
+        "badge": "BẠN CÓ BIẾT? #53",
+        "h1": "BÍ ẨN HÀNH TINH ĐỎ",
+        "h2": "SAO HỎA BỊ RỈ SÉT BAO PHỦ",
+        "sub": "Hàng tỷ tấn oxit sắt bao bọc bề mặt",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Bề mặt Sao Hỏa thực chất được bao phủ bởi một lớp bụi sắt ba oxit Fe2O3 khổng lồ — chính là chất rỉ sét kim loại quen thuộc!",
+        "factTitle": "LỚP BỤI RỈ SÉT Fe₂O₃",
+        "factDesc": "Khoáng chất hematit sắt oxit phản chiếu ánh sáng đỏ cam khắp bề mặt",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Hàng tỷ năm trước, sắt trong đá núi lửa Sao Hỏa phản ứng với nước và khí quyển cổ đại, oxy hóa toàn bộ bề mặt thành một hành tinh rỉ sét!",
+        "rxTitle": "QUÁ TRÌNH OXY HÓA TOÀN HÀNH TINH",
+        "rxDesc": "Gió bão bụi thổi tung hạt oxit sắt tạo nên bầu trời đỏ cam huyền bí",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá nguyên tố Sắt và các oxit kim loại tại website chính thức: ph-chem.web.app/table nhé!",
+        "ctaUrl": "ph-chem.web.app/table",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Nhìn lên bầu trời đêm, Sao Hỏa tỏa ra ánh sáng đỏ cam rực rỡ kỳ ảo — Tại sao hành tinh này lại có màu đỏ? 🔴🪐\n\nCâu trả lời dưới góc nhìn hóa học: Toàn bộ Sao Hỏa thực chất bị \"rỉ sét\" bao phủ!\nHàng tỷ năm trước, lõi và bề mặt Sao Hỏa chứa hàm lượng khoáng sắt (Fe) cực kỳ dồi dào. Khi nước lỏng và khí quyển oxy cổ đại tác động, các khoáng sắt bị oxy hóa mạnh mẽ:\n👉 4 Fe + 3 O₂ → 2 Fe₂O₃ (Sắt(III) Oxit - chất rỉ sét màu đỏ cam)\n\nLớp bụi rỉ sét hematit mịn màng này bao phủ toàn bộ lục địa. Những cơn bão bụi khổng lồ trên Sao Hỏa thường xuyên cuốn hàng triệu tấn bụi sắt bay lên không trung, nhuốm màu đỏ cam rực rỡ cho toàn bộ bầu trời hành tinh này!\n\n📱 Khám phá các hợp chất của Sắt và kim loại tại website chính thức:\n🌐 https://ph-chem.web.app/table\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #SaoHoa #Fe2O3 #RiSet #KhoaHocVuTru #HeMatTroi"
+  },
+  {
+    "id": 54,
+    "key": "reel_54_pin_lithium_ion",
+    "videoFileName": "reel_54_pin_lithium_ion.mp4",
+    "title": "PIN LITHIUM-ION: TRÁI TIM XE ĐIỆN VÀ SMARTPHONE",
+    "tag": "Công nghệ",
+    "themeColor": "#06b6d4",
+    "accentColor": "#22d3ee",
+    "svgFile": "public/hinh/Li2CO3.a868f6d9.svg",
+    "compoundName": "Lithium & Hợp Chất Ion Li⁺",
+    "reaction": "LiCoO₂ + C₆ ⇌ Li_{1-x}CoO₂ + Li_x C₆",
+    "route": "calculator",
+    "scenes": [
+      {
+        "text": "Từ chiếc điện thoại trên tay đến những chiếc xe điện lướt đi êm ái trên đường phố — Tất cả đều hoạt động nhờ một nguyên tố kỳ diệu!",
+        "badge": "BẠN CÓ BIẾT? #54",
+        "h1": "PIN LITHIUM-ION",
+        "h2": "TRÁI TIM CÔNG NGHỆ HIỆN ĐẠI",
+        "sub": "Nguyên tố kim loại nhẹ nhất bảng tuần hoàn",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Lithium là kim loại nhẹ nhất vũ trụ, thế điện cực âm nhất, giúp tích trữ mật độ năng lượng khổng lồ trong một kích thước nhỏ bé!",
+        "factTitle": "MẬT ĐỘ NĂNG LƯỢNG VƯỢT TRỘI",
+        "factDesc": "Bán kính ion cực nhỏ giúp ion Li+ dễ dàng xen vào mạng lưới điện cực",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Khi sạc và xả, các ion Li+ di chuyển con thoi giữa hai điện cực mà không phá hủy cấu trúc vật liệu, cho phép sạc lại hàng ngàn lần!",
+        "rxTitle": "CƠ CHẾ DI CHUYỂN CON THOI",
+        "rxDesc": "Phản ứng điện hóa thuận nghịch bền bỉ cung cấp dòng điện liên tục",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Tính toán thế điện cực và phản ứng điện hóa tại website chính thức: ph-chem.web.app/calculator nhé!",
+        "ctaUrl": "ph-chem.web.app/calculator",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Từ chiếc smartphone trên tay đến những chiếc xe điện lướt êm ái trên đường — Tất cả đều vận hành nhờ một nguyên tố kỳ diệu! 🔋⚡\n\nĐó chính là Lithium (Li) — nguyên tố kim loại nhẹ nhất trong bảng tuần hoàn!\nNhờ khối lượng nguyên tử cực nhỏ (M = 6.94) và thế điện cực chuẩn âm nhất (-3.04V), pin Lithium-ion có thể lưu trữ mật độ năng lượng khổng lồ trên một trọng lượng siêu nhẹ:\n\nCơ chế \"ghế bập bênh / con thoi\" (Rocking-chair):\n👉 Khi sạc: Các ion Li⁺ tách khỏi cực catot (LiCoO₂) chạy qua dung dịch điện phân chui vào kẽ mạng tinh thể than chì cực anot (Li_x C₆).\n👉 Khi xả: Ion Li⁺ chạy ngược lại về catot, giải phóng dòng electron chạy qua mạch ngoài thắp sáng màn hình điện thoại hay quay động cơ xe điện!\n\n📱 Tính toán thế điện cực và phản ứng điện hóa tại:\n🌐 https://ph-chem.web.app/calculator\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #PinLithium #XeDien #LithiumIon #CongNgheTuongLai #HoaHoc12"
+  },
+  {
+    "id": 55,
+    "key": "reel_55_mua_axit_sao_kim",
+    "videoFileName": "reel_55_mua_axit_sao_kim.mp4",
+    "title": "SAO KIM: MƯA AXIT SUNFURIC TRÊN ĐỊA NGỤC 465°C",
+    "tag": "Vũ trụ",
+    "themeColor": "#eab308",
+    "accentColor": "#fde047",
+    "svgFile": "public/hinh/H2SO4.300b7501.svg",
+    "compoundName": "Axit Sunfuric (H₂SO₄)",
+    "reaction": "SO₂ + H₂O → H₂SO₃; H₂SO₄ bốc hơi ở 300°C",
+    "route": "calculator",
+    "scenes": [
+      {
+        "text": "Sao Kim sáng nhất bầu trời đêm như một viên ngọc, nhưng thực tế bên dưới lại là một địa ngục nóng bốn trăm sáu mươi lăm độ C!",
+        "badge": "BẠN CÓ BIẾT? #55",
+        "h1": "ĐỊA NGỤC SAO KIM 465°C",
+        "h2": "CƠN MƯA AXIT SUNFURIC ĐẬM ĐẶC",
+        "sub": "Hiệu ứng nhà kính mất kiểm soát cực đoan",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Bầu khí quyển Sao Kim chứa chín mươi sáu phần trăm khí CO2 và những tầng mây khổng lồ bằng axit sunfuric nguyên chất!",
+        "factTitle": "MÂY AXIT SUNFURIC NGUYÊN CHẤT",
+        "factDesc": "Nồng độ H2SO4 trong các giọt mây đạt tới 85 - 90%",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Những cơn mưa axit sunfuric trút xuống nhưng không bao giờ chạm đất, vì nhiệt độ quá nóng làm giọt axit bốc hơi ngược lên trời!",
+        "rxTitle": "BỐC HƠI TRƯỚC KHI CHẠM ĐẤT",
+        "rxDesc": "Hiện tượng virga: mưa axit bốc hơi tạo vòng tuần hoàn axit vĩnh cửu",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Đo độ pH và tính toán nồng độ axit tại website chính thức: ph-chem.web.app/calculator nhé!",
+        "ctaUrl": "ph-chem.web.app/calculator",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Sao Kim sáng nhất bầu trời đêm như một viên ngọc — Nhưng bên dưới lớp mây lại là địa ngục khắc nghiệt bậc nhất Hệ Mặt Trời! 🌧️🌋\n\nNhiệt độ bề mặt Sao Kim lên tới 465°C (đủ làm tan chảy chì) do hiệu ứng nhà kính cực đoan của bầu khí quyển chứa 96.5% CO₂ và áp suất gấp 92 lần Trái Đất.\nChưa hết, bầu trời Sao Kim bao phủ bởi những tầng mây dày 20 km chứa toàn axit sunfuric đậm đặc (H₂SO₄)!\n\nNhững cơn mưa axit sunfuric liên tục trút xuống từ các tầng mây. Tuy nhiên, một nghịch lý kỳ ảo xảy ra:\nDo bề mặt quá nóng, các giọt axit sunfuric bốc hơi ngược trở lại thành khí SO₃ và hơi nước ở độ cao 25 km trước khi kịp chạm đất! Chu trình tuần hoàn axit vĩnh cửu này biến Sao Kim thành một nồi hơi axit khổng lồ!\n\n📱 Đo độ pH và tính chất của axit sunfuric tại:\n🌐 https://ph-chem.web.app/calculator\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #SaoKim #H2SO4 #AxitSunfuric #VuTruKyBi #HoaHoc10"
+  },
+  {
+    "id": 56,
+    "key": "reel_56_graphene_sieu_vat_lieu",
+    "videoFileName": "reel_56_graphene_sieu_vat_lieu.mp4",
+    "title": "GRAPHENE: VẬT LIỆU MỎNG NHẤT CỨNG GẤP 200 LẦN THÉP",
+    "tag": "Công nghệ",
+    "themeColor": "#0284c7",
+    "accentColor": "#38bdf8",
+    "svgFile": "public/hinh/Graphene.svg",
+    "compoundName": "Siêu Vật Liệu Graphene (C)",
+    "reaction": "Mạng lưới Carbon sp² độ dày 1 nguyên tử (0.335 nm)",
+    "route": "formulas",
+    "scenes": [
+      {
+        "text": "Một tấm vật liệu mỏng đến mức vô hình với độ dày chỉ một nguyên tử, nhưng có thể đỡ được một con voi trưởng thành — Đó là chất gì?",
+        "badge": "BẠN CÓ BIẾT? #56",
+        "h1": "SIÊU VẬT LIỆU GRAPHENE",
+        "h2": "CỨNG GẤP 200 LẦN THÉP",
+        "sub": "Độ dày chỉ đúng một lớp nguyên tử Carbon",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Đó là Graphene — lớp đơn nguyên tử carbon sắp xếp theo hình tổ ong lục giác, dẫn điện tốt hơn đồng và dẫn nhiệt số một thế giới!",
+        "factTitle": "CẤU TRÚC TỔ ONG LỤC GIÁC 2D",
+        "factDesc": "Liên kết cộng hóa trị sp2 siêu bền mang lại độ bền cơ học vô địch",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Nếu dùng một tấm graphene phủ lên miệng ly cà phê, một cây bút chì đỡ cả con voi đặt lên trên cũng không làm rách được nó!",
+        "rxTitle": "ĐỘ BỀN KÉO VÔ ĐỊCH VŨ TRỤ",
+        "rxDesc": "Ứng dụng trong pin sạc siêu tốc, vi mạch lượng tử và áo giáp nano",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá các dạng thù hình của cacbon tại website chính thức: ph-chem.web.app/formulas nhé!",
+        "ctaUrl": "ph-chem.web.app/formulas",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Một tấm vật liệu mỏng đến mức trong suốt vô hình, nhưng có thể chịu được sức nặng của cả một con voi trưởng thành! 🛡️🐘\n\nĐó chính là Siêu vật liệu Graphene — giải Nobel Vật lý năm 2010!\nGraphene thực chất là một lớp đơn nguyên tử Carbon sắp xếp thành mạng lưới hình tổ ong 2 chiều, với độ dày chỉ 0.335 nanomet (mỏng hơn sợi tóc 300.000 lần).\n\nNhờ các liên kết cộng hóa trị lai hóa sp² cực ngắn và bền vững:\n👉 Graphene cứng gấp 200 lần thép kết cấu!\n👉 Dẫn điện nhanh hơn đồng 100 lần và dẫn nhiệt tốt hơn kim cương!\nNếu dùng một tấm màng bọc graphene mỏng như túi nilon, bạn có thể đặt một con voi đứng lên đầu một mũi kim nhọn đè lên mà không làm thủng được tấm màng!\n\n📱 Khám phá các dạng thù hình của Carbon tại website chính thức:\n🌐 https://ph-chem.web.app/formulas\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #Graphene #VatLieuTuongLai #Cacbon #CongNgheNano #HoaHoc11"
+  },
+  {
+    "id": 57,
+    "key": "reel_57_mat_troi_nhiet_hach",
+    "videoFileName": "reel_57_mat_troi_nhiet_hach.mp4",
+    "title": "MẶT TRỜI TỎA SÁNG: PHẢN ỨNG NHIỆT HẠCH HẠT NHÂN",
+    "tag": "Vũ trụ",
+    "themeColor": "#f97316",
+    "accentColor": "#fb923c",
+    "svgFile": "public/hinh/He.svg",
+    "compoundName": "Phản Ứng Nhiệt Hạch (Hydro → Heli)",
+    "reaction": "4 ¹H → ⁴He + 2 e⁺ + 2 ν_e + 26.7 MeV",
+    "route": "table",
+    "scenes": [
+      {
+        "text": "Mặt Trời không hề có oxy nhưng lại bốc cháy rừng rực suốt 4.6 tỷ năm qua để sưởi ấm cho Trái Đất. Nguồn lửa đó bắt nguồn từ đâu?",
+        "badge": "BẠN CÓ BIẾT? #57",
+        "h1": "LÒ LỬA BẤT TẬN CỦA VŨ TRỤ",
+        "h2": "BẢN CHẤT PHẢN ỨNG NHIỆT HẠCH",
+        "sub": "Hợp hạch bốn hạt nhân Hydro thành Heli",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Mặt Trời không cháy bằng phản ứng hóa học mà bằng phản ứng nhiệt hạch: Áp suất khổng lồ ép các hạt nhân hydro hợp hạch thành heli!",
+        "factTitle": "HỢP HẠCH HẠT NHÂN TẠI LÕI",
+        "factDesc": "Nhiệt độ 15 triệu độ C ép 600 triệu tấn hydro hợp hạch mỗi giây",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Mỗi giây, 4 triệu tấn vật chất biến thành năng lượng theo phương trình E bằng m c bình phương của Einstein, tỏa ánh sáng muôn nơi!",
+        "rxTitle": "CHUYỂN HÓA KHỐI LƯỢNG THÀNH NĂNG LƯỢNG",
+        "rxDesc": "Phát ra photon ánh sáng mất hàng trăm ngàn năm thoát khỏi lõi Mặt Trời",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá nguyên tố Hydro và Heli tại website chính thức: ph-chem.web.app/table nhé!",
+        "ctaUrl": "ph-chem.web.app/table",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Mặt Trời không hề có oxy nhưng lại bốc cháy rực rỡ suốt 4.6 tỷ năm qua để nuôi dưỡng sự sống Trái Đất — Nguồn năng lượng đó từ đâu? ☀️🔥\n\nMặt Trời không cháy bằng phản ứng hóa học thông thường, mà là một lò phản ứng Nhiệt Hạch (Nuclear Fusion) vĩ đại!\nTại vùng lõi có nhiệt độ 15 triệu độ C và áp suất 250 tỷ atmosphere:\nCác hạt nhân Hydro (¹H) bị nén chặt vượt qua lực đẩy tĩnh điện Coulomb, hợp hạch lại thành hạt nhân nguyên tố Heli (⁴He):\n👉 4 ¹H → ⁴He + 2 e⁺ + 2 ν_e + Năng lượng khổng lồ!\n\nKhối lượng của hạt nhân Heli tạo thành nhỏ hơn tổng khối lượng của 4 hạt Hydro ban đầu một chút. Lượng khối lượng hao hụt này (Δm) biến đổi thành năng lượng phát xạ theo phương trình nổi tiếng của Einstein: E = mc²!\nMỗi giây, Mặt Trời chuyển hóa 4 triệu tấn vật chất thành năng lượng ánh sáng tỏa khắp không gian!\n\n📱 Khám phá nguyên tố Hydro và Heli tại website chính thức:\n🌐 https://ph-chem.web.app/table\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #MatTroi #NhietHach #Helium #Hydrogen #VatLyHoaHoc #VuTru"
+  },
+  {
+    "id": 58,
+    "key": "reel_58_kinh_james_webb_ma_vang",
+    "videoFileName": "reel_58_kinh_james_webb_ma_vang.mp4",
+    "title": "KÍNH JAMES WEBB MẠ VÀNG: MẮT THẦN DÒ TÌM VŨ TRỤ",
+    "tag": "Vũ trụ",
+    "themeColor": "#eab308",
+    "accentColor": "#fde047",
+    "svgFile": "public/hinh/Au.svg",
+    "compoundName": "Kim Loại Vàng Nguyên Chất (Au)",
+    "reaction": "Lớp mạ vàng dày 100 nm phản xạ 98% tia hồng ngoại",
+    "route": "table",
+    "scenes": [
+      {
+        "text": "Chiếc kính thiên văn đắt nhất lịch sử loài người James Webb được đưa vào không gian với những tấm gương mạ vàng óng ánh — Tại sao phải dùng vàng?",
+        "badge": "BẠN CÓ BIẾT? #58",
+        "h1": "KÍNH THIÊN VĂN JAMES WEBB",
+        "h2": "VÌ SAO ĐƯỢC MẠ VÀNG RÒNG?",
+        "sub": "Kim loại phản xạ tia hồng ngoại tốt nhất",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Vàng là nguyên tố phản xạ bức xạ hồng ngoại hoàn hảo nhất vũ trụ, đạt tới chín mươi tám phần trăm mà không hề bị oxy hóa hay hoen rỉ!",
+        "factTitle": "PHẢN XẠ 98% BỨC XẠ HỒNG NGOẠI",
+        "factDesc": "Bắt trọn những tia sáng mờ nhạt từ các thiên hà thuở sơ khai của vũ trụ",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Lớp mạ vàng trên gương chỉ dày một trăm nanomet, toàn bộ tấm gương khổng lồ 6.5 mét chỉ tiêu tốn đúng bốn gam vàng ròng!",
+        "rxTitle": "LỚP PHỦ NANO SIÊU MỎNG",
+        "rxDesc": "Chỉ 4 gam vàng đã giúp nhân loại nhìn ngược về 13.5 tỷ năm trước",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá nguyên tố Vàng và kim loại quý tại website chính thức: ph-chem.web.app/table nhé!",
+        "ctaUrl": "ph-chem.web.app/table",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Kính thiên văn không gian trị giá 10 tỷ đô James Webb được trang bị 18 tấm gương lục giác mạ vàng chói lọi — Tại sao phải dùng Vàng? 🛰️✨\n\nCác thiên hà cổ xưa nhất cách chúng ta hơn 13 tỷ năm ánh sáng. Do vũ trụ dãn nở, ánh sáng khả kiến của chúng bị kéo dãn bước sóng dịch chuyển đỏ thành tia hồng ngoại (Infrared).\n\nVàng (Au) là kim loại có cấu trúc đám mây electron phản xạ tia hồng ngoại tốt nhất vũ trụ — đạt hiệu suất lên tới 98.2% (vượt trội hơn hẳn bạc hay nhôm)!\nHơn nữa, vàng là kim loại trơ bậc nhất, hoàn toàn không bị oxy hóa hay biến tính trong chân không vũ trụ.\n\nĐiều đáng kinh ngạc: Lớp mạ vàng trên 18 tấm gương khổng lồ chỉ dày đúng 100 nanomet. Toàn bộ cỗ kính thiên văn 10 tỷ đô chỉ tiêu tốn đúng 4.8 gam vàng ròng (bằng một chiếc nhẫn cưới nhỏ)!\n\n📱 Khám phá bảng tuần hoàn và tính chất nguyên tố Vàng tại:\n🌐 https://ph-chem.web.app/table\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #JamesWebb #KinhThienVan #Vang #Au #KhoaHocKhongGian #NASA"
+  },
+  {
+    "id": 59,
+    "key": "reel_59_sao_bang_chay_sang",
+    "videoFileName": "reel_59_sao_bang_chay_sang.mp4",
+    "title": "VÌ SAO SAO BĂNG BỐC CHÁY SÁNG RỰC TRÊN BẦU TRỜI?",
+    "tag": "Vũ trụ",
+    "themeColor": "#38bdf8",
+    "accentColor": "#7dd3fc",
+    "svgFile": "public/hinh/MgO.100548cb.svg",
+    "compoundName": "Khoáng Vật Silicat & Kim Loại Vũ Trụ",
+    "reaction": "Nén khí động học sinh nhiệt 1600°C bốc cháy",
+    "route": "table",
+    "scenes": [
+      {
+        "text": "Một vệt sáng lướt nhanh qua bầu trời đêm khiến triệu người ước nguyện — Nhưng bản chất hóa học của một ngôi sao băng là gì?",
+        "badge": "BẠN CÓ BIẾT? #59",
+        "h1": "VỆT SÁNG SAO BĂNG BẦU TRỜI",
+        "h2": "BẢN CHẤT BỐC CHÁY LÀ GÌ?",
+        "sub": "Nén khí động học với vận tốc 70 km/s",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Hầu hết sao băng chỉ là những hạt bụi vũ trụ nhỏ bằng hạt cát lao vào khí quyển với vận tốc lên tới bảy mươi kilômét một giây!",
+        "factTitle": "ÁP SUẤT NÉN KHÍ ĐỘNG HỌC",
+        "factDesc": "Không khí phía trước bị nén cực mạnh sinh nhiệt độ trên 1600 độ C",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Nhiệt độ này ion hóa không khí và bốc hơi các kim loại sắt, magie, canxi phát ra những dải sáng màu xanh lam rực rỡ!",
+        "rxTitle": "ION HÓA BỐC HƠI KIM LOẠI",
+        "rxDesc": "Màu sắc vệt sáng phản ánh thành phần kim loại chứa trong thiên thạch",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Tìm hiểu màu sắc ion kim loại và thử màu ngọn lửa tại website: ph-chem.web.app/table nhé!",
+        "ctaUrl": "ph-chem.web.app/table",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Một vệt sáng rạch ngang bầu trời đêm khiến triệu người ước nguyện — Bản chất khoa học của sao băng là gì? 🌠✨\n\nHầu hết sao băng không phải là những tảng đá khổng lồ, mà chỉ là những hạt bụi sao chổi bé li ti như hạt cát lao vào bầu khí quyển Trái Đất với tốc độ kinh hoàng: từ 11 đến 72 km/giây!\n\nỞ vận tốc siêu âm này, không khí phía trước mảnh thiên thạch bị nén cực nhanh (nén khí động học). Áp suất nén sinh ra nhiệt độ cục bộ lên tới 1.600°C, làm bốc hơi mảnh bụi và ion hóa không khí xung quanh thành cột plasma sáng lóa!\n\nMàu sắc của sao băng phản ánh chính xác các nguyên tố kim loại trong thiên thạch:\n🟢 Xanh lục: Chứa Niken (Ni) hoặc Magie (Mg)\n🟡 Vàng cam: Chứa Natri (Na)\n🔵 Xanh lơ / Tím: Ion hóa Nitơ và Oxy trong khí quyển!\n\n📱 Thử màu ngọn lửa và quang phổ kim loại tại website:\n🌐 https://ph-chem.web.app/table\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #SaoBang #ThienThach #QuangPho #MauNgonLua #HocHoaOnline"
+  },
+  {
+    "id": 60,
+    "key": "reel_60_sieu_dan_nhiet_do_phong",
+    "videoFileName": "reel_60_sieu_dan_nhiet_do_phong.mp4",
+    "title": "HIỆN TƯỢNG SIÊU DẪN: TRUYỀN TẢI ĐIỆN KHÔNG TIÊU HAO",
+    "tag": "Công nghệ",
+    "themeColor": "#8b5cf6",
+    "accentColor": "#a78bfa",
+    "svgFile": "public/hinh/TiO2.151b02b6.svg",
+    "compoundName": "Vật Liệu Siêu Dẫn (YBCO)",
+    "reaction": "Điện trở R = 0 & Hiệu ứng Meissner đẩy từ trường",
+    "route": "electro",
+    "scenes": [
+      {
+        "text": "Nếu dòng điện chạy qua một cuộn dây suốt một ngàn năm mà không hao hụt một milioat nào — Giấc mơ siêu dẫn có thể thay đổi thế giới ra sao?",
+        "badge": "BẠN CÓ BIẾT? #60",
+        "h1": "HIỆN TƯỢNG SIÊU DẪN",
+        "h2": "TRUYỀN ĐIỆN KHÔNG HAO PHÍ",
+        "sub": "Điện trở bằng không và hiệu ứng nâng từ tính",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Khi hạ dưới nhiệt độ tới hạn, electron kết cặp thành cặp Cooper lướt qua mạng tinh thể mà hoàn toàn không bị va chạm hay sinh nhiệt!",
+        "factTitle": "ĐIỆN TRỞ HOÀN TOÀN BẰNG KHÔNG",
+        "factDesc": "Dòng điện siêu dẫn có thể chạy vĩnh cửu trong vòng lặp không tiêu hao",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Vật liệu siêu dẫn còn đẩy toàn bộ từ trường ra ngoài, khiến nam châm lơ lửng bồng bềnh — chìa khóa của tàu đệm từ chạy 600 km/h!",
+        "rxTitle": "HIỆU ỨNG TỪ TÍNH MEISSNER",
+        "rxDesc": "Khát vọng siêu dẫn nhiệt độ phòng mở ra kỷ nguyên năng lượng vô tận",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá dãy điện hóa và tính chất dẫn điện tại website chính thức: ph-chem.web.app/electro nhé!",
+        "ctaUrl": "ph-chem.web.app/electro",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Nếu dòng điện chạy mãi trong một sợi dây suốt 1.000 năm mà không hao hụt một milioat nào — Siêu dẫn sẽ thay đổi thế giới ra sao? ⚡🧲\n\nỞ vật liệu dẫn điện thông thường (như đồng hay nhôm), electron chuyển động va chạm với các ion trong mạng tinh thể tạo ra điện trở (R), làm hao phí hàng tỷ đô la điện năng dưới dạng nhiệt tỏa ra dây dẫn.\n\nKhi làm lạnh vật liệu siêu dẫn xuống nhiệt độ cực thấp:\nCác electron liên kết lại thành \"Cặp Cooper\". Chúng chuyển động đồng bộ như một vũ điệu nhịp nhàng lướt qua mạng tinh thể mà HOÀN TOÀN KHÔNG BỊ VA CHẠM. Điện trở của vật liệu rơi thẳng về con số 0 tròn trĩnh (R = 0)!\n\nVật liệu siêu dẫn còn đẩy trọn vẹn mọi đường sức từ trường ra khỏi lòng nó (Hiệu ứng Meissner), giúp nam châm lơ lửng bồng bềnh trong không trung — ứng dụng cho tàu đệm từ Maglev chạy 600 km/h không ma sát!\n\n📱 Tra cứu dãy điện hóa và tính chất dẫn điện tại:\n🌐 https://ph-chem.web.app/electro\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #SieuDan #DienTro0 #TauDemTu #VatLieuMoi #VatLyHoaHoc"
+  },
+  {
+    "id": 61,
+    "key": "reel_61_titan_kim_loai_tuong_lai",
+    "videoFileName": "reel_61_titan_kim_loai_tuong_lai.mp4",
+    "title": "TITAN: KIM LOẠI CỦA VŨ TRỤ VÀ CẤY GHÉP Y HỌC",
+    "tag": "Công nghệ",
+    "themeColor": "#14b8a6",
+    "accentColor": "#2dd4bf",
+    "svgFile": "public/hinh/TiO2.151b02b6.svg",
+    "compoundName": "Titan & Titan Đioxit (TiO₂)",
+    "reaction": "Ti + O₂ → TiO₂ (Màng oxit trơ bảo vệ tuyệt đối)",
+    "route": "table",
+    "scenes": [
+      {
+        "text": "Kim loại nào vừa dùng chế tạo vỏ tàu vũ trụ siêu thanh, vừa được cấy thẳng vào xương tủy con người mà không bao giờ bị đào thải?",
+        "badge": "BẠN CÓ BIẾT? #61",
+        "h1": "KIM LOẠI VŨ TRỤ TITAN",
+        "h2": "TƯƠNG THÍCH SINH HỌC KỲ DIỆU",
+        "sub": "Bền như thép nhưng nhẹ hơn gần một nửa",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Đó là Titan — kim loại có tỷ lệ sức bền trên trọng lượng cao nhất, nhẹ hơn thép 45% nhưng chịu được nhiệt độ và áp suất cực hạn!",
+        "factTitle": "BỀN NHẸ VÔ ĐỊCH HÀNG KHÔNG",
+        "factDesc": "Chống ăn mòn tuyệt đối trong nước biển và các dung dịch axit mạnh",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Trên bề mặt Titan luôn tự hình thành màng oxit TiO2 trơ tuyệt đối, cho phép mô xương người phát triển bám chặt như một thể thống nhất!",
+        "rxTitle": "TÍCH HỢP XƯƠNG CẤY GHÉP Y KHOA",
+        "rxDesc": "Vật liệu hoàn hảo cho khớp nhân tạo và răng cấy ghép implant",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Tra cứu tính chất nguyên tố Titan trong bảng tuần hoàn tại: ph-chem.web.app/table nhé!",
+        "ctaUrl": "ph-chem.web.app/table",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Kim loại nào vừa dùng làm vỏ tàu vũ trụ siêu thanh, vừa được cấy thẳng vào xương người mà không bao giờ bị đào thải? ✈️🦴\n\nĐó chính là Titan (Ti - Nguyên tố số 22)!\nTitan sở hữu tỷ số sức bền trên khối lượng vô địch: Cứng chắc như thép carbon cao cấp nhưng trọng lượng lại nhẹ hơn tới 45%! Titan chịu được nhiệt độ từ âm 250°C đến dương 600°C mà không bị biến dạng.\n\nĐiều kỳ diệu nhất của Titan là tính tương thích sinh học (Biocompatibility):\nNgay khi tiếp xúc với không khí hay dịch cơ thể, bề mặt Titan lập tức tạo ra lớp màng bảo vệ Titan đioxit (TiO₂) siêu trơ. Lớp màng này ngăn chặn hoàn toàn việc rỉ sét và không gây phản ứng miễn dịch. Các tế bào xương người có thể mọc bám chặt trực tiếp vào bề mặt kim loại Titan (hiện tượng Osseointegration)!\n\n📱 Tra cứu nguyên tố Titan trong bảng tuần hoàn tương tác tại:\n🌐 https://ph-chem.web.app/table\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #Titan #KimLoaiVuTru #CayGhepImplant #BangTuanHoan #HoaHoc12"
+  },
+  {
+    "id": 62,
+    "key": "reel_62_khi_hiem_neon_den_quang_cao",
+    "videoFileName": "reel_62_khi_hiem_neon_den_quang_cao.mp4",
+    "title": "KHÍ HIẾM NEON: ÁNH SÁNG ĐỎ CAM BẤT TẬN",
+    "tag": "Công nghệ",
+    "themeColor": "#f43f5e",
+    "accentColor": "#fb7185",
+    "svgFile": "public/hinh/Ne.svg",
+    "compoundName": "Khí Hiếm Neon (Ne)",
+    "reaction": "Kích thích điện áp 15000V → Phát quang vạch đỏ cam",
+    "route": "table",
+    "scenes": [
+      {
+        "text": "Những bảng hiệu quảng cáo rực rỡ sắc màu thắp sáng các đại lộ sầm uất về đêm tại Tokyo hay New York hoạt động như thế nào?",
+        "badge": "BẠN CÓ BIẾT? #62",
+        "h1": "ÁNH SÁNG ĐÈN QUẢNG CÁO",
+        "h2": "BÍ MẬT CỦA CÁC KHÍ HIẾM",
+        "sub": "Hiện tượng phóng điện qua chất khí trơ",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Đó là các khí trơ nhóm VIIIA: Khí Neon nguyên chất phát ra màu đỏ cam rực rỡ, Argon tạo màu tím xanh, còn Heli phát ánh vàng!",
+        "factTitle": "QUANG PHỔ PHÁT XẠ ĐẶC TRƯNG",
+        "factDesc": "Mỗi khí hiếm có mức năng lượng electron riêng tạo nên màu sắc cố định",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Khi phóng điện áp cao qua ống chân không, electron va chạm kích thích nguyên tử neon nhảy lên mức năng lượng cao rồi phát ra photon ánh sáng!",
+        "rxTitle": "PHÁT QUANG VẠCH QUY TẮC BÁT TỬ",
+        "rxDesc": "Lớp vỏ 8 electron trơ bền giúp bóng đèn hoạt động hàng chục năm không hỏng",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá nhóm khí hiếm và bảng tuần hoàn tại website chính thức: ph-chem.web.app/table nhé!",
+        "ctaUrl": "ph-chem.web.app/table",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Những biển quảng cáo neon rực rỡ sắc màu thắp sáng các đại lộ sầm uất về đêm tại Tokyo hay Las Vegas hoạt động ra sao? 💡🌃\n\nBí mật nằm ở nhóm Khí Hiếm (Nhóm VIIIA) trơ bền!\nKhi phóng dòng điện cao áp (hàng ngàn volt) qua một ống thủy tinh kín chứa khí hiếm ở áp suất thấp:\nCác electron tự do bắn phá các nguyên tử khí trơ, kích thích electron lớp ngoài cùng nhảy lên các mức năng lượng cao hơn. Khi quay trở về trạng thái cơ bản, chúng giải phóng các hạt photon ánh sáng có bước sóng đặc trưng:\n\n🔴 Khí Neon (Ne): Phát ánh sáng đỏ cam rực rỡ đặc trưng\n🟣 Khí Argon (Ar): Phát ánh sáng tím xanh lam dịu nhẹ\n🟡 Khí Heli (He): Phát ánh sáng vàng ấm\n⚪ Khí Xenon (Xe): Phát ánh sáng trắng xanh cực mạnh trong đèn pha xe hơi\n\n📱 Khám phá nhóm khí hiếm trong bảng tuần hoàn tại:\n🌐 https://ph-chem.web.app/table\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #Neon #DenNeon #KhiHiem #QuangPho #HoaHoc10 #AnhSangThanhPho"
+  },
+  {
+    "id": 63,
+    "key": "reel_63_nhien_lieu_ten_lua",
+    "videoFileName": "reel_63_nhien_lieu_ten_lua.mp4",
+    "title": "NHIÊN LIỆU TÊN LỬA VŨ TRỤ: SỨC MẠNH HYDRO VÀ OXY LỎNG",
+    "tag": "Vũ trụ",
+    "themeColor": "#0ea5e9",
+    "accentColor": "#38bdf8",
+    "svgFile": "public/hinh/H2O.d9875909.svg",
+    "compoundName": "Hydro Lỏng & Oxy Lỏng (Hydrolox)",
+    "reaction": "2 H₂ (lỏng) + O₂ (lỏng) → 2 H₂O (khí) + Vận tốc phụt 4500 m/s",
+    "route": "reactions",
+    "scenes": [
+      {
+        "text": "Lực đẩy nào đủ sức nâng một quả tên lửa nặng ba ngàn tấn bay thẳng ra khỏi lực hấp dẫn của Trái Đất để tới các vì sao xa xôi?",
+        "badge": "BẠN CÓ BIẾT? #63",
+        "h1": "SỨC MẠNH ĐẨY TÊN LỬA VŨ TRỤ",
+        "h2": "HYDRO VÀ OXY LỎNG",
+        "sub": "Động cơ tên lửa Hydrolox siêu sạch",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Nhiên liệu tên lửa mạnh nhất là Hydro lỏng âm 253 độ C kết hợp Oxy lỏng, tạo ra xung động đẩy riêng lớn nhất trong các nhiên liệu hóa học!",
+        "factTitle": "NHIÊN LIỆU HYDROLOX SIÊU LẠNH",
+        "factDesc": "Tỷ lệ tỏa năng lượng trên khối lượng cao gấp 3 lần xăng dầu thông thường",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Phản ứng cháy sinh ra hơi nước siêu nhiệt phụt ra loa động cơ với vận tốc 4500 m/s, tạo phản lực khổng lồ đẩy tên lửa vút bay!",
+        "rxTitle": "KHÍ THẢI CHỈ DUY NHẤT LÀ NƯỚC",
+        "rxDesc": "Khói trắng khổng lồ dưới bệ phóng tên lửa thực chất chỉ là hơi nước tinh khiết",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Cân bằng phản ứng đốt cháy nhiên liệu tên lửa tại website chính thức: ph-chem.web.app/reactions nhé!",
+        "ctaUrl": "ph-chem.web.app/reactions",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Lực đẩy nào đủ sức nâng một quả tên lửa nặng 3.000 tấn thắng lực hấp dẫn Trái Đất bay thẳng vào vũ trụ bao la? 🚀💧\n\nĐó là sức mạnh của cặp nhiên liệu tên lửa Hydrolox: Hydro lỏng (LH₂) và Oxy lỏng (LOX)!\nHydro lỏng được giữ ở nhiệt độ cực hàn âm 253°C, khi kết hợp với oxy lỏng trong buồng đốt tên lửa:\n👉 2 H₂ (lỏng) + O₂ (lỏng) → 2 H₂O (khí) + Tỏa nhiệt lượng khổng lồ!\n\nNhiệt độ buồng đốt vọt lên trên 3.000°C làm hơi nước dãn nở cực đại, phụt qua loa động cơ với vận tốc lên tới 4.500 m/s — nhanh gấp 13 lần vận tốc âm thanh!\nĐiều tuyệt vời nhất: Cột khói trắng khổng lồ bốc lên ngùn ngụt dưới bệ phóng tên lửa Saturn V hay Artemis thực chất chỉ là HƠI NƯỚC TINH KHIẾT 100%!\n\n📱 Cân bằng phản ứng cháy nhiên liệu tên lửa tại website chính thức:\n🌐 https://ph-chem.web.app/reactions\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #NhienLieuTenLua #HydroLanh #NASA #Artemis #HoaHocVuTru"
+  },
+  {
+    "id": 64,
+    "key": "reel_64_aerogel_khoi_dong_ket",
+    "videoFileName": "reel_64_aerogel_khoi_dong_ket.mp4",
+    "title": "AEROGEL: KHÓI ĐÔNG KẾT CÁCH NHIỆT VÔ ĐỊCH",
+    "tag": "Công nghệ",
+    "themeColor": "#67e8f9",
+    "accentColor": "#a5f3fc",
+    "svgFile": "public/hinh/SiO2.33c02194.svg",
+    "compoundName": "Khói Đông Kết Aerogel (SiO₂)",
+    "reaction": "Chứa 99.8% không khí; D = 0.001 g/cm³",
+    "route": "formulas",
+    "scenes": [
+      {
+        "text": "Một khối chất rắn trong suốt như làn khói đông kết, đặt bông hoa lên trên rồi châm ngọn lửa một ngàn độ C bên dưới mà hoa không hề héo!",
+        "badge": "BẠN CÓ BIẾT? #64",
+        "h1": "AEROGEL: KHÓI ĐÔNG KẾT",
+        "h2": "VẬT LIỆU CÁCH NHIỆT VÔ ĐỊCH",
+        "sub": "Chất rắn nhẹ nhất thế giới chứa 99.8% không khí",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Đó là Aerogel — một cấu trúc xốp nano bằng silic đioxit SiO2, nơi 99.8% thể tích là không khí bị khóa chặt trong các lỗ xốp siêu nhỏ!",
+        "factTitle": "CẤU TRÚC LỖ XỐP NANO SiO₂",
+        "factDesc": "Kích thước lỗ xốp nhỏ hơn quãng đường tự do trung bình của phân tử khí",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Không khí không thể đối lưu, nhiệt không thể truyền qua khiến Aerogel trở thành tấm khiên cách nhiệt bảo vệ các tàu đổ bộ Sao Hỏa!",
+        "rxTitle": "TRIỆT TIÊU DẪN NHIỆT VÀ ĐỐI LƯU",
+        "rxDesc": "NASA sử dụng Aerogel để giữ ấm tàu thăm dò vũ trụ trong đêm đông âm 100°C",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Tra cứu cấu trúc Silic Đioxit và vật liệu mới tại website chính thức: ph-chem.web.app/formulas nhé!",
+        "ctaUrl": "ph-chem.web.app/formulas",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Một khối chất rắn trong suốt tựa như làn khói đông kết — Đặt bông hoa lên trên rồi châm lửa 1.000°C bên dưới mà hoa không hề héo! 🧊🔥\n\nĐó chính là Aerogel (Khói đông kết) — chất rắn nhân tạo nhẹ nhất thế giới!\nĐược chế tạo từ Silic đioxit (SiO₂), Aerogel có cấu trúc mạng lưới xốp nano kỳ diệu: 99.8% thể tích của nó là không khí bị nhốt chặt trong các lỗ xốp siêu nhỏ (chỉ 20-40 nanomet).\n\nVì kích thước lỗ xốp nhỏ hơn quãng đường chuyển động tự do của các phân tử không khí, nhiệt lượng hoàn toàn KHÔNG THỂ DẪN và KHÔNG THỂ ĐỐI LƯU qua khối vật liệu này!\nChính nhờ đặc tính cách nhiệt siêu việt này, NASA dùng Aerogel bọc quanh các mạch điện tử của tàu thăm dò tự hành Curiosity và Perseverance trên Sao Hỏa để giữ ấm qua đêm đông âm 100°C!\n\n📱 Khám phá cấu trúc mạng Silic Đioxit tại website chính thức:\n🌐 https://ph-chem.web.app/formulas\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #Aerogel #KhoiDongKet #VatLieuCachNhiet #NASA #SiO2 #HoaHocMoi"
+  },
+  {
+    "id": 65,
+    "key": "reel_65_chip_ban_dan_silicon",
+    "videoFileName": "reel_65_chip_ban_dan_silicon.mp4",
+    "title": "CHIP BÁN DẪN SILICON: BỘ NÃO CỦA KỶ NGUYÊN AI",
+    "tag": "Công nghệ",
+    "themeColor": "#0284c7",
+    "accentColor": "#38bdf8",
+    "svgFile": "public/hinh/SiO2.33c02194.svg",
+    "compoundName": "Silic Bán Dẫn Siêu Tinh Khiết (Si)",
+    "reaction": "Độ tinh khiết 99.9999999% (9 con số 9)",
+    "route": "table",
+    "scenes": [
+      {
+        "text": "Làm thế nào mà những hạt cát trắng tầm thường trên bãi biển lại có thể biến thành những con chip thông minh điều khiển cả thế giới?",
+        "badge": "BẠN CÓ BIẾT? #65",
+        "h1": "TỪ CÁT BIỂN ĐẾN TRÍ TUỆ NHÂN TẠO",
+        "h2": "BẢN CHẤT CHIP BÁN DẪN SILICON",
+        "sub": "Vật liệu bán dẫn tinh khiết bậc nhất",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Cát biển là silic đioxit SiO2, được nung chảy khử oxy và tinh chế thành Silic siêu tinh khiết với độ chính xác chín con số chín!",
+        "factTitle": "ĐỘ TINH KHIẾT CHÍN SỐ CHÍN",
+        "factDesc": "Chỉ 1 nguyên tử tạp chất trên 1 tỷ nguyên tử silic tinh khiết",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Khắc hàng chục tỷ bóng bán dẫn kích thước vài nanomet lên tấm silic, điều khiển dòng electron đóng ngắt tạo nên mã nhị phân xử lý AI!",
+        "rxTitle": "ĐIỀU KHIỂN DÒNG ELECTRON NANO",
+        "rxDesc": "Pha tạp phospho và bo để tạo nên các cổng logic bán dẫn siêu tốc",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Khám phá nguyên tố Silic và vật liệu bán dẫn tại website chính thức: ph-chem.web.app/table nhé!",
+        "ctaUrl": "ph-chem.web.app/table",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Làm sao những hạt cát tầm thường trên bãi biển có thể biến thành những con chip xử lý trí tuệ nhân tạo thay đổi thế giới? 💻🤖\n\nHành trình hóa học đỉnh cao biến cát thành chip thông minh:\n1. Cát thạch anh (SiO₂) được khử ở 2.000°C để tách lấy Silic thô.\n2. Qua hàng chục bước chưng cất hóa học tinh vi để đạt độ tinh khiết 99.9999999% (chín con số 9) — chỉ 1 nguyên tử tạp chất lẫn trong 1 tỷ nguyên tử Silic!\n3. Silic được đúc thành thỏi đơn tinh thể rồi cắt lát thành các đĩa tròn wafer mỏng tang.\n\nBằng công nghệ quang khắc tia cực tím cực ngắn (EUV), các kỹ sư khắc hàng chục tỷ bóng bán dẫn (transistor) kích thước chỉ 2-3 nanomet lên diện tích bằng móng tay, đóng ngắt dòng electron hàng tỷ lần mỗi giây tạo nên bộ não tính toán của AI!\n\n📱 Khám phá nguyên tố Silic trong bảng tuần hoàn tương tác tại:\n🌐 https://ph-chem.web.app/table\n(Trang chủ: https://ph-chem.web.app/)\n\n---\n#BanCoBiet #pHChem #Silicon #ChipBanDan #TriTueNhanTao #AI #CongNgheNano #HoaHoc11"
+  },
+  {
+    "id": 66,
+    "key": "reel_66_bui_mat_trang_mui_thuoc_sung",
+    "videoFileName": "reel_66_bui_mat_trang_mui_thuoc_sung.mp4",
+    "title": "BỤI MẶT TRĂNG: BÍ ẨN MÙI THUỐC SÚNG CHÁY",
+    "tag": "Vũ trụ",
+    "themeColor": "#94a3b8",
+    "accentColor": "#cbd5e1",
+    "svgFile": "public/hinh/Fe2O3.51ab914b.svg",
+    "compoundName": "Đá Silicat Mặt Trăng (Regolith)",
+    "reaction": "Gốc tự do tiếp xúc O₂ trong phi thuyền tạo mùi khét",
+    "route": "table",
+    "scenes": [
+      {
+        "text": "Khi các phi hành gia Apollo trở về khoang tàu sau khi dạo bước trên Mặt Trăng, họ kinh ngạc nhận ra bụi Mặt Trăng có mùi khét như thuốc súng vừa nổ!",
+        "badge": "BẠN CÓ BIẾT? #66",
+        "h1": "BỤI MẶT TRĂNG CÓ MÙI GÌ?",
+        "h2": "BÍ ẨN MÙI THUỐC SÚNG VỪA NỔ",
+        "sub": "Hiện tượng liên kết hóa học bẻ gãy do gió mặt trời",
+        "time": "00 - 06s"
+      },
+      {
+        "text": "Mặt Trăng không có khí quyển, hàng tỷ năm bị gió mặt trời và bức xạ vũ trụ bắn phá làm bẻ gãy các liên kết hóa học trong bụi silicat!",
+        "factTitle": "CÁC LIÊN KẾT BỊ BẺ GÃY DANG DỞ",
+        "factDesc": "Các hạt bụi mang đầy gốc tự do và electron chưa ghép đôi lơ lửng",
+        "time": "06 - 18s"
+      },
+      {
+        "text": "Khi bụi bám vào phi phục gặp oxy và hơi ẩm trong phi thuyền, chúng lập tức phản ứng oxy hóa cấp tốc giải phóng mùi khét hệt thuốc súng cháy!",
+        "rxTitle": "OXY HÓA CẤP TỐC TRONG KHOANG TÀU",
+        "rxDesc": "Phản ứng kích thích tức thì của các gốc tự do silicat giải phóng mùi đặc trưng",
+        "time": "18 - 30s"
+      },
+      {
+        "text": "Trải nghiệm bách khoa 325 sự thật hóa học kỳ thú tại website: ph-chem.web.app nhé!",
+        "ctaUrl": "ph-chem.web.app",
+        "time": "30 - 40s"
+      }
+    ],
+    "caption": "Khi các phi hành gia Apollo trở về khoang tàu sau khi dạo bước Mặt Trăng, họ ngửi thấy bụi Mặt Trăng có mùi khét lẹt như thuốc súng vừa nổ! 🌕🔫\n\nMặt Trăng hoàn toàn không có thuốc súng hay chất nổ — Vậy mùi khét cay nồng đó từ đâu ra?\nMặt Trăng không có bầu khí quyển và từ trường che chắn. Suốt 4.5 tỷ năm qua, đất đá silicat trên bề mặt bị bão mặt trời, tia tử ngoại và vi thiên thạch liên tục bắn phá dữ dội.\n\nNhững tác động này bẻ gãy hàng loạt liên kết hóa học Si-O và Fe-O trong khoáng chất, tạo ra vô số \"liên kết dang dở\" (Dangling bonds) và các gốc tự do tích điện lơ lửng trong chân không.\n\nKhi phi hành gia bước vào khoang tàu chứa đầy khí oxy và hơi ẩm, các gốc tự do này lập tức phản ứng oxy hóa cấp tốc, bốc cháy vi mô giải phóng các hợp chất hữu cơ bay hơi kích thích khứu giác, tạo nên mùi khét hệt như mùi thuốc súng vừa bốc hỏa!\n\n📱 Khám phá trọn vẹn kho báu 325 sự thật hóa học kỳ thú tại:\n🌐 https://ph-chem.web.app/\n(Trang chủ chính thức của dự án pH-Chem)\n\n---\n#BanCoBiet #pHChem #MatTrang #BuiMatTrang #Apollo #GocTuDo #KhoaHocVuTru #BaoMatTroi"
+  }
+];
+
+    let currentIdx = 0;
+    const videoElem = document.getElementById('mainVideo');
+
+    function renderNav() {
+      const bar = document.getElementById('episodesBar');
+      bar.innerHTML = REELS_DATA.map((r, i) => `
+        <div class="ep-pill ${i === currentIdx ? 'active' : ''}" onclick="selectEpisode(${i})">
+          <span>#${String(r.id).padStart(2, '0')}</span>
+          <span>${r.title.split(':')[0]}</span>
+        </div>
+      `).join('');
+    }
+
+    function selectEpisode(idx) {
+      currentIdx = idx;
+      renderNav();
+      const r = REELS_DATA[idx];
+
+      // Update Video
+      videoElem.src = r.video;
+      videoElem.load();
+      document.getElementById('playIcon').textContent = '▶️';
+      document.getElementById('btnDownload').href = r.video;
+
+      // Update Details
+      document.getElementById('epTag').textContent = r.tag;
+      document.getElementById('epIdBadge').textContent = 'Tập ' + String(r.id).padStart(2, '0');
+      if (document.getElementById('epScheduleBadge')) {
+        document.getElementById('epScheduleBadge').textContent = '📅 Lịch: ' + (r.schedule || 'Đang cập nhật');
+      }
+      document.getElementById('epTitle').textContent = r.title;
+      document.getElementById('epHook').textContent = r.hook;
+      document.getElementById('epReaction').textContent = r.reaction;
+      document.getElementById('epCompound').textContent = r.compound;
+      document.getElementById('captionText').value = r.caption;
+      document.getElementById('btnAppFeature').href = 'https://ph-chem.web.app/' + r.route;
+
+      // Update Scenes
+      const scenesGrid = document.getElementById('scenesGrid');
+      scenesGrid.innerHTML = r.scenes.map(s => `
+        <div class="scene-card">
+          <div class="scene-header">
+            <span class="scene-num">${s.num}</span>
+            <span class="scene-timing">${s.time}</span>
+          </div>
+          <div class="scene-text">${s.text}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('reelsGrid');
+      grid.innerHTML = REELS_DATA.map((r, i) => `
+        <div class="grid-card" onclick="selectEpisode(${i}); window.scrollTo({ top: 120, behavior: 'smooth' });">
+          <div class="grid-thumb">
+            <video src="${r.video}" muted playsinline></video>
+            <div class="grid-play-badge">▶️ Tập ${String(r.id).padStart(2, '0')}</div>
+          </div>
+          <div class="grid-body">
+            <div>
+              <div class="grid-ep-num">#${String(r.id).padStart(2, '0')} · ${r.tag}</div>
+              <div class="grid-ep-title">${r.title}</div>
+            </div>
+            <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin: 4px 0;">
+              📅 ${r.schedule || ''}
+            </div>
+            <div class="grid-route-tag">
+              🔗 ph-chem.web.app/${r.route}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function togglePlay() {
+      if (videoElem.paused) {
+        videoElem.play();
+        document.getElementById('playIcon').textContent = '⏸️';
+      } else {
+        videoElem.pause();
+        document.getElementById('playIcon').textContent = '▶️';
+      }
+    }
+
+    videoElem.addEventListener('play', () => {
+      document.getElementById('playIcon').textContent = '⏸️';
+    });
+    videoElem.addEventListener('pause', () => {
+      document.getElementById('playIcon').textContent = '▶️';
+    });
+
+    function copyCaption() {
+      const copyText = document.getElementById('captionText');
+      copyText.select();
+      copyText.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(copyText.value).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+      });
+    }
+
+    // Init
+    renderNav();
+    selectEpisode(0);
+    renderGallery();
+  </script>
+</body>
+</html>
