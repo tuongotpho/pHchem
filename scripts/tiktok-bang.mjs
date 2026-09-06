@@ -13,7 +13,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   CONG, CLIENT_KEY, REDIRECT_URI, SCOPE,
-  urlDangNhap, doiMaLayToken, docPkce, docToken, xoaToken,
+  urlDangNhap, doiMaLayToken, timPkce, docToken, xoaToken,
   thongTinTaiKhoan, khoVideo, timVideo,
   khoiTaoDangVideo, dayFileLen, traTrangThai,
 } from './tiktok-manager.mjs';
@@ -56,12 +56,17 @@ const may = http.createServer(async (req, res) => {
         res.writeHead(302, { Location: `/?loi=${encodeURIComponent(err)}` });
         return res.end();
       }
-      const pkce = docPkce();
-      if (!code || !pkce || state !== pkce.state) {
-        res.writeHead(302, { Location: '/?loi=sai_state' });
+      if (!code) {
+        res.writeHead(302, { Location: '/?loi=thieu_ma' });
         return res.end();
       }
-      await doiMaLayToken(code);
+      // State phải khớp một phiên còn hạn — đây là chốt chống giả mạo yêu cầu.
+      // Không khớp thì mã code_verifier cũng sai, đổi mã cũng hỏng, nên báo thẳng.
+      if (!timPkce(state)) {
+        res.writeHead(302, { Location: '/?loi=phien_het_han' });
+        return res.end();
+      }
+      await doiMaLayToken(code, state);
       res.writeHead(302, { Location: '/?noi=ok' });
       return res.end();
     }

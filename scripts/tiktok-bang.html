@@ -365,10 +365,18 @@ for (const s of ['#riengtu', '#cong-bo', '#th-minh', '#th-thue']) $(s).addEventL
 $('#tim').addEventListener('input', locKho);
 $('#tieude').addEventListener('input', () => { $('#dem-chu').textContent = $('#tieude').value.length; });
 
+const LOI_TIENG_VIET = {
+  phien_het_han: 'Phiên nối tài khoản đã quá hạn hoặc không khớp. Bấm "Nối tài khoản TikTok" và làm liền một mạch, đừng dùng nút lùi của trình duyệt.',
+  thieu_ma: 'TikTok không trả về mã cho phép. Bấm "Nối tài khoản TikTok" để làm lại.',
+  access_denied: 'Bạn đã bấm từ chối ở màn hình TikTok.',
+};
+
 const q = new URLSearchParams(location.search);
 if (q.get('loi')) {
+  const ma = q.get('loi');
   document.querySelector('.khung').insertAdjacentHTML('afterbegin',
-    '<div class="loi">Nối tài khoản không thành công: ' + q.get('loi') + '</div>');
+    '<div class="loi"><b>Nối tài khoản không thành công.</b><br>'
+    + (LOI_TIENG_VIET[ma] || ma) + '</div>');
 }
 veTaiKhoan();
 </script>

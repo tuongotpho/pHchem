@@ -25,6 +25,10 @@ export function loadEnv() {
       if (i !== -1) env[t.slice(0, i).trim()] = t.slice(i + 1).trim();
     }
   }
+  // Biến đặt sẵn ngoài dòng lệnh thắng file, để chạy thử mà không phải sửa .env.local.
+  for (const k of Object.keys(process.env)) {
+    if (k.startsWith('TIKTOK_') && process.env[k]) env[k] = process.env[k];
+  }
   return env;
 }
 
@@ -77,21 +81,41 @@ export function xoaToken() {
 // TikTok băm code_verifier bằng SHA256 rồi mã hoá HEX (không phải base64url).
 // ─────────────────────────────────────────────────────────────
 
+const HAN_PKCE = 15 * 60 * 1000; // mã phiên sống 15 phút
+
+function docDsPkce() {
+  if (!fs.existsSync(KHO_PKCE)) return [];
+  try {
+    const d = JSON.parse(fs.readFileSync(KHO_PKCE, 'utf8'));
+    return Array.isArray(d) ? d : [d]; // chịu được cả định dạng cũ
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Giữ vài mã phiên gần nhất chứ không chỉ một.
+ * Bấm "Nối tài khoản" hai lần, hoặc bấm nút lùi rồi bấm lại, thì lần nào
+ * quay về cũng khớp — trước đây lần sau đè lần trước nên báo sai_state.
+ */
 export function taoPkce() {
   const verifier = crypto.randomBytes(48).toString('hex').slice(0, 96);
   const challenge = crypto.createHash('sha256').update(verifier).digest('hex');
   const state = crypto.randomBytes(12).toString('hex');
-  fs.writeFileSync(KHO_PKCE, JSON.stringify({ verifier, state }, null, 2));
+  const con = docDsPkce().filter((x) => Date.now() - (x.at || 0) < HAN_PKCE);
+  con.push({ verifier, state, at: Date.now() });
+  fs.writeFileSync(KHO_PKCE, JSON.stringify(con.slice(-5), null, 2));
   return { verifier, challenge, state };
 }
 
+/** Tìm mã phiên khớp với state TikTok trả về. */
+export function timPkce(state) {
+  if (!state) return null;
+  return docDsPkce().find((x) => x.state === state && Date.now() - (x.at || 0) < HAN_PKCE) || null;
+}
+
 export function docPkce() {
-  if (!fs.existsSync(KHO_PKCE)) return null;
-  try {
-    return JSON.parse(fs.readFileSync(KHO_PKCE, 'utf8'));
-  } catch {
-    return null;
-  }
+  return docDsPkce().at(-1) || null;
 }
 
 export function urlDangNhap() {
@@ -125,8 +149,8 @@ async function goiOauth(body) {
   return data;
 }
 
-export async function doiMaLayToken(code) {
-  const pkce = docPkce();
+export async function doiMaLayToken(code, state) {
+  const pkce = (state && timPkce(state)) || docPkce();
   if (!pkce) throw new Error('Không tìm thấy code_verifier — hãy bấm "Nối tài khoản" lại từ đầu.');
   const data = await goiOauth({
     client_key: CLIENT_KEY,
