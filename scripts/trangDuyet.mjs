@@ -13,6 +13,7 @@
 
 import { veHtml } from '../src/lib/kyHieuHoa.js';
 import { MOC_HINH, MOC_BANG } from './deParse.mjs';
+import { chuongTheoMa } from '../src/data/chuongTrinh.js';
 
 const KY = ['A', 'B', 'C', 'D'];
 
@@ -88,6 +89,11 @@ function veCau(c, duongHinh) {
  * @param {string[]} tuKiem  Các dòng tự kiểm để in lên đầu trang
  * @param {string} duongHinh Tiền tố đường dẫn ảnh, tính từ chỗ đặt file HTML
  */
+const nhanChuong = (ma) => {
+  const c = ma ? chuongTheoMa(ma) : null;
+  return c ? `Lớp ${c.lop} · Chương ${c.so} — ${c.vi}` : 'chưa xếp được vào chương nào';
+};
+
 export function trangDuyet(bo, tuKiem, duongHinh) {
   const luc = new Date().toLocaleString('vi-VN');
   return `<!doctype html>
@@ -97,6 +103,9 @@ export function trangDuyet(bo, tuKiem, duongHinh) {
 <style>${CSS}</style>
 <h1>${thoat(bo.ten)}</h1>
 <p class="meta">Nguồn: <b>${thoat(bo.nguon)}</b> · <b>${bo.soCau}</b> câu · sinh lúc ${luc}</p>
+<!-- Chương là thứ MÁY ĐOÁN từ tên bộ đề, nên phải hiện ngay ở đây để thầy cô
+     duyệt luôn một thể — sai thì khai "chuong" trong bản vá .va.json. -->
+<p class="meta">Xếp vào: <b>${thoat(nhanChuong(bo.chuong))}</b></p>
 <div class="tomtat">
  <b>Máy đã tự kiểm được những gì:</b>
  <ul>${tuKiem.map((t) => `<li>${thoat(t)}</li>`).join('')}</ul>

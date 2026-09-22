@@ -12,6 +12,7 @@
     "icons": "node scripts/gen-icons.mjs",
     "struct": "node scripts/gen-structures.mjs",
     "de": "node scripts/gen-de.mjs",
+    "soi:chuong": "vitest run scripts/soi-chuong.test.ts --reporter=verbose",
     "audit": "tsc -b && vitest run && node scripts/gen-structures.mjs",
     "gsc": "node scripts/gsc-manager.mjs",
     "gen:promo": "node scripts/gen-promo-audio.mjs",

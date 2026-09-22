@@ -57,3 +57,6 @@ promo/**/*.txt
 # Token TikTok va ma PKCE — nam tren may, khong dua vao git
 .tiktok-token.json
 .tiktok-pkce.json
+
+# Trang soi cach xep chuong (do dev, sinh boi npm run soi:chuong)
+chuong-review.html

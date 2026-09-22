@@ -52,6 +52,15 @@ export interface BoDe {
   ten: string;
   /** Chương / chuyên đề. Nhiều bộ đề có thể cùng một chuyên đề. */
   chuyenDe: string;
+  /**
+   * Mã chương trong sách giáo khoa, vd "11.2" — xem src/data/chuongTrinh.js.
+   *
+   * Do scripts/gen-de.mjs ĐOÁN từ tên bộ đề, và bản vá .va.json đè lên được
+   * (khai "chuong": "11.2"). Để trống nghĩa là chưa xếp được: bộ đề vẫn dùng
+   * bình thường, chỉ nằm ở mục "Chưa xếp chương" của cây thư mục thay vì bị
+   * giấu đi.
+   */
+  chuong?: string;
   nguon: string;
   soCau: number;
   cau: CauDeThay[];
@@ -61,6 +70,8 @@ export interface MucDanhMuc {
   id: string;
   ten: string;
   chuyenDe: string;
+  /** Mã chương, xem BoDe.chuong. */
+  chuong?: string;
   soCau: number;
 }
 
@@ -72,7 +83,9 @@ export interface MucDanhMuc {
  * có thể gồm nhiều bộ đề thầy gửi ở các đợt khác nhau, chọn xong thì gộp câu
  * của cả mấy bộ lại rồi mới trộn.
  */
-export function gomTheoChuyenDe(dm: MucDanhMuc[]): { ten: string; muc: MucDanhMuc[]; soCau: number }[] {
+export function gomTheoChuyenDe(
+  dm: MucDanhMuc[],
+): { ten: string; chuong?: string; muc: MucDanhMuc[]; soCau: number }[] {
   const ban = new Map<string, MucDanhMuc[]>();
   for (const m of dm) {
     const k = m.chuyenDe || m.ten;
@@ -80,6 +93,10 @@ export function gomTheoChuyenDe(dm: MucDanhMuc[]): { ten: string; muc: MucDanhMu
   }
   return [...ban].map(([ten, muc]) => ({
     ten,
+    // Chương lấy từ bộ đề ĐẦU TIÊN có khai. Mấy bộ cùng chuyên đề mà khai lệch
+    // chương nhau là chuyện sai dữ liệu, không phải chuyện phải xử lý cho khéo
+    // ở đây — phép kiểm deThay.test.ts bắt việc đó.
+    chuong: muc.find((m) => m.chuong)?.chuong,
     muc,
     soCau: muc.reduce((t, m) => t + m.soCau, 0),
   }));

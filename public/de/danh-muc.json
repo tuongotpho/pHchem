@@ -3,18 +3,21 @@
   "id": "nitrogen-2026",
   "ten": "Nitrogen và một số hợp chất quan trọng của nitrogen",
   "chuyenDe": "Nitrogen và một số hợp chất quan trọng của nitrogen",
+  "chuong": "11.2",
   "soCau": 42
  },
  {
   "id": "su-dien-li",
   "ten": "Cân bằng trong dung dịch nước",
   "chuyenDe": "Cân bằng trong dung dịch nước",
+  "chuong": "11.1",
   "soCau": 69
  },
  {
   "id": "can-bang-hoa-hoc",
   "ten": "Cân bằng hóa học",
   "chuyenDe": "Cân bằng hóa học",
+  "chuong": "11.1",
   "soCau": 16
  }
 ]

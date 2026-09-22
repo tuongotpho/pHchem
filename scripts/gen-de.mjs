@@ -64,13 +64,18 @@
 //   2. Ảnh chụp màn hình dán từ tài liệu khác, bên trong có sẵn số câu và bốn
 //      đáp án của tài liệu gốc — chèn thẳng thì học sinh thấy câu hỏi hai lần.
 //
-//   3. Đáp án thầy quên gạch chân, tên bộ đề, cách gom chuyên đề.
+//   3. Đáp án thầy quên gạch chân, tên bộ đề, cách gom chuyên đề, và MÃ CHƯƠNG
+//      trong sách giáo khoa ("chuong": "11.2") khi máy đoán sai hoặc không
+//      đoán được từ tên đề.
 //
 // Bản vá là chỗ ghi lại phần người đọc, tách khỏi phần máy đọc, để chạy lại
 // script bao nhiêu lần cũng không mất.
 
 import JSZip from 'jszip';
 import { tachDoan, catThanhCau, DAU_CAU, MOC_HINH, MOC_BANG } from './deParse.mjs';
+// Cây chương trình SGK — DÙNG CHUNG với app (src/data/chuongTrinh.js). Script
+// này chạy Node trần nên file kia phải là .js thuần, không phải .ts.
+import { doanChuong, chuongTheoMa } from '../src/data/chuongTrinh.js';
 import { bocCongThuc } from './deMathType.mjs';
 import { trangDuyet } from './trangDuyet.mjs';
 import sharp from 'sharp';
@@ -176,6 +181,20 @@ for (const tep of nguon) {
   // đó học sinh chọn chuyên đề là gộp câu của cả mấy bộ.
   const chuyenDe = va.chuyenDe ?? tieuDe;
 
+  // Chương trong sách giáo khoa, để học sinh mở đúng chỗ mình đang học.
+  //
+  // MÁY CHỈ ĐOÁN, và đoán từ TÊN bộ đề chứ không đọc nội dung — "Cân bằng
+  // trong dung dịch nước" khớp từ khóa của chương 1 lớp 11. Bản vá khai
+  // "chuong": "11.2" là đè lên, vì thầy mới là người biết chắc. Đoán không ra
+  // thì để trống: bộ đề rơi vào mục "Chưa xếp chương" ở cây thư mục, vẫn làm
+  // được bình thường — thà nói thật là chưa xếp còn hơn nhét bừa vào một
+  // chương rồi học sinh ôn nhầm.
+  const chuong = va.chuong ?? doanChuong(`${tieuDe} ${chuyenDe}`) ?? null;
+  if (va.chuong && !chuongTheoMa(va.chuong)) {
+    console.log(`   ✗ bản vá khai chuong "${va.chuong}" — không có mã chương này trong SGK`);
+    loiNang++;
+  }
+
   const cau = [];
   const canNguoiDoc = [];
   const dapAnSuyRa = [];
@@ -273,8 +292,9 @@ for (const tep of nguon) {
   if (canNguoiDoc.length) loi.push(`${canNguoiDoc.length} câu có công thức MathType nên THIẾU CHỮ, người phải soi rồi khai daSoi: ${canNguoiDoc.join(', ')}`);
 
   const raJson = { id: ma, ten: tieuDe, chuyenDe, nguon: tep, soCau: cau.length, cau };
+  if (chuong) raJson.chuong = chuong;
   writeFileSync(join(THU_MUC_RA, ma + '.json'), JSON.stringify(raJson, null, 1) + '\n');
-  danhMuc.push({ id: ma, ten: tieuDe, chuyenDe, soCau: cau.length });
+  danhMuc.push({ id: ma, ten: tieuDe, chuyenDe, ...(chuong ? { chuong } : {}), soCau: cau.length });
 
   // Trang duyệt cho thầy cô. Đặt ở gốc dự án, KHÔNG cam kết vào git — nó là
   // bản in ra để soi rồi bỏ, y như structure-review.html của kho hình cấu tạo.
@@ -293,6 +313,15 @@ for (const tep of nguon) {
   console.log(`\n=== ${tep} ===`);
   console.log(`Mã bộ đề     : ${ma}`);
   console.log(`Số câu       : ${cau.length}` + (va.soCau && va.soCau !== cau.length ? `  ✗ bản vá khai ${va.soCau}` : ''));
+  {
+    const c = chuong ? chuongTheoMa(chuong) : null;
+    console.log(
+      `Chương       : ` +
+        (c
+          ? `Lớp ${c.lop} · Chương ${c.so} — ${c.vi}` + (va.chuong ? ' (bản vá khai)' : ' (máy đoán từ tên đề)')
+          : 'CHƯA XẾP — khai "chuong" trong bản vá để xếp đúng chỗ'),
+    );
+  }
   console.log(`Ảnh giữ lại  : ${cau.filter((c) => c.hinh).length} câu, ${(byteHinh / 1024).toFixed(1)} KB sau nén`);
   if (congThuc.tong) console.log(`Công thức    : đọc được ${congThuc.doc}/${congThuc.tong} công thức MathType`);
   console.log(`Chữ (JSON)   : ${(cvJson / 1024).toFixed(1)} KB`);
@@ -349,6 +378,7 @@ writeFileSync(join(THU_MUC_RA, 'danh-muc.json'), JSON.stringify(danhMuc, null, 1
 // hỏng. File chỉ chứa ba con số — câu hỏi và ảnh vẫn nằm ngoài gói cài.
 const soChuyenDe = new Set(danhMuc.map((d) => d.chuyenDe)).size;
 const tongCau = danhMuc.reduce((t, d) => t + d.soCau, 0);
+const chuaXep = danhMuc.filter((d) => !d.chuong);
 writeFileSync(
   'src/generated/deTongKet.ts',
   [
@@ -367,6 +397,10 @@ console.log(`\n${'─'.repeat(50)}`);
 console.log(`✓ ${danhMuc.length} bộ đề → ${THU_MUC_RA}/`);
 console.log('✓ Tổng kết cho trang Cài đặt → src/generated/deTongKet.ts');
 console.log(`✓ ${hinhDaGhi.size} ảnh dùng chung → ${THU_MUC_HINH}/`);
+console.log(
+  `✓ Xếp chương: ${danhMuc.length - chuaXep.length}/${danhMuc.length} bộ đề` +
+    (chuaXep.length ? ` — chưa xếp: ${chuaXep.map((d) => d.id).join(', ')}` : ''),
+);
 if (daDon) console.log(`✓ Dọn ${daDon} file mồ côi`);
 trangDaSinh.forEach((t) => console.log(`✓ Trang duyệt cho thầy cô: ${t}`));
 if (loiNang) {

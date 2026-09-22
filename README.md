@@ -15,9 +15,9 @@ Không theo dõi định danh. Giao diện tối, song ngữ Việt / Anh.
 | Thư viện công thức | **340 chất** vô cơ / hữu cơ / hóa lý, **274 chất có hình công thức cấu tạo** | Hình sinh bằng RDKit, chuẩn IUPAC |
 | Từ điển | **211 thuật ngữ**, lọc theo chữ cái | Song ngữ |
 | Sự thật | **208 sự thật**, 141 câu gắn với nguyên tố liên quan | Hiện kèm ở trang chi tiết nguyên tố |
-| Luyện tập | Hai nguồn đề: **ngân hàng đề** của giáo viên (xáo thứ tự theo chuyên đề) và **đề do AI tự tạo**. Đồng hồ 30 giây/câu, phiếu kết quả lưu thành ảnh | Ngân hàng đề chuyển từ file Word; xem mục riêng bên dưới |
+| Luyện tập | Hai nguồn đề: **ngân hàng đề** của giáo viên và **đề do AI tự tạo**. Cả hai chọn theo **cây thư mục Lớp → Chương → mục con**. Đồng hồ 30 giây/câu, phiếu kết quả lưu thành ảnh | Ngân hàng đề chuyển từ file Word; xem hai mục riêng bên dưới |
 
-Tổng: **502 test tự động** kiểm tính toán, bộ đọc đề và tính nhất quán của dữ liệu.
+Tổng: **536 test tự động** kiểm tính toán, bộ đọc đề và tính nhất quán của dữ liệu.
 
 ## Chạy thử (máy đã cài Node)
 
@@ -98,6 +98,28 @@ de-nguon/*.va.json                    →  public/de/hinh/*.png    (ảnh đã n
   phông). Cần toán thật thì cắm KaTeX vào là chạy, không phải sửa dữ liệu.
 - Mở `de-review-<mã>.html` để soi cả bộ đề một lượt. Trang này vẽ bằng **đúng bộ vẽ của
   app**, nên thầy cô duyệt ở đó thì học sinh nhìn thấy y như vậy.
+
+## Cây thư mục: Lớp → Chương → mục con
+
+Cả hai nguồn đề đều chọn bằng **một cây thư mục dựng theo mục lục SGK bộ Kết nối tri
+thức** — lớp 10 (7 chương), lớp 11 (6 chương), lớp 12 (8 chương), khai ở
+`src/data/chuongTrinh.js`. Mở một chương ra là thấy mục con: **chuyên đề** bên ngân
+hàng đề, **dạng bài** bên đề AI, kèm số câu của từng mục.
+
+- **Đề của thầy** xếp chương từ TÊN bộ đề (`doanChuong`, khớp từ khóa, khớp dài thắng
+  khớp ngắn). Bản vá `.va.json` khai `"chuong": "11.2"` là đè lên phép đoán. Đo trên ba
+  bộ đề đang có: **3/3 xếp đúng** (Nitrogen → 11.2, Sự điện li → 11.1, Cân bằng hóa học
+  → 11.1).
+- **Đề AI** xếp từng phản ứng / chất / nguyên tố vào chương bằng quy tắc ở
+  `src/lib/xepChuong.ts`: lớp chất hữu cơ thắng trước, rồi tới nitrogen–sulfur, halogen,
+  kim loại chuyển tiếp, kim loại IA/IIA. Mức phủ đo được: **phản ứng 212/224, chất
+  278/298, nguyên tố 109/118** (9 nguyên tố siêu nặng chưa có nhóm nên không xếp được).
+- **Xếp không được thì nói thẳng**: mục đó vào nhánh *"Chưa xếp chương"* đứng cuối cây,
+  vẫn làm bài bình thường ở phần "Tất cả" — thà thiếu còn hơn nhét bừa vào một chương
+  rồi học sinh ôn nhầm.
+- Đây là phép xếp **theo quy tắc, máy không tự biết đúng sai**. Chạy `npm run soi:chuong`
+  để đổ ra `chuong-review.html` — bảng xếp của toàn bộ dữ liệu để thầy cô soi một lượt
+  rồi chỉ chỗ sai, giống trang duyệt đề.
 
 ## Cài lên điện thoại / máy tính
 

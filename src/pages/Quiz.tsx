@@ -1,10 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import FormulaText, { EquationText } from '../components/FormulaText';
 import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import ChuHoaHoc from '../components/ChuHoaHoc';
 import { useLang } from '../i18n/LangContext';
-import { sinhDe, TEN_LOAI, type CauHoi, type LoaiCau } from '../lib/quiz';
+import { sinhDe, khoCauTheoChuong, TEN_LOAI, type CauHoi, type LoaiCau } from '../lib/quiz';
+import CayDeMuc, { type ViTriChon } from '../components/CayDeMuc';
+import { dungCay, maChuongCua } from '../lib/cayDe';
+import { tenChuong } from '../data/chuongTrinh.js';
 import {
   layDanhMuc,
   layBoDe,
@@ -21,7 +24,6 @@ import { taoRng, tron, hatMoi } from '../lib/ngauNhien';
 import { vePhieu, tenTepPhieu, luuAnh, dinhDangDongHo } from '../lib/phieuKetQua';
 import { doc, ghi } from '../lib/boNho';
 
-const CAC_LOAI = Object.keys(TEN_LOAI) as LoaiCau[];
 const SO_CAU = [5, 10, 20];
 
 // 0 = lấy hết số câu có trong chuyên đề đã chọn.
@@ -167,8 +169,12 @@ export default function Quiz() {
   const { lang } = useLang();
   const vi = lang === 'vi';
 
-  /** Dạng bài đang chọn; chuỗi rỗng nghĩa là lấy tất cả. */
-  const [chonLoai, setChonLoai] = useState<LoaiCau | ''>('');
+  /**
+   * Chỗ đang chọn trong cây đề AI: chương nào, dạng bài nào.
+   * Rỗng cả hai nghĩa là lấy tất cả — xem components/CayDeMuc.tsx.
+   */
+  const [chonAI, setChonAI] = useState<ViTriChon>({ chuong: '', la: '' });
+  const chonLoai = chonAI.la as LoaiCau | '';
   const [soCau, setSoCau] = useState(10);
   const [de, setDe] = useState<CauChoi[] | null>(null);
   const [hat, setHat] = useState(0);
@@ -182,8 +188,8 @@ export default function Quiz() {
 
   // Ngân hàng đề
   const [danhMuc, setDanhMuc] = useState<MucDanhMuc[]>([]);
-  /** Chuyên đề đang chọn; chuỗi rỗng nghĩa là lấy tất cả. */
-  const [chonChuyenDe, setChonChuyenDe] = useState('');
+  /** Chỗ đang chọn trong cây ngân hàng đề: chương nào, chuyên đề nào. */
+  const [chonThay, setChonThay] = useState<ViTriChon>({ chuong: '', la: '' });
   /**
    * Đang ở màn ghi tên, và ghi cho nguồn nào. null nghĩa là còn ở màn chọn đề.
    * Hỏi tên ở một màn riêng chứ không nhét ô nhập vào thẻ chọn đề: hai thẻ nhờ
@@ -263,16 +269,70 @@ export default function Quiz() {
     });
   }, [daNop, batDauLuc, tenHS, nguonPhieu, soDung, de, hat, giayLam, hetGio]);
 
-  const nhomChuyenDe = gomTheoChuyenDe(danhMuc);
+  // Gom danh mục cũng phải nhớ lại, không chỉ vì tốn công gom: kết quả của nó
+  // là phụ thuộc của cây bên dưới. Gom lại mỗi lượt vẽ thì ra mảng mới, cây
+  // thấy phụ thuộc đổi nên dựng lại theo — nhớ mà như không nhớ.
+  const nhomChuyenDe = useMemo(() => gomTheoChuyenDe(danhMuc), [danhMuc]);
 
-  // Tổng số câu của các chuyên đề đang chọn — để ước thời gian cho nút "Tất cả".
-  const soCauToiDa = nhomChuyenDe
-    .filter((n) => !chonChuyenDe || n.ten === chonChuyenDe)
-    .reduce((t, n) => t + n.soCau, 0);
+  // ----- Hai cây thư mục: Lớp → Chương → mục con -----
+  //
+  // Dựng lại chỉ khi dữ liệu nguồn hoặc ngôn ngữ đổi. Cây bên AI phải quét
+  // toàn bộ phản ứng, chất, nguyên tố để đếm nên không được dựng lại sau mỗi
+  // lượt vẽ — bấm một nút "10 câu" mà quét lại cả kho là thấy khựng.
+  const cayThay = useMemo(
+    () =>
+      dungCay(
+        nhomChuyenDe.map((n) => ({ khoa: n.ten, ten: n.ten, soCau: n.soCau, chuong: n.chuong })),
+        vi,
+      ),
+    [nhomChuyenDe, vi],
+  );
+  const cayAI = useMemo(
+    () =>
+      dungCay(
+        khoCauTheoChuong().map((k) => ({
+          khoa: k.loai,
+          ten: vi ? TEN_LOAI[k.loai].vi : TEN_LOAI[k.loai].en,
+          soCau: k.so,
+          chuong: k.chuong,
+        })),
+        vi,
+      ),
+    [vi],
+  );
+
+  /** Các chuyên đề nằm trong phạm vi đang chọn ở cây ngân hàng đề. */
+  const chuyenDeDangChon = chonThay.la
+    ? nhomChuyenDe.filter((n) => n.ten === chonThay.la)
+    : chonThay.chuong
+      ? nhomChuyenDe.filter((n) => maChuongCua(n.chuong) === chonThay.chuong)
+      : nhomChuyenDe;
+
+  /** Tên phạm vi đang chọn, hiện ở màn ghi tên và trên phiếu kết quả. */
+  const tenPhamViThay = chonThay.la
+    ? chonThay.la
+    : chonThay.chuong
+      ? tenChuong(chonThay.chuong, vi)
+      : vi
+        ? 'Tất cả chuyên đề'
+        : 'All topics';
+
+  const tenPhamViAI = chonLoai
+    ? vi
+      ? TEN_LOAI[chonLoai].vi
+      : TEN_LOAI[chonLoai].en
+    : chonAI.chuong
+      ? tenChuong(chonAI.chuong, vi)
+      : vi
+        ? 'Tất cả dạng bài'
+        : 'All types';
+
+  // Tổng số câu của phạm vi đang chọn — để ước thời gian cho nút "Tất cả".
+  const soCauToiDa = chuyenDeDangChon.reduce((t, n) => t + n.soCau, 0);
 
   const batDau = () => {
     const h = hatMoi();
-    const bo = sinhDe(h, soCau, lang, chonLoai ? [chonLoai] : []);
+    const bo = sinhDe(h, soCau, lang, chonLoai ? [chonLoai] : [], chonAI.chuong || undefined);
     if (!bo.length) {
       setKhongRaDuocDe(true);
       return;
@@ -301,8 +361,7 @@ export default function Quiz() {
    * thì không ai bảo đảm.
    */
   const moDeThay = async (hatCho?: number) => {
-    const chon = chonChuyenDe ? [chonChuyenDe] : nhomChuyenDe.map((n) => n.ten);
-    const canLay = nhomChuyenDe.filter((n) => chon.includes(n.ten)).flatMap((n) => n.muc);
+    const canLay = chuyenDeDangChon.flatMap((n) => n.muc);
     if (!canLay.length) return;
 
     setDangTai(true);
@@ -320,7 +379,7 @@ export default function Quiz() {
     const kho = boDe.flatMap(tuThayRa);
     const soLay = soCauThay === 0 ? kho.length : Math.min(soCauThay, kho.length);
     setHat(h);
-    setDangLamThay(chon.join(' · '));
+    setDangLamThay(tenPhamViThay);
     datDe(tron(taoRng(h), kho).slice(0, soLay));
   };
 
@@ -396,15 +455,7 @@ export default function Quiz() {
   if (chuanBi) {
     const laThay = chuanBi === 'thay';
     const soCauSe = laThay ? soCauThay || soCauToiDa : soCau;
-    const nguon = laThay
-      ? chonChuyenDe || (vi ? 'Tất cả chuyên đề' : 'All topics')
-      : chonLoai
-        ? vi
-          ? TEN_LOAI[chonLoai].vi
-          : TEN_LOAI[chonLoai].en
-        : vi
-          ? 'Tất cả dạng bài'
-          : 'All topics';
+    const nguon = laThay ? tenPhamViThay : tenPhamViAI;
 
     return (
       <>
@@ -480,8 +531,6 @@ export default function Quiz() {
     // Hai thẻ dùng CHUNG một khuôn: ô chọn → số câu → nút. Nhờ vậy chúng cao
     // bằng nhau mà không phải chỉnh tay. Trước đây bên AI có sáu chip dạng bài
     // xếp hai hàng còn bên ngân hàng chỉ một chip, hai thẻ lệch hẳn nhau.
-    const lopChon =
-      'mt-1.5 w-full bg-base-900 border border-base-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:border-accent/60 focus:outline-none';
     const lopNhan = 'text-[11px] font-semibold uppercase tracking-wider text-slate-500';
     const lopSo = (chon: boolean) =>
       `text-xs px-4 py-1.5 rounded-lg border transition ${
@@ -525,23 +574,18 @@ export default function Quiz() {
                 </p>
               ) : (
                 <>
-                  <label className="block">
-                    <span className={lopNhan}>{vi ? 'Chuyên đề' : 'Topic'}</span>
-                    <select
-                      value={chonChuyenDe}
-                      onChange={(e) => setChonChuyenDe(e.target.value)}
-                      className={lopChon}
-                    >
-                      <option value="">
-                        {vi ? `Tất cả — ${soCauToanBo} câu` : `All — ${soCauToanBo} questions`}
-                      </option>
-                      {nhomChuyenDe.map((n) => (
-                        <option key={n.ten} value={n.ten}>
-                          {n.ten} — {n.soCau} {vi ? 'câu' : 'q.'}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
+                  <div>
+                    <span className={lopNhan}>{vi ? 'Chọn theo lớp, theo chương' : 'By grade and chapter'}</span>
+                    <CayDeMuc
+                      cay={cayThay}
+                      chon={chonThay}
+                      doiChon={setChonThay}
+                      vi={vi}
+                      nhanTatCa={
+                        vi ? `Tất cả — ${soCauToanBo} câu` : `All — ${soCauToanBo} questions`
+                      }
+                    />
+                  </div>
 
                   <div>
                     <span className={lopNhan}>{vi ? 'Số câu' : 'How many'}</span>
@@ -584,24 +628,24 @@ export default function Quiz() {
                 </p>
               </div>
 
-              <label className="block">
-                <span className={lopNhan}>{vi ? 'Dạng bài' : 'Question type'}</span>
-                <select
-                  value={chonLoai}
-                  onChange={(e) => {
+              <div>
+                <span className={lopNhan}>
+                  {vi ? 'Chọn theo lớp, theo chương' : 'By grade and chapter'}
+                </span>
+                {/* Mở một chương ra là thấy các DẠNG BÀI của chương đó, kèm số
+                    nguồn câu hỏi — con số ấy mới là thứ cho học sinh biết
+                    chọn chương này thì có gì để làm. */}
+                <CayDeMuc
+                  cay={cayAI}
+                  chon={chonAI}
+                  doiChon={(v) => {
                     setKhongRaDuocDe(false); // đổi lựa chọn thì lời nhắc cũ hết nghĩa
-                    setChonLoai(e.target.value as LoaiCau | '');
+                    setChonAI(v);
                   }}
-                  className={lopChon}
-                >
-                  <option value="">{vi ? 'Tất cả dạng bài' : 'All types'}</option>
-                  {CAC_LOAI.map((l) => (
-                    <option key={l} value={l}>
-                      {vi ? TEN_LOAI[l].vi : TEN_LOAI[l].en}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                  vi={vi}
+                  nhanTatCa={vi ? 'Tất cả dạng bài' : 'All types'}
+                />
+              </div>
 
               <div>
                 <span className={lopNhan}>{vi ? 'Số câu' : 'How many'}</span>
