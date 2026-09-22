@@ -225,6 +225,40 @@ First submission.
 
 ---
 
+## 4c. HAI ĐƠN KHÁC NHAU — đừng tưởng là một
+
+Phát hiện ngày 23/09/2026, sau khi app đã được duyệt mà vẫn không đăng công khai được:
+
+| Đơn | Xin gì | Nộp ở đâu |
+|---|---|---|
+| **Duyệt app** | Cấp quyền `video.publish` cho app | Submit for review ở trang app |
+| **Kiểm định Direct Post** | Cho phép đăng vào **tài khoản công khai** | Link *"apply for an audit"* trong phần Content Posting API |
+
+Xong đơn 1 thì `creator_info` chạy, token có đủ quyền, nhưng đăng bài vẫn trả về
+`unaudited_client_can_only_post_to_private_accounts`. **Phải nộp nốt đơn 2.**
+
+Video quay màn hình của đơn 1 dùng lại được nguyên cho đơn 2.
+
+### Nội dung điền cho đơn kiểm định (990 ký tự)
+
+```
+pH-Chem (ph-chem.web.app) is a free chemistry study tool. We publish our own educational videos to our own account @thanh8787 from an internal tool. A person confirms every post; nothing is automated.
+
+Our Direct Post screen is built from creator_info:
+
+- Creator nickname, username and avatar are shown first.
+- Privacy options come only from privacy_level_options. Nothing is preselected; Post stays disabled until the operator picks one.
+- Comment/Duet/Stitch follow the creator_info disabled flags; a disabled one is greyed out and cannot be enabled.
+- A disclosure switch sets brand_organic_toggle or brand_content_toggle. If it is on and neither is chosen, Post stays disabled. Branded content disables SELF_ONLY.
+- The label to be applied is shown: "Promotional content" or "Paid partnership".
+- Above Post: Music Usage Confirmation, plus Branded Content Policy for branded content.
+- After posting we poll status/fetch.
+
+All videos are ours, our own narration, no third-party music.
+```
+
+---
+
 ## 5. Những chỗ đã vấp và cách gỡ
 
 Ghi lại để lần sau khỏi mò:
@@ -234,6 +268,7 @@ Ghi lại để lần sau khỏi mò:
 | `client_key` sai, dù key dán đúng | Thay đổi trong sandbox còn ở dạng nháp | Bấm **Apply changes** ở từng khối trong trang sandbox, tải lại trang kiểm xem còn nguyên không |
 | `sai_state` khi quay về | Công cụ chỉ giữ một mã phiên, bấm lần hai đè lần đầu | Đã sửa: giữ 5 mã gần nhất, mỗi mã sống 15 phút |
 | `unaudited_client_can_only_post_to_private_accounts` | App chưa qua kiểm duyệt thì chỉ đăng được vào **tài khoản** đang để riêng tư (không phải bài đăng riêng tư) | Bật *Tài khoản riêng tư* trong app TikTok, duyệt xong thì tắt lại |
+| TikTok đẩy về đúng địa chỉ callback nhưng trình duyệt hiện **trang chủ pH-Chem**, mã cho phép rơi mất | Service worker của app nuốt mọi lần chuyển trang. Trang callback luôn có `?code=...` nên trượt khỏi gói cài, rơi vào luật trả-về-trang-chủ | Thêm `navigateFallbackDenylist` trong `vite.config.ts` cho ba trang đứng riêng. **Lỗi này không lộ ra khi kiểm bằng `curl`** — curl không đi qua service worker |
 
 Lưu ý: sandbox có **client key, client secret và mã xác minh tên miền riêng**,
 khác hoàn toàn với app production. Key sandbox bắt đầu bằng `sbaw`, key production bắt đầu bằng `aw`.

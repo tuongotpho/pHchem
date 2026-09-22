@@ -53,6 +53,26 @@ export default defineConfig(({ command }) => ({
         // thì lại đúng cái cảnh 296 hình cấu tạo chiếm 73% gói cài hồi trước.
         // Chặn từ lúc chưa đau thì không bao giờ phải đi gỡ.
         globIgnores: ['**/hinh/**', '**/de/**'],
+        // BA TRANG ĐỨNG RIÊNG PHẢI ĐI THẲNG RA MẠNG, KHÔNG QUA LỚP ĐỆM.
+        //
+        // App là trang đơn, nên Workbox mặc định trả index.html cho MỌI lần
+        // chuyển trang. Ba tệp dưới đây tuy có nằm trong gói cài, nhưng luật
+        // đối chiếu của gói cài so khớp CẢ phần đuôi ?a=b — hễ địa chỉ có
+        // tham số là trượt, rồi rơi vào luật trả-về-trang-chủ.
+        //
+        // Đúng cảnh đã xảy ra ngày 23/09/2026: TikTok đẩy về
+        // /tiktok-callback.html?code=... thì trình duyệt hiện trang chủ pH-Chem,
+        // mã cho phép rơi mất, không nối được tài khoản. Mở bằng curl thì đúng
+        // trang, vì curl không đi qua lớp đệm — nên lỗi này KHÔNG lộ ra khi
+        // kiểm bằng lệnh, chỉ lộ trên trình duyệt thật.
+        //
+        // Hai trang điều khoản và bảo mật cho vào cùng vì TikTok, Facebook hay
+        // Google đều hay gắn thêm tham số theo dõi vào đuôi khi dẫn tới.
+        navigateFallbackDenylist: [
+          /^\/tiktok-callback\.html/,
+          /^\/dieu-khoan\.html/,
+          /^\/bao-mat\.html/,
+        ],
         runtimeCaching: [
           {
             // CacheFirst chứ không phải NetworkFirst: tên file hình có kèm
